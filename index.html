@@ -1,16 +1,16 @@
 <title>Little Hero of Olympus</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500;700&display=swap">
 <style>
 /* Layout: one-screen tablet app over a sunny Aegean scene; island map is home, mini-games open full screen. Single bright theme by choice. */
 :root{
   --sky:#bfe6ff; --sea:#1f78c8; --aegean:#0f4f8f; --marble:#fffaf0; --marble-2:#f1e9d8;
   --ink:#1c2a48; --ink-soft:#4b5a78; --gold:#f2b632; --gold-deep:#c98a12;
   --olive:#5f8f3a; --terracotta:#c8643b; --good:#2e9e5b; --bad:#d9534f;
-  --display:"Fredoka","Baloo 2","Trebuchet MS",system-ui,sans-serif;
-  --body:"Nunito","Segoe UI",system-ui,sans-serif;
-  --r:22px; color-scheme:light;
+  --display:"Ubuntu","Trebuchet MS",system-ui,sans-serif;
+  --body:"Ubuntu","Segoe UI",system-ui,sans-serif;
+  --r:14px; color-scheme:light;
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%}
@@ -25,34 +25,34 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .meander{height:14px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='14' viewBox='0 0 20 14'%3E%3Cpath d='M0 12h15V2H5v7h6V6' fill='none' stroke='%23c98a12' stroke-width='2'/%3E%3Cpath d='M15 12h5' stroke='%23c98a12' stroke-width='2'/%3E%3C/svg%3E") repeat-x center/auto 100%}
 
 /* chunky buttons */
-.btn{font-family:var(--display);font-weight:600;font-size:1.35rem;padding:14px 26px;border-radius:999px;background:var(--gold);color:var(--ink);box-shadow:0 6px 0 var(--gold-deep);transition:transform .08s}
+.btn{font-family:var(--display);font-weight:700;font-size:1.35rem;padding:14px 26px;border-radius:12px;border:3px solid rgba(28,42,72,.18);background:var(--gold);color:var(--ink);box-shadow:0 6px 0 var(--gold-deep);transition:transform .08s}
 .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--gold-deep)}
 .btn.blue{background:var(--sea);color:#fff;box-shadow:0 6px 0 var(--aegean)}
 .btn.white{background:var(--marble);box-shadow:0 6px 0 #cbbf9f}
 .btn.small{font-size:1.05rem;padding:10px 18px}
-.icon-btn{width:56px;height:56px;border-radius:50%;background:var(--marble);box-shadow:0 4px 0 #cbbf9f;display:grid;place-items:center;flex:none}
+.icon-btn{width:56px;height:56px;border-radius:14px;border:3px solid rgba(28,42,72,.12);background:var(--marble);box-shadow:0 4px 0 #cbbf9f;display:grid;place-items:center;flex:none}
 .icon-btn svg{width:30px;height:30px}
 .icon-btn.off{opacity:.5}
 .icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #cbbf9f}
 
 /* top bar */
 .topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.me{display:flex;align-items:center;gap:10px;background:var(--marble);border-radius:999px;padding:4px 16px 4px 4px;box-shadow:0 4px 0 #cbbf9f}
-.me .face{width:52px;height:52px;border-radius:50%;background:#dff1ff;overflow:hidden;display:grid;place-items:center}
-.me .face svg{width:78px;height:auto;margin-top:22px}
+.me{display:flex;align-items:center;gap:10px;background:var(--marble);border-radius:14px;border:3px solid rgba(28,42,72,.12);padding:4px 16px 4px 4px;box-shadow:0 4px 0 #cbbf9f}
+.me .face{width:52px;height:52px;border-radius:10px;background:#dff1ff;overflow:hidden;display:grid;place-items:center}
+.me .face svg{width:84px;height:auto;margin-top:46px}
 .me b{font-family:var(--display);font-size:1.2rem}
-.pill{display:flex;align-items:center;gap:6px;background:var(--marble);border-radius:999px;padding:8px 16px;font-family:var(--display);font-weight:700;font-size:1.3rem;box-shadow:0 4px 0 #cbbf9f;font-variant-numeric:tabular-nums}
+.pill{display:flex;align-items:center;gap:6px;background:var(--marble);border-radius:12px;border:3px solid rgba(28,42,72,.12);padding:8px 16px;font-family:var(--display);font-weight:700;font-size:1.3rem;box-shadow:0 4px 0 #cbbf9f;font-variant-numeric:tabular-nums}
 .pill svg{width:28px;height:28px}
 .spacer{flex:1}
 
 /* map */
 .map-wrap{flex:1;min-height:0;display:grid;place-items:center}
-.map{position:relative;width:min(100%,calc((100dvh - 120px) * 1.43));aspect-ratio:10/7;max-width:100%;border-radius:28px;overflow:hidden;box-shadow:0 10px 30px rgba(15,79,143,.35)}
+.map{position:relative;width:min(100%,calc((100dvh - 120px) * 1.43));aspect-ratio:10/7;max-width:100%;border-radius:16px;border:4px solid rgba(15,79,143,.5);overflow:hidden;box-shadow:0 10px 30px rgba(15,79,143,.35)}
 .map>svg{position:absolute;inset:0;width:100%;height:100%}
 .loc{position:absolute;transform:translate(-50%,-50%);width:15.5%;display:flex;flex-direction:column;align-items:center;gap:2px}
 .loc .art{width:100%;aspect-ratio:1;max-width:100%;filter:drop-shadow(0 6px 4px rgba(0,0,0,.2));transition:transform .2s}
 .loc:active .art{transform:scale(.94)}
-.loc .tag{background:var(--marble);border-radius:14px;padding:3px 10px;font-family:var(--display);font-weight:600;font-size:clamp(.7rem,1.6vw,1.05rem);white-space:nowrap;box-shadow:0 3px 0 #cbbf9f;text-align:center;line-height:1.15}
+.loc .tag{background:var(--marble);border-radius:8px;border:2px solid rgba(28,42,72,.2);padding:3px 10px;font-family:var(--display);font-weight:600;font-size:clamp(.7rem,1.6vw,1.05rem);white-space:nowrap;box-shadow:0 3px 0 #cbbf9f;text-align:center;line-height:1.15}
 .loc .tag small{display:block;color:var(--gold-deep);font-size:.85em;font-variant-numeric:tabular-nums}
 @media (prefers-reduced-motion:no-preference){.loc .art{animation:bob 3.4s ease-in-out infinite}.loc:nth-child(odd) .art{animation-delay:-1.7s}}
 @keyframes bob{50%{transform:translateY(-5px)}}
@@ -64,14 +64,14 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .sub{font-size:1.15rem;color:var(--ink-soft);font-weight:800;margin:0}
 .heroes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;width:min(100%,900px)}
 @media (max-width:640px){.heroes{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.hero-card{background:var(--marble);border-radius:var(--r);padding:10px 8px 12px;box-shadow:0 6px 0 #cbbf9f;display:flex;flex-direction:column;align-items:center;gap:2px;border:4px solid transparent;transition:transform .15s}
+.hero-card{background:var(--marble);border-radius:var(--r);border-width:4px;padding:10px 8px 12px;box-shadow:0 6px 0 #cbbf9f;display:flex;flex-direction:column;align-items:center;gap:2px;border:4px solid transparent;transition:transform .15s}
 .hero-card.sel{border-color:var(--gold);transform:translateY(-4px)}
 .hero-card svg{width:100%;max-width:150px;height:auto}
 .hero-card h3{font-size:1.4rem}
 .hero-card .trait{font-weight:800;color:var(--ink-soft)}
 .hero-card .petline{font-size:.95rem;color:var(--olive);font-weight:800}
 .row{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
-.skin{width:52px;height:52px;border-radius:50%;border:4px solid #fff;box-shadow:0 3px 0 #cbbf9f}
+.skin{width:52px;height:52px;border-radius:10px;border:4px solid #fff;box-shadow:0 3px 0 #cbbf9f}
 .skin.sel{border-color:var(--gold);transform:scale(1.1)}
 .name-in{font:inherit;font-size:1.2rem;padding:12px 18px;border-radius:999px;border:3px solid var(--marble-2);background:#fff;width:min(100%,320px);text-align:center;user-select:text;-webkit-user-select:text;color:var(--ink)}
 
@@ -88,14 +88,14 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .pet{font-size:3rem;line-height:1;filter:drop-shadow(0 4px 2px rgba(0,0,0,.15))}
 @media (prefers-reduced-motion:no-preference){.pet.happy{animation:hop .6s ease 2}}
 @keyframes hop{40%{transform:translateY(-18px) rotate(-8deg)}}
-.bubble{background:var(--marble);border-radius:24px;padding:12px 14px 12px 22px;display:flex;align-items:center;gap:12px;box-shadow:0 5px 0 #cbbf9f;font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,3.4vw,2rem);min-width:0}
+.bubble{background:var(--marble);border-radius:14px;border:3px solid rgba(28,42,72,.12);padding:12px 14px 12px 22px;display:flex;align-items:center;gap:12px;box-shadow:0 5px 0 #cbbf9f;font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,3.4vw,2rem);min-width:0}
 .bubble .icon-btn{width:50px;height:50px;background:var(--sea);box-shadow:0 4px 0 var(--aegean)}
 .bubble .icon-btn svg{stroke:#fff}
 .stage{flex:1;min-height:0;display:grid;place-items:center}
 .stage>svg{max-width:100%;max-height:100%;width:min(100%,640px);height:auto}
-.panel{background:rgba(255,250,240,.9);border-radius:28px;padding:14px;box-shadow:0 6px 0 rgba(203,191,159,.9)}
+.panel{background:rgba(255,250,240,.9);border-radius:16px;border:3px solid rgba(28,42,72,.1);padding:14px;box-shadow:0 6px 0 rgba(203,191,159,.9)}
 .options{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;padding-bottom:8px}
-.opt{min-width:110px;min-height:110px;border-radius:26px;background:var(--marble);box-shadow:0 7px 0 #cbbf9f;display:grid;place-items:center;padding:8px;transition:transform .1s}
+.opt{min-width:110px;min-height:110px;border-radius:14px;border:3px solid rgba(28,42,72,.12);background:var(--marble);box-shadow:0 7px 0 #cbbf9f;display:grid;place-items:center;padding:8px;transition:transform .1s}
 .opt:active{transform:translateY(4px);box-shadow:0 3px 0 #cbbf9f}
 .opt .num,.opt .let{font-family:var(--display);font-weight:700;font-size:4rem;line-height:1;color:var(--aegean)}
 .opt svg{width:96px;height:96px}
@@ -120,18 +120,18 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .card{aspect-ratio:3/4;perspective:800px;max-width:100%}
 .card .in{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d}
 .card.up .in,.card.done .in{transform:rotateY(180deg)}
-.card .f,.card .b{position:absolute;inset:0;border-radius:18px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center}
-.card .b{background:var(--sea);box-shadow:0 6px 0 var(--aegean);border:6px solid var(--marble)}
+.card .f,.card .b{position:absolute;inset:0;border-radius:12px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center}
+.card .b{background:radial-gradient(circle,rgba(255,255,255,.22) 22%,transparent 24%) 0 0/28px 28px,var(--sea);box-shadow:0 6px 0 var(--aegean);border:6px solid var(--marble)}
 .card .b span{font-family:var(--display);font-weight:700;font-size:2.6rem;color:var(--marble)}
 .card .f{background:var(--marble);transform:rotateY(180deg);box-shadow:0 6px 0 #cbbf9f;font-size:clamp(2.4rem,7vw,4.2rem)}
 .card.done .f{background:#d9f7e3}
 
 /* modal */
 .veil{position:fixed;inset:0;z-index:20;background:rgba(15,40,80,.45);display:grid;place-items:center;padding:16px}
-.modal{background:var(--marble);border-radius:30px;padding:22px;width:min(100%,640px);max-height:100%;overflow:auto;text-align:center;display:flex;flex-direction:column;gap:14px;box-shadow:0 12px 0 #cbbf9f}
+.modal{background:var(--marble);border-radius:18px;border:4px solid rgba(28,42,72,.15);padding:22px;width:min(100%,640px);max-height:100%;overflow:auto;text-align:center;display:flex;flex-direction:column;gap:14px;box-shadow:0 12px 0 #cbbf9f}
 .modal h2{font-size:2rem;color:var(--aegean)}
 .levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.lvl{background:#fff;border-radius:20px;padding:14px 8px;box-shadow:0 6px 0 #cbbf9f;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:800}
+.lvl{background:#fff;border-radius:12px;border:3px solid rgba(28,42,72,.12);padding:14px 8px;box-shadow:0 6px 0 #cbbf9f;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:800}
 .lvl b{font-family:var(--display);font-size:2.4rem;color:var(--aegean);line-height:1}
 .lvl.locked{opacity:.45}
 .stars{display:flex;gap:2px;justify-content:center}
@@ -149,31 +149,33 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .stagebox svg.avatar{width:min(100%,300px);height:auto;max-height:55vh}
 .shop{display:flex;flex-direction:column;gap:12px;min-height:0;overflow:auto}
 .tabs{display:flex;gap:8px;flex-wrap:wrap}
-.tab{padding:10px 18px;border-radius:999px;background:rgba(255,250,240,.7);font-family:var(--display);font-weight:600;font-size:1.1rem}
+.tab{padding:10px 18px;border-radius:10px;background:rgba(255,250,240,.7);font-family:var(--display);font-weight:600;font-size:1.1rem}
 .tab.sel{background:var(--sea);color:#fff}
 .items{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
-.item{background:var(--marble);border-radius:20px;padding:8px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 5px 0 #cbbf9f;border:4px solid transparent}
+.item{background:var(--marble);border-radius:12px;padding:8px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 5px 0 #cbbf9f;border:4px solid transparent}
 .item.worn{border-color:var(--good)}
-.item svg.thumb{width:100%;max-width:120px;height:auto;background:#e6f4ff;border-radius:14px}
+.item svg.thumb{width:100%;max-width:120px;height:auto;background:#e6f4ff;border-radius:10px}
 .item b{font-family:var(--display);font-weight:600;font-size:1.05rem;text-align:center;line-height:1.1}
 .item .btn{font-size:1rem;padding:8px 14px;display:flex;align-items:center;gap:4px}
 .item .btn svg{width:20px;height:20px}
 .item .btn[disabled]{opacity:.5}
 .mini-heroes{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.mini-heroes button{width:64px;height:64px;border-radius:50%;background:var(--marble);overflow:hidden;border:4px solid transparent;box-shadow:0 3px 0 #cbbf9f}
+.mini-heroes button{width:64px;height:64px;border-radius:12px;background:var(--marble);overflow:hidden;border:4px solid transparent;box-shadow:0 3px 0 #cbbf9f}
 .mini-heroes button.sel{border-color:var(--gold)}
-.mini-heroes svg{width:96px;height:auto;margin:-2px 0 0 -20px}
+.mini-heroes svg{width:104px;height:auto;margin:6px 0 0 -24px}
 
 /* badges */
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;overflow:auto;padding:4px 2px 12px}
-.badge{background:var(--marble);border-radius:22px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;box-shadow:0 5px 0 #cbbf9f}
-.medal{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:2.8rem;background:radial-gradient(circle at 35% 30%,#ffe9a6,var(--gold) 55%,var(--gold-deep));border:5px solid #fff3c9;box-shadow:0 0 0 4px var(--gold-deep)}
+.badge{background:var(--marble);border-radius:12px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;box-shadow:0 5px 0 #cbbf9f}
+.medal{width:96px;height:96px;border-radius:18px;display:grid;place-items:center;font-size:2.8rem;background:radial-gradient(circle at 35% 30%,#ffe9a6,var(--gold) 55%,var(--gold-deep));border:5px solid #fff3c9;box-shadow:0 0 0 4px var(--gold-deep)}
 .badge.locked .medal{background:#d8dde6;border-color:#eef1f5;box-shadow:0 0 0 4px #b7bfcc;filter:grayscale(1);opacity:.6}
 .badge b{font-family:var(--display);font-weight:600;font-size:1.15rem}
 .badge span{font-size:.95rem;color:var(--ink-soft);font-weight:800}
 
 /* parents */
 .parents{overflow:auto;background:rgba(255,250,240,.95);border-radius:26px;padding:20px;display:flex;flex-direction:column;gap:14px;max-width:820px;width:100%;margin:0 auto}
+.parents>*{flex-shrink:0}
+.parents td:nth-child(n+3){white-space:nowrap;color:var(--gold-deep)}
 .parents table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
 .parents td,.parents th{padding:8px;border-bottom:2px solid var(--marble-2);text-align:left}
 .parents p{margin:0;line-height:1.5;max-width:65ch}
@@ -181,8 +183,8 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .hold i{position:absolute;left:0;bottom:0;height:5px;width:0;background:var(--sea)}
 .toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 14px);transform:translateX(-50%);z-index:30;background:var(--ink);color:#fff;font-family:var(--display);font-size:1.2rem;padding:12px 22px;border-radius:999px}
 /* language switch */
-.lang{display:flex;background:var(--marble);border-radius:999px;padding:4px;box-shadow:0 4px 0 #cbbf9f;flex:none}
-.lang button{font-family:var(--display);font-weight:700;font-size:1.05rem;padding:10px 12px;border-radius:999px;min-width:48px;color:var(--ink-soft)}
+.lang{display:flex;background:var(--marble);border-radius:12px;border:3px solid rgba(28,42,72,.12);padding:4px;box-shadow:0 4px 0 #cbbf9f;flex:none}
+.lang button{font-family:var(--display);font-weight:700;font-size:1.05rem;padding:10px 12px;border-radius:8px;min-width:48px;color:var(--ink-soft)}
 .lang button.sel{background:var(--sea);color:#fff}
 .welcome-top{display:flex;justify-content:flex-end;width:100%}
 /* harbour boats, sizes, ranks */
@@ -197,13 +199,16 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .mhud{display:flex;flex-direction:column;align-items:center;gap:6px}
 .mtitle{font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--aegean);background:var(--marble);padding:4px 14px;border-radius:999px}
 .mbar{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:100%}
-.mbar i{font-style:normal;min-width:38px;height:38px;padding:0 4px;border-radius:999px;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:.85rem;color:#fff;background:#c9d1de;border:3px solid #fff;transition:transform .15s}
+.mbar i{font-style:normal;min-width:38px;height:38px;padding:0 4px;border-radius:9px;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:.85rem;color:#fff;background:#c9d1de;border:3px solid #fff;transition:transform .15s}
 .mbar i.got{background:var(--c)}
 .mbar i.next,.mbar i.play{background:var(--c);transform:scale(1.3);box-shadow:0 0 0 3px var(--c)}
-.runstage{position:relative;display:block;border-radius:24px;overflow:hidden;touch-action:none}
+.runstage{position:relative;display:block;border-radius:14px;overflow:hidden;touch-action:none}
 .runstage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.lane-btn{position:absolute;bottom:12px;width:72px;height:72px;border-radius:50%;background:rgba(255,250,240,.85);box-shadow:0 5px 0 #cbbf9f;font-size:1.8rem;color:var(--ink)}
+.lane-btn{position:absolute;bottom:12px;width:72px;height:72px;border-radius:14px;background:rgba(255,250,240,.85);box-shadow:0 5px 0 #cbbf9f;font-size:1.8rem;color:var(--ink)}
 .lane-btn.l{left:12px}.lane-btn.r{right:12px}
+/* blocky labyrinth canvas */
+.mazewrap{width:min(100%,calc(100dvh - 290px),640px);aspect-ratio:1;max-width:100%;position:relative;touch-action:none;border-radius:12px;overflow:hidden;box-shadow:0 6px 0 rgba(28,42,72,.25)}
+.mazewrap canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -224,14 +229,14 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .peg{position:relative;display:flex;flex-direction:column-reverse;align-items:center;gap:4px;padding:0 4px 22px;border-radius:16px;background:linear-gradient(transparent calc(100% - 18px),#e6dcc4 calc(100% - 18px))}
 .peg.sel{background:linear-gradient(#d9f0ff calc(100% - 18px),#e6dcc4 calc(100% - 18px))}
 .peg .pole{position:absolute;left:50%;bottom:18px;top:14%;width:16px;transform:translateX(-50%);background:var(--marble);border:2px solid #d8ccb0;border-radius:6px}
-.disc{position:relative;z-index:1;height:clamp(26px,7vh,44px);border-radius:14px;border:3px solid rgba(0,0,0,.22);transition:transform .2s}
+.disc{position:relative;z-index:1;height:clamp(26px,7vh,44px);border-radius:6px;border:3px solid rgba(0,0,0,.22);transition:transform .2s}
 .disc.up{transform:translateY(-34px)}
 .peg .flag{position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:1.7rem}
 /* river crossing */
-.river{position:relative;width:min(100%,calc((100dvh - 330px) * 1.78),900px);aspect-ratio:16/9;max-width:100%;border-radius:24px;overflow:hidden;
+.river{position:relative;width:min(100%,calc((100dvh - 330px) * 1.78),900px);aspect-ratio:16/9;max-width:100%;border-radius:14px;overflow:hidden;
   background:repeating-linear-gradient(170deg,transparent 0 22px,rgba(255,255,255,.12) 22px 26px),linear-gradient(90deg,#8fc45e 0 24%,#2a8fdc 24% 76%,#8fc45e 76%)}
 .river .goal{position:absolute;right:3%;top:2%;font-size:1.6rem}
-.r-it{position:absolute;width:18%;height:26%;display:grid;place-items:center;font-size:clamp(2rem,6vw,4rem);background:rgba(255,255,255,.35);border-radius:18px;transition:left .3s}
+.r-it{position:absolute;width:18%;height:26%;display:grid;place-items:center;font-size:clamp(2rem,6vw,4rem);background:rgba(255,255,255,.35);border-radius:10px;border:3px solid rgba(255,255,255,.6);transition:left .3s}
 .r-it.oops::after{content:"😋";position:absolute;top:-6px;right:-6px;font-size:.6em}
 .r-boat{position:absolute;bottom:22%;width:20%;display:flex;flex-direction:column;align-items:center;transition:left .9s ease-in-out}
 .r-crew{display:flex;align-items:flex-end;gap:4px;width:100%;justify-content:center}
@@ -268,10 +273,10 @@ const tr=v=>Array.isArray(v)?v[isEl()?1:0]:v;
 
 /* ---------- data ---------- */
 const HEROES={
-  athena:{name:['Athena','Αθηνά'],voc:'Αθηνά',trait:['Wise','Σοφή'],tunic:'#ffffff',trim:'#2f6fd6',hair:'#3b2416',style:'long',pet:'🦉',petName:['Glafka the Owl','Γλαύκα η κουκουβάγια'],cheer:[['Wise thinking!','So clever!','Bravo!'],['Πολύ σοφά!','Τι έξυπνα!','Μπράβο!']]},
-  hercules:{name:['Hercules','Ηρακλής'],voc:'Ηρακλή',trait:['Strong','Δυνατός'],tunic:'#e0533d',trim:'#f2b632',hair:'#5a3519',style:'curly',pet:'🦁',petName:['Leo the Lion Cub','Λέων το λιονταράκι'],cheer:[['Super strong!','Mighty job!','Awesome!'],['Πανίσχυρα!','Τέλεια δουλειά!','Μπράβο!']]},
-  hermes:{name:['Hermes','Ερμής'],voc:'Ερμή',trait:['Fast','Γρήγορος'],tunic:'#2bb3a3',trim:'#ffffff',hair:'#e2b14a',style:'curly',pet:'🐢',petName:['Tito the Tortoise','Τίτος η χελώνα'],cheer:[['Lightning fast!','Zoom! Well done!','Bravo!'],['Σαν αστραπή!','Γρήγορα και σωστά!','Μπράβο!']]},
-  artemis:{name:['Artemis','Άρτεμις'],voc:'Άρτεμη',trait:['Brave','Γενναία'],tunic:'#6aa84f',trim:'#f7e7b4',hair:'#b5532a',style:'pony',pet:'🦌',petName:['Dora the Deer','Δώρα το ελαφάκι'],cheer:[['Right on target!','Brave and smart!','Awesome!'],['Στον στόχο!','Γενναία και έξυπνη!','Μπράβο!']]}
+  athena:{petAcc:'τη Γλαύκα την κουκουβάγια',name:['Athena','Αθηνά'],voc:'Αθηνά',trait:['Wise','Σοφή'],tunic:'#ffffff',trim:'#2f6fd6',hair:'#3b2416',style:'long',pet:'🦉',petName:['Glafka the Owl','Γλαύκα η κουκουβάγια'],cheer:[['Wise thinking!','So clever!','Bravo!'],['Πολύ σοφά!','Τι έξυπνα!','Μπράβο!']]},
+  hercules:{petAcc:'τον Λέοντα το λιονταράκι',name:['Hercules','Ηρακλής'],voc:'Ηρακλή',trait:['Strong','Δυνατός'],tunic:'#e0533d',trim:'#f2b632',hair:'#5a3519',style:'curly',pet:'🦁',petName:['Leo the Lion Cub','Λέων το λιονταράκι'],cheer:[['Super strong!','Mighty job!','Awesome!'],['Πανίσχυρα!','Τέλεια δουλειά!','Μπράβο!']]},
+  hermes:{petAcc:'τον Τίτο τη χελώνα',name:['Hermes','Ερμής'],voc:'Ερμή',trait:['Fast','Γρήγορος'],tunic:'#2bb3a3',trim:'#ffffff',hair:'#e2b14a',style:'curly',pet:'🐢',petName:['Tito the Tortoise','Τίτος η χελώνα'],cheer:[['Lightning fast!','Zoom! Well done!','Bravo!'],['Σαν αστραπή!','Γρήγορα και σωστά!','Μπράβο!']]},
+  artemis:{petAcc:'τη Δώρα το ελαφάκι',name:['Artemis','Άρτεμις'],voc:'Άρτεμη',trait:['Brave','Γενναία'],tunic:'#6aa84f',trim:'#f7e7b4',hair:'#b5532a',style:'pony',pet:'🦌',petName:['Dora the Deer','Δώρα το ελαφάκι'],cheer:[['Right on target!','Brave and smart!','Awesome!'],['Στον στόχο!','Γενναία και έξυπνη!','Μπράβο!']]}
 };
 const SKINS=['#f8dcc2','#eab48c','#c68a5e','#8d5a3b'];
 const ITEMS=[
@@ -298,10 +303,10 @@ const GAMES=[
   {id:'pattern',name:['Pottery Workshop','Εργαστήρι Αγγείων'],skill:['Patterns','Μοτίβα'],x:30,y:69,levels:[['A B A B','Α Β Α Β'],['A A B','Α Α Β'],['A B C','Α Β Γ']]},
   {id:'compare',name:['Fishing Harbour','Λιμάνι των Ψαράδων'],skill:['More & Fewer','Περισσότερα & Λιγότερα'],x:11,y:79,gate:{coins:20},levels:[['More','Περισσότερα'],['Fewer','Λιγότερα'],['Biggest number','Μεγαλύτερος αριθμός']]},
   {id:'memory',name:['Aegean Sea','Αιγαίο Πέλαγος'],skill:['Memory','Μνήμη'],x:88,y:80,levels:[['3 pairs','3 ζευγάρια'],['4 pairs','4 ζευγάρια'],['6 pairs','6 ζευγάρια']]},
-  {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:14,gate:{badges:3},levels:[['Small labyrinth','Μικρός λαβύρινθος'],['Tower of 2','Πύργος με 2'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος & κλειδί'],['Tower of 3','Πύργος με 3'],['Big labyrinth','Μεγάλος λαβύρινθος']]}
+  {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:14,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:66,y:70,gate:{coins:25},levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο']]});
-const PUZZLES=[{type:'maze',n:4},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:5,key:true},{type:'hanoi',n:3},{type:'maze',n:6,key:true}];
+const PUZZLES=[{type:'maze',n:6},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:8,key:true},{type:'hanoi',n:3},{type:'maze',n:9,key:true,mino:true},{type:'hanoi',n:4},{type:'maze',n:11,key:true,mino:true}];
 const isOpen=g=>!g.gate||S.unlocked.includes(g.id)||S.stars[g.id].some(x=>x>0);
 const BADGES=[
   {id:'first',icon:'👣',name:['First Steps','Πρώτα βήματα'],desc:['Finish your first level','Τελείωσε το πρώτο σου επίπεδο'],test:s=>doneCount(s)>=1},
@@ -370,6 +375,10 @@ const TX={
   eraseQ:['Erase all stars, coins and badges?','Να σβηστούν όλα τα αστέρια, νομίσματα και παράσημα;'],eraseYes:['Yes, start over','Ναι, από την αρχή'],keep:['Keep progress','Κράτα την πρόοδο'],startOver:['Start over…','Από την αρχή…'],
   findPairs:['Find the pairs!','Βρες τα ζευγάρια!'],
   coins:['Coins','Νομίσματα'],
+  resetG:['Reset','Μηδένισε'],resetYes:['Yes, reset','Ναι, μηδένισε'],
+  voiceL:['Narrator voice','Φωνή αφηγήτριας'],vtest:['Try it','Δοκίμασε'],noVoice:['No voice found on this device','Δεν βρέθηκε φωνή σε αυτή τη συσκευή'],
+  voiceTip:['For a warmer voice: on iPad go to Settings → Accessibility → Spoken Content → Voices → English and download an "Enhanced" or "Premium" voice. On Android: Settings → Text-to-speech → Google → install voice data. Then pick it here.','Για πιο ζεστή φωνή: σε iPad πηγαίνετε Ρυθμίσεις → Προσβασιμότητα → Εκφωνούμενο περιεχόμενο → Φωνές → Ελληνικά και κατεβάστε τη «Μελίνα (Βελτιωμένη)». Σε Android: Ρυθμίσεις → Μετατροπή κειμένου σε ομιλία → Google → εγκατάσταση δεδομένων φωνής για Ελληνικά. Μετά διαλέξτε τη φωνή εδώ.'],
+
   locked:['Locked','Κλειδωμένο'],open:['Open it!','Άνοιξέ το!'],
   gateCoins:(g,c)=>[`${g} opens for ${c} coins.`,`«${g}»: ανοίγει με ${c} νομίσματα.`],
   gateBadges:(g,c)=>[`${g} opens when you have ${c} badges.`,`«${g}»: ανοίγει όταν έχεις ${c} παράσημα.`],
@@ -379,14 +388,21 @@ stars:['Stars','Αστέρια']
 const t=(k,...a)=>{const v=TX[k];return tr(typeof v==='function'?v(...a):v)};
 const SAY={
   welcome:n=>[`Kalimera, ${n}! Welcome to the island. Tap a place to play!`,`Καλημέρα, ${vocEl(n)}! Καλώς ήρθες στο νησί. Πάτα ένα μέρος για να παίξεις!`],
-  hero:h=>[`${h.name[0]}! ${h.trait[0]}. And ${h.petName[0]}!`,`${h.name[1]}! ${h.trait[1]}. Και ${h.petName[1]}!`],
+  hero:h=>[`${h.name[0]}! ${h.trait[0]}. And ${h.petName[0]}!`,`${h.name[1]}! ${h.trait[1]}! Μαζί με ${h.petAcc}!`],
   pick:g=>[`${g.name[0]}. Let's learn ${g.skill[0]}! Pick a level.`,`${g.name[1]}! Διάλεξε επίπεδο.`],
-  result:(n,s,c,b)=>[`Bravo ${n}! You got ${s} ${s===1?'star':'stars'} and ${c} coins!${b?' And a new badge!':''}`,`Μπράβο ${vocEl(n)}! Κέρδισες ${s} ${s===1?'αστέρι':'αστέρια'} και ${c} νομίσματα!${b?' Και ένα νέο παράσημο!':''}`],
+  result:(n,s,c,b)=>[`Bravo ${n}! You got ${s} ${s===1?'star':'stars'} and ${c} coins!${b?' And a new badge!':''}`,`Μπράβο ${vocEl(n)}! Κέρδισες ${numEl(s,'n')} ${s===1?'αστέρι':'αστέρια'} και ${numEl(c,'n')} νομίσματα!${b?' Και ένα νέο παράσημο!':''}`],
   memory:['Find the matching sea friends. Tap two cards!','Βρες τους ίδιους θαλασσινούς φίλους. Πάτα δύο κάρτες!'],
   match:[['A match!','Great memory!','Two the same!'],['Ζευγάρι!','Τι μνήμη!','Ίδια!']],
   wow:n=>[`Wow! ${n}!`,`Ουάου! ${n}!`]
 };
 const sayL=v=>say(tr(v));
+const NUM_EL=['μηδέν','ένα','δύο','τρία','τέσσερα','πέντε','έξι','επτά','οκτώ','εννιά','δέκα','έντεκα','δώδεκα','δεκατρία','δεκατέσσερα','δεκαπέντε','δεκαέξι','δεκαεπτά','δεκαοκτώ','δεκαεννιά','είκοσι'];
+// number words agree with the noun: μία ελιά, τρεις ελιές, τρία ψάρια
+function numEl(n,g){if(n>20)return String(n);
+  if(g==='f'){if(n===1)return 'μία';if(n===3)return 'τρεις';if(n===4)return 'τέσσερις';if(n===13)return 'δεκατρείς';if(n===14)return 'δεκατέσσερις'}
+  return NUM_EL[n]}
+// στην before vowels and κ π τ ξ ψ (and μπ ντ γκ τσ τζ), otherwise στη
+const stin=w=>/^([αάεέηήιίοόυύωώ]|[κπτξψ]|μπ|ντ|γκ|τσ|τζ)/i.test(w)?'στην '+w:'στη '+w;
 // Greek vocative for names: Ηρακλής→Ηρακλή, Γιώργος→Γιώργο, Αλέξανδρος→Αλέξανδρε
 function vocEl(name){
   const h=Object.values(HEROES).find(x=>x.name[1]===name);if(h)return h.voc;
@@ -400,8 +416,8 @@ function vocEl(name){
 
 /* ---------- state ---------- */
 const KEY='little-hero-olympus-v1';
-const fresh=()=>({v:2,started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,updatedAt:0});
-function normalize(s){const f=fresh();s=Object.assign(f,s||{});s.equip=Object.assign(fresh().equip,s.equip||{});s.stars=Object.assign(fresh().stars,s.stars||{});return s}
+const fresh=()=>({v:2,started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,voice:{},updatedAt:0});
+function normalize(s){const f=fresh();s=Object.assign(f,s||{});s.equip=Object.assign(fresh().equip,s.equip||{});s.stars=Object.assign(fresh().stars,s.stars||{});GAMES.forEach(g=>{const a=s.stars[g.id];s.stars[g.id]=g.levels.map((_,i)=>a[i]||0)});return s}
 let S=fresh();
 try{const raw=localStorage.getItem(KEY);if(raw)S=normalize(JSON.parse(raw))}catch(e){}
 let ui={screen:S.started?'map':'welcome',tab:'head',modal:null};
@@ -456,57 +472,64 @@ const I={
 const starsRow=(n,big)=>`<div class="stars${big?' big':''}">${[1,2,3].map(i=>I.star(i<=n)).join('')}</div>`;
 const langSwitch=()=>`<div class="lang" role="group" aria-label="Language"><button class="${isEl()?'':'sel'}" data-act="lang" data-v="en">EN</button><button class="${isEl()?'sel':''}" data-act="lang" data-v="el">ΕΛ</button></div>`;
 
-/* ---------- avatar ---------- */
+/* ---------- blocky drawing helpers ---------- */
+const shade=(hex,a)=>{const n=parseInt(hex.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(a>0?v+(255-v)*a:v*(1+a))));return '#'+((1<<24)|(f(n>>16)<<16)|(f(n>>8&255)<<8)|f(n&255)).toString(16).slice(1)};
+// an oblique block: front face, lighter top, darker right side
+function cube(x,y,w,h,d,c){const k=d*.6;return `<path d="M${x} ${y}l${d} ${-k}h${w}l${-d} ${k}z" fill="${shade(c,.3)}"/><path d="M${x+w} ${y}l${d} ${-k}v${h}l${-d} ${k}z" fill="${shade(c,-.28)}"/><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`}
+
+/* ---------- avatar (blocky figure) ---------- */
 function avatar(heroId,skinIdx,equip,cls='avatar'){
   const h=HEROES[heroId]||HEROES.athena, sk=SKINS[skinIdx]||SKINS[0], e=equip||{};
-  const cape=ITEMS.find(i=>i.id===e.cape);
-  let o=`<svg class="${cls}" viewBox="0 0 200 262" xmlns="http://www.w3.org/2000/svg">`;
-  if(cape)o+=`<path d="M70 118Q100 108 130 118L158 236Q100 252 42 236Z" fill="${cape.color}"/><path d="M70 118Q100 108 130 118L158 236Q100 252 42 236Z" fill="#000" opacity=".12" transform="translate(4 0)"/>`;
-  if(h.style==='long')o+=`<path d="M62 74Q60 32 100 32Q140 32 138 74L146 152Q100 164 54 152Z" fill="${h.hair}"/>`;
-  if(h.style==='pony')o+=`<path d="M124 48Q172 46 164 126Q152 94 130 78Z" fill="${h.hair}"/>`;
-  o+=`<rect x="82" y="200" width="14" height="40" rx="7" fill="${sk}"/><rect x="104" y="200" width="14" height="40" rx="7" fill="${sk}"/>
-  <ellipse cx="88" cy="244" rx="12" ry="7" fill="#8a5a2b"/><ellipse cx="112" cy="244" rx="12" ry="7" fill="#8a5a2b"/>
-  <path d="M82 230l14 6M118 230l-14 6" stroke="#8a5a2b" stroke-width="3"/>`;
-  if(e.feet==='sandals')o+=`<path d="M80 232Q62 222 60 210Q70 216 74 214Q70 222 82 228Z" fill="#fff" stroke="#9fb3c8" stroke-width="2"/><path d="M120 232Q138 222 140 210Q130 216 126 214Q130 222 118 228Z" fill="#fff" stroke="#9fb3c8" stroke-width="2"/>`;
-  o+=`<path d="M72 128L50 174M128 128L150 174" stroke="${sk}" stroke-width="15" stroke-linecap="round"/>`;
-  o+=`<path d="M68 120Q100 110 132 120L144 214Q100 226 56 214Z" fill="${h.tunic}" stroke="#00000018" stroke-width="2"/>
-  <path d="M58 207Q100 219 142 207" stroke="${h.trim}" stroke-width="7" fill="none"/>
-  <path d="M64 160Q100 170 136 160" stroke="#a8742c" stroke-width="6" fill="none"/>
-  <circle cx="76" cy="122" r="5" fill="#f2b632"/><circle cx="124" cy="122" r="5" fill="#f2b632"/>`;
-  o+=`<circle cx="50" cy="178" r="9" fill="${sk}"/><circle cx="150" cy="178" r="9" fill="${sk}"/>`;
-  o+=`<rect x="92" y="104" width="16" height="16" fill="${sk}"/><circle cx="64" cy="80" r="7" fill="${sk}"/><circle cx="136" cy="80" r="7" fill="${sk}"/><circle cx="100" cy="76" r="36" fill="${sk}"/>`;
-  if(h.style==='curly'){for(let a=-170;a<=-10;a+=20){const r=a*Math.PI/180;o+=`<circle cx="${(100+34*Math.cos(r)).toFixed(1)}" cy="${(70+30*Math.sin(r)).toFixed(1)}" r="13" fill="${h.hair}"/>`}}
-  else o+=`<path d="M64 72Q64 38 100 38Q136 38 136 72Q122 52 100 54Q78 52 64 72Z" fill="${h.hair}"/>`;
-  if(h.style==='pony')o+=`<circle cx="128" cy="52" r="5" fill="#f2b632"/>`;
-  o+=`<circle cx="87" cy="80" r="5" fill="#1c2a48"/><circle cx="113" cy="80" r="5" fill="#1c2a48"/><circle cx="88.6" cy="78.4" r="1.7" fill="#fff"/><circle cx="114.6" cy="78.4" r="1.7" fill="#fff"/>
-  <circle cx="78" cy="91" r="6" fill="#ff7f7f" opacity=".4"/><circle cx="122" cy="91" r="6" fill="#ff7f7f" opacity=".4"/>
-  <path d="M89 92Q100 103 111 92" stroke="#1c2a48" stroke-width="3" fill="none" stroke-linecap="round"/>`;
-  if(e.head==='laurel'){const leaves=[];for(const side of [-1,1])for(let k=0;k<6;k++){const a=(side<0?-168+k*13:-12-k*13)*Math.PI/180;const x=100+38*Math.cos(a),y=72+34*Math.sin(a);leaves.push(`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="4.5" ry="10" fill="${k%2?'#6f9f45':'#4f7f2f'}" transform="rotate(${(a*180/Math.PI+90+side*30).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`)}o+=leaves.join('')}
-  if(e.head==='helmet')o+=`<path d="M64 40Q100 -8 136 40Q100 24 64 40Z" fill="#d63a2f"/><path d="M60 80Q58 34 100 32Q142 34 140 80L132 80Q130 54 100 52Q70 54 68 80Z" fill="#c98b2b" stroke="#8a5a17" stroke-width="3"/>`;
-  if(e.head==='wingcap')o+=`<path d="M64 54Q38 30 26 44Q42 46 38 58Q52 56 64 62Z" fill="#fff" stroke="#9fb3c8" stroke-width="2"/><path d="M136 54Q162 30 174 44Q158 46 162 58Q148 56 136 62Z" fill="#fff" stroke="#9fb3c8" stroke-width="2"/><path d="M66 60Q68 34 100 32Q132 34 134 60Z" fill="#d9b25c"/><ellipse cx="100" cy="60" rx="46" ry="7" fill="#c49a3f"/>`;
-  if(e.head==='crown')o+=`<polygon points="66,56 66,32 80,44 92,24 100,38 108,24 120,44 134,32 134,56" fill="#f2b632" stroke="#c98a12" stroke-width="3" stroke-linejoin="round"/><circle cx="100" cy="48" r="4" fill="#e53935"/><circle cx="82" cy="50" r="3" fill="#1e6fd9"/><circle cx="118" cy="50" r="3" fill="#1e6fd9"/>`;
-  if(e.hand==='shield')o+=`<circle cx="48" cy="176" r="30" fill="#c98b2b" stroke="#8a5a17" stroke-width="4"/><circle cx="48" cy="176" r="20" fill="#2f6fd6"/><circle cx="41" cy="172" r="6" fill="#fff"/><circle cx="55" cy="172" r="6" fill="#fff"/><circle cx="41" cy="172" r="2.6" fill="#1c2a48"/><circle cx="55" cy="172" r="2.6" fill="#1c2a48"/><path d="M45 180h6l-3 6z" fill="#f2b632"/>`;
-  if(e.hand==='olive')o+=`<path d="M150 180Q160 150 170 112" stroke="#7a5a2a" stroke-width="4" fill="none"/>${[[156,160,-30],[166,146,40],[160,134,-35],[172,124,35],[168,112,-10]].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="4" ry="10" fill="#7fa65a" transform="rotate(${r} ${x} ${y})"/>`).join('')}<circle cx="162" cy="150" r="4" fill="#3d4f1f"/><circle cx="170" cy="134" r="4" fill="#3d4f1f"/>`;
-  if(e.hand==='lyre')o+=`<path d="M140 176Q130 132 146 116M164 176Q174 132 158 116" stroke="#f2b632" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M142 124H162M138 178H166" stroke="#c98a12" stroke-width="5" stroke-linecap="round"/><path d="M147 124V176M152 124V176M157 124V176" stroke="#fff3c9" stroke-width="1.6"/>`;
-  if(e.hand==='torch')o+=`<path d="M146 186L150 132H158L154 186Z" fill="#8a5a2b"/><path d="M142 132H166L162 122H146Z" fill="#f2b632"/><path d="M154 124Q138 108 150 90Q152 104 158 98Q156 86 162 78Q174 102 162 120Q158 126 154 124Z" fill="#ff8c1a"/><path d="M154 122Q146 112 152 102Q156 110 160 106Q164 116 154 122Z" fill="#ffe14a"/>`;
-  return o+'</svg>';
+  const cape=ITEMS.find(i=>i.id===e.cape),legC=shade(h.trim==='#ffffff'?h.tunic:h.trim,-.15);
+  let o=`<svg class="${cls}" viewBox="0 -14 200 276" xmlns="http://www.w3.org/2000/svg"><g stroke="rgba(0,0,0,.16)" stroke-width="1.2" stroke-linejoin="round">`;
+  if(cape)o+=cube(50,92,100,134,10,cape.color);
+  if(h.style==='long')o+=cube(58,18,84,102,12,h.hair);
+  if(h.style==='pony')o+=cube(142,26,20,58,8,h.hair);
+  // legs and shoes
+  o+=cube(64,172,34,62,8,legC)+cube(102,172,34,62,8,legC)+cube(62,228,38,12,8,'#6d4c2f')+cube(100,228,38,12,8,'#6d4c2f');
+  if(e.feet==='sandals')o+=`<rect x="48" y="222" width="14" height="8" fill="#fff"/><rect x="40" y="214" width="12" height="8" fill="#fff"/><rect x="146" y="222" width="14" height="8" fill="#fff"/><rect x="156" y="214" width="12" height="8" fill="#fff"/>`;
+  // left arm, body, right arm
+  o+=cube(32,96,26,52,8,h.tunic)+cube(32,146,26,24,8,sk);
+  o+=cube(58,94,84,80,12,h.tunic)+`<rect x="58" y="160" width="84" height="14" fill="${h.trim}"/><rect x="58" y="130" width="84" height="8" fill="#a8742c"/><rect x="66" y="98" width="10" height="10" fill="#f2b632"/><rect x="124" y="98" width="10" height="10" fill="#f2b632"/>`;
+  o+=cube(154,96,26,52,8,h.tunic)+cube(154,146,26,24,8,sk);
+  // head and face
+  o+=cube(66,22,68,66,12,sk);
+  o+=`<rect x="84" y="44" width="10" height="14" rx="2" fill="#1c2a48"/><rect x="106" y="44" width="10" height="14" rx="2" fill="#1c2a48"/><rect x="86" y="46" width="4" height="4" fill="#fff" stroke="none"/><rect x="108" y="46" width="4" height="4" fill="#fff" stroke="none"/>
+  <rect x="72" y="62" width="10" height="6" fill="#ff8a8a" opacity=".5" stroke="none"/><rect x="118" y="62" width="10" height="6" fill="#ff8a8a" opacity=".5" stroke="none"/>
+  <path d="M86 68Q100 80 114 68" stroke="#1c2a48" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  // hair on top
+  if(h.style==='curly')o+=cube(62,10,76,20,12,h.hair)+cube(64,4,18,8,6,shade(h.hair,.12))+cube(90,2,18,8,6,shade(h.hair,.12))+cube(116,4,18,8,6,shade(h.hair,.12));
+  else o+=cube(62,12,76,20,12,h.hair)+`<rect x="62" y="30" width="10" height="${h.style==='long'?40:16}" fill="${h.hair}"/><rect x="128" y="30" width="10" height="${h.style==='long'?40:16}" fill="${h.hair}"/>`;
+  if(h.style==='pony')o+=`<rect x="140" y="22" width="10" height="10" fill="#f2b632"/>`;
+  // hats
+  if(e.head==='laurel')for(let i=0;i<6;i++)o+=cube(58+i*14,i===0||i===5?18:12,12,10,6,i%2?'#6f9f45':'#4f7f2f');
+  if(e.head==='helmet')o+=cube(60,6,80,36,12,'#c98b2b')+`<rect x="95" y="42" width="10" height="20" fill="#c98b2b"/>`+cube(78,-6,44,12,10,'#d63a2f');
+  if(e.head==='wingcap')o+=`<rect x="40" y="12" width="22" height="9" fill="#fff"/><rect x="30" y="4" width="18" height="9" fill="#fff"/><rect x="146" y="12" width="22" height="9" fill="#fff"/><rect x="160" y="4" width="18" height="9" fill="#fff"/>`+cube(62,6,76,20,12,'#d9b25c')+cube(54,24,92,6,12,'#c49a3f');
+  if(e.head==='crown')o+=`<rect x="64" y="-6" width="10" height="12" fill="#f2b632"/><rect x="95" y="-10" width="10" height="16" fill="#f2b632"/><rect x="126" y="-6" width="10" height="12" fill="#f2b632"/>`+cube(64,4,72,16,10,'#f2b632')+`<rect x="96" y="8" width="8" height="8" fill="#e53935"/><rect x="74" y="8" width="7" height="7" fill="#1e6fd9"/><rect x="119" y="8" width="7" height="7" fill="#1e6fd9"/>`;
+  // things held
+  if(e.hand==='shield')o+=cube(12,126,46,54,6,'#c98b2b')+`<rect x="20" y="134" width="30" height="38" fill="#2f6fd6"/><rect x="24" y="142" width="9" height="9" fill="#fff"/><rect x="37" y="142" width="9" height="9" fill="#fff"/><rect x="27" y="145" width="4" height="4" fill="#1c2a48"/><rect x="40" y="145" width="4" height="4" fill="#1c2a48"/><rect x="32" y="156" width="6" height="6" fill="#f2b632"/>`;
+  if(e.hand==='olive')o+=`<rect x="165" y="98" width="6" height="66" fill="#7a5a2a"/>`+[[155,104],[173,114],[153,124],[173,136],[157,144]].map(([x,y])=>`<rect x="${x}" y="${y}" width="12" height="7" fill="#7fa65a"/>`).join('')+`<rect x="160" y="116" width="6" height="6" fill="#3d4f1f"/><rect x="171" y="128" width="6" height="6" fill="#3d4f1f"/>`;
+  if(e.hand==='lyre')o+=`<rect x="154" y="104" width="7" height="60" fill="#f2b632"/><rect x="179" y="104" width="7" height="60" fill="#f2b632"/><rect x="154" y="104" width="32" height="7" fill="#c98a12"/><rect x="150" y="160" width="40" height="7" fill="#c98a12"/><path d="M165 111V160M170 111V160M175 111V160" stroke="#fff3c9" stroke-width="2"/>`;
+  if(e.hand==='torch')o+=`<rect x="163" y="108" width="9" height="60" fill="#8a5a2b"/>`+cube(157,100,21,10,6,'#f2b632')+cube(158,80,18,20,6,'#ff8c1a')+`<rect x="163" y="86" width="8" height="12" fill="#ffe14a" stroke="none"/>`;
+  return o+'</g></svg>';
 }
+const avatarImage=()=>{const img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(avatar(S.hero,S.skin,S.equip,''));return img};
+
 
 /* ---------- scene houses ---------- */
-(function(){let g='';const hs=[[40,520,70,60],[120,500,60,70],[190,525,80,55],[275,540,60,50],[90,575,90,60],[200,585,70,55],[300,590,80,60],[400,600,70,55],[30,630,80,60]];
-  hs.forEach(([x,y,w,hh],i)=>{g+=`<rect x="${x}" y="${y}" width="${w}" height="${hh}" fill="#fff" stroke="#e3dccb" stroke-width="2"/>`;
-    if(i%3===0)g+=`<path d="M${x+w*.15} ${y}a${w*.35} ${w*.35} 0 0 1 ${w*.7} 0z" fill="#2f6fd6"/><path d="M${x+w/2} ${y-w*.35}v-14M${x+w/2-6} ${y-w*.35-8}h12" stroke="#2f6fd6" stroke-width="3"/>`;
-    g+=`<rect x="${x+w*.2}" y="${y+hh*.35}" width="${w*.18}" height="${hh*.3}" rx="3" fill="#2f6fd6"/><rect x="${x+w*.6}" y="${y+hh*.35}" width="${w*.18}" height="${hh*.4}" rx="3" fill="#2f6fd6"/>`});
-  document.getElementById('houses').innerHTML=g})();
+(function(){const hs=[[40,520,70,60],[120,500,60,70],[190,525,80,55],[275,540,60,50],[90,575,90,60],[200,585,70,55],[300,590,80,60],[400,600,70,55],[30,630,80,60]];
+  document.getElementById('houses').innerHTML='<g stroke="rgba(0,0,0,.12)">'+hs.map(([x,y,w,hh],i)=>cube(x,y,w,hh,16,'#ffffff')+(i%3===0?cube(x+w*.2,y-22,w*.6,14,12,'#2f6fd6'):'')+`<rect x="${x+w*.2}" y="${y+hh*.35}" width="${w*.18}" height="${hh*.3}" fill="#2f6fd6"/><rect x="${x+w*.6}" y="${y+hh*.35}" width="${w*.18}" height="${hh*.4}" fill="#2f6fd6"/>`).join('')+'</g>'})();
 
 /* ---------- audio ---------- */
 let ac=null,sfxG,musG,musicTimer=null,step=0,nextT=0;
 function initAudio(){
   try{
     if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();
-      const m=ac.createGain();m.gain.value=.9;m.connect(ac.destination);
-      sfxG=ac.createGain();sfxG.gain.value=.45;sfxG.connect(m);
-      musG=ac.createGain();musG.gain.value=.11;musG.connect(m);
+      const m=ac.createGain();m.gain.value=.75;m.connect(ac.destination);
+      const lp1=ac.createBiquadFilter();lp1.type='lowpass';lp1.frequency.value=3000;lp1.connect(m);
+      const lp2=ac.createBiquadFilter();lp2.type='lowpass';lp2.frequency.value=1600;lp2.connect(m);
+      sfxG=ac.createGain();sfxG.gain.value=.32;sfxG.connect(lp1);
+      musG=ac.createGain();musG.gain.value=.07;musG.connect(lp2);
       const d=ac.createDelay();d.delayTime.value=.33;const fb=ac.createGain();fb.gain.value=.28;musG.connect(d);d.connect(fb);fb.connect(d);d.connect(m);}
     if(ac.state==='suspended')ac.resume();
     if(S.music)startMusic();
@@ -515,32 +538,38 @@ function initAudio(){
 const mtof=n=>440*Math.pow(2,(n-69)/12);
 function tone(f,t,dur,dest,type='triangle',vol=.6,glide){
   const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(glide)o.frequency.exponentialRampToValueAtTime(glide,t+dur);
-  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
   o.connect(g);g.connect(dest);o.start(t);o.stop(t+dur+.05);
 }
 // A gentle Greek-flavoured tune in D minor, plucked like a bouzouki
 const MEL=[62,65,69,69,67,65,64,62,64,67,70,69,67,65,64,0, 69,72,74,72,70,69,67,65,64,65,67,64,62,0,62,0];
 function startMusic(){if(!ac||musicTimer)return;nextT=ac.currentTime+.1;musicTimer=setInterval(()=>{
-  while(nextT<ac.currentTime+.4){const n=MEL[step%MEL.length];if(n){tone(mtof(n),nextT,.45,musG,'triangle',.5);tone(mtof(n+12),nextT,.2,musG,'sine',.12)}
-    if(step%4===0)tone(mtof(step%8===0?50:45),nextT,.8,musG,'sine',.55);
-    if(step%4===2)tone(mtof(57),nextT,.25,musG,'triangle',.25);
-    step++;nextT+=.3}},100)}
+  while(nextT<ac.currentTime+.5){const n=MEL[step%MEL.length];if(n){tone(mtof(n),nextT,.9,musG,'sine',.5);tone(mtof(n+12),nextT,.5,musG,'sine',.08)}
+    if(step%4===0)tone(mtof(step%8===0?50:45),nextT,1.6,musG,'sine',.45);
+    step++;nextT+=.38}},120)}
 function stopMusic(){clearInterval(musicTimer);musicTimer=null}
 function sfx(kind){
   if(!ac||!S.sound)return;const t=ac.currentTime+.01;
-  if(kind==='tap')tone(880,t,.08,sfxG,'sine',.4);
-  if(kind==='flip')tone(500,t,.15,sfxG,'sine',.4,900);
-  if(kind==='good')[72,76,79,84].forEach((n,i)=>tone(mtof(n),t+i*.08,.35,sfxG,'sine',.5));
-  if(kind==='bad'){tone(220,t,.18,sfxG,'triangle',.4);tone(185,t+.16,.25,sfxG,'triangle',.4)}
-  if(kind==='coin'){tone(988,t,.1,sfxG,'square',.12);tone(1319,t+.09,.3,sfxG,'square',.12)}
-  if(kind==='win')[60,64,67,72,67,72,76].forEach((n,i)=>tone(mtof(n),t+i*.12,i===6?.8:.25,sfxG,'triangle',.5));
+  if(kind==='tap')tone(660,t,.12,sfxG,'sine',.22);
+  if(kind==='flip')tone(520,t,.2,sfxG,'sine',.2,700);
+  if(kind==='good')[72,76,79].forEach((n,i)=>{tone(mtof(n),t+i*.09,.6,sfxG,'sine',.4);tone(mtof(n+12),t+i*.09,.3,sfxG,'sine',.06)});
+  if(kind==='bad')tone(330,t,.35,sfxG,'sine',.22,262);
+  if(kind==='coin'){tone(1319,t,.3,sfxG,'sine',.16);tone(1760,t+.08,.45,sfxG,'sine',.13)}
+  if(kind==='win')[60,64,67,72,76,79].forEach((n,i)=>{tone(mtof(n),t+i*.13,i===5?1.4:.6,sfxG,'sine',.38);tone(mtof(n+12),t+i*.13,.4,sfxG,'sine',.05)});
 }
 // Narrator: picks an English or Greek voice to match the chosen language
 const voices={};
+const langVoices=lang=>('speechSynthesis' in window?speechSynthesis.getVoices():[]).filter(v=>lang==='el'?/^el/i.test(v.lang):/^en/i.test(v.lang));
+// Prefer natural/enhanced voices and warm female narrators (Melina, Athina, Sonia, Libby…)
+function voiceScore(v){let s=0;const n=v.name;
+  if(/natural|neural|premium|enhanced|online|siri/i.test(n))s+=10;
+  if(/google/i.test(n))s+=5;
+  if(/melina|athina|μελίνα|αθηνά|sonia|libby|serena|samantha|martha|kate|female/i.test(n))s+=4;
+  if(/compact|espeak/i.test(n))s-=8;
+  if(/en[-_]GB/i.test(v.lang))s+=1;return s}
 function findVoice(lang){
-  const vs=speechSynthesis.getVoices();
-  if(lang==='el')return vs.find(v=>/^el/i.test(v.lang))||null;
-  return vs.find(v=>/en[-_]GB/i.test(v.lang)&&/female|samantha|serena|libby|sonia/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang))||null;
+  const vs=langVoices(lang),want=S.voice&&S.voice[lang];
+  return vs.find(v=>v.name===want)||vs.sort((a,b)=>voiceScore(b)-voiceScore(a))[0]||null;
 }
 if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=()=>{delete voices.en;delete voices.el};
 let utter=null;
@@ -548,7 +577,7 @@ function say(text){return new Promise(res=>{
   if(!S.sound||!('speechSynthesis' in window))return res();
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const L=S.lang;
     if(!voices[L])voices[L]=findVoice(L);
-    if(voices[L])u.voice=voices[L];u.lang=voices[L]?voices[L].lang:(L==='el'?'el-GR':'en-GB');u.rate=.9;u.pitch=1.15;
+    if(voices[L])u.voice=voices[L];u.lang=voices[L]?voices[L].lang:(L==='el'?'el-GR':'en-GB');u.rate=.92;u.pitch=1.05;
     let done=false;const fin=()=>{if(!done){done=true;res()}};u.onend=fin;u.onerror=fin;setTimeout(fin,1500+text.length*120);
     utter=u;speechSynthesis.speak(u)}catch(e){res()}
 })}
@@ -578,29 +607,40 @@ const shapeSVG=(sh,c)=>`<svg viewBox="0 0 100 100">${shapePath(sh,c)}</svg>`;
 const vaseSVG=c=>`<svg viewBox="0 0 100 120"><path d="M42 24Q20 22 22 48M58 24Q80 22 78 48" stroke="${c}" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M38 8L62 8L62 14Q58 16 58 22Q58 28 68 34Q86 46 86 70Q86 92 72 104Q68 108 68 112L32 112Q32 108 28 104Q14 92 14 70Q14 46 32 34Q42 28 42 22Q42 16 38 14Z" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="3"/><path d="M18 62H82M17 76H83" stroke="rgba(0,0,0,.28)" stroke-width="4"/><path d="M30 46Q34 40 40 40" stroke="#fff" stroke-opacity=".55" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`;
 const hullSVG='<svg viewBox="0 0 160 52"><path d="M80 2V18" stroke="#7a5a2a" stroke-width="3"/><path d="M4 18H156L136 48H24Z" fill="#c8643b"/><path d="M12 28H148" stroke="#fff" stroke-width="4"/><path d="M18 36H142" stroke="#2f6fd6" stroke-width="4"/></svg>';
 
-/* ---------- map art ---------- */
+/* ---------- map art (blocks) ---------- */
+const svgArt=inner=>`<svg class="art" viewBox="0 0 100 100"><g stroke="rgba(0,0,0,.15)" stroke-width=".8" stroke-linejoin="round">${inner}</g></svg>`;
 const ART={
-  count:`<svg class="art" viewBox="0 0 100 100"><ellipse cx="50" cy="92" rx="30" ry="6" fill="#00000022"/><path d="M46 92Q44 70 40 58Q50 64 52 56Q56 70 54 92Z" fill="#7a5a2a"/><circle cx="34" cy="44" r="20" fill="#8fb36a"/><circle cx="58" cy="34" r="22" fill="#9cc46b"/><circle cx="68" cy="54" r="17" fill="#86ab5f"/><circle cx="44" cy="58" r="15" fill="#9cc46b"/>${[[30,40],[54,30],[66,50],[44,56],[62,40]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="4" ry="5" fill="#3d4f1f"/>`).join('')}</svg>`,
-  letters:`<svg class="art" viewBox="0 0 100 100"><path d="M50 8L92 30H8Z" fill="#fffaf0" stroke="#d8ccb0" stroke-width="2"/><rect x="10" y="30" width="80" height="8" fill="#f1e9d8"/>${[16,34,52,70].map(x=>`<rect x="${x}" y="40" width="10" height="42" fill="#fffaf0" stroke="#d8ccb0" stroke-width="1.5"/>`).join('')}<rect x="6" y="82" width="88" height="6" fill="#f1e9d8"/><rect x="2" y="88" width="96" height="6" fill="#e6dcc4"/><text x="50" y="27" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="12" fill="#2f6fd6">ΑΒΓ</text></svg>`,
-  sizes:`<svg class="art" viewBox="0 0 100 100"><path d="M4 90L40 20L58 50L68 36L96 90Z" fill="#8f9db2"/><path d="M40 20L30 40L38 36L44 42L50 32Z" fill="#fff"/><path d="M68 36L62 48L68 46L74 48Z" fill="#fff"/><ellipse cx="30" cy="20" rx="16" ry="7" fill="#fff"/><ellipse cx="74" cy="22" rx="14" ry="6" fill="#fff"/><path d="M56 6L48 22H55L50 34L64 16H56L60 6Z" fill="#f2b632" stroke="#c98a12" stroke-width="1.5"/></svg>`,
-  shapes:`<svg class="art" viewBox="0 0 100 100"><rect x="14" y="40" width="72" height="48" fill="#fffaf0" stroke="#d8ccb0" stroke-width="2"/><rect x="16" y="40" width="6" height="48" fill="#c8a46a"/><rect x="78" y="40" width="6" height="48" fill="#c8a46a"/><path d="M8 40L18 18H82L92 40Z" fill="#2f6fd6"/>${[0,1,2,3,4].map(i=>`<path d="M${18+i*12.8} 18L${14+i*15.6} 40H${21.8+i*15.6}L${24.4+i*12.8} 18Z" fill="#fff"/>`).join('')}<circle cx="34" cy="64" r="9" fill="#e53935"/><polygon points="52,54 62,72 42,72" fill="#fbc02d"/><rect x="64" y="56" width="15" height="15" fill="#43a047"/></svg>`,
-  odd:`<svg class="art" viewBox="0 0 100 100"><ellipse cx="50" cy="60" rx="46" ry="30" fill="#e9d8a6"/><ellipse cx="50" cy="60" rx="40" ry="24" fill="#d9643b"/><ellipse cx="50" cy="60" rx="32" ry="17" fill="none" stroke="#fff" stroke-width="2"/><ellipse cx="50" cy="60" rx="24" ry="11" fill="#7fb45a"/><path d="M50 10V30" stroke="#7a5a2a" stroke-width="2"/><path d="M50 10L66 15L50 20Z" fill="#2f6fd6"/><circle cx="50" cy="60" r="6" fill="#f2b632"/></svg>`,
-  pattern:`<svg class="art" viewBox="0 0 100 100"><ellipse cx="50" cy="94" rx="26" ry="4" fill="#00000022"/><g transform="translate(18 4) scale(.64 .76)">${vaseSVG('#c8643b').replace(/<\/?svg[^>]*>/g,'')}</g><path d="M31 52H69" stroke="#1c2a48" stroke-width="3" stroke-dasharray="4 3"/></svg>`,
-  compare:`<svg class="art" viewBox="0 0 100 100"><path d="M24 92Q30 76 50 74Q70 76 76 92Z" fill="#8f9db2"/><path d="M40 76L44 26H56L60 76Z" fill="#fff"/><path d="M42 40H58L57 50H43ZM41 60H59L59.6 70H40.4Z" fill="#2f6fd6"/><rect x="42" y="16" width="16" height="10" fill="#ffe14a"/><path d="M40 16L50 6L60 16Z" fill="#c8643b"/><path d="M58 18L92 8V28ZM42 18L8 8V28Z" fill="#fff59a" opacity=".7"/></svg>`,
-  music:`<svg class="art" viewBox="0 0 100 100"><path d="M6 86A44 44 0 0 1 94 86Z" fill="#d7b48e"/><path d="M18 86A32 32 0 0 1 82 86Z" fill="#e9cfa8"/><path d="M30 86A20 20 0 0 1 70 86Z" fill="#f6ead2"/><rect x="6" y="86" width="88" height="6" fill="#b98d63"/><g fill="#1c2a48"><ellipse cx="40" cy="44" rx="7" ry="5.5" transform="rotate(-20 40 44)"/><ellipse cx="62" cy="38" rx="7" ry="5.5" transform="rotate(-20 62 38)"/><rect x="45" y="14" width="3" height="30"/><rect x="67" y="8" width="3" height="30"/><path d="M45 14L70 8V15L45 21Z"/></g></svg>`,
-  puzzle:`<svg class="art" viewBox="0 0 100 100"><path d="M6 88Q10 30 50 18Q90 30 94 88Z" fill="#7d8899"/><path d="M14 88Q20 44 50 34Q80 44 86 88Z" fill="#8f9db2"/><path d="M32 88V64Q50 44 68 64V88Z" fill="#1c2a48"/><text x="50" y="82" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="22" fill="#f2b632">?</text><circle cx="26" cy="40" r="4" fill="#f2b632"/><circle cx="76" cy="46" r="3" fill="#f2b632"/></svg>`,
-  memory:`<svg class="art" viewBox="0 0 100 100"><path d="M24 70H82L74 84H32Z" fill="#c8643b"/><path d="M52 14V68" stroke="#7a5a2a" stroke-width="3"/><path d="M54 16Q78 40 54 64Z" fill="#fff"/><path d="M50 22Q30 44 50 64Z" fill="#fff"/><path d="M56 30H66M56 44H70" stroke="#2f6fd6" stroke-width="4"/><path d="M8 88q8-6 16 0t16 0 16 0 16 0 16 0" stroke="#fff" stroke-width="3" fill="none"/></svg>`
+  count:svgArt(cube(44,58,12,32,6,'#7a5a2a')+cube(22,36,26,22,10,'#7fa65a')+cube(46,26,28,24,10,'#8fbf62')+cube(34,14,26,18,10,'#9cc46b')+[[28,42],[52,32],[62,44],[40,20]].map(([x,y])=>`<rect x="${x}" y="${y}" width="6" height="6" fill="#3d4f1f"/>`).join('')),
+  letters:svgArt(cube(8,84,80,8,8,'#e6dcc4')+[14,32,50,68].map(x=>cube(x,42,12,42,5,'#fffaf0')).join('')+cube(8,30,80,12,8,'#f1e9d8')+cube(20,20,56,10,8,'#f1e9d8')+`<text x="48" y="40" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="10" fill="#2f6fd6" stroke="none">ΑΒΓ</text>`),
+  sizes:svgArt(cube(6,70,80,20,10,'#8f9db2')+cube(16,50,60,20,10,'#a3b0c2')+cube(26,32,40,18,10,'#b8c3d2')+cube(34,20,24,12,8,'#ffffff')+cube(62,4,10,10,4,'#f2b632')+cube(56,14,10,10,4,'#f2b632')),
+  shapes:svgArt(cube(14,48,66,40,10,'#c8a46a')+[0,1,2,3,4].map(i=>cube(10+i*14.8,32,14.8,14,10,i%2?'#ffffff':'#2f6fd6')).join('')+cube(20,56,14,14,5,'#e53935')+cube(42,56,14,14,5,'#fbc02d')+cube(62,56,12,14,5,'#43a047')),
+  odd:svgArt(cube(6,60,82,24,10,'#d9643b')+`<rect x="16" y="64" width="62" height="16" fill="#7fb45a"/><rect x="16" y="70" width="62" height="3" fill="#fff"/>`+`<rect x="46" y="22" width="4" height="40" fill="#7a5a2a"/><rect x="50" y="22" width="18" height="12" fill="#2f6fd6"/>`),
+  pattern:svgArt(cube(30,84,40,8,6,'#a54d2a')+cube(24,56,52,28,8,'#c8643b')+`<rect x="24" y="66" width="52" height="7" fill="#1c2a48"/>`+cube(30,40,40,16,8,'#c8643b')+cube(40,24,20,16,6,'#c8643b')+cube(36,16,28,8,6,'#a54d2a')),
+  compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
+  memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
+  puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  music:svgArt(cube(6,74,84,16,10,'#b98d63')+cube(14,60,68,14,10,'#d7b48e')+cube(24,48,48,12,10,'#e9cfa8')+cube(34,38,28,10,8,'#f6ead2')+`<rect x="58" y="6" width="5" height="26" fill="#1c2a48"/><rect x="58" y="6" width="18" height="6" fill="#1c2a48"/><rect x="50" y="28" width="12" height="9" fill="#1c2a48"/><rect x="72" y="6" width="4" height="22" fill="#1c2a48"/><rect x="64" y="24" width="12" height="9" fill="#1c2a48"/>`)
 };
+// The island is a baseplate of studded blocks
+function islandTiles(){
+  let o='';const T=34;
+  const inside=(x,y,cx,cy,rx,ry)=>{const a=Math.atan2(y-cy,x-cx),w=1+.07*Math.sin(3*a)+.04*Math.cos(5*a);return ((x-cx)/rx)**2+((y-cy)/ry)**2<w*w};
+  for(let y=T/2;y<700;y+=T)for(let x=T/2;x<1000;x+=T){
+    let col=null;
+    if(inside(x,y,515,330,400,265))col=inside(x,y,515,330,350,222)?((x/T+y/T)%2<1?'#7cc35a':'#74bb52'):'#f0d79c';
+    else if(inside(x,y,910,150,92,40))col='#9aa7b8';
+    if(col)o+=`<rect x="${x-T/2}" y="${y-T/2}" width="${T}" height="${T}" fill="${col}"/><circle cx="${x}" cy="${y}" r="7" fill="${shade(col,.18)}"/><circle cx="${x}" cy="${y+1.5}" r="7" fill="none" stroke="${shade(col,-.15)}" stroke-width="1.5" opacity=".6"/>`;
+  }
+  return o;
+}
 const MAP_SVG=`<svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
 <defs><linearGradient id="mSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3aa0e8"/><stop offset="1" stop-color="#1665b0"/></linearGradient></defs>
 <rect width="1000" height="700" fill="url(#mSea)"/>
-<g stroke="#bfe6ff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".55"><path d="M60 80q15-8 30 0t30 0"/><path d="M880 130q15-8 30 0t30 0"/><path d="M300 650q15-8 30 0t30 0"/><path d="M640 660q15-8 30 0t30 0"/><path d="M920 420q15-8 30 0t30 0"/></g>
-<path d="M170 160C260 60 520 40 700 90C860 130 930 260 880 400C840 520 700 600 520 590C340 610 160 560 120 430C80 320 100 230 170 160Z" fill="#f3dfae"/>
-<path d="M200 180C280 96 520 80 690 120C830 156 890 270 846 390C808 494 690 560 520 552C350 570 190 530 156 420C124 330 140 240 200 180Z" fill="#a8cf74"/>
-<g stroke="#e9d39b" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="2 18"><path d="M190 280Q260 180 370 150"/><path d="M380 150Q500 110 630 120"/><path d="M650 130Q780 200 820 290"/><path d="M200 300Q230 420 290 470"/><path d="M310 470Q420 420 520 340"/><path d="M540 330Q680 320 800 300"/></g>
-<g>${[[440,500],[480,480],[520,505],[470,530],[510,540],[550,520]].map(([x,y],i)=>`<rect x="${x}" y="${y}" width="34" height="28" fill="#fff" stroke="#e3dccb"/>${i%2?'':`<path d="M${x+5} ${y}a12 12 0 0 1 24 0z" fill="#2f6fd6"/>`}<rect x="${x+12}" y="${y+12}" width="9" height="16" fill="#2f6fd6"/>`).join('')}</g>
-<g fill="#7fa65a">${[[260,230],[480,230],[760,230],[800,380],[450,500],[200,400],[560,470]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="16"/><circle cx="${x+14}" cy="${y-8}" r="12"/>`).join('')}</g>
-<ellipse cx="910" cy="150" rx="80" ry="30" fill="#f3dfae"/><ellipse cx="910" cy="142" rx="64" ry="20" fill="#9aa7b8"/>
+<g fill="#bfe6ff" opacity=".5">${[[60,80],[880,260],[300,650],[640,660],[920,420],[40,520]].map(([x,y])=>`<rect x="${x}" y="${y}" width="26" height="6"/><rect x="${x+20}" y="${y-6}" width="18" height="6"/>`).join('')}</g>
+${islandTiles()}
+<g fill="#e3c27e">${[[190,280,370,150],[380,150,630,120],[650,130,820,290],[200,300,290,470],[310,470,520,340],[540,330,800,300]].map(([a,b,c,d])=>{let s='';for(let t=0;t<=1;t+=.07)s+=`<rect x="${(a+(c-a)*t-6).toFixed(0)}" y="${(b+(d-b)*t-6).toFixed(0)}" width="12" height="12"/>`;return s}).join('')}</g>
+<g stroke="rgba(0,0,0,.15)" stroke-width="1">${[[440,500],[480,480],[520,505],[470,530],[510,540],[550,520]].map(([x,y],i)=>cube(x,y,30,26,10,'#ffffff')+(i%2?'':cube(x+7,y-10,16,8,6,'#2f6fd6'))+`<rect x="${x+11}" y="${y+10}" width="8" height="16" fill="#2f6fd6"/>`).join('')}
+${[[260,230],[480,230],[760,230],[800,380],[200,400],[600,460]].map(([x,y])=>cube(x-4,y,8,14,4,'#7a5a2a')+cube(x-14,y-22,28,22,8,'#5f9e3c')).join('')}</g>
 </svg>`;
 
 /* ---------- rendering ---------- */
@@ -670,9 +710,11 @@ function parentsHTML(){
   return `<div class="screen"><div class="gbar"><button class="icon-btn" data-act="map" aria-label="${t('backIsland')}">${I.back}</button><div class="gtitle"><h2>${t('grownT')}</h2><div>${t('grownSub')}</div></div>${langSwitch()}</div>
   <div class="parents">
     <p>${t('intro')}</p>
-    <div style="overflow-x:auto"><table><thead><tr><th>${t('place')}</th><th>${t('teaches')}</th>${[1,2,3,4,5,6].map(i=>`<th>${i}</th>`).join('')}</tr></thead><tbody>
-    ${GAMES.map(g=>`<tr><td><b>${tr(g.name)}</b></td><td>${tr(TEACH[g.id])}</td>${[0,1,2,3,4,5].map(i=>`<td>${i<g.levels.length?(S.stars[g.id][i]?'★'.repeat(S.stars[g.id][i]):'–'):''}</td>`).join('')}</tr>`).join('')}
+    <div style="overflow-x:auto"><table><thead><tr><th>${t('place')}</th><th>${t('teaches')}</th>${[1,2,3,4,5,6,7,8].map(i=>`<th>${i}</th>`).join('')}<th></th></tr></thead><tbody>
+    ${GAMES.map(g=>`<tr><td><b>${tr(g.name)}</b></td><td>${tr(TEACH[g.id])}</td>${[0,1,2,3,4,5,6,7].map(i=>`<td>${i<g.levels.length?(S.stars[g.id][i]?'★'.repeat(S.stars[g.id][i]):'–'):''}</td>`).join('')}<td>${S.stars[g.id].some(x=>x)?(ui.confirmG===g.id?`<button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 5px 0 #a33;white-space:nowrap" data-act="resetg2" data-g="${g.id}">${t('resetYes')}</button>`:`<button class="btn small white" style="white-space:nowrap" data-act="resetg" data-g="${g.id}">↺ ${t('resetG')}</button>`):''}</td></tr>`).join('')}
     </tbody></table></div>
+    <div class="row" style="justify-content:flex-start"><label for="vsel"><b>${t('voiceL')}</b></label><select id="vsel" class="name-in" style="text-align:left;width:auto;max-width:100%">${(()=>{const vs=langVoices(S.lang),cur=findVoice(S.lang);return vs.length?vs.map(v=>`<option ${cur&&cur.name===v.name?'selected':''}>${esc(v.name)}</option>`).join(''):`<option>${t('noVoice')}</option>`})()}</select><button class="btn small blue" data-act="vtest">▶ ${t('vtest')}</button></div>
+    <p style="color:var(--ink-soft)">${t('voiceTip')}</p>
     <div class="row" style="justify-content:flex-start"><label for="pname"><b>${t('heroName')}</b></label><input id="pname" class="name-in" maxlength="16" value="${esc(S.name)}" style="text-align:left"><button class="btn small blue" data-act="rename">${t('saveName')}</button></div>
     <div class="row" style="justify-content:flex-start">${ui.confirmReset?`<b>${t('eraseQ')}</b><button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 6px 0 #a33" data-act="reset2">${t('eraseYes')}</button><button class="btn small white" data-act="reset0">${t('keep')}</button>`:`<button class="btn small white" data-act="reset1">${t('startOver')}</button>`}</div>
   </div></div>`;
@@ -703,7 +745,7 @@ function renderModal(){
 /* ---------- question generators ---------- */
 // Each returns {text, say, stage?, options:[{html, ok, say?, after?, rank?}], big?, order?}
 function numOpts(n,k,min,max){const s=new Set([n]);let guard=0;while(s.size<k&&guard++<99){const v=n+rand(-3,3);if(v>=min&&v<=max)s.add(v)}return [...s].sort((a,b)=>a-b)}
-const olivesEl=n=>n===1?'μία ελιά':`${n} ελιές`;
+const olivesEl=n=>n===1?'μία ελιά':`${numEl(n,'f')} ελιές`;
 function oliveBranch(n){
   let o=`<svg viewBox="0 0 420 230"><path d="M10 64Q200 20 410 70" stroke="#7a5a2a" stroke-width="12" fill="none" stroke-linecap="round"/>`;
   for(let i=0;i<9;i++){const x=40+i*44,y=48+Math.sin(i)*6;o+=`<ellipse cx="${x}" cy="${y-14}" rx="7" ry="20" fill="#8fb36a" transform="rotate(${i%2?50:-50} ${x} ${y})"/>`}
@@ -713,7 +755,7 @@ function oliveBranch(n){
 function bowls(a,b){
   const bowl=(cx,n)=>{let s=`<path d="M${cx-80} 120H${cx+80}Q${cx+70} 190 ${cx} 192Q${cx-70} 190 ${cx-80} 120Z" fill="#c8643b"/><path d="M${cx-74} 150H${cx+74}" stroke="#1c2a48" stroke-width="5" stroke-dasharray="10 6"/>`;
     for(let i=0;i<n;i++){const x=cx-50+(i%3)*50,y=100-Math.floor(i/3)*38;s+=`<g class="olive" data-act="olive"><ellipse class="body" cx="${x}" cy="${y}" rx="17" ry="21" fill="#4a5d23"/><ellipse cx="${x-6}" cy="${y-8}" rx="4" ry="6" fill="#fff" opacity=".35"/><text x="${x}" y="${y+7}" text-anchor="middle"></text></g>`}return s};
-  return `<svg viewBox="0 0 520 210">${bowl(120,a)}<text x="260" y="150" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="70" fill="#0f4f8f">+</text>${bowl(400,b)}</svg>`;
+  return `<svg viewBox="0 0 520 210">${bowl(120,a)}<text x="260" y="150" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="70" fill="#0f4f8f">+</text>${bowl(400,b)}</svg>`;
 }
 const numOpt=(v,n)=>({html:`<span class="num">${v}</span>`,ok:v===n,say:String(v)});
 const distinct=(pool,t,k)=>shuffle([t,...shuffle(pool.filter(x=>x!==t)).slice(0,k)]);
@@ -760,7 +802,7 @@ const GEN={
     const cell=56,w=(show+1)*cell+20;
     let band=`<svg viewBox="0 0 ${w} 96"><rect x="0" y="4" width="${w}" height="88" rx="18" fill="#c8643b"/><path d="M8 14H${w-8}M8 82H${w-8}" stroke="#1c2a48" stroke-width="4" stroke-dasharray="12 6"/>`;
     seq.slice(0,show).forEach((u,i)=>{band+=`<g transform="translate(${14+i*cell} 24) scale(.48)">${shapePath(u[0],u[1])}</g>`});
-    band+=`<g transform="translate(${14+show*cell} 24)"><rect width="48" height="48" rx="10" fill="#fffaf0" stroke="#1c2a48" stroke-width="3" stroke-dasharray="6 4"/><text x="24" y="37" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="34" fill="#1c2a48">?</text></g></svg>`;
+    band+=`<g transform="translate(${14+show*cell} 24)"><rect width="48" height="48" rx="10" fill="#fffaf0" stroke="#1c2a48" stroke-width="3" stroke-dasharray="6 4"/><text x="24" y="37" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="34" fill="#1c2a48">?</text></g></svg>`;
     return {text:tr(['What comes next?','Τι ακολουθεί;']),say:tr(['Look at the pattern on the vase. What comes next?','Κοίτα το μοτίβο στο βάζο. Τι ακολουθεί;']),stage:`<div style="width:min(100%,720px)">${band}</div>`,options:shuffle(uniq.slice(0,3)).map(u=>({html:shapeSVG(u[0],u[1]),ok:u[0]===ans[0]&&u[1]===ans[1]}))};
   },
   compare(l){
@@ -769,7 +811,7 @@ const GEN={
       const boat=k=>`<div class="boat"><div class="fish">${fish.repeat(k)}</div>${hullSVG}</div>`;
       return {text:tr(l?['Which boat has fewer fish?','Ποια βάρκα έχει λιγότερα ψάρια;']:['Which boat has more fish?','Ποια βάρκα έχει περισσότερα ψάρια;']),
         say:tr(l?['Which fishing boat has fewer fish?','Ποια βάρκα έχει λιγότερα ψάρια;']:['Which fishing boat has more fish?','Ποια βάρκα έχει περισσότερα ψάρια;']),
-        options:[a,b].map(k=>({html:boat(k),ok:k===n,after:tr([`${k} fish! ${l?'Fewer':'More'}!`,`${k} ψάρια! ${l?'Λιγότερα':'Περισσότερα'}!`])}))}}
+        options:[a,b].map(k=>({html:boat(k),ok:k===n,after:tr([`${k} fish! ${l?'Fewer':'More'}!`,`${k===1?'Ένα ψάρι':numEl(k,'n')+' ψάρια'}! ${l?'Λιγότερα':'Περισσότερα'}!`])}))}}
     const s=new Set();while(s.size<3)s.add(rand(1,l===2?20:10));const nums=[...s],n=Math.max(...nums);
     return {text:tr(['Tap the biggest number','Πάτα τον μεγαλύτερο αριθμό']),say:tr(['Which number is the biggest?','Ποιος αριθμός είναι ο μεγαλύτερος;']),options:shuffle(nums).map(v=>numOpt(v,n))};
   },
@@ -790,26 +832,27 @@ const GEN={
 
 /* ---------- puzzles (Riddle Cave) ---------- */
 const PZ_TEXT={
-  maze:{text:['Find the way out!','Βρες την έξοδο!'],say:['This is the labyrinth of the Minotaur. Tap the squares or the arrows to walk to the door!','Αυτός είναι ο λαβύρινθος του Μινώταυρου. Πάτα τα κουτάκια ή τα βελάκια και περπάτα μέχρι την πόρτα!']},
-  mazeKey:{text:['Key first, then the door!','Πρώτα το κλειδί, μετά η πόρτα!'],say:['The door is locked. Find the key first, then walk to the door!','Η πόρτα είναι κλειδωμένη. Βρες πρώτα το κλειδί και μετά πήγαινε στην πόρτα!']},
+  maze:{text:['Find the way out!','Βρες την έξοδο!'],say:['This is the labyrinth of the Minotaur. Put your finger on your hero and drag it along the paths to the door!','Αυτός είναι ο λαβύρινθος του Μινώταυρου. Βάλε το δάχτυλο πάνω στον ήρωα και σύρε τον στους διαδρόμους μέχρι την πόρτα!']},
+  mazeMino:{text:['Watch out for the Minotaur!','Πρόσεχε τον Μινώταυρο!'],say:['The Minotaur is awake and walking around! Find the key, then the door, and do not let him catch you!','Ο Μινώταυρος ξύπνησε και περπατάει! Βρες το κλειδί και μετά την πόρτα, και μην τον αφήσεις να σε πιάσει!']},
+  mazeKey:{text:['Key first, then the door!','Πρώτα το κλειδί, μετά η πόρτα!'],say:['The door is locked. Drag your hero to the key first, then to the door!','Η πόρτα είναι κλειδωμένη. Σύρε τον ήρωα πρώτα στο κλειδί και μετά στην πόρτα!']},
   hanoi:{text:['Move the tower to the ⭐ column','Μετέφερε τον πύργο στην κολόνα με το ⭐'],say:['Move all the discs to the column with the star. Tap a column to lift its top disc, then tap where to put it. A big disc can never go on a small one!','Μετέφερε όλους τους δίσκους στην κολόνα με το αστέρι. Πάτα μια κολόνα για να σηκώσεις τον πάνω δίσκο και μετά πάτα πού θα τον βάλεις. Ο μεγάλος δίσκος δεν μπαίνει ποτέ πάνω στον μικρό!']},
   river:{text:['Take everyone across the river!','Πέρασέ τους όλους απέναντι!'],say:['Take the wolf, the sheep and the grass to the other side. The boat has room for only one, plus you. If you leave the wolf alone with the sheep, the wolf eats the sheep. If you leave the sheep alone with the grass, the sheep eats the grass! Tap one to put it in the boat, then tap Cross.','Πέρασε τον λύκο, το πρόβατο και το χόρτο στην απέναντι όχθη. Η βάρκα χωράει μόνο έναν μαζί σου. Αν μείνουν μόνοι τους ο λύκος με το πρόβατο, ο λύκος τρώει το πρόβατο. Αν μείνουν μόνοι τους το πρόβατο με το χόρτο, το πρόβατο τρώει το χόρτο! Πάτα έναν για να μπει στη βάρκα και μετά πάτα «Πέρνα απέναντι».']}
 };
-const RIVER=[['wolf','🐺',['the wolf','τον λύκο']],['sheep','🐑',['the sheep','το πρόβατο']],['grass','🌿',['the grass','το χόρτο']]];
+const RIVER=[['wolf','🐺',['the wolf','τον λύκο'],['Wolf!','Ο λύκος!']],['sheep','🐑',['the sheep','το πρόβατο'],['Sheep!','Το πρόβατο!']],['grass','🌿',['the grass','το χόρτο'],['Grass!','Το χόρτο!']]];
 const DISC_COLORS=['#e53935','#fbc02d','#1e6fd9'];
 const DISC_NAMES=[['red','κόκκινο'],['yellow','κίτρινο'],['blue','μπλε']];
 const ORD=[['first','πρώτη'],['second','δεύτερη'],['third','τρίτη']];
 
 function setupPuzzle(l){
   const c=PUZZLES[l];
-  if(c.type==='maze'){run.p=makeMaze(c.n,c.key);run.cur=PZ_TEXT[c.key?'mazeKey':'maze']}
+  if(c.type==='maze'){run.p=makeMaze(c.n,c.key,c.mino);run.cur=PZ_TEXT[c.mino?'mazeMino':c.key?'mazeKey':'maze'];requestAnimationFrame(mazeLoop)}
   if(c.type==='hanoi'){run.p={type:'hanoi',n:c.n,pegs:[[...Array(c.n)].map((_,i)=>c.n-i),[],[]],sel:null,moves:0,best:2**c.n-1};run.cur=PZ_TEXT.hanoi}
   if(c.type==='river'){run.p={type:'river',side:{wolf:0,sheep:0,grass:0},boat:0,cargo:null,busy:false,oops:null};run.cur=PZ_TEXT.river}
   run.cur={text:tr(run.cur.text),say:tr(run.cur.say)};run.hints=0;
 }
 function puzzleBody(){
   const p=run.p,hint=`<button class="icon-btn" data-act="pz" data-x="hint" aria-label="Hint" style="font-size:1.7rem">💡</button>`;
-  if(p.type==='maze')return mazeHTML(p)+`<div class="row arrows">${hint}${[['left','◀'],['up','▲'],['down','▼'],['right','▶']].map(([d,a])=>`<button class="icon-btn" data-act="pz" data-x="${d}" aria-label="${d}">${a}</button>`).join('')}</div>`;
+  if(p.type==='maze')return mazeBody()+`<div class="row">${hint}</div>`;
   if(p.type==='hanoi')return `<div class="stage"><div class="hanoi">${p.pegs.map((pg,i)=>`<button class="peg ${p.sel===i?'sel':''}" data-act="pz" data-x="peg" data-i="${i}" aria-label="${tr(ORD[i])}"><span class="pole"></span>${pg.map((d,k)=>`<span class="disc ${p.sel===i&&k===pg.length-1?'up':''}" style="width:${34+d*20}%;background:${DISC_COLORS[d-1]}"></span>`).join('')}${i===2?'<span class="flag">⭐</span>':''}</button>`).join('')}</div></div><div class="row">${hint}</div>`;
   const item=([k,e])=>{const inBoat=p.cargo===k,left=inBoat?null:(p.side[k]?79:3),top=12+RIVER.findIndex(x=>x[0]===k)*29;
     return inBoat?'':`<button class="r-it ${p.oops===k?'oops':''}" data-act="pz" data-x="item" data-k="${k}" style="left:${left}%;top:${top}%" aria-label="${tr(RIVER.find(x=>x[0]===k)[2])}">${e}</button>`};
@@ -821,51 +864,105 @@ function puzzleBody(){
 function puzzleAct(b){
   if(!run||!run.p||run.won)return;const x=b.dataset.x,p=run.p;
   if(x==='hint')return puzzleHint();
-  if(p.type==='maze'){
-    if(x==='cell'){const i=+b.dataset.i;if(i!==p.pos)mazeNbrs(p.W,p.n,p.pos).includes(i)?mazeMove(i):sfx('bad');return}
-    const c=p.pos%p.n;if((x==='left'&&c===0)||(x==='right'&&c===p.n-1))return sfx('bad');
-    const to=p.pos+{up:-p.n,down:p.n,left:-1,right:1}[x];mazeNbrs(p.W,p.n,p.pos).includes(to)?mazeMove(to):sfx('bad');return;
-  }
   if(p.type==='hanoi'&&x==='peg')return hanoiTap(+b.dataset.i);
   if(p.type==='river'){if(x==='item')riverItem(b.dataset.k);if(x==='row')riverRow()}
 }
 function puzzleWin(){
   const p=run.p;let st;run.won=true;
-  if(p.type==='maze')st=p.moves<=p.best+2?3:p.moves<=p.best*1.5+3?2:1;
+  if(p.type==='maze')st=(p.moves<=p.best*1.3+2&&!run.mistakes)?3:p.moves<=p.best*2+4?2:1;
   else if(p.type==='hanoi')st=p.moves<=p.best&&!run.mistakes?3:p.moves<=p.best+4?2:1;
   else st=run.mistakes===0?3:run.mistakes<=2?2:1;
   if(run.hints)st=Math.min(st,2);
   sfx('good');burst(innerWidth/2,innerHeight/2,60);setTimeout(()=>finishLevel(st),900);
 }
 
-// Labyrinth: random maze carved with depth-first search
+// Labyrinth: random maze carved with depth-first search, drawn as blocks on a canvas and walked with a finger
 function mazeNbrs(W,n,c){const r=[];if(!W[c].n)r.push(c-n);if(!W[c].s)r.push(c+n);if(!W[c].e)r.push(c+1);if(!W[c].w)r.push(c-1);return r}
 function mazeDist(W,n,from){const d=Array(n*n).fill(-1);d[from]=0;const q=[from];while(q.length){const c=q.shift();for(const k of mazeNbrs(W,n,c))if(d[k]<0){d[k]=d[c]+1;q.push(k)}}return d}
-function makeMaze(n,key){
+function makeMaze(n,key,mino){
   const W=Array.from({length:n*n},()=>({n:1,e:1,s:1,w:1})),seen=new Set([0]),st=[0];
   while(st.length){const c=st[st.length-1],x=c%n,y=Math.floor(c/n);
     const nb=[[0,-1,'n','s'],[1,0,'e','w'],[0,1,'s','n'],[-1,0,'w','e']].filter(([dx,dy])=>{const X=x+dx,Y=y+dy;return X>=0&&Y>=0&&X<n&&Y<n&&!seen.has(Y*n+X)});
     if(!nb.length){st.pop();continue}
     const [dx,dy,a,b]=pick(nb),k=(y+dy)*n+x+dx;W[c][a]=0;W[k][b]=0;seen.add(k);st.push(k)}
+  // with a walking Minotaur, open a few extra doors so there is always a way around him
+  if(mino)for(let k=0;k<n;k++){const c=rand(n,n*n-n-2);if(c%n<n-1){W[c].e=0;W[c+1].w=0}}
   const exit=n*n-1,d0=mazeDist(W,n,0);let keyAt=-1,best=d0[exit];
   if(key){const de=mazeDist(W,n,exit);const cand=[...Array(n*n).keys()].filter(i=>i!==0&&i!==exit).sort((a,b)=>(d0[b]+de[b])-(d0[a]+de[a]));keyAt=cand[rand(0,Math.min(2,cand.length-1))];best=d0[keyAt]+de[keyAt]}
-  const dead=[...Array(n*n).keys()].filter(i=>i!==0&&i!==exit&&i!==keyAt&&mazeNbrs(W,n,i).length===1);
-  return {type:'maze',n,W,pos:0,exit,keyAt,hasKey:!key,best,moves:0,trail:[0],mino:dead.length?pick(dead):-1,hint:-1};
+  const far=[...Array(n*n).keys()].filter(i=>i!==exit&&i!==keyAt&&d0[i]>n).sort((a,b)=>d0[b]-d0[a]);
+  return {type:'maze',n,W,pos:0,exit,keyAt,hasKey:!key,best,moves:0,path:[0],mino:far.length?far[rand(0,Math.min(3,far.length-1))]:-1,minoWalks:!!mino,minoT:0,minoPrev:-1,hint:-1,hx:0,hy:0,img:avatarImage(),t:0,caught:0};
 }
-function mazeHTML(m){
-  let cells='';for(let i=0;i<m.n*m.n;i++){const w=m.W[i];
-    const cls=['mz-c',w.n?'wn':'',w.e?'we':'',w.s?'ws':'',w.w?'ww':'',m.trail.includes(i)?'thr':'',m.hint===i?'hint':''].join(' ');
-    let inner='';if(i===m.pos)inner=`<span class="mz-hero">${avatar(S.hero,S.skin,S.equip,'')}</span>`;else if(i===m.exit)inner=`<span class="mz-i">${m.hasKey?'🚪':'🔒'}</span>`;else if(i===m.keyAt&&!m.hasKey)inner='<span class="mz-i">🔑</span>';else if(i===m.mino)inner='<span class="mz-i">🐂</span>';
-    cells+=`<button class="${cls}" data-act="pz" data-x="cell" data-i="${i}" aria-label="${i}">${inner}</button>`}
-  return `<div class="stage"><div class="maze" style="grid-template-columns:repeat(${m.n},minmax(0,1fr));--n:${m.n}">${cells}</div></div>`;
+function mazeBody(){return `<div class="stage"><div class="mazewrap"><canvas id="mzcv"></canvas></div></div>`}
+function mazeStepToward(target){
+  const m=run.p;let guard=0;
+  while(target!==m.pos&&guard++<4){
+    const dx=target%m.n-m.pos%m.n,dy=Math.floor(target/m.n)-Math.floor(m.pos/m.n),nb=mazeNbrs(m.W,m.n,m.pos);
+    const tries=Math.abs(dx)>=Math.abs(dy)?[dx?m.pos+Math.sign(dx):null,dy?m.pos+Math.sign(dy)*m.n:null]:[dy?m.pos+Math.sign(dy)*m.n:null,dx?m.pos+Math.sign(dx):null];
+    const to=tries.find(c=>c!==null&&nb.includes(c));if(to===undefined)break;
+    mazeMove(to);if(run.won)break;
+  }
 }
 function mazeMove(to){
-  const m=run.p;m.pos=to;m.moves++;m.hint=-1;if(!m.trail.includes(to))m.trail.push(to);sfx('tap');
+  const m=run.p;m.pos=to;m.moves++;m.hint=-1;
+  if(m.path.length>1&&m.path[m.path.length-2]===to)m.path.pop();else m.path.push(to);
+  sfx('tap');
   if(to===m.keyAt&&!m.hasKey){m.hasKey=true;sfx('coin');say(tr(['The key! Now find the door.','Το κλειδί! Τώρα βρες την πόρτα.']))}
-  else if(to===m.mino)say(tr(['Shh! The Minotaur is sleeping.','Σσς! Ο Μινώταυρος κοιμάται.']));
-  renderGame();
+  if(to===m.mino)return mazeCaught();
   if(to===m.exit){if(m.hasKey)puzzleWin();else say(tr(['The door is locked. Find the key!','Η πόρτα είναι κλειδωμένη. Βρες το κλειδί!']))}
 }
+function mazeCaught(){
+  const m=run.p;
+  if(!m.minoWalks){say(tr(['Shh! The Minotaur is sleeping. Go around him!','Σσς! Ο Μινώταυρος κοιμάται. Πέρνα από άλλο δρόμο!']));return}
+  run.mistakes++;m.caught=1;sfx('bad');m.pos=0;m.path=[0];drag=null;
+  say(tr(['The Minotaur caught you! Back to the start.','Ο Μινώταυρος σε βρήκε! Πάμε πάλι από την αρχή.']));
+}
+function mazeLoop(ts){
+  const m=run&&run.p;if(!m||m.type!=='maze'||ui.screen!=='game')return;
+  const dt=Math.min(.05,(ts-(m.last||ts))/1000);m.last=ts;m.t+=dt;
+  if(m.minoWalks&&!run.won&&m.t>2.5){m.minoT+=dt;if(m.minoT>(m.n>=11?.7:.9)){m.minoT=0;
+    const nb=mazeNbrs(m.W,m.n,m.mino).filter(c=>c!==m.exit&&c!==m.keyAt);const opts=nb.filter(c=>c!==m.minoPrev);
+    const to=pick(opts.length?opts:nb);if(to!==undefined){m.minoPrev=m.mino;m.mino=to;if(to===m.pos)mazeCaught()}}}
+  drawMaze(m,dt);requestAnimationFrame(mazeLoop);
+}
+function drawMaze(m,dt){
+  const cv=document.getElementById('mzcv');if(!cv)return;const ctx=cv.getContext('2d');
+  const dpr=devicePixelRatio||1,rc=cv.getBoundingClientRect(),W=rc.width;if(!W)return;
+  if(cv.width!==Math.round(W*dpr)){cv.width=cv.height=Math.round(W*dpr)}
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const n=m.n,pad=W*.03,c=(W-pad*2)/n,X=i=>pad+(i%n)*c,Y=i=>pad+Math.floor(i/n)*c;
+  // studded green baseplate
+  ctx.fillStyle='#5c6b7c';ctx.fillRect(0,0,W,W);
+  for(let i=0;i<n*n;i++){const x=X(i),y=Y(i);ctx.fillStyle=(i%n+Math.floor(i/n))%2?'#7cc35a':'#74bb52';ctx.fillRect(x,y,c+.5,c+.5);
+    ctx.fillStyle='rgba(255,255,255,.18)';ctx.beginPath();ctx.arc(x+c/2,y+c/2,c*.16,0,7);ctx.fill()}
+  if(m.hint>=0){ctx.fillStyle=`rgba(255,225,74,${.45+.35*Math.sin(m.t*8)})`;ctx.fillRect(X(m.hint),Y(m.hint),c,c)}
+  // Ariadne's red thread
+  ctx.strokeStyle='#e53935';ctx.lineWidth=Math.max(3,c*.12);ctx.lineCap=ctx.lineJoin='round';ctx.beginPath();
+  m.path.forEach((p,k)=>{const x=X(p)+c/2,y=Y(p)+c/2;k?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+  // door, key, Minotaur
+  const glyph=(i,g,sz=.7)=>{ctx.font=`${c*sz}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(g,X(i)+c/2,Y(i)+c/2+c*.04)};
+  ctx.fillStyle='#8a5a2b';ctx.fillRect(X(m.exit)+c*.18,Y(m.exit)+c*.1,c*.64,c*.8);ctx.fillStyle='#a8743c';ctx.fillRect(X(m.exit)+c*.24,Y(m.exit)+c*.16,c*.52,c*.68);
+  ctx.fillStyle='#f2b632';ctx.fillRect(X(m.exit)+c*.62,Y(m.exit)+c*.48,c*.08,c*.08);
+  if(!m.hasKey)glyph(m.exit,'🔒',.42);
+  if(m.keyAt>=0&&!m.hasKey)glyph(m.keyAt,'🔑',.62+.06*Math.sin(m.t*5));
+  if(m.mino>=0){glyph(m.mino,'🐂',.72);if(!m.minoWalks){ctx.fillStyle='#fff';ctx.font=`700 ${c*.28}px Ubuntu,sans-serif`;ctx.fillText('z',X(m.mino)+c*.82,Y(m.mino)+c*.2-Math.abs(Math.sin(m.t*2))*c*.1)}}
+  // the hero glides to its square
+  const tx=X(m.pos),ty=Y(m.pos);if(m.hx===undefined||m.caught){m.hx=tx;m.hy=ty;m.caught=0}
+  m.hx+=(tx-m.hx)*Math.min(1,dt*18);m.hy+=(ty-m.hy)*Math.min(1,dt*18);
+  if(m.img.complete){const h=c*1.05,w=h*200/276;ctx.drawImage(m.img,m.hx+c/2-w/2,m.hy+c-h*.98,w,h)}
+  // block walls: dark front face, light top
+  const t=Math.max(4,c*.16);
+  const wall=(x,y,w,h)=>{ctx.fillStyle='#6d7a8c';ctx.fillRect(x,y,w,h);ctx.fillStyle='#b9c4d2';ctx.fillRect(x,y-t*.45,w,h)};
+  for(let i=0;i<n*n;i++){const x=X(i),y=Y(i),w=m.W[i];
+    if(w.n)wall(x-t/2,y-t/2,c+t,t);if(w.w)wall(x-t/2,y-t/2,t,c+t);
+    if(i%n===n-1&&w.e)wall(x+c-t/2,y-t/2,t,c+t);if(i>=n*n-n&&w.s)wall(x-t/2,y+c-t/2,c+t,t)}
+}
+// finger control: press and drag the hero through the corridors
+let drag=null;
+function mazeCellAt(e){const cv=document.getElementById('mzcv'),m=run&&run.p;if(!cv||!m)return -1;const r=cv.getBoundingClientRect(),pad=r.width*.03,c=(r.width-pad*2)/m.n;
+  const cx=Math.floor((e.clientX-r.left-pad)/c),cy=Math.floor((e.clientY-r.top-pad)/c);return cx<0||cy<0||cx>=m.n||cy>=m.n?-1:cy*m.n+cx}
+document.addEventListener('pointerdown',e=>{if(e.target.id!=='mzcv'||!run||!run.p||run.won)return;e.target.setPointerCapture?.(e.pointerId);drag=true;const c=mazeCellAt(e);if(c>=0)mazeStepToward(c)});
+document.addEventListener('pointermove',e=>{if(!drag||e.target.id!=='mzcv'||!run||!run.p||run.won)return;const c=mazeCellAt(e);if(c>=0&&c!==run.p.pos)mazeStepToward(c)});
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>{drag=null}));
 
 // Tower: tap a column to lift its top disc, tap another to drop it
 function hanoiTap(i){
@@ -884,7 +981,7 @@ function riverItem(k){
   const r=run.p;if(r.busy)return;
   if(r.cargo===k){r.cargo=null;sfx('tap');return renderGame()}
   if(r.side[k]!==r.boat){say(tr(['The boat is on the other side!','Η βάρκα είναι στην άλλη όχθη!']));return}
-  r.cargo=k;sfx('tap');say(tr(RIVER.find(x=>x[0]===k)[2]).replace(/^(the|τον|το) /,''));renderGame();
+  r.cargo=k;sfx('tap');say(tr(RIVER.find(x=>x[0]===k)[3]));renderGame();
 }
 function riverRow(){
   const r=run.p;if(r.busy)return;r.busy=true;
@@ -911,10 +1008,10 @@ function bfsFirst(start,key,nexts,done){
 function puzzleHint(){
   const p=run.p;run.hints++;
   if(p.type==='maze'){const target=p.hasKey?p.exit:p.keyAt,d=mazeDist(p.W,p.n,target);
-    p.hint=mazeNbrs(p.W,p.n,p.pos).find(k=>d[k]===d[p.pos]-1);renderGame();say(tr(['Follow the glowing square!','Ακολούθησε το κουτάκι που λάμπει!']));return}
+    p.hint=mazeNbrs(p.W,p.n,p.pos).find(k=>d[k]===d[p.pos]-1);say(tr(['Follow the glowing square!','Ακολούθησε το κουτάκι που λάμπει!']));return}
   if(p.type==='hanoi'){
     const mv=bfsFirst(p.pegs.map(x=>x.slice()),s=>JSON.stringify(s),s=>{const out=[];for(let a=0;a<3;a++)for(let b=0;b<3;b++){if(a===b||!s[a].length)continue;const d=s[a][s[a].length-1],t=s[b][s[b].length-1];if(t&&t<d)continue;const n=s.map(x=>x.slice());n[b].push(n[a].pop());out.push([[a,b,d],n])}return out},s=>s[2].length===p.n);
-    if(mv){const [a,b,d]=mv;say(tr([`Move the ${DISC_NAMES[d-1][0]} disc to the ${ORD[b][0]} column.`,`Βάλε τον ${DISC_NAMES[d-1][1]} δίσκο στην ${ORD[b][1]} κολόνα.`]))}return}
+    if(mv){const [a,b,d]=mv;say(tr([`Move the ${DISC_NAMES[d-1][0]} disc to the ${ORD[b][0]} column.`,`Βάλε τον ${DISC_NAMES[d-1][1]} δίσκο ${stin(ORD[b][1])} κολόνα.`]))}return}
   const mv=bfsFirst({side:{...p.side},boat:p.boat},s=>JSON.stringify(s),s=>{const out=[];for(const c of [null,...RIVER.map(x=>x[0]).filter(k=>s.side[k]===s.boat)]){const n={side:{...s.side},boat:1-s.boat};if(c)n.side[c]=n.boat;if(!riverBad(n.side,1-n.boat))out.push([c||'alone',n])}return out},s=>RIVER.every(([k])=>s.side[k]===1));
   if(mv)say(mv==='alone'?tr(['Cross alone, with nobody in the boat.','Πέρνα απέναντι μόνος σου, χωρίς κανέναν στη βάρκα.']):tr([`Take ${RIVER.find(x=>x[0]===mv)[2][0]} with you.`,`Πάρε μαζί σου ${RIVER.find(x=>x[0]===mv)[2][1]}.`]));
 }
@@ -932,7 +1029,7 @@ const SONGS=[
   {title:['Minuet','Μενουέτο'],by:['Bach','Μπαχ'],speed:13,extra:2,notes:[4,0,1,2,3,4,0,0,5,3,4,5,6,7,7,7],beats:[1,.5,.5,.5,.5,1,1,1,1,.5,.5,.5,.5,1,1,1]}
 ];
 const noteName=i=>NOTE_NAME[isEl()?1:0][i];
-function piano(i,t,dur=.9){if(!ac||!S.sound)return;const f=mtof(NOTE_MIDI[i]);tone(f,t,dur,sfxG,'triangle',.55);tone(f*2,t,dur*.6,sfxG,'sine',.16);tone(f/2,t,dur*.4,sfxG,'sine',.12)}
+function piano(i,t,dur=.9){if(!ac||!S.sound)return;const f=mtof(NOTE_MIDI[i]);tone(f,t,dur+.4,sfxG,'sine',.5);tone(f*2,t,dur*.5,sfxG,'sine',.12);tone(f*3,t,dur*.25,sfxG,'sine',.04)}
 function playSong(song,onNote){
   if(!ac)return Promise.resolve();let t=ac.currentTime+.15,ms=150;const beat=.42;
   song.notes.forEach((n,i)=>{piano(n,t,song.beats[i]*beat+.35);setTimeout(()=>onNote&&onNote(i),ms);t+=song.beats[i]*beat;ms+=song.beats[i]*beat*1000});
@@ -945,7 +1042,7 @@ function setupMusic(l){
   run.cur={text:tr(['Catch the notes in order!','Μάζεψε τις νότες με τη σειρά!']),
     say:tr([`Listen to ${tr(song.title)} by ${song.by[0]}. Then run and catch the notes in the right order. Swipe or tap left and right!`,`Άκου το κομμάτι ${sname}. Μετά τρέξε και μάζεψε τις νότες με τη σωστή σειρά. Πάτα δεξιά και αριστερά!`])};
   run.m.label=sname;
-  const img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(avatar(S.hero,S.skin,S.equip,''));run.m.avatarImg=img;
+  run.m.avatarImg=avatarImage();
   const m=run.m;
   setTimeout(()=>{if(run&&run.m===m)say(run.cur.say).then(()=>{if(run&&run.m===m)return playSong(m.song,i=>{m.showing=i;musicHud()})}).then(()=>{if(run&&run.m===m){m.showing=-1;musicHud();m.phase='count';m.t=0}})},300);
   requestAnimationFrame(ts=>{m.last=ts;requestAnimationFrame(musicLoop)});
@@ -1011,7 +1108,7 @@ function drawNote(ctx,x,y,r,col,label){
   ctx.beginPath();ctx.moveTo(r*.88,-r*2.5);ctx.bezierCurveTo(r*1.9,-r*2,r*1.9,-r*1.2,r*1.4,-r*.8);ctx.bezierCurveTo(r*1.5,-r*1.5,r*1.2,-r*1.8,r*.88,-r*1.8);ctx.fill();
   ctx.beginPath();ctx.ellipse(0,0,r,r*.8,-.35,0,7);ctx.fill();
   ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=Math.max(2,r*.1);ctx.stroke();
-  ctx.fillStyle='#fff';ctx.font=`700 ${Math.max(9,r*.62)}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,0,r*.05);
+  ctx.fillStyle='#fff';ctx.font=`700 ${Math.max(9,r*.62)}px Ubuntu,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,0,r*.05);
   ctx.restore();
 }
 function drawRun(m){
@@ -1040,22 +1137,22 @@ function drawRun(m){
   if(m.finishZ!==null)items.push({z:m.finishZ,kind:'finish'});
   items.sort((a,c)=>c.z-a.z);
   for(const it of items){const p=P(it.z);
-    if(it.kind==='tree'){const x=cx+it.side*RW*p.s*1.35,h=RW*p.s*.9;ctx.fillStyle='#4f7a3a';ctx.beginPath();ctx.ellipse(x,p.y-h*.55,h*.16,h*.55,0,0,7);ctx.fill();ctx.fillStyle='#6b4a2a';ctx.fillRect(x-h*.03,p.y-h*.08,h*.06,h*.1)}
+    if(it.kind==='tree'){const x=cx+it.side*RW*p.s*1.35,h=RW*p.s*.9,w=h*.3;ctx.fillStyle='#6b4a2a';ctx.fillRect(x-w*.15,p.y-h*.15,w*.3,h*.15);[[1,.15,.45],[.8,.45,.3],[.55,.72,.28]].forEach(([k,y0,hh])=>{ctx.fillStyle='#4f8a3a';ctx.fillRect(x-w*k/2,p.y-h*(y0+hh),w*k,h*hh);ctx.fillStyle='#6fae4f';ctx.fillRect(x-w*k/2,p.y-h*(y0+hh),w*k,h*hh*.22);ctx.fillStyle='#3d6e2c';ctx.fillRect(x+w*k/2-w*k*.2,p.y-h*(y0+hh),w*k*.2,h*hh)})}
     if(it.kind==='column'){const x=cx+it.side*RW*p.s*1.2,h=RW*p.s*.8,w=h*.14;ctx.fillStyle='#fffaf0';ctx.fillRect(x-w/2,p.y-h,w,h);ctx.fillStyle='#e6dcc4';ctx.fillRect(x-w*.8,p.y-h-w*.4,w*1.6,w*.4);ctx.fillRect(x-w*.7,p.y-w*.3,w*1.4,w*.3)}
     if(it.kind==='note'){const r=RW*p.s*.2,bob=Math.sin(m.t*5+it.lane)*r*.15;drawNote(ctx,laneX(it.lane,p.s),p.y-r*1.9+bob,r,NOTE_COL[it.pitch],noteName(it.pitch))}
     if(it.kind==='coin'){const r=RW*p.s*.1,x=laneX(it.lane,p.s),y=p.y-r*1.8;ctx.fillStyle='#f2b632';ctx.strokeStyle='#c98a12';ctx.lineWidth=r*.2;ctx.beginPath();ctx.ellipse(x,y,r*Math.abs(Math.cos(m.t*3))+r*.2,r,0,0,7);ctx.fill();ctx.stroke()}
     if(it.kind==='finish'){const w=RW*p.s,h=w*.75;ctx.fillStyle='#fffaf0';ctx.fillRect(cx-w-w*.06,p.y-h,w*.08,h);ctx.fillRect(cx+w-w*.02,p.y-h,w*.08,h);
       const bh=h*.22;for(let k=0;k<16;k++)for(let j=0;j<2;j++){ctx.fillStyle=(k+j)%2?'#1c2a48':'#fff';ctx.fillRect(cx-w+k*w/8,p.y-h+j*bh/2,w/8,bh/2)}
-      ctx.fillStyle='#f2b632';ctx.font=`700 ${bh*.9}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(tr(['FINISH','ΤΕΡΜΑΤΙΣΜΟΣ']),cx,p.y-h-4)}
+      ctx.fillStyle='#f2b632';ctx.font=`700 ${bh*.9}px Ubuntu,sans-serif`;ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(tr(['FINISH','ΤΕΡΜΑΤΙΣΜΟΣ']),cx,p.y-h-4)}
   }
   // the hero, running
   const pp=P(PZ0),hh=Math.min(H*.3,RW*.75),run_=m.phase==='run',bob=run_?Math.abs(Math.sin(m.t*11))*hh*.05:0,x=laneX(m.px,pp.s);
   ctx.fillStyle='rgba(60,30,40,.2)';ctx.beginPath();ctx.ellipse(x,pp.y,hh*.22,hh*.06,0,0,7);ctx.fill();
   if(m.avatarImg&&m.avatarImg.complete){ctx.save();ctx.translate(x,pp.y-bob);ctx.rotate(run_?Math.sin(m.t*11)*.05:0);ctx.drawImage(m.avatarImg,-hh*.38,-hh,hh*.76,hh);ctx.restore()}
   // floating feedback
-  m.fx=m.fx.filter(f=>(f.life-=1/60)>0);m.fx.forEach(f=>{ctx.globalAlpha=Math.min(1,f.life*2);ctx.fillStyle=f.col;ctx.font=`700 ${hh*.22}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.fillText(f.txt,laneX(f.x,pp.s),pp.y-hh*1.05-(1-f.life)*hh*.5);ctx.globalAlpha=1});
-  if(m.phase==='count'){ctx.fillStyle='#fff';ctx.strokeStyle='#0f4f8f';ctx.lineWidth=8;ctx.font=`700 ${H*.22}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';const n=3-Math.floor(m.t);ctx.strokeText(n,cx,H*.5);ctx.fillText(n,cx,H*.5)}
-  if(m.phase==='listen'){ctx.fillStyle='rgba(15,79,143,.75)';const tw=Math.min(W*.8,420);ctx.fillRect(cx-tw/2,H*.42,tw,H*.12);ctx.fillStyle='#fff';ctx.font=`700 ${Math.min(30,H*.05)}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(tr(['🎧 Listen first…','🎧 Άκου πρώτα…']),cx,H*.48)}
+  m.fx=m.fx.filter(f=>(f.life-=1/60)>0);m.fx.forEach(f=>{ctx.globalAlpha=Math.min(1,f.life*2);ctx.fillStyle=f.col;ctx.font=`700 ${hh*.22}px Ubuntu,sans-serif`;ctx.textAlign='center';ctx.fillText(f.txt,laneX(f.x,pp.s),pp.y-hh*1.05-(1-f.life)*hh*.5);ctx.globalAlpha=1});
+  if(m.phase==='count'){ctx.fillStyle='#fff';ctx.strokeStyle='#0f4f8f';ctx.lineWidth=8;ctx.font=`700 ${H*.22}px Ubuntu,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';const n=3-Math.floor(m.t);ctx.strokeText(n,cx,H*.5);ctx.fillText(n,cx,H*.5)}
+  if(m.phase==='listen'){ctx.fillStyle='rgba(15,79,143,.75)';const tw=Math.min(W*.8,420);ctx.fillRect(cx-tw/2,H*.42,tw,H*.12);ctx.fillStyle='#fff';ctx.font=`700 ${Math.min(30,H*.05)}px Ubuntu,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(tr(['🎧 Listen first…','🎧 Άκου πρώτα…']),cx,H*.48)}
 }
 // swipe or tap on the road to change lane
 let swipe=null;
@@ -1137,14 +1234,14 @@ document.addEventListener('click',e=>{
   if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv')sfx('tap');
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
-      if(ui.screen==='game'&&run&&run.g==='puzzle')run.cur={text:tr(PZ_TEXT[run.p.type==='maze'&&run.p.keyAt>=0?'mazeKey':run.p.type].text),say:tr(PZ_TEXT[run.p.type==='maze'&&run.p.keyAt>=0?'mazeKey':run.p.type].say)};
+      if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&run.g==='music')run.cur.text=tr(['Catch the notes in order!','Μάζεψε τις νότες με τη σειρά!']);
       else if(ui.screen==='game'&&run&&run.g!=='memory'){run.cur=GEN[run.g](run.l);run.nextRank=0}
       render();if(ui.screen==='game')speakPrompt();else say(isEl()?'Ελληνικά!':'English!');break}
     case 'hero':S.hero=b.dataset.h;sayL(SAY.hero(HEROES[S.hero]));save();render();break;
     case 'skin':S.skin=+b.dataset.i;save();render();break;
     case 'start':{const n=$('#kidname');S.name=(n&&n.value.trim())||'';S.started=true;save();ui.screen='map';render();sayL(SAY.welcome(heroName()));break}
-    case 'map':run=null;ui.screen='map';ui.modal=null;ui.confirmReset=false;render();break;
+    case 'map':run=null;ui.screen='map';ui.modal=null;ui.confirmReset=false;ui.confirmG=null;render();break;
     case 'room':ui.screen='room';render();break;
     case 'badges':ui.screen='badges';render();break;
     case 'tab':ui.tab=b.dataset.t;render();break;
@@ -1172,10 +1269,15 @@ document.addEventListener('click',e=>{
     case 'unwear':{const it=ITEMS.find(x=>x.id===b.dataset.id);S.equip[it.slot]=null;save();render();break}
     case 'rename':{const n=$('#pname');S.name=n.value.trim();save();toast(t('nameSaved'));break}
     case 'reset1':ui.confirmReset=true;render();break;
+    case 'resetg':ui.confirmG=b.dataset.g;render();break;
+    case 'resetg2':{const g=GAMES.find(x=>x.id===b.dataset.g);S.stars[g.id]=g.levels.map(()=>0);S.badges=S.badges.filter(x=>x!==g.id&&x!=='olympus');ui.confirmG=null;save();render();toast('↺ '+tr(g.name));break}
+    case 'vtest':delete voices[S.lang];say(tr(['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']));break;
     case 'reset0':ui.confirmReset=false;render();break;
     case 'reset2':{const keep={music:S.music,sound:S.sound,lang:S.lang};S=Object.assign(fresh(),keep);save();ui.confirmReset=false;ui.screen='welcome';render();break}
   }
 });
+document.addEventListener('change',e=>{if(e.target.id==='vsel'){S.voice=Object.assign({},S.voice,{[S.lang]:e.target.value});delete voices[S.lang];save();say(tr(['Hello! I am your storyteller.','Γεια σου! Είμαι η αφηγήτριά σου.']))}});
+if('speechSynthesis' in window)speechSynthesis.addEventListener?.('voiceschanged',()=>{if(ui.screen==='parents')render()});
 // press-and-hold to open the grown-ups corner
 let holdT=null;
 document.addEventListener('pointerdown',e=>{const b=e.target.closest('[data-hold]');if(!b)return;const bar=b.querySelector('i');bar.style.transition='width 1.5s linear';bar.style.width='100%';
