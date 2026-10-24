@@ -37,6 +37,7 @@ const GAMES=[
   {id:'memory',name:['Aegean Sea','Αιγαίο Πέλαγος'],skill:['Memory','Μνήμη'],x:88,y:80,levels:[['3 pairs','3 ζευγάρια'],['4 pairs','4 ζευγάρια'],['6 pairs','6 ζευγάρια']]},
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:14,gate:{badges:3},levels:[['Small labyrinth','Μικρός λαβύρινθος'],['Tower of 2','Πύργος με 2'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος & κλειδί'],['Tower of 3','Πύργος με 3'],['Big labyrinth','Μεγάλος λαβύρινθος']]}
 ];
+GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:66,y:70,gate:{coins:25},levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο']]});
 const PUZZLES=[{type:'maze',n:4},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:5,key:true},{type:'hanoi',n:3},{type:'maze',n:6,key:true}];
 const isOpen=g=>!g.gate||S.unlocked.includes(g.id)||S.stars[g.id].some(x=>x>0);
 const BADGES=[
@@ -50,6 +51,7 @@ const BADGES=[
   {id:'pattern',icon:'🏺',name:['Master Potter','Μάστορας αγγειοπλάστης'],desc:['Finish all of the Pottery','Τελείωσε όλο το Εργαστήρι'],test:s=>gameDone(s,'pattern')},
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
+  {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
   {id:'puzzle',icon:'🧩',name:['Puzzle Master','Λύτης γρίφων'],desc:['Solve every riddle in the Cave','Λύσε όλους τους γρίφους της Σπηλιάς'],test:s=>gameDone(s,'puzzle')},
   {id:'explorer',icon:'🗝️',name:['Explorer','Εξερευνητής'],desc:['Open a locked place','Άνοιξε ένα κλειδωμένο μέρος'],test:s=>s.unlocked.length>=1},
   {id:'shop',icon:'👑',name:['Hero Style','Στιλ ήρωα'],desc:['Get your first hero item','Πάρε το πρώτο σου αντικείμενο'],test:s=>s.owned.length>=1},
@@ -84,6 +86,7 @@ const TEACH={
   pattern:['Spotting and continuing AB, AAB/ABB and ABC patterns, an early maths skill.','Εντοπισμός και συνέχεια μοτίβων ΑΒ, ΑΑΒ/ΑΒΒ και ΑΒΓ, πρώιμη μαθηματική δεξιότητα.'],
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
+  music:['A running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
   puzzle:['Problem solving with pictures: the Minotaur labyrinth, the Tower puzzle and the wolf, sheep and grass river crossing. The light-bulb button gives a spoken hint.','Επίλυση προβλημάτων με εικόνες: ο λαβύρινθος του Μινώταυρου, ο Πύργος και το πέρασμα του λύκου, του προβάτου και του χόρτου. Το κουμπί με τη λάμπα δίνει βοήθεια.']
 };
 const TX={
@@ -321,6 +324,7 @@ const ART={
   odd:`<svg class="art" viewBox="0 0 100 100"><ellipse cx="50" cy="60" rx="46" ry="30" fill="#e9d8a6"/><ellipse cx="50" cy="60" rx="40" ry="24" fill="#d9643b"/><ellipse cx="50" cy="60" rx="32" ry="17" fill="none" stroke="#fff" stroke-width="2"/><ellipse cx="50" cy="60" rx="24" ry="11" fill="#7fb45a"/><path d="M50 10V30" stroke="#7a5a2a" stroke-width="2"/><path d="M50 10L66 15L50 20Z" fill="#2f6fd6"/><circle cx="50" cy="60" r="6" fill="#f2b632"/></svg>`,
   pattern:`<svg class="art" viewBox="0 0 100 100"><ellipse cx="50" cy="94" rx="26" ry="4" fill="#00000022"/><g transform="translate(18 4) scale(.64 .76)">${vaseSVG('#c8643b').replace(/<\/?svg[^>]*>/g,'')}</g><path d="M31 52H69" stroke="#1c2a48" stroke-width="3" stroke-dasharray="4 3"/></svg>`,
   compare:`<svg class="art" viewBox="0 0 100 100"><path d="M24 92Q30 76 50 74Q70 76 76 92Z" fill="#8f9db2"/><path d="M40 76L44 26H56L60 76Z" fill="#fff"/><path d="M42 40H58L57 50H43ZM41 60H59L59.6 70H40.4Z" fill="#2f6fd6"/><rect x="42" y="16" width="16" height="10" fill="#ffe14a"/><path d="M40 16L50 6L60 16Z" fill="#c8643b"/><path d="M58 18L92 8V28ZM42 18L8 8V28Z" fill="#fff59a" opacity=".7"/></svg>`,
+  music:`<svg class="art" viewBox="0 0 100 100"><path d="M6 86A44 44 0 0 1 94 86Z" fill="#d7b48e"/><path d="M18 86A32 32 0 0 1 82 86Z" fill="#e9cfa8"/><path d="M30 86A20 20 0 0 1 70 86Z" fill="#f6ead2"/><rect x="6" y="86" width="88" height="6" fill="#b98d63"/><g fill="#1c2a48"><ellipse cx="40" cy="44" rx="7" ry="5.5" transform="rotate(-20 40 44)"/><ellipse cx="62" cy="38" rx="7" ry="5.5" transform="rotate(-20 62 38)"/><rect x="45" y="14" width="3" height="30"/><rect x="67" y="8" width="3" height="30"/><path d="M45 14L70 8V15L45 21Z"/></g></svg>`,
   puzzle:`<svg class="art" viewBox="0 0 100 100"><path d="M6 88Q10 30 50 18Q90 30 94 88Z" fill="#7d8899"/><path d="M14 88Q20 44 50 34Q80 44 86 88Z" fill="#8f9db2"/><path d="M32 88V64Q50 44 68 64V88Z" fill="#1c2a48"/><text x="50" y="82" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="22" fill="#f2b632">?</text><circle cx="26" cy="40" r="4" fill="#f2b632"/><circle cx="76" cy="46" r="3" fill="#f2b632"/></svg>`,
   memory:`<svg class="art" viewBox="0 0 100 100"><path d="M24 70H82L74 84H32Z" fill="#c8643b"/><path d="M52 14V68" stroke="#7a5a2a" stroke-width="3"/><path d="M54 16Q78 40 54 64Z" fill="#fff"/><path d="M50 22Q30 44 50 64Z" fill="#fff"/><path d="M56 30H66M56 44H70" stroke="#2f6fd6" stroke-width="4"/><path d="M8 88q8-6 16 0t16 0 16 0 16 0 16 0" stroke="#fff" stroke-width="3" fill="none"/></svg>`
 };
@@ -331,7 +335,7 @@ const MAP_SVG=`<svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
 <path d="M170 160C260 60 520 40 700 90C860 130 930 260 880 400C840 520 700 600 520 590C340 610 160 560 120 430C80 320 100 230 170 160Z" fill="#f3dfae"/>
 <path d="M200 180C280 96 520 80 690 120C830 156 890 270 846 390C808 494 690 560 520 552C350 570 190 530 156 420C124 330 140 240 200 180Z" fill="#a8cf74"/>
 <g stroke="#e9d39b" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="2 18"><path d="M190 280Q260 180 370 150"/><path d="M380 150Q500 110 630 120"/><path d="M650 130Q780 200 820 290"/><path d="M200 300Q230 420 290 470"/><path d="M310 470Q420 420 520 340"/><path d="M540 330Q680 320 800 300"/></g>
-<g>${[[640,440],[680,420],[720,445],[670,470],[710,480],[750,460]].map(([x,y],i)=>`<rect x="${x}" y="${y}" width="34" height="28" fill="#fff" stroke="#e3dccb"/>${i%2?'':`<path d="M${x+5} ${y}a12 12 0 0 1 24 0z" fill="#2f6fd6"/>`}<rect x="${x+12}" y="${y+12}" width="9" height="16" fill="#2f6fd6"/>`).join('')}</g>
+<g>${[[440,500],[480,480],[520,505],[470,530],[510,540],[550,520]].map(([x,y],i)=>`<rect x="${x}" y="${y}" width="34" height="28" fill="#fff" stroke="#e3dccb"/>${i%2?'':`<path d="M${x+5} ${y}a12 12 0 0 1 24 0z" fill="#2f6fd6"/>`}<rect x="${x+12}" y="${y+12}" width="9" height="16" fill="#2f6fd6"/>`).join('')}</g>
 <g fill="#7fa65a">${[[260,230],[480,230],[760,230],[800,380],[450,500],[200,400],[560,470]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="16"/><circle cx="${x+14}" cy="${y-8}" r="12"/>`).join('')}</g>
 <ellipse cx="910" cy="150" rx="80" ry="30" fill="#f3dfae"/><ellipse cx="910" cy="142" rx="64" ry="20" fill="#9aa7b8"/>
 </svg>`;
@@ -352,6 +356,7 @@ function topbar(){
   </div>`;
 }
 function render(){
+  if(ac&&S.music&&!(ui.screen==='game'&&run&&run.g==='music'))startMusic();
   document.documentElement.lang=S.lang;
   const s=ui.screen;
   if(s==='welcome')app.innerHTML=welcomeHTML();
@@ -651,12 +656,157 @@ function puzzleHint(){
   if(mv)say(mv==='alone'?tr(['Cross alone, with nobody in the boat.','Πέρνα απέναντι μόνος σου, χωρίς κανέναν στη βάρκα.']):tr([`Take ${RIVER.find(x=>x[0]===mv)[2][0]} with you.`,`Πάρε μαζί σου ${RIVER.find(x=>x[0]===mv)[2][1]}.`]));
 }
 
+/* ---------- music run (Odeon) ---------- */
+// Notes are indexes into one octave: Do Re Mi Fa Sol La Si Do', coloured like children's bell sets
+const NOTE_MIDI=[60,62,64,65,67,69,71,72];
+const NOTE_COL=['#e53935','#fb8c00','#f9b800','#43a047','#1fa7e0','#3949ab','#8e44ad','#ec407a'];
+const NOTE_NAME=[['C','D','E','F','G','A','B','C'],['Ντο','Ρε','Μι','Φα','Σολ','Λα','Σι','Ντο']];
+const SONGS=[
+  {title:['Twinkle Twinkle','Το αστεράκι'],by:['Mozart','Μότσαρτ'],speed:9,extra:1,notes:[0,0,4,4,5,5,4,3,3,2,2,1,1,0],beats:[1,1,1,1,1,1,2,1,1,1,1,1,1,2]},
+  {title:['Ode to Joy','Ωδή στη Χαρά'],by:['Beethoven','Μπετόβεν'],speed:10,extra:1,notes:[2,2,3,4,4,3,2,1,0,0,1,2,2,1,1],beats:[1,1,1,1,1,1,1,1,1,1,1,1,1.5,.5,2]},
+  {title:['Lullaby','Νανούρισμα'],by:['Brahms','Μπραμς'],speed:11,extra:2,notes:[2,2,4,2,2,4,2,4,7,6,5,5,4],beats:[.5,.5,1.5,.5,.5,1.5,.5,.5,1,1.5,.5,1,1.5]},
+  {title:['Morning Mood','Πρωινή Διάθεση'],by:['Grieg','Γκριγκ'],speed:12,extra:2,notes:[4,2,1,0,1,2,4,2,1,0,1,2],beats:[.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,.5,1.5]},
+  {title:['Minuet','Μενουέτο'],by:['Bach','Μπαχ'],speed:13,extra:2,notes:[4,0,1,2,3,4,0,0,5,3,4,5,6,7,7,7],beats:[1,.5,.5,.5,.5,1,1,1,1,.5,.5,.5,.5,1,1,1]}
+];
+const noteName=i=>NOTE_NAME[isEl()?1:0][i];
+function piano(i,t,dur=.9){if(!ac||!S.sound)return;const f=mtof(NOTE_MIDI[i]);tone(f,t,dur,sfxG,'triangle',.55);tone(f*2,t,dur*.6,sfxG,'sine',.16);tone(f/2,t,dur*.4,sfxG,'sine',.12)}
+function playSong(song,onNote){
+  if(!ac)return Promise.resolve();let t=ac.currentTime+.15,ms=150;const beat=.42;
+  song.notes.forEach((n,i)=>{piano(n,t,song.beats[i]*beat+.35);setTimeout(()=>onNote&&onNote(i),ms);t+=song.beats[i]*beat;ms+=song.beats[i]*beat*1000});
+  return wait(ms+300);
+}
+function setupMusic(l){
+  const song=SONGS[l];stopMusic();
+  run.m={song,pos:0,rows:[],dist:0,lane:0,px:0,phase:'listen',t:0,bonus:0,finishZ:null,fx:[],showing:-1,count:0,avatarImg:null};
+  const sname=`«${tr(song.title)}» ${isEl()?'του':'by'} ${tr(song.by)}`;
+  run.cur={text:tr(['Catch the notes in order!','Μάζεψε τις νότες με τη σειρά!']),
+    say:tr([`Listen to ${tr(song.title)} by ${song.by[0]}. Then run and catch the notes in the right order. Swipe or tap left and right!`,`Άκου το κομμάτι ${sname}. Μετά τρέξε και μάζεψε τις νότες με τη σωστή σειρά. Πάτα δεξιά και αριστερά!`])};
+  run.m.label=sname;
+  const img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(avatar(S.hero,S.skin,S.equip,''));run.m.avatarImg=img;
+  const m=run.m;
+  setTimeout(()=>{if(run&&run.m===m)say(run.cur.say).then(()=>{if(run&&run.m===m)return playSong(m.song,i=>{m.showing=i;musicHud()})}).then(()=>{if(run&&run.m===m){m.showing=-1;musicHud();m.phase='count';m.t=0}})},300);
+  requestAnimationFrame(ts=>{m.last=ts;requestAnimationFrame(musicLoop)});
+}
+function musicBody(){
+  return `<div class="mhud"><div class="mtitle">🎼 ${esc(run.m.label)}</div><div class="mbar" id="mbar"></div></div>
+  <div class="stage runstage"><canvas id="runcv"></canvas>
+  <button class="lane-btn l" data-act="mv" data-d="-1" aria-label="Left">◀</button><button class="lane-btn r" data-act="mv" data-d="1" aria-label="Right">▶</button></div>`;
+}
+function musicHud(){
+  const el=document.getElementById('mbar');if(!el||!run||!run.m)return;const m=run.m;
+  el.innerHTML=m.song.notes.map((n,i)=>`<i style="--c:${NOTE_COL[n]}" class="${m.showing===i?'play':m.showing>=0?'':i<m.pos?'got':i===m.pos&&m.phase!=='listen'?'next':''}">${noteName(n)}</i>`).join('');
+}
+function musicMove(d){const m=run&&run.m;if(!m||m.phase==='finish')return;m.lane=Math.max(-1,Math.min(1,m.lane+d));sfx('tap')}
+const PZ0=1.2,SPACING=16;
+function musicLoop(ts){
+  const m=run&&run.m;if(!m||ui.screen!=='game')return;
+  const dt=Math.min(.05,(ts-(m.last||ts))/1000);m.last=ts;m.t+=dt;
+  if(m.phase==='count'&&m.t>=3){m.phase='run';m.t=0}
+  if(m.phase==='count'&&Math.floor(m.t)!==m.count){m.count=Math.floor(m.t);sfx('tap')}
+  if(m.phase==='run')musicStep(m,dt);
+  m.px+=(m.lane-m.px)*Math.min(1,dt*14);
+  drawRun(m);
+  requestAnimationFrame(musicLoop);
+}
+function musicStep(m,dt){
+  const dz=m.song.speed*dt;m.dist+=dz;
+  m.rows.forEach(r=>r.z-=dz);
+  const open=m.rows.filter(r=>!r.done);
+  const left=m.song.notes.length-m.pos;
+  const far=m.rows.length?m.rows[m.rows.length-1].z:8;
+  if(open.length<left&&far<60-SPACING){
+    const lanes=shuffle([-1,0,1]),r={z:far+SPACING,correct:lanes[0],others:[],coin:null,done:false};
+    const offs=shuffle([1,2,3,4,5,6]);for(let k=0;k<m.song.extra;k++)r.others.push({lane:lanes[1+k],off:offs[k]});
+    if(m.song.extra===1&&Math.random()<.6)r.coin=lanes[2];
+    m.rows.push(r);
+  }
+  // the i-th unresolved row always asks for the next notes still missing
+  m.rows.filter(r=>!r.done).forEach((r,i)=>{r.pitch=m.song.notes[Math.min(m.pos+i,m.song.notes.length-1)]});
+  for(const r of m.rows){if(r.done||r.z>PZ0)continue;r.done=true;
+    if(m.lane===r.correct){piano(r.pitch,ac?ac.currentTime:0);m.pos++;m.fx.push({txt:noteName(r.pitch),col:NOTE_COL[r.pitch],x:m.lane,life:1});musicHud();
+      if(m.pos>=m.song.notes.length)m.finishZ=SPACING}
+    else if(r.coin===m.lane){m.bonus++;sfx('coin');m.fx.push({txt:'+1',col:'#c98a12',x:m.lane,life:1});run.mistakes++}
+    else{run.mistakes++;sfx('bad');m.fx.push({txt:r.others.some(o=>o.lane===m.lane)?'✗':tr(['Oops!','Ωπ!']),col:'#d9534f',x:m.lane,life:1})}
+  }
+  m.rows=m.rows.filter(r=>!r.done||r.z>-4);
+  if(m.finishZ!==null){m.finishZ-=dz;if(m.finishZ<=PZ0){m.phase='finish';musicFinish(m)}}
+}
+async function musicFinish(m){
+  sfx('win');burst(innerWidth/2,innerHeight/2,90);
+  await wait(900);if(!run||run.m!==m)return;
+  await say(tr([`Bravo! You played ${tr(m.song.title)} by ${m.song.by[0]}! Listen!`,`Μπράβο ${vocEl(heroName())}! Έπαιξες το κομμάτι ${m.label}! Άκου!`]));
+  if(!run||run.m!==m)return;
+  await playSong(m.song,i=>{m.showing=i;musicHud()});
+  if(!run||run.m!==m)return;
+  const st=run.mistakes===0?3:run.mistakes<=3?2:1;S.coins+=m.bonus;finishLevel(st);
+}
+const distractor=(c,off)=>{let p=(c+off)%8;if((p===0&&c===7)||(p===7&&c===0))p=(p+3)%8;return p};
+function drawNote(ctx,x,y,r,col,label){
+  ctx.fillStyle='rgba(60,30,40,.18)';ctx.beginPath();ctx.ellipse(x,y+r*1.9,r*.9,r*.28,0,0,7);ctx.fill();
+  ctx.save();ctx.translate(x,y);
+  ctx.fillStyle=col;ctx.fillRect(r*.62,-r*2.5,r*.26,r*2.5);
+  ctx.beginPath();ctx.moveTo(r*.88,-r*2.5);ctx.bezierCurveTo(r*1.9,-r*2,r*1.9,-r*1.2,r*1.4,-r*.8);ctx.bezierCurveTo(r*1.5,-r*1.5,r*1.2,-r*1.8,r*.88,-r*1.8);ctx.fill();
+  ctx.beginPath();ctx.ellipse(0,0,r,r*.8,-.35,0,7);ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=Math.max(2,r*.1);ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font=`700 ${Math.max(9,r*.62)}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,0,r*.05);
+  ctx.restore();
+}
+function drawRun(m){
+  const cv=document.getElementById('runcv');if(!cv)return;const ctx=cv.getContext('2d');
+  const dpr=devicePixelRatio||1,rc=cv.getBoundingClientRect(),W=rc.width,H=rc.height;if(!W||!H)return;
+  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const hy=H*.28,Z0=4,cx=W/2,RW=Math.min(W*.46,H*.55);
+  const P=z=>{const s=Z0/(Math.max(z,-3.5)+Z0);return {s,y:hy+(H-hy)*s}};
+  const laneX=(l,s)=>cx+l*RW*s*.64;
+  // sunset sky, sea, Acropolis hill and the Odeon arches on the horizon
+  let g=ctx.createLinearGradient(0,0,0,hy);g.addColorStop(0,'#ff9548');g.addColorStop(1,'#ffd7a8');ctx.fillStyle=g;ctx.fillRect(0,0,W,hy+1);
+  ctx.fillStyle='#ffe9a8';ctx.beginPath();ctx.arc(W*.78,hy*.55,hy*.22,0,7);ctx.fill();
+  ctx.fillStyle='#c9a27a';ctx.beginPath();ctx.moveTo(0,hy);ctx.quadraticCurveTo(W*.12,hy*.55,W*.3,hy*.62);ctx.lineTo(W*.36,hy);ctx.fill();
+  ctx.fillStyle='#f6ead2';const tx=W*.08,tw=W*.18,ty=hy*.5;ctx.fillRect(tx,ty,tw,hy*.05);for(let k=0;k<6;k++)ctx.fillRect(tx+k*tw/5.6,ty+hy*.05,tw/14,hy*.14);ctx.beginPath();ctx.moveTo(tx-4,ty);ctx.lineTo(tx+tw/2,ty-hy*.1);ctx.lineTo(tx+tw+4,ty);ctx.fill();
+  ctx.fillStyle='#d7b48e';const ox=W*.58,ow=W*.4,oy=hy*.62;ctx.fillRect(ox,oy,ow,hy*.38);ctx.fillStyle='#b98d63';for(let k=0;k<7;k++){const ax=ox+ow*(k+.5)/7;ctx.beginPath();ctx.moveTo(ax-ow/22,hy);ctx.lineTo(ax-ow/22,oy+hy*.16);ctx.arc(ax,oy+hy*.16,ow/22,Math.PI,0);ctx.lineTo(ax+ow/22,hy);ctx.fill()}
+  g=ctx.createLinearGradient(0,hy,0,H);g.addColorStop(0,'#e7c58f');g.addColorStop(1,'#cfa66b');ctx.fillStyle=g;ctx.fillRect(0,hy,W,H-hy);
+  // road
+  const b=P(-3.5);ctx.fillStyle='#f4a3b6';ctx.beginPath();ctx.moveTo(cx-RW*b.s*1.1,b.y);ctx.lineTo(cx,hy);ctx.lineTo(cx+RW*b.s*1.1,b.y);ctx.fill();
+  ctx.fillStyle='#fffaf0';ctx.beginPath();ctx.moveTo(cx-RW*b.s,b.y);ctx.lineTo(cx,hy);ctx.lineTo(cx+RW*b.s,b.y);ctx.fill();
+  ctx.fillStyle='rgba(244,163,182,.6)';for(let k=0;k<20;k++){const z=k*4-(m.dist%4);if(z<-3)continue;const a=P(z),c=P(z+1.6);for(const sx of [-.32,.32]){ctx.beginPath();ctx.moveTo(cx+sx*RW*a.s-2*a.s,a.y);ctx.lineTo(cx+sx*RW*c.s-2*c.s,c.y);ctx.lineTo(cx+sx*RW*c.s+2*c.s,c.y);ctx.lineTo(cx+sx*RW*a.s+2*a.s,a.y);ctx.fill()}}
+  // things to draw far to near: cypress trees, columns, notes, coins, finish gate
+  const items=[];
+  for(let k=0;k<12;k++){const z=k*7-(m.dist%7);if(z>-3)for(const side of [-1,1])items.push({z,kind:k%3===0?'column':'tree',side})}
+  m.rows.forEach(r=>{if(r.done)return;items.push({z:r.z,kind:'note',lane:r.correct,pitch:r.pitch});r.others.forEach(o=>items.push({z:r.z,kind:'note',lane:o.lane,pitch:distractor(r.pitch,o.off)}));if(r.coin!==null)items.push({z:r.z,kind:'coin',lane:r.coin})});
+  if(m.finishZ!==null)items.push({z:m.finishZ,kind:'finish'});
+  items.sort((a,c)=>c.z-a.z);
+  for(const it of items){const p=P(it.z);
+    if(it.kind==='tree'){const x=cx+it.side*RW*p.s*1.35,h=RW*p.s*.9;ctx.fillStyle='#4f7a3a';ctx.beginPath();ctx.ellipse(x,p.y-h*.55,h*.16,h*.55,0,0,7);ctx.fill();ctx.fillStyle='#6b4a2a';ctx.fillRect(x-h*.03,p.y-h*.08,h*.06,h*.1)}
+    if(it.kind==='column'){const x=cx+it.side*RW*p.s*1.2,h=RW*p.s*.8,w=h*.14;ctx.fillStyle='#fffaf0';ctx.fillRect(x-w/2,p.y-h,w,h);ctx.fillStyle='#e6dcc4';ctx.fillRect(x-w*.8,p.y-h-w*.4,w*1.6,w*.4);ctx.fillRect(x-w*.7,p.y-w*.3,w*1.4,w*.3)}
+    if(it.kind==='note'){const r=RW*p.s*.2,bob=Math.sin(m.t*5+it.lane)*r*.15;drawNote(ctx,laneX(it.lane,p.s),p.y-r*1.9+bob,r,NOTE_COL[it.pitch],noteName(it.pitch))}
+    if(it.kind==='coin'){const r=RW*p.s*.1,x=laneX(it.lane,p.s),y=p.y-r*1.8;ctx.fillStyle='#f2b632';ctx.strokeStyle='#c98a12';ctx.lineWidth=r*.2;ctx.beginPath();ctx.ellipse(x,y,r*Math.abs(Math.cos(m.t*3))+r*.2,r,0,0,7);ctx.fill();ctx.stroke()}
+    if(it.kind==='finish'){const w=RW*p.s,h=w*.75;ctx.fillStyle='#fffaf0';ctx.fillRect(cx-w-w*.06,p.y-h,w*.08,h);ctx.fillRect(cx+w-w*.02,p.y-h,w*.08,h);
+      const bh=h*.22;for(let k=0;k<16;k++)for(let j=0;j<2;j++){ctx.fillStyle=(k+j)%2?'#1c2a48':'#fff';ctx.fillRect(cx-w+k*w/8,p.y-h+j*bh/2,w/8,bh/2)}
+      ctx.fillStyle='#f2b632';ctx.font=`700 ${bh*.9}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(tr(['FINISH','ΤΕΡΜΑΤΙΣΜΟΣ']),cx,p.y-h-4)}
+  }
+  // the hero, running
+  const pp=P(PZ0),hh=Math.min(H*.3,RW*.75),run_=m.phase==='run',bob=run_?Math.abs(Math.sin(m.t*11))*hh*.05:0,x=laneX(m.px,pp.s);
+  ctx.fillStyle='rgba(60,30,40,.2)';ctx.beginPath();ctx.ellipse(x,pp.y,hh*.22,hh*.06,0,0,7);ctx.fill();
+  if(m.avatarImg&&m.avatarImg.complete){ctx.save();ctx.translate(x,pp.y-bob);ctx.rotate(run_?Math.sin(m.t*11)*.05:0);ctx.drawImage(m.avatarImg,-hh*.38,-hh,hh*.76,hh);ctx.restore()}
+  // floating feedback
+  m.fx=m.fx.filter(f=>(f.life-=1/60)>0);m.fx.forEach(f=>{ctx.globalAlpha=Math.min(1,f.life*2);ctx.fillStyle=f.col;ctx.font=`700 ${hh*.22}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.fillText(f.txt,laneX(f.x,pp.s),pp.y-hh*1.05-(1-f.life)*hh*.5);ctx.globalAlpha=1});
+  if(m.phase==='count'){ctx.fillStyle='#fff';ctx.strokeStyle='#0f4f8f';ctx.lineWidth=8;ctx.font=`700 ${H*.22}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';const n=3-Math.floor(m.t);ctx.strokeText(n,cx,H*.5);ctx.fillText(n,cx,H*.5)}
+  if(m.phase==='listen'){ctx.fillStyle='rgba(15,79,143,.75)';const tw=Math.min(W*.8,420);ctx.fillRect(cx-tw/2,H*.42,tw,H*.12);ctx.fillStyle='#fff';ctx.font=`700 ${Math.min(30,H*.05)}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(tr(['🎧 Listen first…','🎧 Άκου πρώτα…']),cx,H*.48)}
+}
+// swipe or tap on the road to change lane
+let swipe=null;
+document.addEventListener('pointerdown',e=>{if(e.target.id==='runcv')swipe={x:e.clientX,t:Date.now()}});
+document.addEventListener('pointerup',e=>{if(!swipe||e.target.id!=='runcv'){swipe=null;return}const dx=e.clientX-swipe.x;swipe=null;
+  if(Math.abs(dx)>30)musicMove(dx>0?1:-1);else{const r=e.target.getBoundingClientRect();musicMove(e.clientX<r.left+r.width/2?-1:1)}});
+document.addEventListener('keydown',e=>{if(!run||!run.m)return;if(e.key==='ArrowLeft')musicMove(-1);if(e.key==='ArrowRight')musicMove(1)});
+
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
   ui.modal=null;ui.screen='game';
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:g==='puzzle'?1:5,mistakes:0,busy:false,nextRank:0};
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else run.cur=GEN[g](l);
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:g==='puzzle'||g==='music'?1:5,mistakes:0,busy:false,nextRank:0};
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
 function speakPrompt(){if(!run)return;const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>say(s),250)}
@@ -665,7 +815,8 @@ function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
   const prog=run.g==='memory'?run.found:run.q;
   let body;
-  if(run.g==='puzzle')body=puzzleBody();
+  if(run.g==='music')body=musicBody();
+  else if(run.g==='puzzle')body=puzzleBody();
   else if(run.g==='memory'){const n=run.cards.length,cols=n<=6?3:4;
     body=`<div class="stage"><div class="mem" style="grid-template-columns:repeat(${cols},minmax(0,1fr));width:min(100%,${cols*150}px,calc((100dvh - 230px) / ${Math.ceil(n/cols)} * .75 * ${cols} + ${(cols-1)*12}px))">${run.cards.map(c=>`<button class="card ${c.up?'up':''} ${c.done?'done':''}" data-act="card" data-i="${c.i}" aria-label="${c.up||c.done?tr(c.n):'?'}"><div class="in"><div class="b"><span>Ω</span></div><div class="f">${c.e}</div></div></button>`).join('')}</div></div>`}
   else{const c=run.cur,cls=c.big?'big':c.tall?'tall':'';
@@ -676,6 +827,7 @@ function renderGame(){
       <div class="dots">${Array.from({length:run.total},(_,i)=>`<i class="${i<prog?'done':i===prog?'now':''}"></i>`).join('')}</div></div>
     <div class="prompt"><span class="pet" id="pet">${h.pet}</span><div class="bubble"><span>${run.g==='memory'?t('findPairs'):run.cur.text}</span><button class="icon-btn" data-act="repeat" aria-label="Repeat">${I.speaker}</button></div></div>
     ${body}</div>`;
+  if(run.g==='music')musicHud();
 }
 function success(btn,after){
   run.busy=true;sfx('good');const r=btn.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2);
@@ -719,10 +871,11 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz')sfx('tap');
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv')sfx('tap');
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle')run.cur={text:tr(PZ_TEXT[run.p.type==='maze'&&run.p.keyAt>=0?'mazeKey':run.p.type].text),say:tr(PZ_TEXT[run.p.type==='maze'&&run.p.keyAt>=0?'mazeKey':run.p.type].say)};
+      else if(ui.screen==='game'&&run&&run.g==='music')run.cur.text=tr(['Catch the notes in order!','Μάζεψε τις νότες με τη σειρά!']);
       else if(ui.screen==='game'&&run&&run.g!=='memory'){run.cur=GEN[run.g](run.l);run.nextRank=0}
       render();if(ui.screen==='game')speakPrompt();else say(isEl()?'Ελληνικά!':'English!');break}
     case 'hero':S.hero=b.dataset.h;sayL(SAY.hero(HEROES[S.hero]));save();render();break;
@@ -749,6 +902,7 @@ document.addEventListener('click',e=>{
     case 'ans':answer(b,+b.dataset.i);break;
     case 'card':flip(+b.dataset.i);break;
     case 'pz':puzzleAct(b);break;
+    case 'mv':musicMove(+b.dataset.d);break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}
     case 'buy':{const it=ITEMS.find(x=>x.id===b.dataset.id);if(S.coins<it.cost){say(t('needCoins'));break}S.coins-=it.cost;S.owned.push(it.id);S.equip[it.slot]=it.id;sfx('coin');const nb=checkBadges();save();render();const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,40);sayL(SAY.wow(tr(it.name)));if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));break}
     case 'wear':{const it=ITEMS.find(x=>x.id===b.dataset.id);S.equip[it.slot]=it.id;save();render();say(tr(it.name));break}

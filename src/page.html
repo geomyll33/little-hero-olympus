@@ -193,6 +193,17 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .sz{line-height:1;display:block}
 .rank{position:absolute;top:8px;left:8px;width:40px;height:40px;border-radius:50%;background:var(--good);color:#fff;font-style:normal;font-family:var(--display);font-weight:700;font-size:1.4rem;display:grid;place-items:center}
 .opt .emo{font-size:clamp(3rem,9vw,4.6rem);line-height:1}
+/* music run */
+.mhud{display:flex;flex-direction:column;align-items:center;gap:6px}
+.mtitle{font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--aegean);background:var(--marble);padding:4px 14px;border-radius:999px}
+.mbar{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:100%}
+.mbar i{font-style:normal;min-width:38px;height:38px;padding:0 4px;border-radius:999px;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:.85rem;color:#fff;background:#c9d1de;border:3px solid #fff;transition:transform .15s}
+.mbar i.got{background:var(--c)}
+.mbar i.next,.mbar i.play{background:var(--c);transform:scale(1.3);box-shadow:0 0 0 3px var(--c)}
+.runstage{position:relative;display:block;border-radius:24px;overflow:hidden;touch-action:none}
+.runstage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.lane-btn{position:absolute;bottom:12px;width:72px;height:72px;border-radius:50%;background:rgba(255,250,240,.85);box-shadow:0 5px 0 #cbbf9f;font-size:1.8rem;color:var(--ink)}
+.lane-btn.l{left:12px}.lane-btn.r{right:12px}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}

@@ -18,9 +18,10 @@ On a tablet, open the link and choose **Add to Home Screen** to get a full-scree
 | Pottery Workshop · Εργαστήρι Αγγείων | Patterns |
 | Fishing Harbour · Λιμάνι των Ψαράδων | More and fewer |
 | Aegean Sea · Αιγαίο Πέλαγος | Memory cards |
+| Music Odeon · Μουσικό Ωδείο | Runner game: catch coloured notes in order to play Mozart, Beethoven, Brahms, Grieg and Bach |
 | Riddle Cave · Σπηλιά των Γρίφων | Picture puzzles: Minotaur labyrinth, Tower, wolf–sheep–grass river crossing (6 levels, 💡 hints) |
 
-Each place has 3 levels of 5 questions (the Riddle Cave has 6 puzzles). Some places start locked: Mount Olympus (10 coins), Olympic Stadium (15 coins), Fishing Harbour (20 coins), Riddle Cave (3 badges). Stars earn coins, coins buy hero gear (helmets, capes, lyre, winged sandals…), and there are 15 badges. The EN / ΕΛ switch changes the narrator's voice and all text. The voice uses the device's built-in text-to-speech; for Greek the tablet needs a Greek voice installed.
+Each place has 3 levels of 5 questions (the Riddle Cave has 6 puzzles). Some places start locked: Mount Olympus (10 coins), Olympic Stadium (15 coins), Fishing Harbour (20 coins), Music Odeon (25 coins), Riddle Cave (3 badges). Stars earn coins, coins buy hero gear (helmets, capes, lyre, winged sandals…), and there are 16 badges. The EN / ΕΛ switch changes the narrator's voice and all text. The voice uses the device's built-in text-to-speech; for Greek the tablet needs a Greek voice installed.
 
 ## Files
 
