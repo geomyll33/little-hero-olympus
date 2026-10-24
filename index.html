@@ -193,6 +193,40 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .sz{line-height:1;display:block}
 .rank{position:absolute;top:8px;left:8px;width:40px;height:40px;border-radius:50%;background:var(--good);color:#fff;font-style:normal;font-family:var(--display);font-weight:700;font-size:1.4rem;display:grid;place-items:center}
 .opt .emo{font-size:clamp(3rem,9vw,4.6rem);line-height:1}
+/* locked places */
+.loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
+.loc.locked .art{filter:grayscale(.85) brightness(.9)}
+/* labyrinth */
+.maze{display:grid;width:min(100%,calc(100dvh - 330px),560px);aspect-ratio:1;max-width:100%;background:#f1e9d8;border:6px solid #6b5a43;border-radius:14px;overflow:hidden}
+.mz-c{position:relative;display:grid;place-items:center;padding:0;border:0 solid #6b5a43;min-width:0}
+.mz-c.wn{border-top-width:3px}.mz-c.we{border-right-width:3px}.mz-c.ws{border-bottom-width:3px}.mz-c.ww{border-left-width:3px}
+.mz-c.thr::after{content:"";position:absolute;width:20%;height:20%;border-radius:50%;background:#e53935;opacity:.5}
+.mz-c.hint{background:#ffe58a}
+@media (prefers-reduced-motion:no-preference){.mz-c.hint{animation:glow 1s ease-in-out infinite alternate}}
+@keyframes glow{to{background:#fff6c9}}
+.mz-hero{position:relative;z-index:1;width:82%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:#dff1ff;border:3px solid var(--gold);display:grid;place-items:center}
+.mz-hero svg{width:150%;height:auto;margin-top:62%}
+.mz-i{position:relative;z-index:1;font-size:calc(min(100vw - 40px, 100dvh - 330px, 560px) / var(--n) * .55);line-height:1}
+.arrows{gap:10px}.arrows .icon-btn{width:62px;height:62px;font-size:1.5rem}
+/* tower */
+.hanoi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:min(100%,760px);height:min(48vh,320px)}
+.peg{position:relative;display:flex;flex-direction:column-reverse;align-items:center;gap:4px;padding:0 4px 22px;border-radius:16px;background:linear-gradient(transparent calc(100% - 18px),#e6dcc4 calc(100% - 18px))}
+.peg.sel{background:linear-gradient(#d9f0ff calc(100% - 18px),#e6dcc4 calc(100% - 18px))}
+.peg .pole{position:absolute;left:50%;bottom:18px;top:14%;width:16px;transform:translateX(-50%);background:var(--marble);border:2px solid #d8ccb0;border-radius:6px}
+.disc{position:relative;z-index:1;height:clamp(26px,7vh,44px);border-radius:14px;border:3px solid rgba(0,0,0,.22);transition:transform .2s}
+.disc.up{transform:translateY(-34px)}
+.peg .flag{position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:1.7rem}
+/* river crossing */
+.river{position:relative;width:min(100%,calc((100dvh - 330px) * 1.78),900px);aspect-ratio:16/9;max-width:100%;border-radius:24px;overflow:hidden;
+  background:repeating-linear-gradient(170deg,transparent 0 22px,rgba(255,255,255,.12) 22px 26px),linear-gradient(90deg,#8fc45e 0 24%,#2a8fdc 24% 76%,#8fc45e 76%)}
+.river .goal{position:absolute;right:3%;top:2%;font-size:1.6rem}
+.r-it{position:absolute;width:18%;height:26%;display:grid;place-items:center;font-size:clamp(2rem,6vw,4rem);background:rgba(255,255,255,.35);border-radius:18px;transition:left .3s}
+.r-it.oops::after{content:"😋";position:absolute;top:-6px;right:-6px;font-size:.6em}
+.r-boat{position:absolute;bottom:22%;width:20%;display:flex;flex-direction:column;align-items:center;transition:left .9s ease-in-out}
+.r-crew{display:flex;align-items:flex-end;gap:4px;width:100%;justify-content:center}
+.r-crew .mz-hero{width:42%}
+.r-cargo{font-size:clamp(1.8rem,5vw,3.4rem);line-height:1}
+.r-boat svg{width:100%;height:auto;display:block}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
 </style>
 
@@ -223,10 +257,10 @@ const tr=v=>Array.isArray(v)?v[isEl()?1:0]:v;
 
 /* ---------- data ---------- */
 const HEROES={
-  athena:{name:['Athena','Αθηνά'],trait:['Wise','Σοφή'],tunic:'#ffffff',trim:'#2f6fd6',hair:'#3b2416',style:'long',pet:'🦉',petName:['Glafka the Owl','Γλαύκα η κουκουβάγια'],cheer:[['Wise thinking!','So clever!','Bravo!'],['Πολύ σοφά!','Τι έξυπνα!','Μπράβο!']]},
-  hercules:{name:['Hercules','Ηρακλής'],trait:['Strong','Δυνατός'],tunic:'#e0533d',trim:'#f2b632',hair:'#5a3519',style:'curly',pet:'🦁',petName:['Leo the Lion Cub','Λέων το λιονταράκι'],cheer:[['Super strong!','Mighty job!','Opa!'],['Πανίσχυρα!','Τέλεια δουλειά!','Ώπα!']]},
-  hermes:{name:['Hermes','Ερμής'],trait:['Fast','Γρήγορος'],tunic:'#2bb3a3',trim:'#ffffff',hair:'#e2b14a',style:'curly',pet:'🐢',petName:['Tito the Tortoise','Τίτος η χελώνα'],cheer:[['Lightning fast!','Zoom! Well done!','Bravo!'],['Σαν αστραπή!','Γρήγορα και σωστά!','Μπράβο!']]},
-  artemis:{name:['Artemis','Άρτεμις'],trait:['Brave','Γενναία'],tunic:'#6aa84f',trim:'#f7e7b4',hair:'#b5532a',style:'pony',pet:'🦌',petName:['Dora the Deer','Δώρα το ελαφάκι'],cheer:[['Right on target!','Brave and smart!','Opa!'],['Στον στόχο!','Γενναία και έξυπνη!','Ώπα!']]}
+  athena:{name:['Athena','Αθηνά'],voc:'Αθηνά',trait:['Wise','Σοφή'],tunic:'#ffffff',trim:'#2f6fd6',hair:'#3b2416',style:'long',pet:'🦉',petName:['Glafka the Owl','Γλαύκα η κουκουβάγια'],cheer:[['Wise thinking!','So clever!','Bravo!'],['Πολύ σοφά!','Τι έξυπνα!','Μπράβο!']]},
+  hercules:{name:['Hercules','Ηρακλής'],voc:'Ηρακλή',trait:['Strong','Δυνατός'],tunic:'#e0533d',trim:'#f2b632',hair:'#5a3519',style:'curly',pet:'🦁',petName:['Leo the Lion Cub','Λέων το λιονταράκι'],cheer:[['Super strong!','Mighty job!','Awesome!'],['Πανίσχυρα!','Τέλεια δουλειά!','Μπράβο!']]},
+  hermes:{name:['Hermes','Ερμής'],voc:'Ερμή',trait:['Fast','Γρήγορος'],tunic:'#2bb3a3',trim:'#ffffff',hair:'#e2b14a',style:'curly',pet:'🐢',petName:['Tito the Tortoise','Τίτος η χελώνα'],cheer:[['Lightning fast!','Zoom! Well done!','Bravo!'],['Σαν αστραπή!','Γρήγορα και σωστά!','Μπράβο!']]},
+  artemis:{name:['Artemis','Άρτεμις'],voc:'Άρτεμη',trait:['Brave','Γενναία'],tunic:'#6aa84f',trim:'#f7e7b4',hair:'#b5532a',style:'pony',pet:'🦌',petName:['Dora the Deer','Δώρα το ελαφάκι'],cheer:[['Right on target!','Brave and smart!','Awesome!'],['Στον στόχο!','Γενναία και έξυπνη!','Μπράβο!']]}
 };
 const SKINS=['#f8dcc2','#eab48c','#c68a5e','#8d5a3b'];
 const ITEMS=[
@@ -247,13 +281,16 @@ const SLOTS=[['head',['Hats','Καπέλα']],['cape',['Capes','Κάπες']],['
 const GAMES=[
   {id:'count',name:['Olive Grove','Ελαιώνας'],skill:['Counting','Αρίθμηση'],x:17,y:40,levels:[['Count to 5','Μέχρι το 5'],['Count to 10','Μέχρι το 10'],['Add olives','Πρόσθεση']]},
   {id:'letters',name:['Temple of Letters','Ναός των Γραμμάτων'],skill:['Letters','Γράμματα'],x:37,y:20,levels:[['Listen & find','Άκου και βρες'],['First sounds','Πρώτος ήχος'],['Big & small','Κεφαλαία & μικρά']]},
-  {id:'sizes',name:['Mount Olympus','Όρος Όλυμπος'],skill:['Big & Small','Μεγάλο & Μικρό'],x:64,y:17,levels:[['Biggest','Το μεγαλύτερο'],['Smallest','Το μικρότερο'],['Small to big','Από μικρό σε μεγάλο']]},
+  {id:'sizes',name:['Mount Olympus','Όρος Όλυμπος'],skill:['Big & Small','Μεγάλο & Μικρό'],x:64,y:17,gate:{coins:10},levels:[['Biggest','Το μεγαλύτερο'],['Smallest','Το μικρότερο'],['Small to big','Από μικρό σε μεγάλο']]},
   {id:'shapes',name:['Agora Market','Αγορά'],skill:['Colors & Shapes','Χρώματα & Σχήματα'],x:84,y:42,levels:[['Colors','Χρώματα'],['Shapes','Σχήματα'],['Color + shape','Χρώμα + σχήμα']]},
-  {id:'odd',name:['Olympic Stadium','Ολυμπιακό Στάδιο'],skill:['Odd One Out','Το διαφορετικό'],x:53,y:46,levels:[['Easy','Εύκολο'],['Tricky','Δύσκολο'],['Super tricky','Πολύ δύσκολο']]},
+  {id:'odd',name:['Olympic Stadium','Ολυμπιακό Στάδιο'],skill:['Odd One Out','Το διαφορετικό'],x:53,y:46,gate:{coins:15},levels:[['Easy','Εύκολο'],['Tricky','Δύσκολο'],['Super tricky','Πολύ δύσκολο']]},
   {id:'pattern',name:['Pottery Workshop','Εργαστήρι Αγγείων'],skill:['Patterns','Μοτίβα'],x:30,y:69,levels:[['A B A B','Α Β Α Β'],['A A B','Α Α Β'],['A B C','Α Β Γ']]},
-  {id:'compare',name:['Fishing Harbour','Λιμάνι των Ψαράδων'],skill:['More & Fewer','Περισσότερα & Λιγότερα'],x:11,y:79,levels:[['More','Περισσότερα'],['Fewer','Λιγότερα'],['Biggest number','Μεγαλύτερος αριθμός']]},
-  {id:'memory',name:['Aegean Sea','Αιγαίο Πέλαγος'],skill:['Memory','Μνήμη'],x:88,y:80,levels:[['3 pairs','3 ζευγάρια'],['4 pairs','4 ζευγάρια'],['6 pairs','6 ζευγάρια']]}
+  {id:'compare',name:['Fishing Harbour','Λιμάνι των Ψαράδων'],skill:['More & Fewer','Περισσότερα & Λιγότερα'],x:11,y:79,gate:{coins:20},levels:[['More','Περισσότερα'],['Fewer','Λιγότερα'],['Biggest number','Μεγαλύτερος αριθμός']]},
+  {id:'memory',name:['Aegean Sea','Αιγαίο Πέλαγος'],skill:['Memory','Μνήμη'],x:88,y:80,levels:[['3 pairs','3 ζευγάρια'],['4 pairs','4 ζευγάρια'],['6 pairs','6 ζευγάρια']]},
+  {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:14,gate:{badges:3},levels:[['Small labyrinth','Μικρός λαβύρινθος'],['Tower of 2','Πύργος με 2'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος & κλειδί'],['Tower of 3','Πύργος με 3'],['Big labyrinth','Μεγάλος λαβύρινθος']]}
 ];
+const PUZZLES=[{type:'maze',n:4},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:5,key:true},{type:'hanoi',n:3},{type:'maze',n:6,key:true}];
+const isOpen=g=>!g.gate||S.unlocked.includes(g.id)||S.stars[g.id].some(x=>x>0);
 const BADGES=[
   {id:'first',icon:'👣',name:['First Steps','Πρώτα βήματα'],desc:['Finish your first level','Τελείωσε το πρώτο σου επίπεδο'],test:s=>doneCount(s)>=1},
   {id:'perfect',icon:'⭐',name:['Perfect!','Τέλειο!'],desc:['Get 3 stars on a level','Πάρε 3 αστέρια σε ένα επίπεδο'],test:s=>Object.values(s.stars).some(a=>a.includes(3))},
@@ -265,9 +302,11 @@ const BADGES=[
   {id:'pattern',icon:'🏺',name:['Master Potter','Μάστορας αγγειοπλάστης'],desc:['Finish all of the Pottery','Τελείωσε όλο το Εργαστήρι'],test:s=>gameDone(s,'pattern')},
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
+  {id:'puzzle',icon:'🧩',name:['Puzzle Master','Λύτης γρίφων'],desc:['Solve every riddle in the Cave','Λύσε όλους τους γρίφους της Σπηλιάς'],test:s=>gameDone(s,'puzzle')},
+  {id:'explorer',icon:'🗝️',name:['Explorer','Εξερευνητής'],desc:['Open a locked place','Άνοιξε ένα κλειδωμένο μέρος'],test:s=>s.unlocked.length>=1},
   {id:'shop',icon:'👑',name:['Hero Style','Στιλ ήρωα'],desc:['Get your first hero item','Πάρε το πρώτο σου αντικείμενο'],test:s=>s.owned.length>=1},
   {id:'stars30',icon:'🌟',name:['Star Collector','Συλλέκτης αστεριών'],desc:['Collect 30 stars','Μάζεψε 30 αστέρια'],test:s=>starTotal(s)>=30},
-  {id:'olympus',icon:'⚡',name:['Hero of Olympus','Ήρωας του Ολύμπου'],desc:['Finish every level','Τελείωσε όλα τα επίπεδα'],test:s=>doneCount(s)>=GAMES.length*3}
+  {id:'olympus',icon:'⚡',name:['Hero of Olympus','Ήρωας του Ολύμπου'],desc:['Finish every level','Τελείωσε όλα τα επίπεδα'],test:s=>doneCount(s)>=GAMES.reduce((n,g)=>n+g.levels.length,0)}
 ];
 // [id, hex, english, greek for masculine/neuter, greek for feminine]
 const COLORS=[['red','#e53935','red','κόκκινο','κόκκινη'],['blue','#1e6fd9','blue','μπλε','μπλε'],['yellow','#fbc02d','yellow','κίτρινο','κίτρινη'],['green','#43a047','green','πράσινο','πράσινη'],['orange','#fb8c00','orange','πορτοκαλί','πορτοκαλί'],['purple','#8e44ad','purple','μωβ','μωβ']];
@@ -296,7 +335,8 @@ const TEACH={
   odd:['Sorting into groups (fruits, animals, vehicles, clothes, toys) and spotting what does not belong.','Ομαδοποίηση (φρούτα, ζώα, οχήματα, ρούχα, παιχνίδια) και εντοπισμός του διαφορετικού.'],
   pattern:['Spotting and continuing AB, AAB/ABB and ABC patterns, an early maths skill.','Εντοπισμός και συνέχεια μοτίβων ΑΒ, ΑΑΒ/ΑΒΒ και ΑΒΓ, πρώιμη μαθηματική δεξιότητα.'],
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
-  memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.']
+  memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
+  puzzle:['Problem solving with pictures: the Minotaur labyrinth, the Tower puzzle and the wolf, sheep and grass river crossing. The light-bulb button gives a spoken hint.','Επίλυση προβλημάτων με εικόνες: ο λαβύρινθος του Μινώταυρου, ο Πύργος και το πέρασμα του λύκου, του προβάτου και του χόρτου. Το κουμπί με τη λάμπα δίνει βοήθεια.']
 };
 const TX={
   title:['Little Hero','Μικρός Ήρωας'],title2:['of Olympus','του Ολύμπου'],
@@ -304,7 +344,7 @@ const TX={
   namePh:['Hero name (grown-ups can type)','Όνομα ήρωα (το γράφει ένας μεγάλος)'],
   go:["Let's go!",'Πάμε!'],
   backIsland:['Back to the island','Πίσω στο νησί'],island:['Island','Νησί'],playAgain:['Play again','Ξαναπαίξε'],next:['Next level','Επόμενο επίπεδο'],
-  bravo:[['Bravo!','Opa! Well done!','You did it!'],['Μπράβο!','Ώπα! Τα κατάφερες!','Τέλεια!']],newBadge:['New badge!','Νέο παράσημο!'],
+  bravo:[['Bravo!','Well done!','You did it!'],['Μπράβο!','Τα κατάφερες!','Τέλεια!']],newBadge:['New badge!','Νέο παράσημο!'],
   tryAgain:['Try again!','Ξαναδοκίμασε!'],
   myHero:['My Hero','Ο ήρωάς μου'],myHeroSub:['Buy and wear hero gear with your coins','Αγόρασε και φόρεσε εξοπλισμό με τα νομίσματά σου'],
   wear:['Wear','Φόρεσε'],takeOff:['Take off','Βγάλε'],needCoins:['Play more games to earn coins!','Παίξε κι άλλα παιχνίδια για να κερδίσεις νομίσματα!'],
@@ -315,23 +355,38 @@ const TX={
   heroName:['Hero name','Όνομα ήρωα'],saveName:['Save name','Αποθήκευση'],nameSaved:['Name saved','Το όνομα αποθηκεύτηκε'],
   eraseQ:['Erase all stars, coins and badges?','Να σβηστούν όλα τα αστέρια, νομίσματα και παράσημα;'],eraseYes:['Yes, start over','Ναι, από την αρχή'],keep:['Keep progress','Κράτα την πρόοδο'],startOver:['Start over…','Από την αρχή…'],
   findPairs:['Find the pairs!','Βρες τα ζευγάρια!'],
-  coins:['Coins','Νομίσματα'],stars:['Stars','Αστέρια']
+  coins:['Coins','Νομίσματα'],
+  locked:['Locked','Κλειδωμένο'],open:['Open it!','Άνοιξέ το!'],
+  gateCoins:(g,c)=>[`${g} opens for ${c} coins.`,`«${g}»: ανοίγει με ${c} νομίσματα.`],
+  gateBadges:(g,c)=>[`${g} opens when you have ${c} badges.`,`«${g}»: ανοίγει όταν έχεις ${c} παράσημα.`],
+  youHave:(n,w)=>[`You have ${n}.`,`Έχεις ${n}.`],
+stars:['Stars','Αστέρια']
 };
-const t=k=>tr(TX[k]);
+const t=(k,...a)=>{const v=TX[k];return tr(typeof v==='function'?v(...a):v)};
 const SAY={
-  welcome:n=>[`Kalimera, ${n}! Welcome to the island. Tap a place to play!`,`Καλημέρα, ${n}! Καλώς ήρθες στο νησί. Πάτα ένα μέρος για να παίξεις!`],
+  welcome:n=>[`Kalimera, ${n}! Welcome to the island. Tap a place to play!`,`Καλημέρα, ${vocEl(n)}! Καλώς ήρθες στο νησί. Πάτα ένα μέρος για να παίξεις!`],
   hero:h=>[`${h.name[0]}! ${h.trait[0]}. And ${h.petName[0]}!`,`${h.name[1]}! ${h.trait[1]}. Και ${h.petName[1]}!`],
   pick:g=>[`${g.name[0]}. Let's learn ${g.skill[0]}! Pick a level.`,`${g.name[1]}! Διάλεξε επίπεδο.`],
-  result:(n,s,c,b)=>[`Bravo ${n}! You got ${s} ${s===1?'star':'stars'} and ${c} coins!${b?' And a new badge!':''}`,`Μπράβο ${n}! Κέρδισες ${s} ${s===1?'αστέρι':'αστέρια'} και ${c} νομίσματα!${b?' Και ένα νέο παράσημο!':''}`],
+  result:(n,s,c,b)=>[`Bravo ${n}! You got ${s} ${s===1?'star':'stars'} and ${c} coins!${b?' And a new badge!':''}`,`Μπράβο ${vocEl(n)}! Κέρδισες ${s} ${s===1?'αστέρι':'αστέρια'} και ${c} νομίσματα!${b?' Και ένα νέο παράσημο!':''}`],
   memory:['Find the matching sea friends. Tap two cards!','Βρες τους ίδιους θαλασσινούς φίλους. Πάτα δύο κάρτες!'],
   match:[['A match!','Great memory!','Two the same!'],['Ζευγάρι!','Τι μνήμη!','Ίδια!']],
   wow:n=>[`Wow! ${n}!`,`Ουάου! ${n}!`]
 };
 const sayL=v=>say(tr(v));
+// Greek vocative for names: Ηρακλής→Ηρακλή, Γιώργος→Γιώργο, Αλέξανδρος→Αλέξανδρε
+function vocEl(name){
+  const h=Object.values(HEROES).find(x=>x.name[1]===name);if(h)return h.voc;
+  if(!/[α-ωά-ώ]ς$/i.test(name))return name;
+  if(!/ος$/.test(name))return name.slice(0,-1);
+  if(/ιος$/.test(name))return name.slice(0,-2)+'ε';
+  const v=name.toLowerCase().replace(/ι(?=[αάεέοόωώουύ])/g,'').match(/(α[ιί]|ε[ιί]|ο[ιί]|ο[υύ]|α[υύ]|ε[υύ]|[αάεέηήιίϊΐοόυύϋΰωώ])/g)||[];
+  const acc=v.findIndex(x=>/[άέήίΐόύΰώ]/.test(x));
+  return name.slice(0,-2)+(acc>=0&&v.length-acc>=3?'ε':'ο');
+}
 
 /* ---------- state ---------- */
 const KEY='little-hero-olympus-v1';
-const fresh=()=>({v:2,started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,[0,0,0]])),badges:[],music:true,sound:true,updatedAt:0});
+const fresh=()=>({v:2,started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,updatedAt:0});
 function normalize(s){const f=fresh();s=Object.assign(f,s||{});s.equip=Object.assign(fresh().equip,s.equip||{});s.stars=Object.assign(fresh().stars,s.stars||{});return s}
 let S=fresh();
 try{const raw=localStorage.getItem(KEY);if(raw)S=normalize(JSON.parse(raw))}catch(e){}
@@ -474,12 +529,16 @@ function findVoice(lang){
   return vs.find(v=>/en[-_]GB/i.test(v.lang)&&/female|samantha|serena|libby|sonia/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang))||null;
 }
 if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=()=>{delete voices.en;delete voices.el};
-function say(text){
-  if(!S.sound||!('speechSynthesis' in window))return;
+let utter=null;
+function say(text){return new Promise(res=>{
+  if(!S.sound||!('speechSynthesis' in window))return res();
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const L=S.lang;
     if(!voices[L])voices[L]=findVoice(L);
-    if(voices[L])u.voice=voices[L];u.lang=voices[L]?voices[L].lang:(L==='el'?'el-GR':'en-GB');u.rate=.9;u.pitch=1.15;speechSynthesis.speak(u)}catch(e){}
-}
+    if(voices[L])u.voice=voices[L];u.lang=voices[L]?voices[L].lang:(L==='el'?'el-GR':'en-GB');u.rate=.9;u.pitch=1.15;
+    let done=false;const fin=()=>{if(!done){done=true;res()}};u.onend=fin;u.onerror=fin;setTimeout(fin,1500+text.length*120);
+    utter=u;speechSynthesis.speak(u)}catch(e){res()}
+})}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
 /* ---------- particles ---------- */
 const fx=$('#fx'),fctx=fx.getContext('2d');let parts=[],fxRun=false;
@@ -514,6 +573,7 @@ const ART={
   odd:`<svg class="art" viewBox="0 0 100 100"><ellipse cx="50" cy="60" rx="46" ry="30" fill="#e9d8a6"/><ellipse cx="50" cy="60" rx="40" ry="24" fill="#d9643b"/><ellipse cx="50" cy="60" rx="32" ry="17" fill="none" stroke="#fff" stroke-width="2"/><ellipse cx="50" cy="60" rx="24" ry="11" fill="#7fb45a"/><path d="M50 10V30" stroke="#7a5a2a" stroke-width="2"/><path d="M50 10L66 15L50 20Z" fill="#2f6fd6"/><circle cx="50" cy="60" r="6" fill="#f2b632"/></svg>`,
   pattern:`<svg class="art" viewBox="0 0 100 100"><ellipse cx="50" cy="94" rx="26" ry="4" fill="#00000022"/><g transform="translate(18 4) scale(.64 .76)">${vaseSVG('#c8643b').replace(/<\/?svg[^>]*>/g,'')}</g><path d="M31 52H69" stroke="#1c2a48" stroke-width="3" stroke-dasharray="4 3"/></svg>`,
   compare:`<svg class="art" viewBox="0 0 100 100"><path d="M24 92Q30 76 50 74Q70 76 76 92Z" fill="#8f9db2"/><path d="M40 76L44 26H56L60 76Z" fill="#fff"/><path d="M42 40H58L57 50H43ZM41 60H59L59.6 70H40.4Z" fill="#2f6fd6"/><rect x="42" y="16" width="16" height="10" fill="#ffe14a"/><path d="M40 16L50 6L60 16Z" fill="#c8643b"/><path d="M58 18L92 8V28ZM42 18L8 8V28Z" fill="#fff59a" opacity=".7"/></svg>`,
+  puzzle:`<svg class="art" viewBox="0 0 100 100"><path d="M6 88Q10 30 50 18Q90 30 94 88Z" fill="#7d8899"/><path d="M14 88Q20 44 50 34Q80 44 86 88Z" fill="#8f9db2"/><path d="M32 88V64Q50 44 68 64V88Z" fill="#1c2a48"/><text x="50" y="82" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="22" fill="#f2b632">?</text><circle cx="26" cy="40" r="4" fill="#f2b632"/><circle cx="76" cy="46" r="3" fill="#f2b632"/></svg>`,
   memory:`<svg class="art" viewBox="0 0 100 100"><path d="M24 70H82L74 84H32Z" fill="#c8643b"/><path d="M52 14V68" stroke="#7a5a2a" stroke-width="3"/><path d="M54 16Q78 40 54 64Z" fill="#fff"/><path d="M50 22Q30 44 50 64Z" fill="#fff"/><path d="M56 30H66M56 44H70" stroke="#2f6fd6" stroke-width="4"/><path d="M8 88q8-6 16 0t16 0 16 0 16 0 16 0" stroke="#fff" stroke-width="3" fill="none"/></svg>`
 };
 const MAP_SVG=`<svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
@@ -525,7 +585,7 @@ const MAP_SVG=`<svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
 <g stroke="#e9d39b" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="2 18"><path d="M190 280Q260 180 370 150"/><path d="M380 150Q500 110 630 120"/><path d="M650 130Q780 200 820 290"/><path d="M200 300Q230 420 290 470"/><path d="M310 470Q420 420 520 340"/><path d="M540 330Q680 320 800 300"/></g>
 <g>${[[640,440],[680,420],[720,445],[670,470],[710,480],[750,460]].map(([x,y],i)=>`<rect x="${x}" y="${y}" width="34" height="28" fill="#fff" stroke="#e3dccb"/>${i%2?'':`<path d="M${x+5} ${y}a12 12 0 0 1 24 0z" fill="#2f6fd6"/>`}<rect x="${x+12}" y="${y+12}" width="9" height="16" fill="#2f6fd6"/>`).join('')}</g>
 <g fill="#7fa65a">${[[260,230],[480,230],[760,230],[800,380],[450,500],[200,400],[560,470]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="16"/><circle cx="${x+14}" cy="${y-8}" r="12"/>`).join('')}</g>
-<circle cx="930" cy="62" r="34" fill="#ffd34a"/>
+<ellipse cx="910" cy="150" rx="80" ry="30" fill="#f3dfae"/><ellipse cx="910" cy="142" rx="64" ry="20" fill="#9aa7b8"/>
 </svg>`;
 
 /* ---------- rendering ---------- */
@@ -547,7 +607,9 @@ function render(){
   document.documentElement.lang=S.lang;
   const s=ui.screen;
   if(s==='welcome')app.innerHTML=welcomeHTML();
-  if(s==='map')app.innerHTML=`<div class="screen">${topbar()}<div class="map-wrap"><div class="map">${MAP_SVG}${GAMES.map(g=>{const st=S.stars[g.id].reduce((a,b)=>a+b,0);return `<button class="loc" data-act="open" data-g="${g.id}" style="left:${g.x}%;top:${g.y}%" aria-label="${tr(g.name)}">${ART[g.id]}<span class="tag">${tr(g.name)}<small>★ ${st}/9</small></span></button>`}).join('')}</div></div>
+  if(s==='map')app.innerHTML=`<div class="screen">${topbar()}<div class="map-wrap"><div class="map">${MAP_SVG}${GAMES.map(g=>{const st=S.stars[g.id].reduce((a,b)=>a+b,0),open=isOpen(g);
+      const chip=open?`★ ${st}/${g.levels.length*3}`:g.gate.coins?`🔒 ${g.gate.coins} ${I.coin}`:`🔒 ${g.gate.badges} 🏅`;
+      return `<button class="loc ${open?'':'locked'}" data-act="open" data-g="${g.id}" style="left:${g.x}%;top:${g.y}%" aria-label="${tr(g.name)}">${ART[g.id]}<span class="tag">${tr(g.name)}<small>${chip}</small></span></button>`}).join('')}</div></div>
     <div class="row" style="justify-content:flex-end"><button class="btn white small hold" data-hold="parents">${t('grown')}<i></i></button></div></div>`;
   if(s==='room')app.innerHTML=roomHTML();
   if(s==='badges')app.innerHTML=badgesHTML();
@@ -592,8 +654,8 @@ function parentsHTML(){
   return `<div class="screen"><div class="gbar"><button class="icon-btn" data-act="map" aria-label="${t('backIsland')}">${I.back}</button><div class="gtitle"><h2>${t('grownT')}</h2><div>${t('grownSub')}</div></div>${langSwitch()}</div>
   <div class="parents">
     <p>${t('intro')}</p>
-    <div style="overflow-x:auto"><table><thead><tr><th>${t('place')}</th><th>${t('teaches')}</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody>
-    ${GAMES.map(g=>`<tr><td><b>${tr(g.name)}</b></td><td>${tr(TEACH[g.id])}</td>${S.stars[g.id].map(n=>`<td>${n?'★'.repeat(n):'–'}</td>`).join('')}</tr>`).join('')}
+    <div style="overflow-x:auto"><table><thead><tr><th>${t('place')}</th><th>${t('teaches')}</th>${[1,2,3,4,5,6].map(i=>`<th>${i}</th>`).join('')}</tr></thead><tbody>
+    ${GAMES.map(g=>`<tr><td><b>${tr(g.name)}</b></td><td>${tr(TEACH[g.id])}</td>${[0,1,2,3,4,5].map(i=>`<td>${i<g.levels.length?(S.stars[g.id][i]?'★'.repeat(S.stars[g.id][i]):'–'):''}</td>`).join('')}</tr>`).join('')}
     </tbody></table></div>
     <div class="row" style="justify-content:flex-start"><label for="pname"><b>${t('heroName')}</b></label><input id="pname" class="name-in" maxlength="16" value="${esc(S.name)}" style="text-align:left"><button class="btn small blue" data-act="rename">${t('saveName')}</button></div>
     <div class="row" style="justify-content:flex-start">${ui.confirmReset?`<b>${t('eraseQ')}</b><button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 6px 0 #a33" data-act="reset2">${t('eraseYes')}</button><button class="btn small white" data-act="reset0">${t('keep')}</button>`:`<button class="btn small white" data-act="reset1">${t('startOver')}</button>`}</div>
@@ -608,12 +670,17 @@ function renderModal(){
     h=`<h2>${tr(g.name)}</h2><div class="sub">${tr(g.skill)}</div><div class="levels">${g.levels.map((name,i)=>{const open=i===0||st[i-1]>0;
       return `<button class="lvl ${open?'':'locked'}" ${open?`data-act="play" data-g="${g.id}" data-l="${i}"`:'disabled'}><b>${i+1}</b>${open?starsRow(st[i]):I.lock}<span>${tr(name)}</span></button>`}).join('')}</div>
       <button class="btn white small" data-act="close">${t('backIsland')}</button>`}
+  if(m.type==='gate'){const g=GAMES.find(x=>x.id===m.g),c=g.gate.coins,need=c||g.gate.badges,have=c?S.coins:S.badges.length,ok=have>=need;
+    h=`<h2>${tr(g.name)}</h2><div style="width:160px;margin:0 auto;filter:grayscale(.6)">${ART[g.id]}</div>
+    <div class="earn">🔒 ${c?`${c} ${I.coin}`:`${need} 🏅`}</div>
+    <p class="sub">${c?t('gateCoins',tr(g.name),c):t('gateBadges',tr(g.name),need)} ${t('youHave',have)}</p>
+    <div class="row"><button class="btn white" data-act="close">${t('backIsland')}</button>${ok?`<button class="btn" data-act="unlock" data-g="${g.id}">${t('open')}</button>`:''}</div>`}
   if(m.type==='result'){const g=GAMES.find(x=>x.id===m.g),h0=HEROES[S.hero];
     h=`<h2>${pick(t('bravo'))}</h2>${starsRow(m.stars,true)}
     <div class="row">${avatar(S.hero,S.skin,S.equip).replace('class="avatar"','class="avatar" style="width:120px;height:auto"')}<span class="pet" style="font-size:3.4rem">${h0.pet}</span></div>
     <div class="earn">+${m.coins} ${I.coin}</div>
     ${m.newBadges.length?`<div><b style="font-family:var(--display);font-size:1.3rem">${t('newBadge')}</b><div class="row" style="margin-top:8px">${m.newBadges.map(id=>{const b=BADGES.find(x=>x.id===id);return `<div class="badge" style="box-shadow:none;background:none"><div class="medal">${b.icon}</div><b>${tr(b.name)}</b></div>`}).join('')}</div></div>`:''}
-    <div class="row"><button class="btn white" data-act="close">${t('island')}</button><button class="btn blue" data-act="play" data-g="${g.id}" data-l="${m.l}">${t('playAgain')}</button>${m.l<2?`<button class="btn" data-act="play" data-g="${g.id}" data-l="${m.l+1}">${t('next')}</button>`:''}</div>`}
+    <div class="row"><button class="btn white" data-act="close">${t('island')}</button><button class="btn blue" data-act="play" data-g="${g.id}" data-l="${m.l}">${t('playAgain')}</button>${m.l<g.levels.length-1?`<button class="btn" data-act="play" data-g="${g.id}" data-l="${m.l+1}">${t('next')}</button>`:''}</div>`}
   const d=document.createElement('div');d.className='veil';d.innerHTML=`<div class="modal" role="dialog" aria-modal="true">${h}</div>`;document.body.appendChild(d);
 }
 
@@ -705,12 +772,143 @@ const GEN={
   }
 };
 
+/* ---------- puzzles (Riddle Cave) ---------- */
+const PZ_TEXT={
+  maze:{text:['Find the way out!','Βρες την έξοδο!'],say:['This is the labyrinth of the Minotaur. Tap the squares or the arrows to walk to the door!','Αυτός είναι ο λαβύρινθος του Μινώταυρου. Πάτα τα κουτάκια ή τα βελάκια και περπάτα μέχρι την πόρτα!']},
+  mazeKey:{text:['Key first, then the door!','Πρώτα το κλειδί, μετά η πόρτα!'],say:['The door is locked. Find the key first, then walk to the door!','Η πόρτα είναι κλειδωμένη. Βρες πρώτα το κλειδί και μετά πήγαινε στην πόρτα!']},
+  hanoi:{text:['Move the tower to the ⭐ column','Μετέφερε τον πύργο στην κολόνα με το ⭐'],say:['Move all the discs to the column with the star. Tap a column to lift its top disc, then tap where to put it. A big disc can never go on a small one!','Μετέφερε όλους τους δίσκους στην κολόνα με το αστέρι. Πάτα μια κολόνα για να σηκώσεις τον πάνω δίσκο και μετά πάτα πού θα τον βάλεις. Ο μεγάλος δίσκος δεν μπαίνει ποτέ πάνω στον μικρό!']},
+  river:{text:['Take everyone across the river!','Πέρασέ τους όλους απέναντι!'],say:['Take the wolf, the sheep and the grass to the other side. The boat has room for only one, plus you. If you leave the wolf alone with the sheep, the wolf eats the sheep. If you leave the sheep alone with the grass, the sheep eats the grass! Tap one to put it in the boat, then tap Cross.','Πέρασε τον λύκο, το πρόβατο και το χόρτο στην απέναντι όχθη. Η βάρκα χωράει μόνο έναν μαζί σου. Αν μείνουν μόνοι τους ο λύκος με το πρόβατο, ο λύκος τρώει το πρόβατο. Αν μείνουν μόνοι τους το πρόβατο με το χόρτο, το πρόβατο τρώει το χόρτο! Πάτα έναν για να μπει στη βάρκα και μετά πάτα «Πέρνα απέναντι».']}
+};
+const RIVER=[['wolf','🐺',['the wolf','τον λύκο']],['sheep','🐑',['the sheep','το πρόβατο']],['grass','🌿',['the grass','το χόρτο']]];
+const DISC_COLORS=['#e53935','#fbc02d','#1e6fd9'];
+const DISC_NAMES=[['red','κόκκινο'],['yellow','κίτρινο'],['blue','μπλε']];
+const ORD=[['first','πρώτη'],['second','δεύτερη'],['third','τρίτη']];
+
+function setupPuzzle(l){
+  const c=PUZZLES[l];
+  if(c.type==='maze'){run.p=makeMaze(c.n,c.key);run.cur=PZ_TEXT[c.key?'mazeKey':'maze']}
+  if(c.type==='hanoi'){run.p={type:'hanoi',n:c.n,pegs:[[...Array(c.n)].map((_,i)=>c.n-i),[],[]],sel:null,moves:0,best:2**c.n-1};run.cur=PZ_TEXT.hanoi}
+  if(c.type==='river'){run.p={type:'river',side:{wolf:0,sheep:0,grass:0},boat:0,cargo:null,busy:false,oops:null};run.cur=PZ_TEXT.river}
+  run.cur={text:tr(run.cur.text),say:tr(run.cur.say)};run.hints=0;
+}
+function puzzleBody(){
+  const p=run.p,hint=`<button class="icon-btn" data-act="pz" data-x="hint" aria-label="Hint" style="font-size:1.7rem">💡</button>`;
+  if(p.type==='maze')return mazeHTML(p)+`<div class="row arrows">${hint}${[['left','◀'],['up','▲'],['down','▼'],['right','▶']].map(([d,a])=>`<button class="icon-btn" data-act="pz" data-x="${d}" aria-label="${d}">${a}</button>`).join('')}</div>`;
+  if(p.type==='hanoi')return `<div class="stage"><div class="hanoi">${p.pegs.map((pg,i)=>`<button class="peg ${p.sel===i?'sel':''}" data-act="pz" data-x="peg" data-i="${i}" aria-label="${tr(ORD[i])}"><span class="pole"></span>${pg.map((d,k)=>`<span class="disc ${p.sel===i&&k===pg.length-1?'up':''}" style="width:${34+d*20}%;background:${DISC_COLORS[d-1]}"></span>`).join('')}${i===2?'<span class="flag">⭐</span>':''}</button>`).join('')}</div></div><div class="row">${hint}</div>`;
+  const item=([k,e])=>{const inBoat=p.cargo===k,left=inBoat?null:(p.side[k]?79:3),top=12+RIVER.findIndex(x=>x[0]===k)*29;
+    return inBoat?'':`<button class="r-it ${p.oops===k?'oops':''}" data-act="pz" data-x="item" data-k="${k}" style="left:${left}%;top:${top}%" aria-label="${tr(RIVER.find(x=>x[0]===k)[2])}">${e}</button>`};
+  const cargo=p.cargo?RIVER.find(x=>x[0]===p.cargo):null;
+  return `<div class="stage"><div class="river"><span class="goal">🏁</span>${RIVER.map(item).join('')}
+    <div class="r-boat" style="left:${p.boat?52:28}%"><div class="r-crew"><span class="mz-hero">${avatar(S.hero,S.skin,S.equip,'')}</span>${cargo?`<button class="r-cargo" data-act="pz" data-x="item" data-k="${cargo[0]}">${cargo[1]}</button>`:''}</div>${hullSVG}</div></div></div>
+    <div class="row">${hint}<button class="btn blue" data-act="pz" data-x="row">⛵ ${tr(['Cross','Πέρνα απέναντι'])}</button></div>`;
+}
+function puzzleAct(b){
+  if(!run||!run.p||run.won)return;const x=b.dataset.x,p=run.p;
+  if(x==='hint')return puzzleHint();
+  if(p.type==='maze'){
+    if(x==='cell'){const i=+b.dataset.i;if(i!==p.pos)mazeNbrs(p.W,p.n,p.pos).includes(i)?mazeMove(i):sfx('bad');return}
+    const c=p.pos%p.n;if((x==='left'&&c===0)||(x==='right'&&c===p.n-1))return sfx('bad');
+    const to=p.pos+{up:-p.n,down:p.n,left:-1,right:1}[x];mazeNbrs(p.W,p.n,p.pos).includes(to)?mazeMove(to):sfx('bad');return;
+  }
+  if(p.type==='hanoi'&&x==='peg')return hanoiTap(+b.dataset.i);
+  if(p.type==='river'){if(x==='item')riverItem(b.dataset.k);if(x==='row')riverRow()}
+}
+function puzzleWin(){
+  const p=run.p;let st;run.won=true;
+  if(p.type==='maze')st=p.moves<=p.best+2?3:p.moves<=p.best*1.5+3?2:1;
+  else if(p.type==='hanoi')st=p.moves<=p.best&&!run.mistakes?3:p.moves<=p.best+4?2:1;
+  else st=run.mistakes===0?3:run.mistakes<=2?2:1;
+  if(run.hints)st=Math.min(st,2);
+  sfx('good');burst(innerWidth/2,innerHeight/2,60);setTimeout(()=>finishLevel(st),900);
+}
+
+// Labyrinth: random maze carved with depth-first search
+function mazeNbrs(W,n,c){const r=[];if(!W[c].n)r.push(c-n);if(!W[c].s)r.push(c+n);if(!W[c].e)r.push(c+1);if(!W[c].w)r.push(c-1);return r}
+function mazeDist(W,n,from){const d=Array(n*n).fill(-1);d[from]=0;const q=[from];while(q.length){const c=q.shift();for(const k of mazeNbrs(W,n,c))if(d[k]<0){d[k]=d[c]+1;q.push(k)}}return d}
+function makeMaze(n,key){
+  const W=Array.from({length:n*n},()=>({n:1,e:1,s:1,w:1})),seen=new Set([0]),st=[0];
+  while(st.length){const c=st[st.length-1],x=c%n,y=Math.floor(c/n);
+    const nb=[[0,-1,'n','s'],[1,0,'e','w'],[0,1,'s','n'],[-1,0,'w','e']].filter(([dx,dy])=>{const X=x+dx,Y=y+dy;return X>=0&&Y>=0&&X<n&&Y<n&&!seen.has(Y*n+X)});
+    if(!nb.length){st.pop();continue}
+    const [dx,dy,a,b]=pick(nb),k=(y+dy)*n+x+dx;W[c][a]=0;W[k][b]=0;seen.add(k);st.push(k)}
+  const exit=n*n-1,d0=mazeDist(W,n,0);let keyAt=-1,best=d0[exit];
+  if(key){const de=mazeDist(W,n,exit);const cand=[...Array(n*n).keys()].filter(i=>i!==0&&i!==exit).sort((a,b)=>(d0[b]+de[b])-(d0[a]+de[a]));keyAt=cand[rand(0,Math.min(2,cand.length-1))];best=d0[keyAt]+de[keyAt]}
+  const dead=[...Array(n*n).keys()].filter(i=>i!==0&&i!==exit&&i!==keyAt&&mazeNbrs(W,n,i).length===1);
+  return {type:'maze',n,W,pos:0,exit,keyAt,hasKey:!key,best,moves:0,trail:[0],mino:dead.length?pick(dead):-1,hint:-1};
+}
+function mazeHTML(m){
+  let cells='';for(let i=0;i<m.n*m.n;i++){const w=m.W[i];
+    const cls=['mz-c',w.n?'wn':'',w.e?'we':'',w.s?'ws':'',w.w?'ww':'',m.trail.includes(i)?'thr':'',m.hint===i?'hint':''].join(' ');
+    let inner='';if(i===m.pos)inner=`<span class="mz-hero">${avatar(S.hero,S.skin,S.equip,'')}</span>`;else if(i===m.exit)inner=`<span class="mz-i">${m.hasKey?'🚪':'🔒'}</span>`;else if(i===m.keyAt&&!m.hasKey)inner='<span class="mz-i">🔑</span>';else if(i===m.mino)inner='<span class="mz-i">🐂</span>';
+    cells+=`<button class="${cls}" data-act="pz" data-x="cell" data-i="${i}" aria-label="${i}">${inner}</button>`}
+  return `<div class="stage"><div class="maze" style="grid-template-columns:repeat(${m.n},minmax(0,1fr));--n:${m.n}">${cells}</div></div>`;
+}
+function mazeMove(to){
+  const m=run.p;m.pos=to;m.moves++;m.hint=-1;if(!m.trail.includes(to))m.trail.push(to);sfx('tap');
+  if(to===m.keyAt&&!m.hasKey){m.hasKey=true;sfx('coin');say(tr(['The key! Now find the door.','Το κλειδί! Τώρα βρες την πόρτα.']))}
+  else if(to===m.mino)say(tr(['Shh! The Minotaur is sleeping.','Σσς! Ο Μινώταυρος κοιμάται.']));
+  renderGame();
+  if(to===m.exit){if(m.hasKey)puzzleWin();else say(tr(['The door is locked. Find the key!','Η πόρτα είναι κλειδωμένη. Βρες το κλειδί!']))}
+}
+
+// Tower: tap a column to lift its top disc, tap another to drop it
+function hanoiTap(i){
+  const h=run.p,pg=h.pegs;
+  if(h.sel===null){if(pg[i].length){h.sel=i;sfx('tap');renderGame()}return}
+  if(h.sel===i){h.sel=null;return renderGame()}
+  const d=pg[h.sel][pg[h.sel].length-1],top=pg[i][pg[i].length-1];
+  if(top&&top<d){run.mistakes++;sfx('bad');say(tr(['A big disc cannot go on a small one!','Ο μεγάλος δίσκος δεν μπαίνει πάνω στον μικρό!']));const el=document.querySelector(`.peg[data-i="${i}"]`);el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),450);return}
+  pg[i].push(pg[h.sel].pop());h.sel=null;h.moves++;sfx('flip');renderGame();
+  if(pg[2].length===h.n)puzzleWin();
+}
+
+// River crossing: the cargo rides with the hero; the bank left behind must be safe
+const riverBad=(side,bank)=>{const on=k=>side[k]===bank;return on('wolf')&&on('sheep')?'wolf':on('sheep')&&on('grass')?'sheep':null};
+function riverItem(k){
+  const r=run.p;if(r.busy)return;
+  if(r.cargo===k){r.cargo=null;sfx('tap');return renderGame()}
+  if(r.side[k]!==r.boat){say(tr(['The boat is on the other side!','Η βάρκα είναι στην άλλη όχθη!']));return}
+  r.cargo=k;sfx('tap');say(tr(RIVER.find(x=>x[0]===k)[2]).replace(/^(the|τον|το) /,''));renderGame();
+}
+function riverRow(){
+  const r=run.p;if(r.busy)return;r.busy=true;
+  const prev={side:{...r.side},boat:r.boat,cargo:r.cargo};
+  const el=$('.r-boat');sfx('flip');if(el)el.style.left=(r.boat?28:52)+'%';
+  setTimeout(()=>{
+    r.boat=1-r.boat;if(r.cargo){r.side[r.cargo]=r.boat;r.cargo=null}
+    const bad=riverBad(r.side,1-r.boat);
+    if(bad){run.mistakes++;r.oops=bad;renderGame();sfx('bad');
+      const msg=bad==='wolf'?['Oh no! The wolf wants to eat the sheep! Let\'s go back.','Ωχ! Ο λύκος θέλει να φάει το πρόβατο! Ας γυρίσουμε πίσω.']:['Oh no! The sheep wants to eat the grass! Let\'s go back.','Ωχ! Το πρόβατο θέλει να φάει το χόρτο! Ας γυρίσουμε πίσω.'];
+      Promise.all([say(tr(msg)),wait(2000)]).then(()=>{if(run&&run.p===r){Object.assign(r,prev,{busy:false,oops:null});renderGame()}});return}
+    r.busy=false;renderGame();
+    if(RIVER.every(([k])=>r.side[k]===1))puzzleWin();
+  },950);
+}
+
+// Hints: shortest solution from the current position, by breadth-first search
+function bfsFirst(start,key,nexts,done){
+  const seen=new Map([[key(start),null]]),q=[[start,null]];
+  while(q.length){const [s,first]=q.shift();if(done(s))return first;
+    for(const [mv,n] of nexts(s)){const k=key(n);if(!seen.has(k)){seen.set(k,1);q.push([n,first||mv])}}}
+  return null;
+}
+function puzzleHint(){
+  const p=run.p;run.hints++;
+  if(p.type==='maze'){const target=p.hasKey?p.exit:p.keyAt,d=mazeDist(p.W,p.n,target);
+    p.hint=mazeNbrs(p.W,p.n,p.pos).find(k=>d[k]===d[p.pos]-1);renderGame();say(tr(['Follow the glowing square!','Ακολούθησε το κουτάκι που λάμπει!']));return}
+  if(p.type==='hanoi'){
+    const mv=bfsFirst(p.pegs.map(x=>x.slice()),s=>JSON.stringify(s),s=>{const out=[];for(let a=0;a<3;a++)for(let b=0;b<3;b++){if(a===b||!s[a].length)continue;const d=s[a][s[a].length-1],t=s[b][s[b].length-1];if(t&&t<d)continue;const n=s.map(x=>x.slice());n[b].push(n[a].pop());out.push([[a,b,d],n])}return out},s=>s[2].length===p.n);
+    if(mv){const [a,b,d]=mv;say(tr([`Move the ${DISC_NAMES[d-1][0]} disc to the ${ORD[b][0]} column.`,`Βάλε τον ${DISC_NAMES[d-1][1]} δίσκο στην ${ORD[b][1]} κολόνα.`]))}return}
+  const mv=bfsFirst({side:{...p.side},boat:p.boat},s=>JSON.stringify(s),s=>{const out=[];for(const c of [null,...RIVER.map(x=>x[0]).filter(k=>s.side[k]===s.boat)]){const n={side:{...s.side},boat:1-s.boat};if(c)n.side[c]=n.boat;if(!riverBad(n.side,1-n.boat))out.push([c||'alone',n])}return out},s=>RIVER.every(([k])=>s.side[k]===1));
+  if(mv)say(mv==='alone'?tr(['Cross alone, with nobody in the boat.','Πέρνα απέναντι μόνος σου, χωρίς κανέναν στη βάρκα.']):tr([`Take ${RIVER.find(x=>x[0]===mv)[2][0]} with you.`,`Πάρε μαζί σου ${RIVER.find(x=>x[0]===mv)[2][1]}.`]));
+}
+
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
   ui.modal=null;ui.screen='game';
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:5,mistakes:0,busy:false,nextRank:0};
-  if(g==='memory')setupMemory();else run.cur=GEN[g](l);
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:g==='puzzle'?1:5,mistakes:0,busy:false,nextRank:0};
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
 function speakPrompt(){if(!run)return;const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>say(s),250)}
@@ -719,7 +917,8 @@ function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
   const prog=run.g==='memory'?run.found:run.q;
   let body;
-  if(run.g==='memory'){const n=run.cards.length,cols=n<=6?3:4;
+  if(run.g==='puzzle')body=puzzleBody();
+  else if(run.g==='memory'){const n=run.cards.length,cols=n<=6?3:4;
     body=`<div class="stage"><div class="mem" style="grid-template-columns:repeat(${cols},minmax(0,1fr));width:min(100%,${cols*150}px,calc((100dvh - 230px) / ${Math.ceil(n/cols)} * .75 * ${cols} + ${(cols-1)*12}px))">${run.cards.map(c=>`<button class="card ${c.up?'up':''} ${c.done?'done':''}" data-act="card" data-i="${c.i}" aria-label="${c.up||c.done?tr(c.n):'?'}"><div class="in"><div class="b"><span>Ω</span></div><div class="f">${c.e}</div></div></button>`).join('')}</div></div>`}
   else{const c=run.cur,cls=c.big?'big':c.tall?'tall':'';
     body=`${c.stage?`<div class="stage">${c.stage}</div>`:''}<div class="options" style="${c.stage?'':'flex:1;align-items:center'}">${c.options.map((o,i)=>`<button class="opt ${cls}" data-act="ans" data-i="${i}">${o.html}</button>`).join('')}</div>`}
@@ -732,8 +931,8 @@ function renderGame(){
 }
 function success(btn,after){
   run.busy=true;sfx('good');const r=btn.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2);
-  $('#pet')?.classList.add('happy');say(after||pick(tr(HEROES[S.hero].cheer)));
-  setTimeout(()=>{run.q++;run.busy=false;if(run.q>=run.total)return finishLevel();run.cur=GEN[run.g](run.l);run.nextRank=0;renderGame();speakPrompt()},1600);
+  $('#pet')?.classList.add('happy');const r0=run;
+  Promise.all([say(after||pick(tr(HEROES[S.hero].cheer))),wait(1300)]).then(()=>{if(run!==r0)return;run.q++;run.busy=false;if(run.q>=run.total)return finishLevel();run.cur=GEN[run.g](run.l);run.nextRank=0;renderGame();speakPrompt()});
 }
 function answer(btn,i){
   if(run.busy)return;const c=run.cur,o=c.options[i];if(btn.classList.contains('wrong')||btn.classList.contains('right'))return;
@@ -756,8 +955,8 @@ function flip(i){
       else{a.up=b.up=false;run.mistakes++}
       run.open=[];run.busy=false;renderGame();if(run.found>=run.total)setTimeout(finishLevel,700)},a.e===b.e?500:1100)}
 }
-function finishLevel(){
-  const m=run.mistakes,stars=run.g==='memory'?(m<=run.total?3:m<=run.total*2?2:1):(m===0?3:m<=2?2:1);
+function finishLevel(fixed){
+  const m=run.mistakes,stars=fixed||(run.g==='memory'?(m<=run.total?3:m<=run.total*2?2:1):(m===0?3:m<=2?2:1));
   const first=S.stars[run.g][run.l]===0,coins=2+stars*2+(first?3:0);
   S.stars[run.g][run.l]=Math.max(S.stars[run.g][run.l],stars);S.coins+=coins;
   const nb=checkBadges();save();sfx('win');setTimeout(()=>sfx('coin'),900);
@@ -772,10 +971,11 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive')sfx('tap');
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz')sfx('tap');
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
-      if(ui.screen==='game'&&run&&run.g!=='memory'){run.cur=GEN[run.g](run.l);run.nextRank=0}
+      if(ui.screen==='game'&&run&&run.g==='puzzle')run.cur={text:tr(PZ_TEXT[run.p.type==='maze'&&run.p.keyAt>=0?'mazeKey':run.p.type].text),say:tr(PZ_TEXT[run.p.type==='maze'&&run.p.keyAt>=0?'mazeKey':run.p.type].say)};
+      else if(ui.screen==='game'&&run&&run.g!=='memory'){run.cur=GEN[run.g](run.l);run.nextRank=0}
       render();if(ui.screen==='game')speakPrompt();else say(isEl()?'Ελληνικά!':'English!');break}
     case 'hero':S.hero=b.dataset.h;sayL(SAY.hero(HEROES[S.hero]));save();render();break;
     case 'skin':S.skin=+b.dataset.i;save();render();break;
@@ -786,12 +986,21 @@ document.addEventListener('click',e=>{
     case 'tab':ui.tab=b.dataset.t;render();break;
     case 'music':S.music=!S.music;S.music?startMusic():stopMusic();save();render();break;
     case 'sound':S.sound=!S.sound;if(!S.sound&&'speechSynthesis' in window)speechSynthesis.cancel();save();render();break;
-    case 'open':{const g=GAMES.find(x=>x.id===b.dataset.g);ui.modal={type:'levels',g:g.id};renderModal();sayL(SAY.pick(g));break}
+    case 'open':{const g=GAMES.find(x=>x.id===b.dataset.g);
+      if(!isOpen(g)){ui.modal={type:'gate',g:g.id};renderModal();const n=tr(g.name);say(g.gate.coins?t('gateCoins',n,g.gate.coins)+' '+t('youHave',S.coins):t('gateBadges',n,g.gate.badges)+' '+t('youHave',S.badges.length));break}
+      ui.modal={type:'levels',g:g.id};renderModal();sayL(SAY.pick(g));break}
+    case 'unlock':{const g=GAMES.find(x=>x.id===b.dataset.g);
+      if(g.gate.coins){if(S.coins<g.gate.coins){say(t('needCoins'));break}S.coins-=g.gate.coins}
+      else if(S.badges.length<g.gate.badges)break;
+      S.unlocked.push(g.id);sfx('win');const nb=checkBadges();save();render();burst(innerWidth/2,innerHeight/2,70);
+      if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));
+      ui.modal={type:'levels',g:g.id};renderModal();sayL(SAY.pick(g));break}
     case 'close':ui.modal=null;if(ui.screen==='game'){run=null;ui.screen='map';render()}else renderModal();break;
     case 'play':startLevel(b.dataset.g,+b.dataset.l);break;
     case 'repeat':speakPrompt();break;
     case 'ans':answer(b,+b.dataset.i);break;
     case 'card':flip(+b.dataset.i);break;
+    case 'pz':puzzleAct(b);break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}
     case 'buy':{const it=ITEMS.find(x=>x.id===b.dataset.id);if(S.coins<it.cost){say(t('needCoins'));break}S.coins-=it.cost;S.owned.push(it.id);S.equip[it.slot]=it.id;sfx('coin');const nb=checkBadges();save();render();const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,40);sayL(SAY.wow(tr(it.name)));if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));break}
     case 'wear':{const it=ITEMS.find(x=>x.id===b.dataset.id);S.equip[it.slot]=it.id;save();render();say(tr(it.name));break}
