@@ -38,6 +38,7 @@ const GAMES=[
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:14,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:66,y:70,gate:{coins:25},levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο']]});
+GAMES.push({id:'stem',name:["Archimedes' Workshop",'Εργαστήρι του Αρχιμήδη'],skill:['STEM puzzles','Γρίφοι STEM'],x:14,y:14,gate:{coins:30},levels:[['Program Talos','Προγραμμάτισε τον Τάλω'],['Float or sink','Επιπλέει ή βυθίζεται'],['The scale','Η ζυγαριά'],['Water pipes','Οι σωλήνες του νερού'],['How things grow','Πώς μεγαλώνουν'],['Magnets','Οι μαγνήτες'],['Light the lamp','Άναψε τη λάμπα'],['Talos and the rocks','Ο Τάλως και οι βράχοι']]});
 const PUZZLES=[{type:'maze',n:6},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:8,key:true},{type:'hanoi',n:3},{type:'maze',n:9,key:true,mino:true},{type:'hanoi',n:4},{type:'maze',n:11,key:true,mino:true}];
 const isOpen=g=>!g.gate||S.unlocked.includes(g.id)||S.stars[g.id].some(x=>x>0);
 const BADGES=[
@@ -52,6 +53,7 @@ const BADGES=[
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
   {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
+  {id:'stem',icon:'⚙️',name:['Little Archimedes','Μικρός Αρχιμήδης'],desc:['Solve every STEM puzzle in the Workshop','Λύσε όλους τους γρίφους του Εργαστηρίου'],test:s=>gameDone(s,'stem')},
   {id:'puzzle',icon:'🧩',name:['Puzzle Master','Λύτης γρίφων'],desc:['Solve every riddle in the Cave','Λύσε όλους τους γρίφους της Σπηλιάς'],test:s=>gameDone(s,'puzzle')},
   {id:'explorer',icon:'🗝️',name:['Explorer','Εξερευνητής'],desc:['Open a locked place','Άνοιξε ένα κλειδωμένο μέρος'],test:s=>s.unlocked.length>=1},
   {id:'shop',icon:'👑',name:['Hero Style','Στιλ ήρωα'],desc:['Get your first hero item','Πάρε το πρώτο σου αντικείμενο'],test:s=>s.owned.length>=1},
@@ -87,6 +89,7 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['A running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
+  stem:['STEM with pictures: coding the bronze robot Talos with arrows, floating and sinking (Archimedes), balancing a scale, connecting water pipes and electric circuits, magnets, and life cycles.','STEM με εικόνες: προγραμματισμός του χάλκινου ρομπότ Τάλω με βελάκια, τι επιπλέει και τι βυθίζεται (Αρχιμήδης), ισορροπία ζυγαριάς, σωλήνες νερού και ηλεκτρικά κυκλώματα, μαγνήτες και κύκλοι ζωής.'],
   puzzle:['Problem solving with pictures: the Minotaur labyrinth, the Tower puzzle and the wolf, sheep and grass river crossing. The light-bulb button gives a spoken hint.','Επίλυση προβλημάτων με εικόνες: ο λαβύρινθος του Μινώταυρου, ο Πύργος και το πέρασμα του λύκου, του προβάτου και του χόρτου. Το κουμπί με τη λάμπα δίνει βοήθεια.']
 };
 const TX={
@@ -107,7 +110,7 @@ const TX={
   eraseQ:['Erase all stars, coins and badges?','Να σβηστούν όλα τα αστέρια, νομίσματα και παράσημα;'],eraseYes:['Yes, start over','Ναι, από την αρχή'],keep:['Keep progress','Κράτα την πρόοδο'],startOver:['Start over…','Από την αρχή…'],
   findPairs:['Find the pairs!','Βρες τα ζευγάρια!'],
   coins:['Coins','Νομίσματα'],
-  resetG:['Reset','Μηδένισε'],resetYes:['Yes, reset','Ναι, μηδένισε'],
+  resetG:['Reset','Μηδένισε'],unlockAll:['Open all places','Άνοιξε όλα τα μέρη'],allOpen:['All places are open','Όλα τα μέρη άνοιξαν'],resetYes:['Yes, reset','Ναι, μηδένισε'],
   voiceL:['Narrator voice','Φωνή αφηγήτριας'],vtest:['Try it','Δοκίμασε'],noVoice:['No voice found on this device','Δεν βρέθηκε φωνή σε αυτή τη συσκευή'],
   voiceTip:['For a warmer voice: on iPad go to Settings → Accessibility → Spoken Content → Voices → English and download an "Enhanced" or "Premium" voice. On Android: Settings → Text-to-speech → Google → install voice data. Then pick it here.','Για πιο ζεστή φωνή: σε iPad πηγαίνετε Ρυθμίσεις → Προσβασιμότητα → Εκφωνούμενο περιεχόμενο → Φωνές → Ελληνικά και κατεβάστε τη «Μελίνα (Βελτιωμένη)». Σε Android: Ρυθμίσεις → Μετατροπή κειμένου σε ομιλία → Google → εγκατάσταση δεδομένων φωνής για Ελληνικά. Μετά διαλέξτε τη φωνή εδώ.'],
 
@@ -351,6 +354,7 @@ const ART={
   compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
   memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
   puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  stem:svgArt(cube(10,46,62,42,10,'#c8643b')+cube(10,36,62,10,10,'#a54d2a')+`<rect x="28" y="62" width="22" height="26" fill="#6d4c2f"/>`+`<g transform="translate(76 30)"><circle r="15" fill="#f2b632"/>${[0,45,90,135,180,225,270,315].map(a=>`<rect x="-4" y="-20" width="8" height="8" fill="#f2b632" transform="rotate(${a})"/>`).join('')}<circle r="6" fill="#c98a12"/></g>`+cube(36,10,14,14,6,'#ffe14a')),
   music:svgArt(cube(6,74,84,16,10,'#b98d63')+cube(14,60,68,14,10,'#d7b48e')+cube(24,48,48,12,10,'#e9cfa8')+cube(34,38,28,10,8,'#f6ead2')+`<rect x="58" y="6" width="5" height="26" fill="#1c2a48"/><rect x="58" y="6" width="18" height="6" fill="#1c2a48"/><rect x="50" y="28" width="12" height="9" fill="#1c2a48"/><rect x="72" y="6" width="4" height="22" fill="#1c2a48"/><rect x="64" y="24" width="12" height="9" fill="#1c2a48"/>`)
 };
 // The island is a baseplate of studded blocks
@@ -361,6 +365,7 @@ function islandTiles(){
     let col=null;
     if(inside(x,y,515,330,400,265))col=inside(x,y,515,330,350,222)?((x/T+y/T)%2<1?'#7cc35a':'#74bb52'):'#f0d79c';
     else if(inside(x,y,910,150,92,40))col='#9aa7b8';
+    else if(inside(x,y,140,96,96,44))col='#f0d79c';
     if(col)o+=`<rect x="${x-T/2}" y="${y-T/2}" width="${T}" height="${T}" fill="${col}"/><circle cx="${x}" cy="${y}" r="7" fill="${shade(col,.18)}"/><circle cx="${x}" cy="${y+1.5}" r="7" fill="none" stroke="${shade(col,-.15)}" stroke-width="1.5" opacity=".6"/>`;
   }
   return o;
@@ -448,7 +453,7 @@ function parentsHTML(){
     <div class="row" style="justify-content:flex-start"><label for="vsel"><b>${t('voiceL')}</b></label><select id="vsel" class="name-in" style="text-align:left;width:auto;max-width:100%">${(()=>{const vs=langVoices(S.lang),cur=findVoice(S.lang);return vs.length?vs.map(v=>`<option ${cur&&cur.name===v.name?'selected':''}>${esc(v.name)}</option>`).join(''):`<option>${t('noVoice')}</option>`})()}</select><button class="btn small blue" data-act="vtest">▶ ${t('vtest')}</button></div>
     <p style="color:var(--ink-soft)">${t('voiceTip')}</p>
     <div class="row" style="justify-content:flex-start"><label for="pname"><b>${t('heroName')}</b></label><input id="pname" class="name-in" maxlength="16" value="${esc(S.name)}" style="text-align:left"><button class="btn small blue" data-act="rename">${t('saveName')}</button></div>
-    <div class="row" style="justify-content:flex-start">${ui.confirmReset?`<b>${t('eraseQ')}</b><button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 6px 0 #a33" data-act="reset2">${t('eraseYes')}</button><button class="btn small white" data-act="reset0">${t('keep')}</button>`:`<button class="btn small white" data-act="reset1">${t('startOver')}</button>`}</div>
+    <div class="row" style="justify-content:flex-start">${ui.confirmReset?`<b>${t('eraseQ')}</b><button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 6px 0 #a33" data-act="reset2">${t('eraseYes')}</button><button class="btn small white" data-act="reset0">${t('keep')}</button>`:`<button class="btn small white" data-act="reset1">${t('startOver')}</button>`}<button class="btn small white" data-act="unlockall">🔓 ${t('unlockAll')}</button></div>
   </div></div>`;
 }
 
@@ -893,12 +898,160 @@ document.addEventListener('pointerup',e=>{if(!swipe||e.target.id!=='runcv'){swip
   if(Math.abs(dx)>30)musicMove(dx>0?1:-1);else{const r=e.target.getBoundingClientRect();musicMove(e.clientX<r.left+r.width/2?-1:1)}});
 document.addEventListener('keydown',e=>{if(!run||!run.m)return;if(e.key==='ArrowLeft')musicMove(-1);if(e.key==='ArrowRight')musicMove(1)});
 
+/* ---------- STEM workshop (Archimedes) ---------- */
+const STEM=[{type:'code',n:4,rocks:0,min:3,max:4},{type:'float'},{type:'balance'},{type:'pipes',n:3,kind:'water'},{type:'cycle'},{type:'magnet'},{type:'pipes',n:4,kind:'power'},{type:'code',n:5,rocks:5,min:6,max:8}];
+const STEM_TEXT={
+  code:{text:['Program Talos to reach the vase!','Προγραμμάτισε τον Τάλω να φτάσει στο αγγείο!'],say:['This is Talos, the bronze robot of Crete. Tap the arrows to make a program, then press Go. Talos will follow your arrows one by one!','Αυτός είναι ο Τάλως, το χάλκινο ρομπότ της Κρήτης. Πάτα τα βελάκια για να φτιάξεις πρόγραμμα και μετά πάτα «Πάμε». Ο Τάλως θα κάνει τα βελάκια ένα ένα!']},
+  float:{text:['Does it float or sink?','Επιπλέει ή βυθίζεται;'],say:['Archimedes loved water! Will it float on the water, or sink to the bottom?','Ο Αρχιμήδης αγαπούσε το νερό! Θα μείνει πάνω στο νερό ή θα πάει στον πάτο;']},
+  balance:{text:['Make the scale level!','Ίσιωσε τη ζυγαριά!'],say:['Add or take away little blocks on the right until the scale is level. Look: a big block weighs as much as two little ones!','Βάλε ή βγάλε κυβάκια δεξιά μέχρι να ισιώσει η ζυγαριά. Πρόσεξε: ο μεγάλος κύβος ζυγίζει όσο δύο μικρά!']},
+  water:{text:['Bring the water to the flower!','Φέρε το νερό στο λουλούδι!'],say:['Tap the pipes to turn them. Make a path for the water from the tap to the thirsty flower!','Πάτα τους σωλήνες για να γυρίσουν. Φτιάξε δρόμο για το νερό από τη βρύση ως το διψασμένο λουλούδι!']},
+  power:{text:['Light up the lamp!','Άναψε τη λάμπα!'],say:['Tap the wires to turn them. Connect the battery to the lamp so the electricity can reach it!','Πάτα τα καλώδια για να γυρίσουν. Ένωσε την μπαταρία με τη λάμπα για να φτάσει το ρεύμα!']},
+  cycle:{text:['Put them in order!','Βάλε τα στη σειρά!'],say:['How do things grow? Tap the pictures in order, from the first to the last!','Πώς μεγαλώνουν; Πάτα τις εικόνες με τη σειρά, από την πρώτη ως την τελευταία!']},
+  magnet:{text:['Does it stick to the magnet?','Κολλάει στον μαγνήτη;'],say:['A magnet pulls things made of iron. Will this stick to the magnet?','Ο μαγνήτης τραβάει ό,τι είναι φτιαγμένο από σίδερο. Αυτό θα κολλήσει στον μαγνήτη;']}
+};
+const FLOATERS=[['🍎',['The apple','Το μήλο'],1],['🍃',['The leaf','Το φύλλο'],1],['⚽',['The ball','Η μπάλα'],1],['🪵',['The wood','Το ξύλο'],1],['🍊',['The orange','Το πορτοκάλι'],1],['🪶',['The feather','Το φτερό'],1],['🪨',['The stone','Η πέτρα'],0],['🔑',['The key','Το κλειδί'],0],['⚓',['The anchor','Η άγκυρα'],0],['🔩',['The bolt','Η βίδα'],0],['🥄',['The spoon','Το κουτάλι'],0]];
+const MAGNETIC=[['📎',['The paper clip','Ο συνδετήρας'],1],['🔩',['The bolt','Η βίδα'],1],['🧷',['The safety pin','Η παραμάνα'],1],['⚙️',['The iron gear','Το σιδερένιο γρανάζι'],1],['🍌',['The banana','Η μπανάνα'],0],['🧸',['The teddy bear','Το αρκουδάκι'],0],['✏️',['The pencil','Το μολύβι'],0],['🎈',['The balloon','Το μπαλόνι'],0],['🧦',['The sock','Η κάλτσα'],0]];
+const CYCLES=[[['🥚','🐣','🐥','🐔'],['First the egg, then the chick hatches, it grows and becomes a hen!','Πρώτα το αυγό, μετά βγαίνει το κοτοπουλάκι, μεγαλώνει και γίνεται κότα!']],
+  [['🌰','🌱','🪴','🌻'],['A seed, a little sprout, a plant and then a flower!','Ένας σπόρος, ένα βλαστάρι, ένα φυτό και μετά ένα λουλούδι!']],
+  [['👶','🧒','🧑','🧓'],['A baby, a child, a grown-up and a grandparent!','Ένα μωρό, ένα παιδί, ένας μεγάλος και ένας παππούς!']]];
+const TALOS='<svg viewBox="0 0 40 44" class="talos"><g stroke="rgba(0,0,0,.2)" stroke-width=".8">'+cube(9,8,20,14,4,'#c98b2b')+'<rect x="13" y="12" width="4" height="4" fill="#ffe14a"/><rect x="21" y="12" width="4" height="4" fill="#ffe14a"/>'+cube(7,23,24,12,4,'#b07a24')+cube(10,35,7,7,3,'#8a5a17')+cube(21,35,7,7,3,'#8a5a17')+'<rect x="17" y="1" width="4" height="5" fill="#d63a2f"/></g></svg>';
+const DIRS={up:[0,-1,'⬆️'],down:[0,1,'⬇️'],left:[-1,0,'⬅️'],right:[1,0,'➡️']};
+
+function setupStem(l){
+  const c=STEM[l];run.won=false;run.hints=0;
+  if(c.type==='code'){const n=c.n;let rocks,target,d;
+    for(let k=0;k<200;k++){rocks=new Set();while(rocks.size<c.rocks)rocks.add(rand(1,n*n-1));target=rand(1,n*n-1);if(rocks.has(target))continue;
+      d=codeDist(n,rocks,0,target);if(d>=c.min&&d<=c.max)break}
+    run.p={type:'code',n,rocks:[...rocks],target,pos:0,prog:[],best:d,busy:false,max:Math.max(8,d+3)}}
+  if(c.type==='float'||c.type==='magnet'){const pool=c.type==='float'?FLOATERS:MAGNETIC,yes=shuffle(pool.filter(x=>x[2])),no=shuffle(pool.filter(x=>!x[2]));
+    run.p={type:c.type,items:shuffle([...yes.slice(0,3),...no.slice(0,2)]),i:0,busy:false}}
+  if(c.type==='balance')run.p={type:'balance',round:0,left:balanceLeft(0),right:0,busy:false,over:false};
+  if(c.type==='cycle')run.p={type:'cycle',round:0,order:shuffle(CYCLES).slice(0,3),next:0,busy:false};
+  if(c.type==='pipes')run.p=makePipes(c.n,c.kind);
+  const tx=STEM_TEXT[c.type==='pipes'?c.kind:c.type];run.cur={text:tr(tx.text),say:tr(tx.say)};
+  if(run.p.type==='cycle')run.p.deck=shuffle(run.p.order[0][0].map((e,i)=>({e,i})));
+}
+function stemWin(st){run.won=true;sfx('win');burst(innerWidth/2,innerHeight/2,70);setTimeout(()=>finishLevel(st),1100)}
+const stemStars=(m,a,b)=>m<=a?3:m<=b?2:1;
+
+// coding: Talos follows absolute arrows on a grid
+function codeDist(n,rocks,a,b){const d=new Map([[a,0]]),q=[a];while(q.length){const c=q.shift();if(c===b)return d.get(c);for(const [dx,dy] of Object.values(DIRS)){const x=c%n+dx,y=Math.floor(c/n)+dy,k=y*n+x;if(x<0||y<0||x>=n||y>=n||rocks.has(k)||d.has(k))continue;d.set(k,d.get(c)+1);q.push(k)}}return 99}
+function codeBody(p){
+  const cells=[...Array(p.n*p.n).keys()].map(i=>`<div class="cg-c">${p.rocks.includes(i)?'<span class="rock"></span>':i===p.target?'<span class="cg-i">🏺</span>':''}</div>`).join('');
+  return `<div class="stage"><div class="cgrid" style="grid-template-columns:repeat(${p.n},minmax(0,1fr));grid-template-rows:repeat(${p.n},minmax(0,1fr))">${cells}<div class="robot" id="robot" style="width:${100/p.n}%;left:${p.pos%p.n*100/p.n}%;top:${Math.floor(p.pos/p.n)*100/p.n}%">${TALOS}</div></div></div>
+  <div class="prog" id="prog">${[...Array(p.max)].map((_,k)=>`<span class="slot ${p.prog[k]?'full':''}" data-k="${k}">${p.prog[k]?DIRS[p.prog[k]][2]:''}</span>`).join('')}</div>
+  <div class="row">${Object.keys(DIRS).map(d=>`<button class="icon-btn arrow" data-act="st" data-x="add" data-d="${d}" aria-label="${d}">${DIRS[d][2]}</button>`).join('')}<button class="icon-btn" data-act="st" data-x="del" aria-label="Delete">⌫</button><button class="btn blue" data-act="st" data-x="go">▶ ${tr(['Go','Πάμε'])}</button></div>`;
+}
+function codeGo(){
+  const p=run.p;if(p.busy||!p.prog.length)return;p.busy=true;let pos=0,k=0;const n=p.n,rob=$('#robot');
+  const place=c=>{rob.style.left=c%n*100/n+'%';rob.style.top=Math.floor(c/n)*100/n+'%'};
+  const reset=msg=>{run.mistakes++;say(msg);setTimeout(()=>{place(0);p.busy=false;document.querySelectorAll('.slot').forEach(s=>s.classList.remove('now'))},1300)};
+  const step=()=>{document.querySelectorAll('.slot').forEach((s,i)=>s.classList.toggle('now',i===k));
+    if(k>=p.prog.length){if(pos===p.target)return stemWin(stemStars(run.mistakes+Math.max(0,p.prog.length-p.best),0,2));return reset(tr(['Talos did not reach the vase. Add more arrows!','Ο Τάλως δεν έφτασε στο αγγείο. Πρόσθεσε κι άλλα βελάκια!']))}
+    const [dx,dy]=DIRS[p.prog[k]],x=pos%n+dx,y=Math.floor(pos/n)+dy,nx=y*n+x;
+    if(x<0||y<0||x>=n||y>=n||p.rocks.includes(nx)){sfx('bad');rob.classList.add('shake');setTimeout(()=>rob.classList.remove('shake'),450);return reset(tr(['Bump! Something is in the way. Try again!','Μπαμ! Κάτι είναι στον δρόμο. Ξαναπροσπάθησε!']))}
+    pos=nx;place(pos);sfx('tap');k++;
+    if(pos===p.target&&k===p.prog.length){setTimeout(step,450);return}
+    setTimeout(step,520)};
+  step();
+}
+// floating and magnets: choose, then watch what really happens
+function tankBody(p){
+  const it=p.items[p.i],mag=p.type==='magnet';
+  return `<div class="stage"><div class="tank ${mag?'mag':''}">${mag?'<span class="magnet">🧲</span>':'<div class="water"></div>'}<span class="titem" id="titem">${it[0]}</span><div class="tcount">${p.i+1} / ${p.items.length}</div></div></div>
+  <div class="row"><button class="btn blue" data-act="st" data-x="pick" data-v="1">${mag?tr(['🧲 It sticks','🧲 Κολλάει']):tr(['⬆️ Floats','⬆️ Επιπλέει'])}</button><button class="btn" data-act="st" data-x="pick" data-v="0">${mag?tr(['✋ It does not','✋ Δεν κολλάει']):tr(['⬇️ Sinks','⬇️ Βυθίζεται'])}</button></div>`;
+}
+function tankPick(v){
+  const p=run.p;if(p.busy)return;p.busy=true;const it=p.items[p.i],ok=(+v===it[2]),mag=p.type==='magnet',el=$('#titem');
+  el.style.top=mag?(it[2]?'16%':'78%'):(it[2]?'38%':'80%');
+  const fact=mag?tr([`${it[1][0]} ${it[2]?'sticks to the magnet!':'does not stick to the magnet.'}`,`${it[1][1]} ${it[2]?'κολλάει στον μαγνήτη!':'δεν κολλάει στον μαγνήτη.'}`]):tr([`${it[1][0]} ${it[2]?'floats!':'sinks!'}`,`${it[1][1]} ${it[2]?'επιπλέει!':'βυθίζεται!'}`]);
+  if(ok){sfx('good');burst(innerWidth/2,innerHeight/2,25)}else{run.mistakes++;sfx('bad')}
+  Promise.all([say((ok?'':tr(['Look! ','Κοίτα! ']))+fact),wait(1600)]).then(()=>{if(!run||run.p!==p)return;p.i++;p.busy=false;
+    if(p.i>=p.items.length){say(tr(['Eureka! You are a little scientist!','Εύρηκα! Είσαι μικρός επιστήμονας!']));return stemWin(stemStars(run.mistakes,0,1))}renderGame()});
+}
+// balance scale: big blocks weigh 2 or 3 little ones
+function balanceLeft(r){return r===0?Array(rand(2,5)).fill(1):r===1?Array(rand(1,3)).fill(2):[3,...Array(rand(1,2)).fill(1)]}
+const blk=v=>`<span class="wblock w${v}">${v>1?v:''}</span>`;
+function balanceBody(p){
+  return `<div class="stage"><div class="scale"><div class="post"></div><div class="beam" id="beam"></div>
+  <div class="pan l" id="panL"><div class="pb">${p.left.map(blk).join('')}</div><div class="dish"></div></div>
+  <div class="pan r" id="panR"><div class="pb" id="pbR">${Array(p.right).fill(1).map(blk).join('')}</div><div class="dish"></div></div>
+  <div class="tcount">${p.round+1} / 3</div></div></div>
+  <div class="row"><button class="btn" data-act="st" data-x="minus">➖ ${blk(1)}</button><button class="btn blue" data-act="st" data-x="plus">➕ ${blk(1)}</button></div>`;
+}
+function balancePaint(){
+  const p=run.p,L=p.left.reduce((a,b)=>a+b,0),diff=L-p.right,a=-Math.max(-16,Math.min(16,diff*5)),dy=Math.sin(a*Math.PI/180)*150;
+  $('#beam').style.transform=`rotate(${a}deg)`;$('#panL').style.transform=`translateY(${-dy}px)`;$('#panR').style.transform=`translateY(${dy}px)`;
+  $('#pbR').innerHTML=Array(p.right).fill(1).map(blk).join('');return diff;
+}
+function balanceAdd(d){
+  const p=run.p;if(p.busy)return;p.right=Math.max(0,Math.min(12,p.right+d));sfx('tap');const diff=balancePaint();
+  if(diff<0&&!p.over){p.over=true;run.mistakes++;say(tr(['Too heavy! Take one away.','Πολύ βαριά! Βγάλε ένα.']))}
+  if(diff>=0)p.over=false;
+  if(diff===0){p.busy=true;sfx('good');burst(innerWidth/2,innerHeight/2,30);
+    Promise.all([say(tr(['Balanced! The scale is level.','Ισορροπία! Η ζυγαριά ίσιωσε.'])),wait(1500)]).then(()=>{if(!run||run.p!==p)return;p.round++;
+      if(p.round>=3)return stemWin(stemStars(run.mistakes,0,2));p.left=balanceLeft(p.round);p.right=0;p.busy=false;renderGame();balancePaint()})}
+}
+// life cycles: tap the pictures in order
+function cycleBody(p){return `<div class="options" style="flex:1;align-items:center">${p.deck.map((c,k)=>`<button class="opt tall" data-act="st" data-x="card" data-k="${k}"><span class="emo">${c.e}</span>${c.done?`<em class="rank">${c.i+1}</em>`:''}</button>`).join('')}</div><div class="row"><div class="tcount" style="position:static">${p.round+1} / 3</div></div>`}
+function cycleTap(k,btn){
+  const p=run.p,c=p.deck[k];if(p.busy||c.done)return;
+  if(c.i!==p.next){run.mistakes++;sfx('bad');btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');say(t('tryAgain'));return}
+  c.done=true;p.next++;sfx('tap');renderGame();
+  if(p.next>=4){p.busy=true;sfx('good');burst(innerWidth/2,innerHeight/2,30);
+    Promise.all([say(tr(p.order[p.round][1])),wait(1500)]).then(()=>{if(!run||run.p!==p)return;p.round++;
+      if(p.round>=3)return stemWin(stemStars(run.mistakes,0,2));p.next=0;p.busy=false;p.deck=shuffle(p.order[p.round][0].map((e,i)=>({e,i})));renderGame()})}
+}
+// pipes and wires: rotate tiles to connect the source to the goal
+const PIPE_BASE={S:[0,2],C:[0,1],T:[0,1,2]};
+const pipeOpen=t=>PIPE_BASE[t.t].map(d=>(d+t.r)%4);
+function makePipes(n,kind){
+  const sr=rand(0,n-1),tr_=rand(0,n-1),start=sr*n,end=tr_*n+n-1;let path=null;
+  const dfs=(c,seen)=>{if(c===end)return [c];const x=c%n,y=Math.floor(c/n);
+    for(const [dx,dy] of shuffle([[1,0],[0,1],[0,-1],[1,0],[-1,0]])){const X=x+dx,Y=y+dy,k=Y*n+X;if(X<0||Y<0||X>=n||Y>=n||seen.has(k))continue;seen.add(k);const r=dfs(k,seen);if(r)return [c,...r]}return null};
+  path=dfs(start,new Set([start]));
+  const side=(a,b)=>b===a-n?0:b===a+1?1:b===a+n?2:3;
+  const tiles=[...Array(n*n)].map(()=>({t:pick(['S','C','C','T']),r:rand(0,3)}));let need=0;
+  path.forEach((c,k)=>{const a=k?side(c,path[k-1]):3,b=k<path.length-1?side(c,path[k+1]):1;const want=[a,b].sort().join();
+    const t=(a+2)%4===b?'S':'C';let r=0;while(PIPE_BASE[t].map(d=>(d+r)%4).sort().join()!==want)r++;
+    const cur=rand(0,3),rot=t==='S'?((r-cur)%2+2)%2:((r-cur)%4+4)%4;tiles[c]={t,r:cur,sol:r};need+=rot});
+  if(need===0){tiles[path[0]].r=(tiles[path[0]].r+1)%4;need=1}
+  return {type:'pipes',kind,n,tiles,start,end,sr,tr:tr_,need,taps:0,busy:false};
+}
+function pipeFlow(p){const n=p.n,on=new Set();if(!pipeOpen(p.tiles[p.start]).includes(3))return on;const q=[p.start];on.add(p.start);
+  while(q.length){const c=q.shift();for(const d of pipeOpen(p.tiles[c])){const x=c%n+[0,1,0,-1][d],y=Math.floor(c/n)+[-1,0,1,0][d],k=y*n+x;
+    if(x<0||y<0||x>=n||y>=n||on.has(k))continue;if(pipeOpen(p.tiles[k]).includes((d+2)%4)){on.add(k);q.push(k)}}}return on}
+function pipesBody(p){
+  const n=p.n,water=p.kind==='water',arm=d=>`<rect x="40" y="0" width="20" height="54" transform="rotate(${d*90} 50 50)"/>`;
+  let cells='';for(let y=0;y<n;y++){cells+=`<div class="pend">${y===p.sr?(water?'🚰':'🔋'):''}</div>`;
+    for(let x=0;x<n;x++){const i=y*n+x,tl=p.tiles[i];cells+=`<button class="ptile" data-act="st" data-x="rot" data-i="${i}"><svg viewBox="0 0 100 100"><g class="pg" id="pg${i}" style="transform:rotate(${tl.r*90}deg)">${PIPE_BASE[tl.t].map(arm).join('')}<rect x="38" y="38" width="24" height="24"/></g></svg></button>`}
+    cells+=`<div class="pend" id="${y===p.tr?'goal':''}">${y===p.tr?(water?'🥀':'💡'):''}</div>`}
+  return `<div class="stage"><div class="pgrid ${water?'water':'power'}" style="grid-template-columns:auto repeat(${n},minmax(0,1fr)) auto;width:min(100%,calc(100dvh - 300px) * ${(n+1.3)/n},${n*130+140}px)">${cells}</div></div>`;
+}
+function pipesPaint(){const p=run.p,on=pipeFlow(p);p.tiles.forEach((tl,i)=>{const g=document.getElementById('pg'+i);if(g){g.style.transform=`rotate(${tl.rr??tl.r*90}deg)`;g.classList.toggle('on',on.has(i))}});
+  return on.has(p.end)&&pipeOpen(p.tiles[p.end]).includes(1)}
+function pipesRot(i){
+  const p=run.p;if(p.busy)return;const tl=p.tiles[i];tl.r=(tl.r+1)%4;tl.rr=(tl.rr??(tl.r+3)*90)+90;p.taps++;sfx('flip');
+  if(pipesPaint()){p.busy=true;const g=$('#goal');if(g){g.textContent=p.kind==="water"?"🌻":"💡";g.classList.add("lit")}
+    say(tr(p.kind==='water'?['The water reached the flower! It is happy now.','Το νερό έφτασε στο λουλούδι! Τώρα είναι χαρούμενο.']:['The lamp is on! You made a circuit.','Η λάμπα άναψε! Έφτιαξες κύκλωμα.']));
+    stemWin(stemStars(p.taps,p.need+4,p.need*2+10))}
+}
+function stemBody(){const p=run.p;return p.type==='code'?codeBody(p):p.type==='float'||p.type==='magnet'?tankBody(p):p.type==='balance'?balanceBody(p):p.type==='cycle'?cycleBody(p):pipesBody(p)}
+function stemAct(b){
+  if(!run||!run.p||run.won)return;const p=run.p,x=b.dataset.x;
+  if(p.type==='code'&&!p.busy){if(x==='add'&&p.prog.length<p.max){p.prog.push(b.dataset.d);sfx('tap');renderGame()}if(x==='del'){p.prog.pop();sfx('tap');renderGame()}if(x==='go')codeGo()}
+  if(x==='pick')tankPick(b.dataset.v);
+  if(x==='plus')balanceAdd(1);if(x==='minus')balanceAdd(-1);
+  if(x==='card')cycleTap(+b.dataset.k,b);
+  if(x==='rot')pipesRot(+b.dataset.i);
+}
+
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
   ui.modal=null;ui.screen='game';
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:g==='puzzle'||g==='music'?1:5,mistakes:0,busy:false,nextRank:0};
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else run.cur=GEN[g](l);
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:g==='puzzle'||g==='music'||g==='stem'?1:5,mistakes:0,busy:false,nextRank:0};
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem')setupStem(l);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
 function speakPrompt(){if(!run)return;const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>say(s),250)}
@@ -907,7 +1060,8 @@ function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
   const prog=run.g==='memory'?run.found:run.q;
   let body;
-  if(run.g==='music')body=musicBody();
+  if(run.g==='stem')body=stemBody();
+  else if(run.g==='music')body=musicBody();
   else if(run.g==='puzzle')body=puzzleBody();
   else if(run.g==='memory'){const n=run.cards.length,cols=n<=6?3:4;
     body=`<div class="stage"><div class="mem" style="grid-template-columns:repeat(${cols},minmax(0,1fr));width:min(100%,${cols*150}px,calc((100dvh - 230px) / ${Math.ceil(n/cols)} * .75 * ${cols} + ${(cols-1)*12}px))">${run.cards.map(c=>`<button class="card ${c.up?'up':''} ${c.done?'done':''}" data-act="card" data-i="${c.i}" aria-label="${c.up||c.done?tr(c.n):'?'}"><div class="in"><div class="b"><span>Ω</span></div><div class="f">${c.e}</div></div></button>`).join('')}</div></div>`}
@@ -920,6 +1074,8 @@ function renderGame(){
     <div class="prompt"><span class="pet" id="pet">${h.pet}</span><div class="bubble"><span>${run.g==='memory'?t('findPairs'):run.cur.text}</span><button class="icon-btn" data-act="repeat" aria-label="Repeat">${I.speaker}</button></div></div>
     ${body}</div>`;
   if(run.g==='music')musicHud();
+  if(run.g==='stem'&&run.p.type==='balance')requestAnimationFrame(()=>run&&run.p&&run.p.type==='balance'&&balancePaint());
+  if(run.g==='stem'&&run.p.type==='pipes')pipesPaint();
 }
 function success(btn,after){
   run.busy=true;sfx('good');const r=btn.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2);
@@ -963,10 +1119,11 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv')sfx('tap');
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st')sfx('tap');
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
+      else if(ui.screen==='game'&&run&&run.g==='stem'){const c=STEM[run.l],tx=STEM_TEXT[c.type==='pipes'?c.kind:c.type];run.cur={text:tr(tx.text),say:tr(tx.say)}}
       else if(ui.screen==='game'&&run&&run.g==='music')run.cur.text=tr(['Catch the notes in order!','Μάζεψε τις νότες με τη σειρά!']);
       else if(ui.screen==='game'&&run&&run.g!=='memory'){run.cur=GEN[run.g](run.l);run.nextRank=0}
       render();if(ui.screen==='game')speakPrompt();else say(isEl()?'Ελληνικά!':'English!');break}
@@ -995,6 +1152,8 @@ document.addEventListener('click',e=>{
     case 'card':flip(+b.dataset.i);break;
     case 'pz':puzzleAct(b);break;
     case 'mv':musicMove(+b.dataset.d);break;
+    case 'st':stemAct(b);break;
+    case 'unlockall':S.unlocked=GAMES.filter(g=>g.gate).map(g=>g.id);save();toast(t('allOpen'));render();break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}
     case 'buy':{const it=ITEMS.find(x=>x.id===b.dataset.id);if(S.coins<it.cost){say(t('needCoins'));break}S.coins-=it.cost;S.owned.push(it.id);S.equip[it.slot]=it.id;sfx('coin');const nb=checkBadges();save();render();const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,40);sayL(SAY.wow(tr(it.name)));if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));break}
     case 'wear':{const it=ITEMS.find(x=>x.id===b.dataset.id);S.equip[it.slot]=it.id;save();render();say(tr(it.name));break}
