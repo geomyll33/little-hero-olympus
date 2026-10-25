@@ -292,6 +292,30 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .cstar.glow circle:nth-child(2){fill:#ff8c1a;animation:none}
 .cstar text{font-family:var(--display);font-weight:700;font-size:5px;fill:#fff}
 .cname{font-family:var(--display);font-weight:700;font-size:7px;fill:#ffe14a}
+/* solar system */
+.orbitstage{position:relative;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
+.solar{width:min(100%,calc(100dvh - 300px),560px);aspect-ratio:1;max-width:100%;background:radial-gradient(circle,#24356b,#0b1638 70%);border-radius:14px;border:4px solid #1c2a48;touch-action:none}
+.solar svg{width:100%;height:100%;display:block}
+.orbit{fill:none;stroke:rgba(255,255,255,.35);stroke-width:1.2;stroke-dasharray:3 3}
+.orbit.glow{stroke:#ffe14a;stroke-width:3;stroke-dasharray:none;animation:none}
+.tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:min(100%,360px)}
+.tp{width:84px;padding:4px;border-radius:12px;background:var(--marble);border:3px solid rgba(28,42,72,.12);box-shadow:0 5px 0 #cbbf9f;touch-action:none}
+.tp.sel{border-color:var(--gold);transform:scale(1.08)}
+.tp .planet{width:100%}
+.pghost{position:fixed;width:80px;transform:translate(-50%,-50%);pointer-events:none;z-index:50}
+.pghost .planet{width:100%}
+/* art gallery */
+.artstage{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
+.canvasbox{background:#fff;padding:8px;border:10px solid #c98b2b;box-shadow:inset 0 0 0 3px #8a5a17,0 6px 0 rgba(28,42,72,.25);border-radius:4px;max-width:100%}
+.artwork{display:block;width:min(64vw,calc((100dvh - 330px) * 1.3),620px);max-width:100%;height:auto;max-height:calc(100dvh - 330px)}
+.artwork path{stroke:#1c1c1c;stroke-width:2;stroke-linejoin:round;cursor:pointer;transition:fill .15s}
+.palette{display:grid;grid-template-columns:repeat(4,44px);gap:8px}
+@media (max-width:760px){.palette{grid-template-columns:repeat(8,40px)}}
+.pot{width:44px;height:44px;border-radius:10px;background:var(--c);border:3px solid rgba(0,0,0,.25);box-shadow:inset -5px -5px 0 rgba(0,0,0,.18)}
+.pot.sel{outline:4px solid var(--ink);outline-offset:2px;transform:scale(1.1)}
+.artthumb{width:100%;height:auto;max-height:90px;display:block;border:4px solid #c98b2b;background:#fff}
+.artthumb path{stroke:#1c1c1c;stroke-width:2}
+.btn[disabled]{opacity:.5}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -389,6 +413,7 @@ const GAMES=[
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο']]});
+GAMES.push({id:'art',name:['Art Gallery','Πινακοθήκη'],skill:['Painting','Ζωγραφική'],x:87,y:52,gate:{coins:20},levels:[['Mondrian','Μοντριάν'],['Kandinsky','Καντίνσκι'],['Dolphins of Knossos','Δελφίνια της Κνωσού'],['Sunflowers','Ηλιοτρόπια'],['The Great Wave','Το μεγάλο κύμα'],['The Starry Night','Έναστρη νύχτα']]});
 GAMES.push({id:'space',name:['Star Observatory','Αστεροσκοπείο'],skill:['Astronomy','Αστρονομία'],x:73,y:17,gate:{coins:35},levels:[['Day or night','Μέρα ή νύχτα'],['Find the planet','Βρες τον πλανήτη'],['The Moon','Το φεγγάρι'],['Planets in order','Οι πλανήτες στη σειρά'],['Constellations','Οι αστερισμοί'],['All eight planets','Και οι οκτώ πλανήτες']]});
 GAMES.push({id:'stem',name:["Archimedes' Workshop",'Εργαστήρι του Αρχιμήδη'],skill:['STEM puzzles','Γρίφοι STEM'],x:12,y:13,gate:{coins:30},levels:[['Program Talos','Προγραμμάτισε τον Τάλω'],['Float or sink','Επιπλέει ή βυθίζεται'],['The scale','Η ζυγαριά'],['Water pipes','Οι σωλήνες του νερού'],['How things grow','Πώς μεγαλώνουν'],['Magnets','Οι μαγνήτες'],['Light the lamp','Άναψε τη λάμπα'],['Talos and the rocks','Ο Τάλως και οι βράχοι'],['Gears','Γρανάζια'],['Shadows and light','Σκιές και φως']]});
 const PUZZLES=[{type:'maze',n:6},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:8,key:true},{type:'hanoi',n:3},{type:'maze',n:9,key:true,mino:true},{type:'hanoi',n:4},{type:'maze',n:11,key:true,mino:true}];
@@ -405,6 +430,7 @@ const BADGES=[
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
   {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
+  {id:'art',icon:'🎨',name:['Little Painter','Μικρός Ζωγράφος'],desc:['Paint every picture in the Gallery','Ζωγράφισε όλους τους πίνακες της Πινακοθήκης'],test:s=>gameDone(s,'art')},
   {id:'space',icon:'🔭',name:['Little Astronomer','Μικρός Αστρονόμος'],desc:['Finish every level in the Observatory','Τελείωσε όλο το Αστεροσκοπείο'],test:s=>gameDone(s,'space')},
   {id:'stem',icon:'⚙️',name:['Little Archimedes','Μικρός Αρχιμήδης'],desc:['Solve every STEM puzzle in the Workshop','Λύσε όλους τους γρίφους του Εργαστηρίου'],test:s=>gameDone(s,'stem')},
   {id:'puzzle',icon:'🧩',name:['Puzzle Master','Λύτης γρίφων'],desc:['Solve every riddle in the Cave','Λύσε όλους τους γρίφους της Σπηλιάς'],test:s=>gameDone(s,'puzzle')},
@@ -442,6 +468,7 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['A running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
+  art:['Colouring famous paintings: Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh and Hokusai. The child can peek at the artist\'s colours and hears a short story about each painting. Finished paintings stay in the gallery.','Χρωματισμός διάσημων πινάκων: Μοντριάν, Καντίνσκι, τα μινωικά δελφίνια της Κνωσού, βαν Γκογκ και Χοκουσάι. Το παιδί μπορεί να δει τα χρώματα του ζωγράφου και ακούει μια μικρή ιστορία για κάθε πίνακα. Οι πίνακες που τελειώνει μένουν στην πινακοθήκη.'],
   space:['Astronomy: day and night, the planets and their order from the Sun, the phases of the Moon, and constellations with their Greek myths.','Αστρονομία: μέρα και νύχτα, οι πλανήτες και η σειρά τους από τον Ήλιο, οι φάσεις της Σελήνης και οι αστερισμοί με τους ελληνικούς μύθους τους.'],
   stem:['STEM with pictures: coding the bronze robot Talos with arrows, floating and sinking (Archimedes), balancing a scale, connecting water pipes and electric circuits, magnets, life cycles, gears, and shadows and light.','STEM με εικόνες: προγραμματισμός του χάλκινου ρομπότ Τάλω με βελάκια, τι επιπλέει και τι βυθίζεται (Αρχιμήδης), ισορροπία ζυγαριάς, σωλήνες νερού και ηλεκτρικά κυκλώματα, μαγνήτες, κύκλοι ζωής, γρανάζια, σκιές και φως.'],
   puzzle:['Problem solving with pictures: the Minotaur labyrinth, the Tower puzzle and the wolf, sheep and grass river crossing. The light-bulb button gives a spoken hint.','Επίλυση προβλημάτων με εικόνες: ο λαβύρινθος του Μινώταυρου, ο Πύργος και το πέρασμα του λύκου, του προβάτου και του χόρτου. Το κουμπί με τη λάμπα δίνει βοήθεια.']
@@ -505,7 +532,7 @@ function vocEl(name){
 
 /* ---------- state ---------- */
 const KEY='little-hero-olympus-v1';
-const fresh=()=>({v:2,started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,voice:{},updatedAt:0});
+const fresh=()=>({v:2,art:{},started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,voice:{},updatedAt:0});
 function normalize(s){const f=fresh();s=Object.assign(f,s||{});s.equip=Object.assign(fresh().equip,s.equip||{});s.stars=Object.assign(fresh().stars,s.stars||{});GAMES.forEach(g=>{const a=s.stars[g.id];s.stars[g.id]=g.levels.map((_,i)=>a[i]||0)});return s}
 let S=fresh();
 try{const raw=localStorage.getItem(KEY);if(raw)S=normalize(JSON.parse(raw))}catch(e){}
@@ -708,6 +735,7 @@ const ART={
   compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
   memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
   puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  art:svgArt(cube(8,30,84,58,10,'#f1e9d8')+`<rect x="16" y="40" width="30" height="22" fill="#1d3f8f"/><circle cx="38" cy="46" r="4" fill="#f2d24a"/><rect x="52" y="40" width="30" height="22" fill="#d62d20"/><rect x="52" y="40" width="10" height="8" fill="#f6d32d"/><rect x="62" y="40" width="3" height="22" fill="#111"/><rect x="40" y="70" width="16" height="18" fill="#6d4c2f"/>`+cube(20,12,60,10,10,'#e9563d')),
   space:svgArt(cube(18,58,58,32,10,'#e9e2d0')+`<path d="M18 58A29 29 0 0 1 76 58Z" fill="#b9c4d2"/><rect x="44" y="30" width="8" height="28" fill="#1c2a48" transform="rotate(35 48 44)"/><rect x="40" y="70" width="14" height="20" fill="#6d4c2f"/>`+[[12,14],[84,10],[70,30],[26,34]].map(([x,y])=>`<rect x="${x}" y="${y}" width="6" height="6" fill="#ffe14a" transform="rotate(45 ${x+3} ${y+3})"/>`).join('')),
   stem:svgArt(cube(10,46,62,42,10,'#c8643b')+cube(10,36,62,10,10,'#a54d2a')+`<rect x="28" y="62" width="22" height="26" fill="#6d4c2f"/>`+`<g transform="translate(76 30)"><circle r="15" fill="#f2b632"/>${[0,45,90,135,180,225,270,315].map(a=>`<rect x="-4" y="-20" width="8" height="8" fill="#f2b632" transform="rotate(${a})"/>`).join('')}<circle r="6" fill="#c98a12"/></g>`+cube(36,10,14,14,6,'#ffe14a')),
   music:svgArt(cube(6,74,84,16,10,'#b98d63')+cube(14,60,68,14,10,'#d7b48e')+cube(24,48,48,12,10,'#e9cfa8')+cube(34,38,28,10,8,'#f6ead2')+`<rect x="58" y="6" width="5" height="26" fill="#1c2a48"/><rect x="58" y="6" width="18" height="6" fill="#1c2a48"/><rect x="50" y="28" width="12" height="9" fill="#1c2a48"/><rect x="72" y="6" width="4" height="22" fill="#1c2a48"/><rect x="64" y="24" width="12" height="9" fill="#1c2a48"/>`)
@@ -730,8 +758,8 @@ const MAP_SVG=`<svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
 <rect width="1000" height="700" fill="url(#mSea)"/>
 <g fill="#bfe6ff" opacity=".5">${[[60,80],[880,260],[300,650],[640,660],[920,420],[40,520]].map(([x,y])=>`<rect x="${x}" y="${y}" width="26" height="6"/><rect x="${x+20}" y="${y-6}" width="18" height="6"/>`).join('')}</g>
 ${islandTiles()}
-<g fill="#e3c27e">${[[180,300,320,150],[330,140,520,110],[530,110,720,125],[190,320,400,320],[410,320,620,320],[400,330,320,500],[330,505,550,505],[620,330,560,500]].map(([a,b,c,d])=>{let s='';for(let t=0;t<=1;t+=.07)s+=`<rect x="${(a+(c-a)*t-6).toFixed(0)}" y="${(b+(d-b)*t-6).toFixed(0)}" width="12" height="12"/>`;return s}).join('')}</g>
-<g stroke="rgba(0,0,0,.15)" stroke-width="1">${[[740,330],[780,310],[820,335],[770,360],[810,370],[850,350]].map(([x,y],i)=>cube(x,y,30,26,10,'#ffffff')+(i%2?'':cube(x+7,y-10,16,8,6,'#2f6fd6'))+`<rect x="${x+11}" y="${y+10}" width="8" height="16" fill="#2f6fd6"/>`).join('')}
+<g fill="#e3c27e">${[[180,300,320,150],[330,140,520,110],[530,110,720,125],[190,320,400,320],[410,320,620,320],[400,330,320,500],[330,505,550,505],[620,330,560,500],[640,320,850,340]].map(([a,b,c,d])=>{let s='';for(let t=0;t<=1;t+=.07)s+=`<rect x="${(a+(c-a)*t-6).toFixed(0)}" y="${(b+(d-b)*t-6).toFixed(0)}" width="12" height="12"/>`;return s}).join('')}</g>
+<g stroke="rgba(0,0,0,.15)" stroke-width="1">${[[690,520],[730,500],[770,525],[720,550],[760,560],[800,540]].map(([x,y],i)=>cube(x,y,30,26,10,'#ffffff')+(i%2?'':cube(x+7,y-10,16,8,6,'#2f6fd6'))+`<rect x="${x+11}" y="${y+10}" width="8" height="16" fill="#2f6fd6"/>`).join('')}
 ${[[250,240],[440,230],[640,210],[860,250],[230,420],[700,450],[450,420],[150,230]].map(([x,y])=>cube(x-4,y,8,14,4,'#7a5a2a')+cube(x-14,y-22,28,22,8,'#5f9e3c')).join('')}</g>
 </svg>`;
 
@@ -818,7 +846,7 @@ function renderModal(){
   let h='';
   if(m.type==='levels'){const g=GAMES.find(x=>x.id===m.g),st=S.stars[g.id];
     h=`<h2>${tr(g.name)}</h2><div class="sub">${tr(g.skill)}</div><div class="levels">${g.levels.map((name,i)=>{const open=i===0||st[i-1]>0;
-      return `<button class="lvl ${open?'':'locked'}" ${open?`data-act="play" data-g="${g.id}" data-l="${i}"`:'disabled'}><b>${i+1}</b>${open?starsRow(st[i]):I.lock}<span>${tr(name)}</span></button>`}).join('')}</div>
+      return `<button class="lvl ${open?'':'locked'}" ${open?`data-act="play" data-g="${g.id}" data-l="${i}"`:'disabled'}>${g.id==='art'?artThumb(i):`<b>${i+1}</b>`}${open?starsRow(st[i]):I.lock}<span>${tr(name)}</span></button>`}).join('')}</div>
       <button class="btn white small" data-act="close">${t('backIsland')}</button>`}
   if(m.type==='gate'){const g=GAMES.find(x=>x.id===m.g),c=g.gate.coins,need=c||g.gate.badges,have=c?S.coins:S.badges.length,ok=have>=need;
     h=`<h2>${tr(g.name)}</h2><div style="width:160px;margin:0 auto;filter:grayscale(.6)">${ART[g.id]}</div>
@@ -1394,6 +1422,7 @@ function pipesRot(i){
     stemWin(stemStars(p.taps,p.need+4,p.need*2+10))}
 }
 function stemBody(){const p=run.p;const hint=`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
+  if(p.type==='orbit')return orbitBody(p)+hint;
   if(['daynight','pick','stars','gears','shadow'].includes(p.type))return extraBody(p)+hint;
   return hint+(p.type==='code'?codeBody(p):p.type==='float'||p.type==='magnet'?tankBody(p):p.type==='balance'?balanceBody(p):p.type==='cycle'?cycleBody(p):pipesBody(p))}
 function stemAct(b){
@@ -1406,6 +1435,7 @@ function stemAct(b){
   if(x==='choose')chooseAct(b.dataset.v,b);
   if(x==='star')starTap(+b.dataset.k);
   if(x==='hint')stemHint();
+  if(x==='tp')orbitPick(+b.dataset.v);
 }
 
 /* ---------- more STEM: gears, shadows; and the Star Observatory ---------- */
@@ -1459,6 +1489,7 @@ function setupExtra(c){
   if(c.type==='daynight'){const d=shuffle(DAYNIGHT.filter(x=>x[2])),n=shuffle(DAYNIGHT.filter(x=>!x[2]));run.p={type:'daynight',items:shuffle([...d.slice(0,3),...n.slice(0,3)]),i:0,busy:false}}
   if(c.type==='pick'){run.p={type:'pick',qs:shuffle(PLANET_Q),i:0,busy:false};pickRound()}
   if(c.type==='stars'){run.p={type:'stars',rounds:shuffle(CONSTELLATIONS),round:0,next:0,busy:false,bg:[...Array(40)].map(()=>[rand(0,100),rand(0,100),Math.random()*.8+.3])}}
+  if(c.type==='orbit')setupOrbit(c);
   if(c.type==='gears'){run.p={type:'gears',counts:[2,3,5],round:0,spun:false,arrows:false,busy:false}}
   if(c.type==='shadow'){run.p={type:'shadow',rounds:['match','side','match','side','match'].map(k=>k==='match'?{k,obj:null}:{k,sun:pick(['l','r'])}),i:0,busy:false};shadowRound()}
 }
@@ -1521,18 +1552,145 @@ function stemHint(){
   if(p.type==='pipes'){const i=p.tiles.findIndex(t=>t.sol!==undefined&&(t.t==='S'?t.r%2!==t.sol%2:t.r!==t.sol));glow(document.querySelector(`.ptile[data-i="${i}"]`));return say(tr(['Turn the glowing piece!','Γύρισε το κομμάτι που λάμπει!']))}
   if(p.type==='cycle'){const k=p.deck.findIndex(c=>c.i===p.next);glow(document.querySelector(`[data-x="card"][data-k="${k}"]`));return say(tr(['This one comes next!','Αυτό έρχεται μετά!']))}
   if(p.type==='stars'){p.glow=p.next;renderGame();return say(tr([`Look for number ${p.next+1}!`,`Ψάξε το ${numEl(p.next+1,'n')}!`]))}
+  if(p.type==='orbit'){const k=p.sel!==null?p.sel:Math.min(...p.tray);p.sel=k;p.glow=k;renderGame();return say(tr([`${PLANETS[PLANET_ORDER[k]][2][0]} goes on the glowing path!`,`${PLANETS[PLANET_ORDER[k]][2][1]}: στον δρόμο που λάμπει!`]))}
   if(p.type==='gears'){p.arrows=true;renderGame();return say(tr(['Follow the arrows: each gear turns the other way from its neighbour.','Ακολούθησε τα βελάκια: κάθε γρανάζι γυρίζει ανάποδα από το διπλανό του.']))}
   if(p.type==='pick'){const q=p.qs[p.i],k=p.opts.findIndex(id=>id!==q.a&&!document.querySelector(`[data-x="choose"][data-v="${p.opts.indexOf(id)}"].fade`));const el=document.querySelector(`[data-x="choose"][data-v="${k}"]`);if(el)el.classList.add('fade');return say(tr(['Not that one!','Όχι αυτός!']))}
   if(p.type==='shadow'){const r=p.rounds[p.i];if(r.k==='side')return say(tr(['The shadow goes away from the sun, to the other side.','Η σκιά πάει μακριά από τον ήλιο, από την άλλη μεριά.']));
     p.fade=r.opts.findIndex(e=>e!==r.obj);renderGame();return say(tr(['Look at the outline: ears, legs, wheels…','Κοίτα το περίγραμμα: αυτιά, πόδια, ρόδες…']))}
 }
 
+/* ---------- planets on their orbits ---------- */
+SPACE[3]={type:'orbit',rounds:[[0,1,2,3],[4,5,6,7]]};
+SPACE[5]={type:'orbit',rounds:[[0,1,2,3,4,5,6,7]]};
+STEM_TEXT.orbit={text:['Put each planet on its orbit!','Βάλε κάθε πλανήτη στην τροχιά του!'],say:['Drag each planet to its path around the Sun. Start with the one closest to the Sun!','Σύρε κάθε πλανήτη στον δρόμο του γύρω από τον Ήλιο. Ξεκίνα από αυτόν που είναι πιο κοντά στον Ήλιο!']};
+const ORBIT_R=[20,29,38,47,58,69,80,91],MINI_R=[3.2,4.6,5,4,9,7.2,6.2,6];
+const ORD_PLANET=[['first','πρώτος'],['second','δεύτερος'],['third','τρίτος'],['fourth','τέταρτος'],['fifth','πέμπτος'],['sixth','έκτος'],['seventh','έβδομος'],['eighth','όγδοος']];
+function setupOrbit(c){
+  run.p={type:'orbit',rounds:c.rounds,round:0,placed:[],sel:null,glow:-1,angles:PLANET_ORDER.map(()=>rand(0,359)),busy:false};
+  orbitRound();
+}
+function orbitRound(){const p=run.p,r=p.rounds[p.round];p.placed=p.round?p.rounds.slice(0,p.round).flat():[];p.tray=shuffle(r.slice());p.show=Math.max(...r)+1;p.sel=null;p.glow=-1}
+function miniPlanet(k){const id=PLANET_ORDER[k],[,c]=PLANETS[id],R=MINI_R[k];
+  return (id==='saturn'?`<ellipse rx="${R*1.9}" ry="${R*.45}" fill="none" stroke="#b8955a" stroke-width="1.6"/>`:'')+`<circle r="${R}" fill="${c}"/>`+(id==='earth'?`<circle cx="-1.5" cy="-1" r="1.8" fill="#4caf50"/>`:'')+(id==='jupiter'?`<ellipse cy="-3" rx="8.4" ry="1" fill="#b97a45"/><ellipse cy="2" rx="8.8" ry="1.1" fill="#b97a45"/>`:'')}
+function orbitBody(p){
+  const spin=(k,a)=>reduce?'':`<animateTransform attributeName="transform" type="rotate" from="${a} 0 0" to="${a+360} 0 0" dur="${10+k*5}s" repeatCount="indefinite"/>`;
+  return `<div class="stage orbitstage"><div class="solar"><svg viewBox="-100 -100 200 200" id="solar">
+    ${[...Array(60)].map((_,i)=>`<circle cx="${(i*73%200)-100}" cy="${(i*131%200)-100}" r=".5" fill="#fff" opacity=".5"/>`).join('')}
+    <circle r="16" fill="#ffd34a" opacity=".35"/><circle r="12" fill="#ffc21a"/>
+    ${ORBIT_R.slice(0,p.show).map((r,k)=>`<circle r="${r}" class="orbit ${p.glow===k?'glow':''}"/>`).join('')}
+    ${p.placed.map(k=>`<g transform="rotate(${p.angles[k]})">${spin(k,p.angles[k])}<g transform="translate(${ORBIT_R[k]} 0)">${miniPlanet(k)}</g></g>`).join('')}
+  </svg></div>
+  <div class="tray">${p.tray.map(k=>`<button class="tp ${p.sel===k?'sel':''}" data-act="st" data-x="tp" data-v="${k}" aria-label="${tr(PLANETS[PLANET_ORDER[k]][2])}">${planetSVG(PLANET_ORDER[k])}<small class="pname">${tr(PLANETS[PLANET_ORDER[k]][2])}</small></button>`).join('')}</div>
+  <div class="tcount">${p.round+1} / ${p.rounds.length}</div></div>`;
+}
+function orbitPick(k){const p=run.p;if(p.busy)return;p.sel=k;p.glow=-1;sfx('tap');say(tr(PLANETS[PLANET_ORDER[k]][2]));renderGame()}
+function orbitDrop(x,y){
+  const p=run.p,svg=document.getElementById('solar');if(!svg||p.busy)return;
+  if(p.sel===null){say(tr(['First pick a planet!','Πρώτα διάλεξε έναν πλανήτη!']));return}
+  const pt=new DOMPoint(x,y).matrixTransform(svg.getScreenCTM().inverse()),d=Math.hypot(pt.x,pt.y);
+  let k=-1,best=8;ORBIT_R.slice(0,p.show).forEach((r,i)=>{if(Math.abs(r-d)<best){best=Math.abs(r-d);k=i}});
+  if(k<0)return;
+  const name=tr(PLANETS[PLANET_ORDER[p.sel]][2]);
+  if(k!==p.sel||p.placed.includes(k)){run.mistakes++;sfx('bad');say(tr(['Not that path. Try another one!','Όχι σε αυτόν τον δρόμο. Δοκίμασε άλλον!']));return}
+  p.placed.push(k);p.tray=p.tray.filter(x=>x!==k);p.sel=null;p.glow=-1;sfx('good');renderGame();
+  const r=document.getElementById('solar').getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,20);
+  const line=tr([`${name}! The ${ORD_PLANET[k][0]} planet from the Sun.`,`${name}! Ο ${ORD_PLANET[k][1]} πλανήτης από τον Ήλιο.`]);
+  if(p.tray.length){say(line);return}
+  p.busy=true;const fact=p.rounds[p.round].length===8||p.round===1?['You know all eight planets! Many have the names of Greek gods.','Ξέρεις και τους οκτώ πλανήτες! Πολλοί έχουν ονόματα ελληνικών θεών.']:['Mercury, Venus, Earth and Mars: the four planets closest to the Sun!','Ερμής, Αφροδίτη, Γη και Άρης: οι τέσσερις πλανήτες πιο κοντά στον Ήλιο!'];
+  Promise.all([say(line+' '+tr(fact)),wait(2200)]).then(()=>{if(run.p!==p)return;p.busy=false;p.round++;
+    if(p.round>=p.rounds.length)return stemWin(stemStars(run.mistakes,0,3));orbitRound();renderGame()});
+}
+// drag a planet from the tray onto the solar system
+let pdrag=null;
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.tp');if(!b||!run||!run.p||run.p.type!=='orbit')return;
+  const k=+b.dataset.v;run.p.sel=k;pdrag={k,ghost:null,x0:e.clientX,y0:e.clientY}});
+document.addEventListener('pointermove',e=>{if(!pdrag)return;if(!pdrag.ghost&&Math.hypot(e.clientX-pdrag.x0,e.clientY-pdrag.y0)>12){
+    pdrag.ghost=document.createElement('div');pdrag.ghost.className='pghost';pdrag.ghost.innerHTML=planetSVG(PLANET_ORDER[pdrag.k]);document.body.appendChild(pdrag.ghost)}
+  if(pdrag.ghost){pdrag.ghost.style.left=e.clientX+'px';pdrag.ghost.style.top=e.clientY+'px'}});
+document.addEventListener('pointerup',e=>{if(!pdrag)return;const g=pdrag.ghost;pdrag=null;if(!g)return;g.remove();
+  const svg=document.getElementById('solar');if(!svg)return;const r=svg.getBoundingClientRect();
+  if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom)orbitDrop(e.clientX,e.clientY)});
+document.addEventListener('click',e=>{if(e.target.closest('#solar')&&run&&run.p&&run.p.type==='orbit')orbitDrop(e.clientX,e.clientY)});
+
+/* ---------- Art Gallery: colour famous paintings ---------- */
+// Each painting is a colouring page: fillable regions [path, the artist's colour] drawn in order, plus non-fillable lines on top
+const Rp=(x,y,w,h)=>`M${x} ${y}h${w}v${h}h${-w}Z`;
+const Cp=(cx,cy,r)=>`M${cx-r} ${cy}a${r} ${r} 0 1 0 ${2*r} 0a${r} ${r} 0 1 0 ${-2*r} 0Z`;
+const starPath=(cx,cy,r,n=14,k=.62)=>{let d='';for(let i=0;i<n*2;i++){const a=i*Math.PI/n-Math.PI/2,rr=i%2?r*k:r;d+=(i?'L':'M')+(cx+rr*Math.cos(a)).toFixed(1)+' '+(cy+rr*Math.sin(a)).toFixed(1)}return d+'Z'};
+const tf=(d,dx,dy,s=1,flip=false)=>d.replace(/(-?\d+\.?\d*) (-?\d+\.?\d*)/g,(m,a,b)=>`${((flip?150-+a:+a)*s+dx).toFixed(1)} ${(+b*s+dy).toFixed(1)}`);
+const DOLPHIN=[['M6 34Q28 14 70 14L80 0L92 15Q115 17 132 24Q143 28 150 34Q140 37 128 38Q100 50 62 50Q34 50 20 44L2 54L9 38Z','#2f6fa8'],
+  ['M22 38Q60 34 100 36Q120 37 136 34Q122 40 100 42Q60 44 22 42Z','#e9b437'],['M26 44Q62 46 102 44Q120 42 132 39Q118 48 96 50Q60 53 26 46Z','#ffffff']];
+const PAINTINGS=[
+  {id:'mondrian',title:['Composition with Red, Blue and Yellow','Σύνθεση με κόκκινο, μπλε και κίτρινο'],by:['Piet Mondrian','Πιτ Μοντριάν'],year:1930,vb:'0 0 300 300',
+    fact:['Mondrian painted only with straight black lines and three main colours: red, blue and yellow!','Ο Μοντριάν ζωγράφιζε μόνο με ίσιες μαύρες γραμμές και τρία βασικά χρώματα: κόκκινο, μπλε και κίτρινο!'],
+    regions:[[Rp(0,0,80,90),'#f7f3e8'],[Rp(0,100,80,100),'#f7f3e8'],[Rp(0,210,80,90),'#1f4fa8'],[Rp(90,0,210,200),'#d62d20'],[Rp(90,210,170,90),'#f7f3e8'],[Rp(270,210,30,40),'#f7f3e8'],[Rp(270,260,30,40),'#f6d32d']],
+    lines:`<g fill="#111">${[[80,0,10,300],[0,90,80,10],[0,200,300,10],[260,210,10,90],[270,250,30,10]].map(([x,y,w,h])=>`<rect x="${x}" y="${y}" width="${w}" height="${h}"/>`).join('')}</g>`},
+  {id:'kandinsky',title:['Squares with Concentric Circles','Τετράγωνα με ομόκεντρους κύκλους'],by:['Wassily Kandinsky','Βασίλι Καντίνσκι'],year:1913,vb:'0 0 300 200',
+    fact:['Kandinsky believed that colours have sounds, like music!','Ο Καντίνσκι πίστευε ότι τα χρώματα έχουν ήχο, σαν τη μουσική!'],
+    regions:[['#e8c547','#1d6fb8','#e2412f','#2e8b57','#f2a2c0'],['#2b2b5c','#f28c28','#f7e05a','#c0392b','#62b6e0'],['#c0392b','#2e2e2e','#f5d547','#4caf50','#ffffff'],['#3fa9a5','#e9563d','#2b2b5c','#f7d040','#9b59b6'],['#f2a2c0','#1d6fb8','#f28c28','#2e2e2e','#e8c547'],['#556b2f','#f5f0e1','#d6336c','#1d6fb8','#f7e05a']]
+      .flatMap((cols,i)=>{const x=(i%3)*100,y=Math.floor(i/3)*100,cx=x+50+(i%2?3:-3),cy=y+50+(i%3?-2:3);return [[Rp(x,y,100,100),cols[0]],[Cp(cx,cy,42),cols[1]],[Cp(cx+2,cy-1,31),cols[2]],[Cp(cx+1,cy+1,20),cols[3]],[Cp(cx,cy,9),cols[4]]]}),lines:''},
+  {id:'dolphins',title:['The Dolphins of Knossos','Τα δελφίνια της Κνωσού'],by:['A Minoan painter','Μινωίτης ζωγράφος'],year:-1600,vb:'0 0 400 260',
+    fact:['This wall painting is in the palace of Knossos in Crete. It was painted about 3,500 years ago!','Αυτή η τοιχογραφία βρίσκεται στο ανάκτορο της Κνωσού στην Κρήτη. Ζωγραφίστηκε πριν από περίπου 3.500 χρόνια!'],
+    regions:[[Rp(0,0,400,260),'#f3e6c4'],['M0 0H400V28Q370 40 340 26Q300 12 270 30Q230 44 200 26Q160 10 130 28Q90 42 60 26Q30 12 0 30Z','#6b8fb3'],['M0 260H400V232Q370 220 340 236Q300 250 270 230Q230 216 200 234Q160 250 130 232Q90 218 60 236Q30 248 0 230Z','#c9a05a'],
+      ...[[30,60,1,false],[200,100,1.1,true],[90,160,.9,false]].flatMap(([dx,dy,sc,fl])=>DOLPHIN.map(([d,c])=>[tf(d,dx,dy,sc,fl),c])),
+      ...[[300,50],[320,190],[40,120]].map(([x,y])=>[tf('M0 8Q10 0 22 8Q10 16 0 8ZM22 8L30 2L30 14Z',x,y,1.2),'#e3a33b'])],
+    lines:[[30,60,1,false],[200,100,1.1,true],[90,160,.9,false]].map(([dx,dy,sc,fl])=>`<circle cx="${((fl?150-128:128)*sc+dx).toFixed(1)}" cy="${(28*sc+dy).toFixed(1)}" r="2.6" fill="#111"/>`).join('')},
+  {id:'sunflowers',title:['Sunflowers','Ηλιοτρόπια'],by:['Vincent van Gogh','Βίνσεντ βαν Γκογκ'],year:1888,vb:'0 0 300 380',
+    fact:['Van Gogh painted sunflowers to decorate the room of his friend, the painter Gauguin.','Ο βαν Γκογκ ζωγράφισε τα ηλιοτρόπια για να στολίσει το δωμάτιο του φίλου του, του ζωγράφου Γκογκέν.'],
+    regions:[[Rp(0,0,300,272),'#ecd36b'],[Rp(0,272,300,108),'#d79a2b'],['M100 220Q96 260 108 300Q118 340 150 345Q182 340 192 300Q204 260 200 220Z','#e8a92e'],['M100 220L200 220Q201 240 199 262Q150 272 101 262Q99 240 100 220Z','#f2d572'],['M101 262Q150 272 199 262L198 272Q150 282 102 272Z','#2f6fa8'],
+      ...[[110,130,34],[185,112,38],[78,198,30],[218,186,32],[150,176,28],[140,66,26]].flatMap(([x,y,r],i)=>[[starPath(x,y,r),i%2?'#f2b01e':'#f6c72c'],[Cp(x,y,r*.42),i%3?'#7a4a1a':'#8a9a2a']])],
+    lines:'<g stroke="#5f8f3a" stroke-width="4" fill="none" stroke-linecap="round"><path d="M110 164Q120 200 135 222"/><path d="M185 150Q175 190 168 222"/><path d="M90 226Q110 225 120 224"/><path d="M200 210Q190 218 182 222"/><path d="M150 204V222"/><path d="M142 92Q146 160 150 222"/></g>'},
+  {id:'wave',title:['The Great Wave','Το μεγάλο κύμα'],by:['Katsushika Hokusai','Κατσουσίκα Χοκουσάι'],year:1831,vb:'0 0 400 260',
+    fact:['Hokusai painted a giant wave, and behind it, very small, Mount Fuji!','Ο Χοκουσάι ζωγράφισε ένα τεράστιο κύμα και πίσω του, μικρό μικρό, το βουνό Φούτζι!'],
+    regions:[[Rp(0,0,400,260),'#efe1c1'],[Rp(0,200,400,60),'#1f3f6e'],['M220 200L262 150L304 200Z','#3b5d8a'],['M250 164L262 150L274 164L268 160L262 166L256 160Z','#ffffff'],['M180 200Q210 170 240 182Q222 186 226 200Z','#2a5d93'],
+      ['M0 200Q10 120 70 70Q120 30 170 50Q200 62 190 92Q176 74 156 82Q140 92 150 112Q120 104 110 132Q100 160 120 200Z','#1f4f8a'],
+      ['M70 70Q120 30 170 50Q200 62 190 92Q186 80 176 76Q182 70 172 66Q176 60 164 60Q166 52 152 54Q140 50 128 58Q110 56 100 68Q86 68 70 70Z','#ffffff'],
+      ['M30 170Q40 120 80 100Q60 130 62 170Z','#8fb8d8'],['M130 196Q200 186 260 196L254 204Q200 196 136 204Z','#e8d39a'],['M300 214Q340 204 390 210L386 218Q340 214 304 222Z','#e8d39a']],lines:''},
+  {id:'starry',title:['The Starry Night','Έναστρη νύχτα'],by:['Vincent van Gogh','Βίνσεντ βαν Γκογκ'],year:1889,vb:'0 0 400 300',
+    fact:['Van Gogh painted the night sky swirling, full of shining stars!','Ο βαν Γκογκ ζωγράφισε τον νυχτερινό ουρανό να στροβιλίζεται, γεμάτο λαμπερά αστέρια!'],
+    regions:[[Rp(0,0,400,300),'#1d3f8f'],['M40 120Q90 70 160 100Q220 128 260 96Q300 66 340 92Q360 110 330 120Q300 100 270 120Q220 150 160 128Q100 104 60 136Z','#7fb3e6'],
+      [Cp(210,112,26),'#a9cdf0'],[Cp(210,112,13),'#2f5fb0'],[Cp(340,55,30),'#f2d24a'],[Cp(340,55,18),'#f7e98a'],
+      ...[[60,40],[130,30],[200,50],[270,30],[110,170],[300,150]].flatMap(([x,y])=>[[Cp(x,y,13),'#f2d24a'],[Cp(x,y,6),'#ffffff']]),
+      ['M0 210Q80 180 160 196Q240 210 320 186Q370 172 400 180V300H0Z','#22346b'],
+      ...[[150,236,24,18],[180,244,22,16],[205,232,20,20],[275,240,26,16],[305,234,22,20]].map(([x,y,w,h])=>[Rp(x,y,w,h),'#38548c']),
+      ['M240 252L240 222L248 196L256 222L256 252Z','#2c3e6b'],['M40 300Q30 220 50 160Q58 120 66 70Q74 130 84 170Q100 240 92 300Z','#1f3a2a']],
+    lines:'<g fill="#f7e05a">'+[[156,242],[186,250],[211,240],[282,246],[311,242]].map(([x,y])=>`<rect x="${x}" y="${y}" width="4" height="4"/>`).join('')+'</g>'}
+];
+const EXTRA_COLORS=['#e53935','#1e6fd9','#fbc02d','#43a047','#fb8c00','#8e44ad','#ec407a','#6d4c41','#111111'];
+function paletteFor(pt){const u=[...new Set(pt.regions.map(r=>r[1]))];return [...new Set([...u,'#ffffff',...EXTRA_COLORS])].slice(0,16)}
+function artSVG(pt,fills,cls=''){return `<svg viewBox="${pt.vb}" class="${cls}">${pt.regions.map(([d],k)=>`<path d="${d}" fill="${fills[k]||'#ffffff'}" data-act="st" data-x="paint" data-k="${k}" fill-rule="evenodd"/>`).join('')}${pt.lines}</svg>`}
+const artThumb=i=>{const pt=PAINTINGS[i];return artSVG(pt,(S.art&&S.art[pt.id])||[],'artthumb').replace(/ data-act="st" data-x="paint" data-k="\d+"/g,'')};
+function setupArt(l){
+  const pt=PAINTINGS[l],saved=(S.art&&S.art[pt.id])||[];
+  run.p={type:'art',pt,fills:pt.regions.map((_,k)=>saved[k]||null),sel:paletteFor(pt)[0],hist:[],peek:false};
+  const by=tr(pt.by);
+  run.cur={text:tr([`«${pt.title[0]}», ${by}`,`«${pt.title[1]}», ${by}`]),say:tr([`This is ${pt.title[0]} by ${pt.by[0]}. Pick a colour and tap to paint!`,`Αυτός είναι ο πίνακας «${pt.title[1]}» ${pt.id==='dolphins'?'από την αρχαία Κνωσό':'του '+pt.by[1]}. Διάλεξε χρώμα και πάτα για να βάψεις!`])};
+}
+function artBody(p){
+  const pal=paletteFor(p.pt),done=p.fills.filter(Boolean).length,need=Math.ceil(p.fills.length*.9);
+  return `<div class="stage artstage"><div class="canvasbox">${artSVG(p.pt,p.peek?p.pt.regions.map(r=>r[1]):p.fills,'artwork')}</div>
+    <div class="palette">${pal.map(c=>`<button class="pot ${p.sel===c?'sel':''}" style="--c:${c}" data-act="st" data-x="color" data-v="${c}" aria-label="${c}"></button>`).join('')}</div></div>
+    <div class="row"><button class="btn white small" data-act="st" data-x="undo">↩ ${tr(['Undo','Αναίρεση'])}</button><button class="btn white small" data-act="st" data-x="peek">🖼️ ${tr(["See the artist's colours",'Τα χρώματα του ζωγράφου'])}</button><button class="btn ${done>=need?'blue':''}" data-act="st" data-x="done" ${done>=need?'':'disabled'}>✅ ${tr(['Finished!','Τελείωσα!'])}</button></div>`;
+}
+function artAct(x,b){
+  const p=run.p;
+  if(x==='color'){p.sel=b.dataset.v;sfx('tap');document.querySelectorAll('.pot').forEach(el=>el.classList.toggle('sel',el===b));return}
+  if(x==='paint'&&!p.peek){const k=+b.dataset.k;p.hist.push([k,p.fills[k]]);p.fills[k]=p.sel;b.setAttribute('fill',p.sel);if(ac&&S.sound)tone(520+k%5*60,ac.currentTime,.25,sfxG,'sine',.2,380);artRefresh();return}
+  if(x==='undo'){const h=p.hist.pop();if(h){p.fills[h[0]]=h[1];renderGame()}return}
+  if(x==='peek'){if(p.peek)return;p.peek=true;renderGame();say(tr(["These are the artist's colours!",'Αυτά είναι τα χρώματα του ζωγράφου!']));setTimeout(()=>{if(run&&run.p===p){p.peek=false;renderGame()}},3000);return}
+  if(x==='done'){run.won=true;S.art=Object.assign({},S.art,{[p.pt.id]:p.fills.slice()});save();sfx('win');burst(innerWidth/2,innerHeight/2,90);
+    const same=p.fills.filter((c,k)=>c===p.pt.regions[k][1]).length/p.fills.length;
+    Promise.all([say(tr(['What a beautiful painting! ','Τι όμορφος πίνακας! '])+(same>.7?tr(['Just like the artist! ','Σαν τον ζωγράφο! ']):'')+tr(p.pt.fact)),wait(1500)]).then(()=>{if(run&&run.p===p)finishLevel(3)})}
+}
+function artRefresh(){const p=run.p,btn=document.querySelector('[data-x="done"]');if(!btn)return;const ok=p.fills.filter(Boolean).length>=Math.ceil(p.fills.length*.9);btn.disabled=!ok;btn.classList.toggle('blue',ok)}
+
+
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
   ui.modal=null;ui.screen='game';
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else run.cur=GEN[g](l);
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
 function speakPrompt(){if(!run)return;const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>say(s),250)}
@@ -1541,7 +1699,8 @@ function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
   const prog=run.g==='memory'?run.found:run.q;
   let body;
-  if(run.g==='stem'||run.g==='space')body=stemBody();
+  if(run.g==='art')body=artBody(run.p);
+  else if(run.g==='stem'||run.g==='space')body=stemBody();
   else if(run.g==='music')body=musicBody();
   else if(run.g==='puzzle')body=puzzleBody();
   else if(run.g==='memory'){const n=run.cards.length,cols=n<=6?3:4;
@@ -1605,6 +1764,7 @@ document.addEventListener('click',e=>{
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
+      else if(ui.screen==='game'&&run&&run.g==='art'){const pt=run.p.pt;run.cur.text=tr([`«${pt.title[0]}», ${pt.by[0]}`,`«${pt.title[1]}», ${pt.by[1]}`])}
       else if(ui.screen==='game'&&run&&run.g==='music')run.cur.text=tr(['Catch the notes in order!','Μάζεψε τις νότες με τη σειρά!']);
       else if(ui.screen==='game'&&run&&run.g!=='memory'){run.cur=GEN[run.g](run.l);run.nextRank=0}
       render();if(ui.screen==='game')speakPrompt();else say(isEl()?'Ελληνικά!':'English!');break}
@@ -1633,7 +1793,7 @@ document.addEventListener('click',e=>{
     case 'card':flip(+b.dataset.i);break;
     case 'pz':puzzleAct(b);break;
     case 'mv':musicMove(+b.dataset.d);break;
-    case 'st':stemAct(b);break;
+    case 'st':if(run&&run.g==='art')artAct(b.dataset.x,b);else stemAct(b);break;
     case 'unlockall':S.unlocked=GAMES.filter(g=>g.gate).map(g=>g.id);save();toast(t('allOpen'));render();break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}
     case 'buy':{const it=ITEMS.find(x=>x.id===b.dataset.id);if(S.coins<it.cost){say(t('needCoins'));break}S.coins-=it.cost;S.owned.push(it.id);S.equip[it.slot]=it.id;sfx('coin');const nb=checkBadges();save();render();const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,40);sayL(SAY.wow(tr(it.name)));if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));break}
