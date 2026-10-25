@@ -506,7 +506,7 @@ const TX={
   myHero:['My Hero','Ο ήρωάς μου'],myHeroSub:['Buy and wear hero gear with your coins','Αγόρασε και φόρεσε εξοπλισμό με τα νομίσματά σου'],
   wear:['Wear','Φόρεσε'],takeOff:['Take off','Βγάλε'],needCoins:['Play more games to earn coins!','Παίξε κι άλλα παιχνίδια για να κερδίσεις νομίσματα!'],
   badgesT:['Hall of Badges','Αίθουσα Παρασήμων'],
-  grown:['Grown-ups: press and hold','Γονείς: πατήστε παρατεταμένα'],grownT:["Grown-ups' corner",'Γωνιά γονέων'],grownSub:['Progress and settings','Πρόοδος και ρυθμίσεις'],
+  grown:['🔒 Grown-ups','🔒 Γονείς'],gateQ:['For grown-ups: what is','Για γονείς: πόσο κάνει'],grownT:["Grown-ups' corner",'Γωνιά γονέων'],grownSub:['Progress and settings','Πρόοδος και ρυθμίσεις'],
   intro:['Each place on the island practises one skill with 3 levels of 5 questions. Mistakes never block progress; they only lower the stars. Stars earn coins, and coins buy hero gear. Use the EN / ΕΛ switch to change the narrator and all the text between English and Greek. Progress saves on this device.','Κάθε μέρος του νησιού εξασκεί μία δεξιότητα, με 3 επίπεδα των 5 ερωτήσεων. Τα λάθη δεν σταματούν την πρόοδο, απλώς δίνουν λιγότερα αστέρια. Τα αστέρια δίνουν νομίσματα και τα νομίσματα αγοράζουν εξοπλισμό. Ο διακόπτης EN / ΕΛ αλλάζει τον αφηγητή και όλα τα κείμενα στα Αγγλικά ή στα Ελληνικά. Η πρόοδος αποθηκεύεται σε αυτή τη συσκευή.'],
   place:['Place','Μέρος'],teaches:['What it teaches','Τι διδάσκει'],lv:['Level','Επίπεδο'],
   heroName:['Hero name','Όνομα ήρωα'],saveName:['Save name','Αποθήκευση'],nameSaved:['Name saved','Το όνομα αποθηκεύτηκε'],
@@ -810,7 +810,7 @@ function render(){
   if(s==='map')app.innerHTML=`<div class="screen">${topbar()}<div class="map-wrap"><div class="map">${MAP_SVG}${GAMES.map(g=>{const st=S.stars[g.id].reduce((a,b)=>a+b,0),open=isOpen(g);
       const chip=open?`★ ${st}/${g.levels.length*3}`:g.gate.coins?`🔒 ${g.gate.coins} ${I.coin}`:`🔒 ${g.gate.badges} 🏅`;
       return `<button class="loc ${open?'':'locked'}" data-act="open" data-g="${g.id}" style="left:${g.x}%;top:${g.y}%" aria-label="${tr(g.name)}">${ART[g.id]}<span class="tag">${tr(g.name)}<small>${chip}</small></span></button>`}).join('')}</div></div>
-    <div class="row" style="justify-content:flex-end"><button class="btn white small hold" data-hold="parents">${t('grown')}<i></i></button></div></div>`;
+    <div class="row" style="justify-content:flex-end"><button class="btn white small" data-act="pgate">${t('grown')}</button></div></div>`;
   if(s==='room')app.innerHTML=roomHTML();
   if(s==='badges')app.innerHTML=badgesHTML();
   if(s==='parents')app.innerHTML=parentsHTML();
@@ -872,6 +872,7 @@ function renderModal(){
     h=`<h2>${tr(g.name)}</h2><div class="sub">${tr(g.skill)}</div><div class="levels">${g.levels.map((name,i)=>{const open=i===0||(g.starts||[]).includes(i)||st[i-1]>0;
       return `<button class="lvl ${open?'':'locked'}" ${open?`data-act="play" data-g="${g.id}" data-l="${i}"`:'disabled'}>${g.id==='art'?artThumb(i):`<b>${i+1}</b>`}${open?starsRow(st[i]):I.lock}<span>${tr(name)}</span></button>`}).join('')}</div>
       <button class="btn white small" data-act="close">${t('backIsland')}</button>`}
+  if(m.type==='pgate')h=`<h2>${t('grownT')}</h2><p class="sub" style="font-size:1.4rem">${t('gateQ')} ${m.a} × ${m.c};</p><div class="row">${m.opts.map(v=>`<button class="btn white" data-act="pans" data-v="${v}">${v}</button>`).join('')}</div><button class="btn small" data-act="close">${t('backIsland')}</button>`;
   if(m.type==='gate'){const g=GAMES.find(x=>x.id===m.g),c=g.gate.coins,need=c||g.gate.badges,have=c?S.coins:S.badges.length,ok=have>=need;
     h=`<h2>${tr(g.name)}</h2><div style="width:160px;margin:0 auto;filter:grayscale(.6)">${ART[g.id]}</div>
     <div class="earn">🔒 ${c?`${c} ${I.coin}`:`${need} 🏅`}</div>
@@ -2000,6 +2001,8 @@ document.addEventListener('click',e=>{
     case 'wear':{const it=ITEMS.find(x=>x.id===b.dataset.id);S.equip[it.slot]=it.id;save();render();say(tr(it.name));break}
     case 'unwear':{const it=ITEMS.find(x=>x.id===b.dataset.id);S.equip[it.slot]=null;save();render();break}
     case 'rename':{const n=$('#pname');S.name=n.value.trim();save();toast(t('nameSaved'));break}
+    case 'pgate':{const a=rand(4,9),c=rand(4,9),n=a*c,o=new Set([n]);while(o.size<4)o.add(n+pick([-10,-6,-4,-2,2,3,4,6,8,10]));ui.modal={type:'pgate',a,c,opts:shuffle([...o])};renderModal();break}
+    case 'pans':{const ok=+b.dataset.v===ui.modal.a*ui.modal.c;ui.modal=null;if(ok){ui.screen='parents';render()}else renderModal();break}
     case 'reset1':ui.confirmReset=true;render();break;
     case 'resetg':ui.confirmG=b.dataset.g;render();break;
     case 'resetg2':{const g=GAMES.find(x=>x.id===b.dataset.g);S.stars[g.id]=g.levels.map(()=>0);S.badges=S.badges.filter(x=>x!==g.id&&x!=='olympus');ui.confirmG=null;save();render();toast('↺ '+tr(g.name));break}
@@ -2011,10 +2014,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('change',e=>{if(e.target.id==='vsel'){S.voice=Object.assign({},S.voice,{[S.lang]:e.target.value});delete voices[S.lang];save();say(tr(['Hello! I am your storyteller.','Γεια σου! Είμαι η αφηγήτριά σου.']))}});
 if('speechSynthesis' in window)speechSynthesis.addEventListener?.('voiceschanged',()=>{if(ui.screen==='parents')render()});
 // press-and-hold to open the grown-ups corner
-let holdT=null;
-document.addEventListener('pointerdown',e=>{const b=e.target.closest('[data-hold]');if(!b)return;const bar=b.querySelector('i');bar.style.transition='width 1.5s linear';bar.style.width='100%';
-  holdT=setTimeout(()=>{ui.screen='parents';render()},1500)});
-['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>{if(!holdT)return;clearTimeout(holdT);holdT=null;const bar=document.querySelector('[data-hold] i');if(bar){bar.style.transition='none';bar.style.width='0'}},true));
+// grown-ups' corner opens after a times-table question a young child cannot answer
 
 /* ---------- boot ---------- */
 function start(data){
