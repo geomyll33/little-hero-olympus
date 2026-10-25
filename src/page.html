@@ -323,6 +323,21 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .gtray svg{width:100%;height:auto;display:block}
 .gtray small{font-family:var(--display);font-weight:700;color:var(--ink-soft)}
 .gtray.sel{border-color:var(--ink);transform:scale(1.08)}
+/* colour mixing */
+.mixrow{display:flex;align-items:center;gap:clamp(8px,2vw,22px);flex-wrap:wrap;justify-content:center;font-family:var(--display);font-size:clamp(2rem,6vw,3.4rem);font-weight:700;color:var(--ink)}
+.ppot{display:inline-grid;place-items:center;width:clamp(64px,13vw,110px);aspect-ratio:1;border-radius:14px;background:var(--c);border:5px solid rgba(0,0,0,.25);box-shadow:inset -8px -8px 0 rgba(0,0,0,.15),inset 6px 6px 0 rgba(255,255,255,.3)}
+.ppot.empty{background:rgba(255,255,255,.6);border-style:dashed;color:var(--ink-soft);font-size:2rem}
+.opt .ppot{width:70px}
+.bowl{display:inline-grid;place-items:center;width:clamp(90px,18vw,150px);aspect-ratio:1.4;border-radius:0 0 80px 80px;background:#fffaf0;border:6px solid #c98b2b;color:var(--ink-soft);transition:background .8s}
+.bowl.full{background:var(--c)}
+.mixthumb{font-size:1.4rem;height:70px;display:grid;place-items:center;background:#fff;border:4px solid #c98b2b;width:100%}
+/* xylophone */
+.xbox{position:relative;width:min(100%,820px);padding:18px 12px 30px;background:#8a5a2b;border-radius:14px;box-shadow:inset 0 -10px 0 #6d4c2f}
+.xylo{display:flex;align-items:center;justify-content:center;gap:clamp(4px,1vw,10px);height:min(42vh,300px)}
+.bar{flex:1;max-width:80px;background:var(--c);border-radius:8px;border:3px solid rgba(0,0,0,.25);box-shadow:inset -6px -6px 0 rgba(0,0,0,.15),inset 5px 5px 0 rgba(255,255,255,.3);display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;touch-action:manipulation}
+.bar span{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(.8rem,2.2vw,1.2rem);text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.bar.hit{animation:barhit .35s}
+@keyframes barhit{50%{transform:translateY(8px) scale(.96);filter:brightness(1.35)}}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}

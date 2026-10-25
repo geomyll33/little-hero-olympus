@@ -329,6 +329,21 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .gtray svg{width:100%;height:auto;display:block}
 .gtray small{font-family:var(--display);font-weight:700;color:var(--ink-soft)}
 .gtray.sel{border-color:var(--ink);transform:scale(1.08)}
+/* colour mixing */
+.mixrow{display:flex;align-items:center;gap:clamp(8px,2vw,22px);flex-wrap:wrap;justify-content:center;font-family:var(--display);font-size:clamp(2rem,6vw,3.4rem);font-weight:700;color:var(--ink)}
+.ppot{display:inline-grid;place-items:center;width:clamp(64px,13vw,110px);aspect-ratio:1;border-radius:14px;background:var(--c);border:5px solid rgba(0,0,0,.25);box-shadow:inset -8px -8px 0 rgba(0,0,0,.15),inset 6px 6px 0 rgba(255,255,255,.3)}
+.ppot.empty{background:rgba(255,255,255,.6);border-style:dashed;color:var(--ink-soft);font-size:2rem}
+.opt .ppot{width:70px}
+.bowl{display:inline-grid;place-items:center;width:clamp(90px,18vw,150px);aspect-ratio:1.4;border-radius:0 0 80px 80px;background:#fffaf0;border:6px solid #c98b2b;color:var(--ink-soft);transition:background .8s}
+.bowl.full{background:var(--c)}
+.mixthumb{font-size:1.4rem;height:70px;display:grid;place-items:center;background:#fff;border:4px solid #c98b2b;width:100%}
+/* xylophone */
+.xbox{position:relative;width:min(100%,820px);padding:18px 12px 30px;background:#8a5a2b;border-radius:14px;box-shadow:inset 0 -10px 0 #6d4c2f}
+.xylo{display:flex;align-items:center;justify-content:center;gap:clamp(4px,1vw,10px);height:min(42vh,300px)}
+.bar{flex:1;max-width:80px;background:var(--c);border-radius:8px;border:3px solid rgba(0,0,0,.25);box-shadow:inset -6px -6px 0 rgba(0,0,0,.15),inset 5px 5px 0 rgba(255,255,255,.3);display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;touch-action:manipulation}
+.bar span{font-family:var(--display);font-weight:700;color:#fff;font-size:clamp(.8rem,2.2vw,1.2rem);text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.bar.hit{animation:barhit .35s}
+@keyframes barhit{50%{transform:translateY(8px) scale(.96);filter:brightness(1.35)}}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -425,8 +440,8 @@ const GAMES=[
   {id:'memory',name:['Aegean Sea','Αιγαίο Πέλαγος'],skill:['Memory','Μνήμη'],x:88,y:80,levels:[['3 pairs','3 ζευγάρια'],['4 pairs','4 ζευγάρια'],['6 pairs','6 ζευγάρια']]},
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
-GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο']]});
-GAMES.push({id:'art',name:['Art Gallery','Πινακοθήκη'],skill:['Painting','Ζωγραφική'],x:87,y:52,gate:{coins:20},levels:[['Mondrian','Μοντριάν'],['Kandinsky','Καντίνσκι'],['Dolphins of Knossos','Δελφίνια της Κνωσού'],['Sunflowers','Ηλιοτρόπια'],['The Great Wave','Το μεγάλο κύμα'],['The Starry Night','Έναστρη νύχτα']]});
+GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},starts:[5],levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο'],['Note stairs','Η σκάλα των νοτών'],['High or low?','Ψηλά ή χαμηλά;'],['Listen and find','Άκου και βρες'],['Repeat the tune','Επανάλαβε τη μελωδία']]});
+GAMES.push({id:'art',name:['Art Gallery','Πινακοθήκη'],skill:['Painting','Ζωγραφική'],x:87,y:52,gate:{coins:20},starts:[6],levels:[['Mondrian','Μοντριάν'],['Kandinsky','Καντίνσκι'],['Dolphins of Knossos','Δελφίνια της Κνωσού'],['Sunflowers','Ηλιοτρόπια'],['The Great Wave','Το μεγάλο κύμα'],['The Starry Night','Έναστρη νύχτα'],['Mixing colours','Ανάμειξη χρωμάτων'],['Which two colours?','Ποια δύο χρώματα;']]});
 GAMES.push({id:'space',name:['Star Observatory','Αστεροσκοπείο'],skill:['Astronomy','Αστρονομία'],x:73,y:17,gate:{coins:35},levels:[['Day or night','Μέρα ή νύχτα'],['Find the planet','Βρες τον πλανήτη'],['The Moon','Το φεγγάρι'],['Planets in order','Οι πλανήτες στη σειρά'],['Constellations','Οι αστερισμοί'],['All eight planets','Και οι οκτώ πλανήτες']]});
 GAMES.push({id:'stem',name:["Archimedes' Workshop",'Εργαστήρι του Αρχιμήδη'],skill:['STEM puzzles','Γρίφοι STEM'],x:12,y:13,gate:{coins:30},levels:[['Program Talos','Προγραμμάτισε τον Τάλω'],['Float or sink','Επιπλέει ή βυθίζεται'],['The scale','Η ζυγαριά'],['Water pipes','Οι σωλήνες του νερού'],['How things grow','Πώς μεγαλώνουν'],['Magnets','Οι μαγνήτες'],['Light the lamp','Άναψε τη λάμπα'],['Talos and the rocks','Ο Τάλως και οι βράχοι'],['Gears','Γρανάζια'],['Shadows and light','Σκιές και φως'],['The gear door','Η πόρτα με τα γρανάζια'],['The secret door','Η μυστική πόρτα']]});
 const PUZZLES=[{type:'maze',n:6},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:8,key:true},{type:'hanoi',n:3},{type:'maze',n:9,key:true,mino:true},{type:'hanoi',n:4},{type:'maze',n:11,key:true,mino:true}];
@@ -480,8 +495,8 @@ const TEACH={
   pattern:['Spotting and continuing AB, AAB/ABB and ABC patterns, an early maths skill.','Εντοπισμός και συνέχεια μοτίβων ΑΒ, ΑΑΒ/ΑΒΒ και ΑΒΓ, πρώιμη μαθηματική δεξιότητα.'],
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
-  music:['A running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
-  art:['Colouring famous paintings: Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh and Hokusai. The child can peek at the artist\'s colours and hears a short story about each painting. Finished paintings stay in the gallery.','Χρωματισμός διάσημων πινάκων: Μοντριάν, Καντίνσκι, τα μινωικά δελφίνια της Κνωσού, βαν Γκογκ και Χοκουσάι. Το παιδί μπορεί να δει τα χρώματα του ζωγράφου και ακούει μια μικρή ιστορία για κάθε πίνακα. Οι πίνακες που τελειώνει μένουν στην πινακοθήκη.'],
+  music:['Learning the notes on a xylophone (the note stairs, high or low, listen and find, repeat the tune), and a running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Μαθαίνει τις νότες σε ξυλόφωνο (η σκάλα των νοτών, ψηλά ή χαμηλά, άκου και βρες, επανάλαβε τη μελωδία) και παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
+  art:['Colouring famous paintings, plus colour-mixing puzzles (red and yellow make orange…): Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh and Hokusai. The child can peek at the artist\'s colours and hears a short story about each painting. Finished paintings stay in the gallery.','Χρωματισμός διάσημων πινάκων και γρίφοι ανάμειξης χρωμάτων (κόκκινο και κίτρινο κάνουν πορτοκαλί…): Μοντριάν, Καντίνσκι, τα μινωικά δελφίνια της Κνωσού, βαν Γκογκ και Χοκουσάι. Το παιδί μπορεί να δει τα χρώματα του ζωγράφου και ακούει μια μικρή ιστορία για κάθε πίνακα. Οι πίνακες που τελειώνει μένουν στην πινακοθήκη.'],
   space:['Astronomy: day and night, the planets and their order from the Sun, the phases of the Moon, and constellations with their Greek myths.','Αστρονομία: μέρα και νύχτα, οι πλανήτες και η σειρά τους από τον Ήλιο, οι φάσεις της Σελήνης και οι αστερισμοί με τους ελληνικούς μύθους τους.'],
   stem:['STEM with pictures: coding the bronze robot Talos with arrows, floating and sinking (Archimedes), balancing a scale, connecting water pipes and electric circuits, magnets, life cycles, gears (and gear doors to open), and shadows and light.','STEM με εικόνες: προγραμματισμός του χάλκινου ρομπότ Τάλω με βελάκια, τι επιπλέει και τι βυθίζεται (Αρχιμήδης), ισορροπία ζυγαριάς, σωλήνες νερού και ηλεκτρικά κυκλώματα, μαγνήτες, κύκλοι ζωής, γρανάζια (και πόρτες που ανοίγουν με γρανάζια), σκιές και φως.'],
   puzzle:['Problem solving with pictures: the Minotaur labyrinth, the Tower puzzle and the wolf, sheep and grass river crossing. The light-bulb button gives a spoken hint.','Επίλυση προβλημάτων με εικόνες: ο λαβύρινθος του Μινώταυρου, ο Πύργος και το πέρασμα του λύκου, του προβάτου και του χόρτου. Το κουμπί με τη λάμπα δίνει βοήθεια.']
@@ -702,7 +717,9 @@ function findVoice(lang){
 }
 if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=()=>{delete voices.en;delete voices.el};
 let utter=null;
-function say(text){return new Promise(res=>{
+// words some tablet voices stress wrongly are respelled for the narrator only
+const SPEAK_FIX=[[/γρανάζια/g,'γρα-νάζια'],[/γρανάζι/g,'γρα-νάζι']];
+function say(text){if(S.lang==='el')SPEAK_FIX.forEach(([a,b])=>{text=text.replace(a,b)});return new Promise(res=>{
   if(!S.sound||!('speechSynthesis' in window))return res();
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const L=S.lang;
     if(!voices[L])voices[L]=findVoice(L);
@@ -858,7 +875,7 @@ function renderModal(){
   let v=$('.veil');if(v)v.remove();const m=ui.modal;if(!m)return;
   let h='';
   if(m.type==='levels'){const g=GAMES.find(x=>x.id===m.g),st=S.stars[g.id];
-    h=`<h2>${tr(g.name)}</h2><div class="sub">${tr(g.skill)}</div><div class="levels">${g.levels.map((name,i)=>{const open=i===0||st[i-1]>0;
+    h=`<h2>${tr(g.name)}</h2><div class="sub">${tr(g.skill)}</div><div class="levels">${g.levels.map((name,i)=>{const open=i===0||(g.starts||[]).includes(i)||st[i-1]>0;
       return `<button class="lvl ${open?'':'locked'}" ${open?`data-act="play" data-g="${g.id}" data-l="${i}"`:'disabled'}>${g.id==='art'?artThumb(i):`<b>${i+1}</b>`}${open?starsRow(st[i]):I.lock}<span>${tr(name)}</span></button>`}).join('')}</div>
       <button class="btn white small" data-act="close">${t('backIsland')}</button>`}
   if(m.type==='gate'){const g=GAMES.find(x=>x.id===m.g),c=g.gate.coins,need=c||g.gate.badges,have=c?S.coins:S.badges.length,ok=have>=need;
@@ -1169,6 +1186,7 @@ function playSong(song,onNote){
   return wait(ms+300);
 }
 function setupMusic(l){
+  if(l>=SONGS.length)return setupNotes(l-SONGS.length);
   const song=SONGS[l];stopMusic();
   run.m={song,pos:0,rows:[],dist:0,lane:0,px:0,phase:'listen',t:0,bonus:0,finishZ:null,fx:[],showing:-1,count:0,avatarImg:null};
   const sname=`«${tr(song.title)}» ${isEl()?'του':'by'} ${tr(song.by)}`;
@@ -1678,8 +1696,9 @@ const PAINTINGS=[
 const EXTRA_COLORS=['#e53935','#1e6fd9','#fbc02d','#43a047','#fb8c00','#8e44ad','#ec407a','#6d4c41','#111111'];
 function paletteFor(pt){const u=[...new Set(pt.regions.map(r=>r[1]))];return [...new Set([...u,'#ffffff',...EXTRA_COLORS])].slice(0,16)}
 function artSVG(pt,fills,cls=''){return `<svg viewBox="${pt.vb}" class="${cls}">${pt.regions.map(([d],k)=>`<path d="${d}" fill="${fills[k]||'#ffffff'}" data-act="st" data-x="paint" data-k="${k}" fill-rule="evenodd"/>`).join('')}${pt.lines}</svg>`}
-const artThumb=i=>{const pt=PAINTINGS[i];return artSVG(pt,(S.art&&S.art[pt.id])||[],'artthumb').replace(/ data-act="st" data-x="paint" data-k="\d+"/g,'')};
+const artThumb=i=>{if(i>=PAINTINGS.length)return `<div class="mixthumb">${i===PAINTINGS.length?'🔴+🟡=🟠':'🟢=?+?'}</div>`;const pt=PAINTINGS[i];return artSVG(pt,(S.art&&S.art[pt.id])||[],'artthumb').replace(/ data-act="st" data-x="paint" data-k="\d+"/g,'')};
 function setupArt(l){
+  if(l>=PAINTINGS.length){run.hints=0;run.won=false;return setupMix(l-PAINTINGS.length)}
   const pt=PAINTINGS[l],saved=(S.art&&S.art[pt.id])||[];
   run.p={type:'art',pt,fills:pt.regions.map((_,k)=>saved[k]||null),sel:paletteFor(pt)[0],hist:[],peek:false};
   const by=tr(pt.by);
@@ -1774,6 +1793,100 @@ document.addEventListener('pointerdown',e=>{const b=e.target.closest('.gtray');i
 document.addEventListener('pointerup',e=>{if(!gdrag)return;const v=gdrag;gdrag=null;const el=document.elementFromPoint(e.clientX,e.clientY),slot=el&&el.closest('.gslot');
   if(slot&&run&&run.p&&run.p.type==='gdoor'){run.p.sel=v;gearAct('slot',slot)}});
 
+/* ---------- colour mixing (Art Gallery levels 7-8) ---------- */
+const PAINT={red:['#e53935',['red','κόκκινο']],yellow:['#fbc02d',['yellow','κίτρινο']],blue:['#1e6fd9',['blue','μπλε']],white:['#ffffff',['white','άσπρο']],black:['#222222',['black','μαύρο']],
+  orange:['#fb8c00',['orange','πορτοκαλί']],green:['#43a047',['green','πράσινο']],purple:['#8e44ad',['purple','μωβ']],pink:['#f48fb1',['pink','ροζ']],lightblue:['#81d4fa',['light blue','γαλάζιο']],grey:['#9e9e9e',['grey','γκρι']]};
+const MIXES=[['red','yellow','orange'],['blue','yellow','green'],['red','blue','purple'],['red','white','pink'],['blue','white','lightblue'],['black','white','grey']];
+const BASES=['red','yellow','blue','white','black'];
+const pname=c=>tr(PAINT[c][1]);
+const mixSay=(a,b,c)=>tr([`${PAINT[a][1][0]} and ${PAINT[b][1][0]} make ${PAINT[c][1][0]}!`,`Το ${PAINT[a][1][1]} και το ${PAINT[b][1][1]} κάνουν ${PAINT[c][1][1]}!`]);
+function setupMix(k){
+  if(k===0){run.p={type:'mix1',rounds:shuffle(MIXES),i:0,busy:false,shown:false};mixRound();
+    run.cur={text:tr(['What colour will we get?','Τι χρώμα θα βγει;']),say:tr(['Let us mix two colours! What colour will we get?','Ας ανακατέψουμε δύο χρώματα! Τι χρώμα θα βγει;'])}}
+  else{run.p={type:'mix2',rounds:shuffle(MIXES.slice(0,5)).slice(0,4),i:0,pick:[],busy:false,shown:null};
+    run.cur={text:tr(['Which two colours make it?','Ποια δύο χρώματα το φτιάχνουν;']),say:tr(['Look at the colour in the bowl. Which two paints do we mix to make it? Tap two pots!','Κοίτα το χρώμα στο μπολ. Ποιες δύο μπογιές ανακατεύουμε για να το φτιάξουμε; Πάτα δύο κουβαδάκια!'])}}
+}
+function mixHint(){const p=run.p;run.hints++;if(p.type==='mix1'){const r=p.rounds[p.i][2];p.fade=p.opts.findIndex(o=>o!==r);renderGame();return say(tr(['Not that one!','Όχι αυτό!']))}
+  const m=p.rounds[p.i];p.glow=p.pick.includes(m[0])?m[1]:m[0];renderGame();say(pname(p.glow))}
+function mixRound(){const p=run.p,m=p.rounds[p.i];p.opts=shuffle([m[2],...shuffle(MIXES.map(x=>x[2]).filter(c=>c!==m[2])).slice(0,2)]);p.shown=false;p.fade=null}
+const pot=(c,extra='')=>`<span class="ppot" style="--c:${PAINT[c][0]}" ${extra}></span>`;
+function mixBody(p){
+  if(p.type==='mix1'){const [a,b,c]=p.rounds[p.i];
+    return `<div class="stage"><div class="mixrow">${pot(a)}<b>+</b>${pot(b)}<b>=</b><span class="bowl ${p.shown?'full':''}" style="--c:${PAINT[c][0]}">${p.shown?'':'?'}</span></div></div>
+      <div class="options">${p.opts.map((o,k)=>`<button class="opt ${p.fade===k?'fade':''}" data-act="st" data-x="mixpick" data-v="${o}">${pot(o)}<small class="pname">${pname(o)}</small></button>`).join('')}</div><div class="row"><div class="tcount" style="position:static">${p.i+1} / ${p.rounds.length}</div></div>`}
+  const m=p.rounds[p.i],res=p.shown||m[2];
+  return `<div class="stage"><div class="mixrow">${p.pick[0]?pot(p.pick[0]):'<span class="ppot empty">?</span>'}<b>+</b>${p.pick[1]?pot(p.pick[1]):'<span class="ppot empty">?</span>'}<b>=</b><span class="bowl full" style="--c:${PAINT[res][0]}"></span></div></div>
+    <div class="options">${BASES.map(c=>`<button class="opt ${p.pick.includes(c)?'right':''} ${p.glow===c?'glow':''}" data-act="st" data-x="mixbase" data-v="${c}">${pot(c)}<small class="pname">${pname(c)}</small></button>`).join('')}</div><div class="row"><div class="tcount" style="position:static">${p.i+1} / ${p.rounds.length}</div></div>`;
+}
+function mixAct(x,b){
+  const p=run.p;if(p.busy)return;
+  if(x==='mixpick'){const [a,c,r]=p.rounds[p.i];
+    if(b.dataset.v!==r){run.mistakes++;sfx('bad');b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400);return say(t('tryAgain'))}
+    p.busy=true;p.shown=true;renderGame();sfx('good');
+    Promise.all([say(mixSay(a,c,r)),wait(1600)]).then(()=>{if(run.p!==p)return;p.busy=false;p.i++;if(p.i>=p.rounds.length)return stemWin(stemStars(run.mistakes,0,2));mixRound();renderGame()})}
+  if(x==='mixbase'){const c=b.dataset.v;if(p.pick.includes(c)){p.pick=p.pick.filter(z=>z!==c);return renderGame()}
+    p.pick.push(c);p.glow=null;sfx('tap');say(pname(c));renderGame();if(p.pick.length<2)return;
+    const m=p.rounds[p.i],ok=[m[0],m[1]].sort().join()===p.pick.slice().sort().join();p.busy=true;
+    if(ok){sfx('good');Promise.all([say(mixSay(m[0],m[1],m[2])),wait(1600)]).then(()=>{if(run.p!==p)return;p.busy=false;p.pick=[];p.i++;if(p.i>=p.rounds.length)return stemWin(stemStars(run.mistakes,0,2));renderGame()});return}
+    run.mistakes++;sfx('bad');const got=MIXES.find(z=>[z[0],z[1]].sort().join()===p.pick.slice().sort().join());if(got){p.shown=got[2];renderGame()}
+    Promise.all([say(got?tr([`That makes ${PAINT[got[2]][1][0]}. We want ${PAINT[m[2]][1][0]}. Try again!`,`Αυτά κάνουν ${PAINT[got[2]][1][1]}. Θέλουμε ${PAINT[m[2]][1][1]}. Δοκίμασε ξανά!`]):tr(['Not those two. Try again!','Όχι αυτά τα δύο. Δοκίμασε ξανά!'])),wait(1800)]).then(()=>{if(run.p!==p)return;p.busy=false;p.pick=[];p.shown=null;renderGame()})}
+}
+
+/* ---------- learning the notes (Music Odeon levels 6-9) ---------- */
+const NOTE_ACTS=['scale','highlow','ear','simon'];
+const NT_TEXT={
+  scale:{text:['Climb the note stairs!','Ανέβα τη σκάλα των νοτών!'],say:['Every note has a name and a colour. Tap them in order: Do, Re, Mi, Fa, Sol, La, Ti, Do!','Κάθε νότα έχει όνομα και χρώμα. Πάτα τες με τη σειρά: Ντο, Ρε, Μι, Φα, Σολ, Λα, Σι, Ντο!']},
+  highlow:{text:['High or low?','Ψηλά ή χαμηλά;'],say:['Listen to two notes. Is the second note higher or lower?','Άκου δύο νότες. Η δεύτερη νότα είναι πιο ψηλά ή πιο χαμηλά;']},
+  ear:{text:['Listen and find the note!','Άκου και βρες τη νότα!'],say:['Listen carefully to the note, then tap the bar that sounds the same!','Άκου προσεκτικά τη νότα και μετά πάτα το πλήκτρο που ακούγεται ίδιο!']},
+  simon:{text:['Repeat the tune!','Επανάλαβε τη μελωδία!'],say:['Listen to the little tune, then play it back on the xylophone!','Άκου τη μικρή μελωδία και μετά παίξε την ίδια στο ξυλόφωνο!']}
+};
+function setupNotes(k){
+  const kind=NOTE_ACTS[k];stopMusic();run.hints=0;run.won=false;
+  run.p={type:'notes',kind,round:0,next:0,busy:true,fade:[],glow:-1};
+  if(kind==='scale')run.p.rounds=[[0,1,2,3,4,5,6,7],[7,6,5,4,3,2,1,0]];
+  if(kind==='highlow')run.p.rounds=[...Array(6)].map(()=>{let a,b;do{a=rand(0,7);b=rand(0,7)}while(Math.abs(a-b)<3);return [a,b]});
+  if(kind==='ear')run.p.rounds=[...Array(6)].map((_,i)=>{const o=shuffle([0,2,4,5,7]).slice(0,3).sort((a,b)=>a-b);return {opts:o,t:pick(o)}});
+  if(kind==='simon')run.p.rounds=[2,3,4,5].map(n=>[...Array(n)].map(()=>rand(0,4)));
+  run.cur={text:tr(NT_TEXT[kind].text),say:tr(NT_TEXT[kind].say)};
+  const p=run.p;setTimeout(()=>{if(run&&run.p===p)say(run.cur.say).then(()=>{if(run&&run.p===p)ntRound()})},300);
+}
+function flashBar(i){const el=document.querySelector(`.bar[data-k="${i}"]`);if(!el)return;el.classList.remove('hit');void el.offsetWidth;el.classList.add('hit')}
+function playSeq(seq,gap=.6,flash=true){if(!ac)return wait(seq.length*gap*1000+200);const t0=ac.currentTime+.1;
+  seq.forEach((n,i)=>{piano(n,t0+i*gap,.7);if(flash)setTimeout(()=>flashBar(n),100+i*gap*1000)});return wait(seq.length*gap*1000+300)}
+function ntRound(){
+  const p=run.p,r=p.rounds[p.round];p.next=0;p.busy=true;p.fade=[];p.glow=-1;renderGame();
+  if(p.kind==='scale'){p.busy=false;return}
+  if(p.kind==='highlow')return playSeq(r,.8,false).then(()=>{if(run.p===p){p.busy=false}});
+  if(p.kind==='ear'){p.fade=[0,1,2,3,4,5,6,7].filter(i=>!r.opts.includes(i));renderGame();return playSeq(r.opts,.6).then(()=>wait(500)).then(()=>playSeq([r.t],.6,false)).then(()=>{if(run.p===p)p.busy=false})}
+  if(p.kind==='simon')return playSeq(r,.65).then(()=>{if(run.p===p)p.busy=false});
+}
+function notesBody(p){
+  const bars=`<div class="xylo">${[0,1,2,3,4,5,6,7].map(i=>`<button class="bar ${p.fade.includes(i)?'fade':''} ${p.glow===i?'glow':''}" style="--c:${NOTE_COL[i]};height:${100-i*7}%" data-act="nt" data-x="bar" data-k="${i}"><span>${noteName(i)}</span></button>`).join('')}</div>`;
+  let extra='';
+  if(p.kind==='highlow')extra=`<div class="row"><button class="btn" data-act="nt" data-x="hl" data-v="up">⬆️ ${tr(['Higher','Πιο ψηλά'])}</button><button class="btn blue" data-act="nt" data-x="hl" data-v="down">⬇️ ${tr(['Lower','Πιο χαμηλά'])}</button></div>`;
+  const again=`<button class="btn white small" data-act="nt" data-x="again">🔁 ${tr(['Listen again','Άκου ξανά'])}</button>`;
+  return `<div class="stage"><div class="xbox">${bars}<div class="tcount">${p.round+1} / ${p.rounds.length}</div></div></div>${extra}<div class="row">${p.kind!=='scale'?again:''}</div><button class="icon-btn hintfab" data-act="nt" data-x="hint" aria-label="Help">💡</button>`;
+}
+function ntDone(p,msg){p.busy=true;sfx('good');burst(innerWidth/2,innerHeight/2,30);
+  Promise.all([msg?say(msg):Promise.resolve(),wait(1300)]).then(()=>{if(run.p!==p)return;p.round++;if(p.round>=p.rounds.length)return stemWin(stemStars(run.mistakes,0,2));ntRound()})}
+function notesAct(b){
+  const p=run.p,x=b.dataset.x;if(!p||run.won)return;
+  if(x==='again'&&!p.busy){const r=p.rounds[p.round];p.busy=true;(p.kind==='ear'?playSeq([r.t],.6,false):playSeq(r,.75,p.kind==='simon')).then(()=>{if(run.p===p)p.busy=false});return}
+  if(x==='hint'){run.hints++;const r=p.rounds[p.round];
+    if(p.kind==='scale'){p.glow=r[p.next];renderGame();return say(noteName(r[p.next]))}
+    if(p.kind==='ear'){p.glow=r.t;renderGame();return}
+    if(p.kind==='highlow'){p.busy=true;return playSeq(r,.9,true).then(()=>{say(tr(['Look which bar is further right: the right side sounds higher!','Κοίτα ποιο πλήκτρο είναι πιο δεξιά: προς τα δεξιά ακούγεται πιο ψηλά!']));p.busy=false})}
+    if(p.kind==='simon'){p.busy=true;p.next=0;return playSeq(r,.9).then(()=>{p.busy=false})}}
+  if(x==='bar'){const k=+b.dataset.k;if(p.fade.includes(k))return;piano(k,ac?ac.currentTime:0,.7);flashBar(k);if(p.busy)return;const r=p.rounds[p.round];
+    if(p.kind==='scale'){if(k!==r[p.next]){run.mistakes++;return}p.next++;p.glow=-1;if(p.next>=r.length)ntDone(p,tr(p.round?['Down the stairs! Do, Ti, La, Sol, Fa, Mi, Re, Do!','Κατέβηκες τη σκάλα! Ντο, Σι, Λα, Σολ, Φα, Μι, Ρε, Ντο!']:['You climbed the stairs! Now let us go down.','Ανέβηκες τη σκάλα! Τώρα ας κατέβουμε.']));return}
+    if(p.kind==='ear'){if(k===r.t)return ntDone(p,tr([`Yes! That was ${NOTE_NAME[0][k]}!`,`Ναι! Ήταν το ${NOTE_NAME[1][k]}!`]));run.mistakes++;sfx('bad');return}
+    if(p.kind==='simon'){if(k!==r[p.next]){run.mistakes++;sfx('bad');p.busy=true;say(tr(['Oops! Listen again.','Ωπ! Άκου ξανά.'])).then(()=>playSeq(r,.75)).then(()=>{if(run.p===p){p.busy=false;p.next=0}});return}
+      p.next++;if(p.next>=r.length)ntDone(p,tr(['You played the tune!','Έπαιξες τη μελωδία!']));return}}
+  if(x==='hl'&&!p.busy){const [a,c]=p.rounds[p.round],ans=c>a?'up':'down';
+    if(b.dataset.v!==ans){run.mistakes++;sfx('bad');b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400);return say(t('tryAgain'))}
+    playSeq([a,c],.5,true);ntDone(p,tr(ans==='up'?['Yes, higher!','Ναι, πιο ψηλά!']:['Yes, lower!','Ναι, πιο χαμηλά!']))}
+}
+
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
@@ -1788,7 +1901,8 @@ function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
   const prog=run.g==='memory'?run.found:run.q;
   let body;
-  if(run.g==='art')body=artBody(run.p);
+  if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
+  else if(run.g==='music'&&run.p&&run.p.type==='notes')body=notesBody(run.p);
   else if(run.g==='stem'||run.g==='space')body=stemBody();
   else if(run.g==='music')body=musicBody();
   else if(run.g==='puzzle')body=puzzleBody();
@@ -1802,7 +1916,7 @@ function renderGame(){
       <div class="dots">${Array.from({length:run.total},(_,i)=>`<i class="${i<prog?'done':i===prog?'now':''}"></i>`).join('')}</div></div>
     <div class="prompt"><span class="pet" id="pet">${h.pet}</span><div class="bubble"><span>${run.g==='memory'?t('findPairs'):run.cur.text}</span><button class="icon-btn" data-act="repeat" aria-label="Repeat">${I.speaker}</button></div></div>
     ${body}</div>`;
-  if(run.g==='music')musicHud();
+  if(run.g==='music'&&run.m)musicHud();
   if((run.g==='stem'||run.g==='space')&&run.p.type==='balance')requestAnimationFrame(()=>run&&run.p&&run.p.type==='balance'&&balancePaint());
   if((run.g==='stem'||run.g==='space')&&run.p.type==='pipes')pipesPaint();
 }
@@ -1848,11 +1962,13 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st')sfx('tap');
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt')sfx('tap');
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
+      else if(ui.screen==='game'&&run&&run.g==='music'&&run.p&&run.p.type==='notes')run.cur={text:tr(NT_TEXT[run.p.kind].text),say:tr(NT_TEXT[run.p.kind].say)};
+      else if(ui.screen==='game'&&run&&run.g==='art'&&run.p.type!=='art')run.cur.text=tr(run.p.type==='mix1'?['What colour will we get?','Τι χρώμα θα βγει;']:['Which two colours make it?','Ποια δύο χρώματα το φτιάχνουν;']);
       else if(ui.screen==='game'&&run&&run.g==='art'){const pt=run.p.pt;run.cur.text=tr([`«${pt.title[0]}», ${pt.by[0]}`,`«${pt.title[1]}», ${pt.by[1]}`])}
       else if(ui.screen==='game'&&run&&run.g==='music')run.cur.text=tr(['Catch the notes in order!','Μάζεψε τις νότες με τη σειρά!']);
       else if(ui.screen==='game'&&run&&run.g!=='memory'){run.cur=GEN[run.g](run.l);run.nextRank=0}
@@ -1882,7 +1998,8 @@ document.addEventListener('click',e=>{
     case 'card':flip(+b.dataset.i);break;
     case 'pz':puzzleAct(b);break;
     case 'mv':musicMove(+b.dataset.d);break;
-    case 'st':if(run&&run.g==='art')artAct(b.dataset.x,b);else stemAct(b);break;
+    case 'st':if(run&&run.g==='art'){if(run.p.type==='art')artAct(b.dataset.x,b);else if(b.dataset.x==='hint')mixHint();else mixAct(b.dataset.x,b)}else stemAct(b);break;
+    case 'nt':notesAct(b);break;
     case 'unlockall':S.unlocked=GAMES.filter(g=>g.gate).map(g=>g.id);save();toast(t('allOpen'));render();break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}
     case 'buy':{const it=ITEMS.find(x=>x.id===b.dataset.id);if(S.coins<it.cost){say(t('needCoins'));break}S.coins-=it.cost;S.owned.push(it.id);S.equip[it.slot]=it.id;sfx('coin');const nb=checkBadges();save();render();const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,40);sayL(SAY.wow(tr(it.name)));if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));break}
