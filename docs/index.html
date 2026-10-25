@@ -230,7 +230,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .tank{position:relative;width:min(100%,420px);aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:#dff1ff;border:6px solid #fffaf0;box-shadow:0 6px 0 rgba(28,42,72,.25)}
 .tank .water{position:absolute;left:0;right:0;bottom:0;height:58%;background:repeating-linear-gradient(0deg,transparent 0 18px,rgba(255,255,255,.12) 18px 22px),#3aa0e8;border-top:6px solid #8fd0ff}
 .tank.mag{background:repeating-linear-gradient(90deg,#e9d39b 0 40px,#e3c98d 40px 80px)}
-.magnet{position:absolute;left:50%;top:0;transform:translateX(-50%) rotate(180deg);font-size:4.4rem}
+.magnet{position:absolute;left:50%;top:2%;transform:translateX(-50%) rotate(135deg);font-size:4.4rem;line-height:1;z-index:1}
 .titem{position:absolute;left:50%;top:8%;transform:translate(-50%,-50%);font-size:clamp(3rem,10vw,4.6rem);transition:top 1s cubic-bezier(.5,0,.4,1.3)}
 .tcount{position:absolute;right:10px;bottom:8px;font-family:var(--display);font-weight:700;color:var(--ink);background:rgba(255,250,240,.85);padding:2px 10px;border-radius:8px}
 .scale{position:relative;width:min(100%,560px);height:min(42vh,300px)}
@@ -294,9 +294,10 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .cname{font-family:var(--display);font-weight:700;font-size:7px;fill:#ffe14a}
 /* solar system */
 .orbitstage{position:relative;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
-.solar{width:min(100%,calc(100dvh - 300px),560px);aspect-ratio:1;max-width:100%;background:radial-gradient(circle,#24356b,#0b1638 70%);border-radius:14px;border:4px solid #1c2a48;touch-action:none}
+.solar{width:min(100%,calc(100dvh - 250px),680px);aspect-ratio:1;max-width:100%;background:radial-gradient(circle,#24356b,#0b1638 70%);border-radius:14px;border:4px solid #1c2a48;touch-action:none}
 .solar svg{width:100%;height:100%;display:block}
 .orbit{fill:none;stroke:rgba(255,255,255,.35);stroke-width:1.2;stroke-dasharray:3 3}
+.plabel{font-family:var(--display);font-weight:700;font-size:7.5px;fill:#fff;stroke:#0b1638;stroke-width:2.2px;paint-order:stroke}
 .orbit.glow{stroke:#ffe14a;stroke-width:3;stroke-dasharray:none;animation:none}
 .tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:min(100%,360px)}
 .tp{width:84px;padding:4px;border-radius:12px;background:var(--marble);border:3px solid rgba(28,42,72,.12);box-shadow:0 5px 0 #cbbf9f;touch-action:none}
@@ -1343,12 +1344,12 @@ function codeGo(){
 function tankBody(p){
   const it=p.items[p.i],mag=p.type==='magnet',dn=p.type==='daynight';
   if(dn)return `<div class="stage"><div class="tank sky ${p.show||''}"><span class="titem" style="top:50%">${it[0]}</span><div class="tcount">${p.i+1} / ${p.items.length}</div></div></div><div class="row"><button class="btn" data-act="st" data-x="pick" data-v="1">☀️ ${tr(['Day','Μέρα'])}</button><button class="btn blue" data-act="st" data-x="pick" data-v="0">🌙 ${tr(['Night','Νύχτα'])}</button></div>`;
-  return `<div class="stage"><div class="tank ${mag?'mag':''}">${mag?'<span class="magnet">🧲</span>':'<div class="water"></div>'}<span class="titem" id="titem">${it[0]}</span><div class="tcount">${p.i+1} / ${p.items.length}</div></div></div>
+  return `<div class="stage"><div class="tank ${mag?'mag':''}">${mag?'<span class="magnet">🧲</span>':'<div class="water"></div>'}<span class="titem" id="titem" style="top:${mag?'58%':'8%'}">${it[0]}</span><div class="tcount">${p.i+1} / ${p.items.length}</div></div></div>
   <div class="row"><button class="btn blue" data-act="st" data-x="pick" data-v="1">${mag?tr(['🧲 It sticks','🧲 Κολλάει']):tr(['⬆️ Floats','⬆️ Επιπλέει'])}</button><button class="btn" data-act="st" data-x="pick" data-v="0">${mag?tr(['✋ It does not','✋ Δεν κολλάει']):tr(['⬇️ Sinks','⬇️ Βυθίζεται'])}</button></div>`;
 }
 function tankPick(v){
   const p=run.p;if(p.busy)return;p.busy=true;const it=p.items[p.i],ok=(+v===it[2]),mag=p.type==='magnet',el=$('#titem');
-  if(p.type==='daynight'){p.show=it[2]?'day':'night';renderGame()}else el.style.top=mag?(it[2]?'16%':'78%'):(it[2]?'38%':'80%');
+  if(p.type==='daynight'){p.show=it[2]?'day':'night';renderGame()}else el.style.top=mag?(it[2]?'44%':'84%'):(it[2]?'38%':'80%');
   const fact=p.type==='daynight'?tr([`${it[1][0]}: ${it[2]?'in the day!':'at night!'}`,`${it[1][1]}: ${it[2]?'τη μέρα!':'τη νύχτα!'}`]):mag?tr([`${it[1][0]} ${it[2]?'sticks to the magnet!':'does not stick to the magnet.'}`,`${it[1][1]} ${it[2]?'κολλάει στον μαγνήτη!':'δεν κολλάει στον μαγνήτη.'}`]):tr([`${it[1][0]} ${it[2]?'floats!':'sinks!'}`,`${it[1][1]} ${it[2]?'επιπλέει!':'βυθίζεται!'}`]);
   if(ok){sfx('good');burst(innerWidth/2,innerHeight/2,25)}else{run.mistakes++;sfx('bad')}
   Promise.all([say((ok?'':tr(['Look! ','Κοίτα! ']))+fact),wait(1600)]).then(()=>{if(!run||run.p!==p)return;p.i++;p.busy=false;p.show='';
@@ -1563,7 +1564,7 @@ function stemHint(){
 SPACE[3]={type:'orbit',rounds:[[0,1,2,3],[4,5,6,7]]};
 SPACE[5]={type:'orbit',rounds:[[0,1,2,3,4,5,6,7]]};
 STEM_TEXT.orbit={text:['Put each planet on its orbit!','Βάλε κάθε πλανήτη στην τροχιά του!'],say:['Drag each planet to its path around the Sun. Start with the one closest to the Sun!','Σύρε κάθε πλανήτη στον δρόμο του γύρω από τον Ήλιο. Ξεκίνα από αυτόν που είναι πιο κοντά στον Ήλιο!']};
-const ORBIT_R=[20,29,38,47,58,69,80,91],MINI_R=[3.2,4.6,5,4,9,7.2,6.2,6];
+const ORBIT_R=[22,36,50,64,78,92,106,120],MINI_R=[3.2,4.6,5,4,9,7.2,6.2,6];
 const ORD_PLANET=[['first','πρώτος'],['second','δεύτερος'],['third','τρίτος'],['fourth','τέταρτος'],['fifth','πέμπτος'],['sixth','έκτος'],['seventh','έβδομος'],['eighth','όγδοος']];
 function setupOrbit(c){
   run.p={type:'orbit',rounds:c.rounds,round:0,placed:[],sel:null,glow:-1,angles:PLANET_ORDER.map(()=>rand(0,359)),busy:false};
@@ -1574,11 +1575,12 @@ function miniPlanet(k){const id=PLANET_ORDER[k],[,c]=PLANETS[id],R=MINI_R[k];
   return (id==='saturn'?`<ellipse rx="${R*1.9}" ry="${R*.45}" fill="none" stroke="#b8955a" stroke-width="1.6"/>`:'')+`<circle r="${R}" fill="${c}"/>`+(id==='earth'?`<circle cx="-1.5" cy="-1" r="1.8" fill="#4caf50"/>`:'')+(id==='jupiter'?`<ellipse cy="-3" rx="8.4" ry="1" fill="#b97a45"/><ellipse cy="2" rx="8.8" ry="1.1" fill="#b97a45"/>`:'')}
 function orbitBody(p){
   const spin=(k,a)=>reduce?'':`<animateTransform attributeName="transform" type="rotate" from="${a} 0 0" to="${a+360} 0 0" dur="${10+k*5}s" repeatCount="indefinite"/>`;
-  return `<div class="stage orbitstage"><div class="solar"><svg viewBox="-100 -100 200 200" id="solar">
-    ${[...Array(60)].map((_,i)=>`<circle cx="${(i*73%200)-100}" cy="${(i*131%200)-100}" r=".5" fill="#fff" opacity=".5"/>`).join('')}
+  return `<div class="stage orbitstage"><div class="solar"><svg viewBox="-130 -130 260 260" id="solar">
+    ${[...Array(80)].map((_,i)=>`<circle cx="${(i*73%260)-130}" cy="${(i*131%260)-130}" r=".6" fill="#fff" opacity=".5"/>`).join('')}
     <circle r="16" fill="#ffd34a" opacity=".35"/><circle r="12" fill="#ffc21a"/>
     ${ORBIT_R.slice(0,p.show).map((r,k)=>`<circle r="${r}" class="orbit ${p.glow===k?'glow':''}"/>`).join('')}
-    ${p.placed.map(k=>`<g transform="rotate(${p.angles[k]})">${spin(k,p.angles[k])}<g transform="translate(${ORBIT_R[k]} 0)">${miniPlanet(k)}</g></g>`).join('')}
+    ${p.placed.map(k=>{const a=p.angles[k],keep=reduce?'':`<animateTransform attributeName="transform" type="rotate" from="${-a} 0 0" to="${-a-360} 0 0" dur="${10+k*5}s" repeatCount="indefinite"/>`;
+      return `<g transform="rotate(${a})">${spin(k,a)}<g transform="translate(${ORBIT_R[k]} 0)"><g transform="rotate(${-a})">${keep}${miniPlanet(k)}<text class="plabel" y="${MINI_R[k]+8}" text-anchor="middle">${tr(PLANETS[PLANET_ORDER[k]][2])}</text></g></g></g>`}).join('')}
   </svg></div>
   <div class="tray">${p.tray.map(k=>`<button class="tp ${p.sel===k?'sel':''}" data-act="st" data-x="tp" data-v="${k}" aria-label="${tr(PLANETS[PLANET_ORDER[k]][2])}">${planetSVG(PLANET_ORDER[k])}<small class="pname">${tr(PLANETS[PLANET_ORDER[k]][2])}</small></button>`).join('')}</div>
   <div class="tcount">${p.round+1} / ${p.rounds.length}</div></div>`;
@@ -1588,7 +1590,7 @@ function orbitDrop(x,y){
   const p=run.p,svg=document.getElementById('solar');if(!svg||p.busy)return;
   if(p.sel===null){say(tr(['First pick a planet!','Πρώτα διάλεξε έναν πλανήτη!']));return}
   const pt=new DOMPoint(x,y).matrixTransform(svg.getScreenCTM().inverse()),d=Math.hypot(pt.x,pt.y);
-  let k=-1,best=8;ORBIT_R.slice(0,p.show).forEach((r,i)=>{if(Math.abs(r-d)<best){best=Math.abs(r-d);k=i}});
+  let k=-1,best=7;ORBIT_R.slice(0,p.show).forEach((r,i)=>{if(Math.abs(r-d)<best){best=Math.abs(r-d);k=i}});
   if(k<0)return;
   const name=tr(PLANETS[PLANET_ORDER[p.sel]][2]);
   if(k!==p.sel||p.placed.includes(k)){run.mistakes++;sfx('bad');say(tr(['Not that path. Try another one!','Όχι σε αυτόν τον δρόμο. Δοκίμασε άλλον!']));return}
