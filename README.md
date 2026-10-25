@@ -19,7 +19,7 @@ On a tablet, open the link and choose **Add to Home Screen** to get a full-scree
 | Fishing Harbour · Λιμάνι των Ψαράδων | More and fewer |
 | Aegean Sea · Αιγαίο Πέλαγος | Memory cards |
 | Music Odeon · Μουσικό Ωδείο | Runner game: catch coloured notes in order to play Mozart, Beethoven, Brahms, Grieg and Bach |
-| Archimedes' Workshop · Εργαστήρι του Αρχιμήδη | STEM: code the robot Talos with arrows, float or sink, balance scale, water pipes, electric circuit, magnets, life cycles, gears, shadows and light (10 levels, 💡 help) |
+| Archimedes' Workshop · Εργαστήρι του Αρχιμήδη | STEM: code the robot Talos with arrows, float or sink, balance scale, water pipes, electric circuit, magnets, life cycles, gears, shadows and light, gear doors to open (12 levels, 💡 help) |
 | Star Observatory · Αστεροσκοπείο | Astronomy: day/night, planets placed on their orbits around the Sun, Moon phases, constellations with Greek myths (6 levels, 💡 help) |
 | Art Gallery · Πινακοθήκη | Colour famous paintings: Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh's Sunflowers and Starry Night, Hokusai's Great Wave |
 | Riddle Cave · Σπηλιά των Γρίφων | Picture puzzles: drag-through Minotaur labyrinths (up to 11×11, with a walking Minotaur), Tower of 2–4 discs, wolf–sheep–grass river crossing (8 levels, 💡 hints) |

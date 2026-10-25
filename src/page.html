@@ -311,6 +311,18 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .artthumb{width:100%;height:auto;max-height:90px;display:block;border:4px solid #c98b2b;background:#fff}
 .artthumb path{stroke:#1c1c1c;stroke-width:2}
 .btn[disabled]{opacity:.5}
+/* gear doors */
+.gboard{position:relative;width:min(100%,900px);max-width:100%;border-radius:12px;overflow:hidden;border:4px solid #4a5768}
+.gsvg{display:block;width:100%;height:auto;max-height:calc(100dvh - 330px)}
+.gslot{cursor:pointer}
+.gslot.glow circle{stroke:#ffe14a}
+.gdoorpanel{transition:transform 1.6s ease-in-out}
+.gdoorpanel.open{transform:translateY(-150px)}
+.gdoorpanel.shake{animation:shake .4s 2}
+.gtray{width:92px;padding:4px;border-radius:12px;background:var(--marble);border:3px solid rgba(28,42,72,.12);box-shadow:0 5px 0 #cbbf9f;touch-action:none}
+.gtray svg{width:100%;height:auto;display:block}
+.gtray small{font-family:var(--display);font-weight:700;color:var(--ink-soft)}
+.gtray.sel{border-color:var(--ink);transform:scale(1.08)}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}

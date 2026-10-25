@@ -311,6 +311,18 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .artthumb{width:100%;height:auto;max-height:90px;display:block;border:4px solid #c98b2b;background:#fff}
 .artthumb path{stroke:#1c1c1c;stroke-width:2}
 .btn[disabled]{opacity:.5}
+/* gear doors */
+.gboard{position:relative;width:min(100%,900px);max-width:100%;border-radius:12px;overflow:hidden;border:4px solid #4a5768}
+.gsvg{display:block;width:100%;height:auto;max-height:calc(100dvh - 330px)}
+.gslot{cursor:pointer}
+.gslot.glow circle{stroke:#ffe14a}
+.gdoorpanel{transition:transform 1.6s ease-in-out}
+.gdoorpanel.open{transform:translateY(-150px)}
+.gdoorpanel.shake{animation:shake .4s 2}
+.gtray{width:92px;padding:4px;border-radius:12px;background:var(--marble);border:3px solid rgba(28,42,72,.12);box-shadow:0 5px 0 #cbbf9f;touch-action:none}
+.gtray svg{width:100%;height:auto;display:block}
+.gtray small{font-family:var(--display);font-weight:700;color:var(--ink-soft)}
+.gtray.sel{border-color:var(--ink);transform:scale(1.08)}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -410,7 +422,7 @@ const GAMES=[
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο']]});
 GAMES.push({id:'art',name:['Art Gallery','Πινακοθήκη'],skill:['Painting','Ζωγραφική'],x:87,y:52,gate:{coins:20},levels:[['Mondrian','Μοντριάν'],['Kandinsky','Καντίνσκι'],['Dolphins of Knossos','Δελφίνια της Κνωσού'],['Sunflowers','Ηλιοτρόπια'],['The Great Wave','Το μεγάλο κύμα'],['The Starry Night','Έναστρη νύχτα']]});
 GAMES.push({id:'space',name:['Star Observatory','Αστεροσκοπείο'],skill:['Astronomy','Αστρονομία'],x:73,y:17,gate:{coins:35},levels:[['Day or night','Μέρα ή νύχτα'],['Find the planet','Βρες τον πλανήτη'],['The Moon','Το φεγγάρι'],['Planets in order','Οι πλανήτες στη σειρά'],['Constellations','Οι αστερισμοί'],['All eight planets','Και οι οκτώ πλανήτες']]});
-GAMES.push({id:'stem',name:["Archimedes' Workshop",'Εργαστήρι του Αρχιμήδη'],skill:['STEM puzzles','Γρίφοι STEM'],x:12,y:13,gate:{coins:30},levels:[['Program Talos','Προγραμμάτισε τον Τάλω'],['Float or sink','Επιπλέει ή βυθίζεται'],['The scale','Η ζυγαριά'],['Water pipes','Οι σωλήνες του νερού'],['How things grow','Πώς μεγαλώνουν'],['Magnets','Οι μαγνήτες'],['Light the lamp','Άναψε τη λάμπα'],['Talos and the rocks','Ο Τάλως και οι βράχοι'],['Gears','Γρανάζια'],['Shadows and light','Σκιές και φως']]});
+GAMES.push({id:'stem',name:["Archimedes' Workshop",'Εργαστήρι του Αρχιμήδη'],skill:['STEM puzzles','Γρίφοι STEM'],x:12,y:13,gate:{coins:30},levels:[['Program Talos','Προγραμμάτισε τον Τάλω'],['Float or sink','Επιπλέει ή βυθίζεται'],['The scale','Η ζυγαριά'],['Water pipes','Οι σωλήνες του νερού'],['How things grow','Πώς μεγαλώνουν'],['Magnets','Οι μαγνήτες'],['Light the lamp','Άναψε τη λάμπα'],['Talos and the rocks','Ο Τάλως και οι βράχοι'],['Gears','Γρανάζια'],['Shadows and light','Σκιές και φως'],['The gear door','Η πόρτα με τα γρανάζια'],['The secret door','Η μυστική πόρτα']]});
 const PUZZLES=[{type:'maze',n:6},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:8,key:true},{type:'hanoi',n:3},{type:'maze',n:9,key:true,mino:true},{type:'hanoi',n:4},{type:'maze',n:11,key:true,mino:true}];
 const isOpen=g=>!g.gate||S.unlocked.includes(g.id)||S.stars[g.id].some(x=>x>0);
 const BADGES=[
@@ -465,7 +477,7 @@ const TEACH={
   music:['A running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
   art:['Colouring famous paintings: Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh and Hokusai. The child can peek at the artist\'s colours and hears a short story about each painting. Finished paintings stay in the gallery.','Χρωματισμός διάσημων πινάκων: Μοντριάν, Καντίνσκι, τα μινωικά δελφίνια της Κνωσού, βαν Γκογκ και Χοκουσάι. Το παιδί μπορεί να δει τα χρώματα του ζωγράφου και ακούει μια μικρή ιστορία για κάθε πίνακα. Οι πίνακες που τελειώνει μένουν στην πινακοθήκη.'],
   space:['Astronomy: day and night, the planets and their order from the Sun, the phases of the Moon, and constellations with their Greek myths.','Αστρονομία: μέρα και νύχτα, οι πλανήτες και η σειρά τους από τον Ήλιο, οι φάσεις της Σελήνης και οι αστερισμοί με τους ελληνικούς μύθους τους.'],
-  stem:['STEM with pictures: coding the bronze robot Talos with arrows, floating and sinking (Archimedes), balancing a scale, connecting water pipes and electric circuits, magnets, life cycles, gears, and shadows and light.','STEM με εικόνες: προγραμματισμός του χάλκινου ρομπότ Τάλω με βελάκια, τι επιπλέει και τι βυθίζεται (Αρχιμήδης), ισορροπία ζυγαριάς, σωλήνες νερού και ηλεκτρικά κυκλώματα, μαγνήτες, κύκλοι ζωής, γρανάζια, σκιές και φως.'],
+  stem:['STEM with pictures: coding the bronze robot Talos with arrows, floating and sinking (Archimedes), balancing a scale, connecting water pipes and electric circuits, magnets, life cycles, gears (and gear doors to open), and shadows and light.','STEM με εικόνες: προγραμματισμός του χάλκινου ρομπότ Τάλω με βελάκια, τι επιπλέει και τι βυθίζεται (Αρχιμήδης), ισορροπία ζυγαριάς, σωλήνες νερού και ηλεκτρικά κυκλώματα, μαγνήτες, κύκλοι ζωής, γρανάζια (και πόρτες που ανοίγουν με γρανάζια), σκιές και φως.'],
   puzzle:['Problem solving with pictures: the Minotaur labyrinth, the Tower puzzle and the wolf, sheep and grass river crossing. The light-bulb button gives a spoken hint.','Επίλυση προβλημάτων με εικόνες: ο λαβύρινθος του Μινώταυρου, ο Πύργος και το πέρασμα του λύκου, του προβάτου και του χόρτου. Το κουμπί με τη λάμπα δίνει βοήθεια.']
 };
 const TX={
@@ -1418,6 +1430,7 @@ function pipesRot(i){
 }
 function stemBody(){const p=run.p;const hint=`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
   if(p.type==='orbit')return orbitBody(p)+hint;
+  if(p.type==='gdoor'||p.type==='gdir')return gdoorBody(p)+hint;
   if(['daynight','pick','stars','gears','shadow'].includes(p.type))return extraBody(p)+hint;
   return hint+(p.type==='code'?codeBody(p):p.type==='float'||p.type==='magnet'?tankBody(p):p.type==='balance'?balanceBody(p):p.type==='cycle'?cycleBody(p):pipesBody(p))}
 function stemAct(b){
@@ -1431,6 +1444,7 @@ function stemAct(b){
   if(x==='star')starTap(+b.dataset.k);
   if(x==='hint')stemHint();
   if(x==='tp')orbitPick(+b.dataset.v);
+  if(['gsize','slot','crank','gchoose'].includes(x))gearAct(x,b);
 }
 
 /* ---------- more STEM: gears, shadows; and the Star Observatory ---------- */
@@ -1485,6 +1499,7 @@ function setupExtra(c){
   if(c.type==='pick'){run.p={type:'pick',qs:shuffle(PLANET_Q),i:0,busy:false};pickRound()}
   if(c.type==='stars'){run.p={type:'stars',rounds:shuffle(CONSTELLATIONS),round:0,next:0,busy:false,bg:[...Array(40)].map(()=>[rand(0,100),rand(0,100),Math.random()*.8+.3])}}
   if(c.type==='orbit')setupOrbit(c);
+  if(c.type==='gdoor'||c.type==='gdir')setupGearDoor(c);
   if(c.type==='gears'){run.p={type:'gears',counts:[2,3,5],round:0,spun:false,arrows:false,busy:false}}
   if(c.type==='shadow'){run.p={type:'shadow',rounds:['match','side','match','side','match'].map(k=>k==='match'?{k,obj:null}:{k,sun:pick(['l','r'])}),i:0,busy:false};shadowRound()}
 }
@@ -1548,6 +1563,8 @@ function stemHint(){
   if(p.type==='cycle'){const k=p.deck.findIndex(c=>c.i===p.next);glow(document.querySelector(`[data-x="card"][data-k="${k}"]`));return say(tr(['This one comes next!','Αυτό έρχεται μετά!']))}
   if(p.type==='stars'){p.glow=p.next;renderGame();return say(tr([`Look for number ${p.next+1}!`,`Ψάξε το ${numEl(p.next+1,'n')}!`]))}
   if(p.type==='orbit'){const k=p.sel!==null?p.sel:Math.min(...p.tray);p.sel=k;p.glow=k;renderGame();return say(tr([`${PLANETS[PLANET_ORDER[k]][2][0]} goes on the glowing path!`,`${PLANETS[PLANET_ORDER[k]][2][1]}: στον δρόμο που λάμπει!`]))}
+  if(p.type==='gdoor'){const k=p.empty.findIndex(e=>e);if(k<0)return say(tr(['Turn the handle!','Γύρνα τη μανιβέλα!']));p.glow=k;p.glowTray=p.sizes[k];renderGame();return say(tr([`This place needs a ${SIZE_NAME[p.sizes[k]][0]} gear!`,`Αυτή η θέση θέλει ${SIZE_NAME[p.sizes[k]][1]} γρανάζι!`]))}
+  if(p.type==='gdir'){p.arrows=true;renderGame();return say(tr(['Count the arrows: like a clock, the other way, like a clock… Which choice makes the door gear turn like a clock?','Μέτρα τα βελάκια: όπως το ρολόι, ανάποδα, όπως το ρολόι… Με ποια επιλογή το γρανάζι της πόρτας γυρίζει όπως το ρολόι;']))}
   if(p.type==='gears'){p.arrows=true;renderGame();return say(tr(['Follow the arrows: each gear turns the other way from its neighbour.','Ακολούθησε τα βελάκια: κάθε γρανάζι γυρίζει ανάποδα από το διπλανό του.']))}
   if(p.type==='pick'){const q=p.qs[p.i],k=p.opts.findIndex(id=>id!==q.a&&!document.querySelector(`[data-x="choose"][data-v="${p.opts.indexOf(id)}"].fade`));const el=document.querySelector(`[data-x="choose"][data-v="${k}"]`);if(el)el.classList.add('fade');return say(tr(['Not that one!','Όχι αυτός!']))}
   if(p.type==='shadow'){const r=p.rounds[p.i];if(r.k==='side')return say(tr(['The shadow goes away from the sun, to the other side.','Η σκιά πάει μακριά από τον ήλιο, από την άλλη μεριά.']));
@@ -1680,6 +1697,76 @@ function artAct(x,b){
 }
 function artRefresh(){const p=run.p,btn=document.querySelector('[data-x="done"]');if(!btn)return;const ok=p.fills.filter(Boolean).length>=Math.ceil(p.fills.length*.9);btn.disabled=!ok;btn.classList.toggle('blue',ok)}
 
+
+/* ---------- gear doors: fix the gear train, turn the handle, open the door ---------- */
+STEM.push({type:'gdoor'},{type:'gdir'});
+STEM_TEXT.gdoor={text:['Fix the gears to open the door!','Φτιάξε τα γρανάζια για να ανοίξει η πόρτα!'],say:['The stone door is stuck! Put the right size gear in each empty place, then turn the handle.','Η πέτρινη πόρτα κόλλησε! Βάλε το σωστό μέγεθος γρανάζι σε κάθε άδεια θέση και μετά γύρνα τη μανιβέλα.']};
+STEM_TEXT.gdir={text:['The door opens only one way!','Η πόρτα ανοίγει μόνο προς τη μία μεριά!'],say:['The door gear must turn like a clock to open the door. Should we put one big gear, or two small gears?','Το γρανάζι της πόρτας πρέπει να γυρίσει όπως το ρολόι για να ανοίξει η πόρτα. Να βάλουμε ένα μεγάλο γρανάζι ή δύο μικρά;']};
+const GR={S:22,M:32,L:44},GCOL={S:'#43a047',M:'#f2b632',L:'#e53935'};
+const SIZE_NAME={S:['small','μικρό'],M:['medium','μεσαίο'],L:['big','μεγάλο']};
+const GD_ROUNDS=[['M','?S','M'],['M','?L','?S','M'],['S','?M','L','?S','M']];
+const GDIR_ROUNDS=[{pre:['M'],suf:['M']},{pre:['M','S'],suf:['M']},{pre:['M'],suf:['S','M']},{pre:['S','M'],suf:['S','M']},{pre:['L'],suf:['M']}];
+const TREASURE=['🏺','👑','💎','🏆'];
+function gearLayout(sizes){let x=12,out=[];sizes.forEach((s,i)=>{const r=GR[s];x+=i?r-5:r;out.push({s,r,x});x+=r});return {g:out,doorX:x+14}}
+function gearSVG(x,y,r,col,dir,spin){const n=Math.round(r/3.4);
+  const anim=spin&&!reduce?`<animateTransform attributeName="transform" type="rotate" from="0 ${x} ${y}" to="${dir*360} ${x} ${y}" dur="${(r/14).toFixed(2)}s" repeatCount="indefinite"/>`:'';
+  return `<g>${anim}${[...Array(n)].map((_,i)=>`<rect x="${x-4}" y="${y-r}" width="8" height="10" rx="1.5" fill="${col}" transform="rotate(${i*360/n} ${x} ${y})"/>`).join('')}<circle cx="${x}" cy="${y}" r="${r-6}" fill="${col}"/><circle cx="${x}" cy="${y}" r="${r-6}" fill="none" stroke="rgba(0,0,0,.2)" stroke-width="2"/><rect x="${x-r*.5}" y="${y-2}" width="${r}" height="4" fill="rgba(0,0,0,.18)"/><circle cx="${x}" cy="${y}" r="${Math.max(4,r*.22)}" fill="#5c6b7c"/></g>`}
+function doorSVG(x,p,treasure){return `<rect x="${x}" y="30" width="78" height="160" fill="#3a2a1c"/><text x="${x+39}" y="125" text-anchor="middle" font-size="42">${treasure}</text>
+  <g class="gdoorpanel ${p.open?'open':''} ${p.rattle?'shake':''}"><rect x="${x}" y="30" width="78" height="160" fill="#9aa7b8"/>${[0,1,2,3].map(j=>`<rect x="${x+4}" y="${36+j*38}" width="70" height="32" fill="#b9c4d2"/><rect x="${x+4}" y="${36+j*38+26}" width="70" height="6" fill="#7d8899"/>`).join('')}<rect x="${x+30}" y="96" width="18" height="18" fill="#c98b2b"/></g>
+  <rect x="${x-4}" y="22" width="86" height="10" fill="#6d7a8c"/><rect x="${x-10}" y="22" width="8" height="178" fill="#6d7a8c"/><rect x="${x+80}" y="22" width="8" height="178" fill="#6d7a8c"/>`}
+function setupGearDoor(c){
+  if(c.type==='gdoor'){run.p={type:'gdoor',round:0,sel:null,open:false};gdoorRound()}
+  else{run.p={type:'gdir',rounds:shuffle(GDIR_ROUNDS).slice(0,3),round:0,choice:null,open:false};}
+}
+function gdoorRound(){const p=run.p,r=GD_ROUNDS[p.round];p.sizes=r.map(s=>s.replace('?',''));p.empty=r.map(s=>s[0]==='?');p.sel=null;p.open=false;p.spin=false;p.treasure=TREASURE[p.round%TREASURE.length]}
+function gdoorBody(p){
+  const sizes=p.type==='gdoor'?p.sizes:[...p.rounds[p.round].pre,...(p.choice?(p.choice==='L'?['L']:['S','S']):['L']),...p.rounds[p.round].suf];
+  const L=gearLayout(sizes),W=L.doorX+92,y=110;let g='';
+  const preN=p.type==='gdir'?p.rounds[p.round].pre.length:0;
+  L.g.forEach((it,i)=>{const dir=i%2?-1:1;
+    if(p.type==='gdoor'&&p.empty[i])g+=`<g class="gslot ${p.glow===i?'glow':''}" data-act="st" data-x="slot" data-k="${i}"><circle cx="${it.x}" cy="${y}" r="${it.r}" fill="rgba(255,255,255,.35)" stroke="#fff" stroke-width="3" stroke-dasharray="6 5"/><text x="${it.x}" y="${y+8}" text-anchor="middle" font-size="22" fill="#fff">?</text></g>`;
+    else if(p.type==='gdir'&&!p.choice&&i===preN)g+=`<g><rect x="${it.x-it.r}" y="${y-it.r}" width="${it.r*2}" height="${it.r*2}" rx="10" fill="rgba(255,255,255,.3)" stroke="#fff" stroke-width="3" stroke-dasharray="6 5"/><text x="${it.x}" y="${y+10}" text-anchor="middle" font-size="28" fill="#fff">?</text></g>`;
+    else g+=gearSVG(it.x,y,it.r,GCOL[it.s],dir,p.spin);
+    if(p.arrows||p.spin)g+=`<text x="${it.x}" y="${y-it.r-6}" text-anchor="middle" font-size="16" font-weight="700" fill="#fff6c9">${dir>0?'↻':'↺'}</text>`;
+  });
+  const c0=L.g[0];g+=`<rect x="${c0.x-3}" y="${y-c0.r-26}" width="6" height="${c0.r+26}" fill="#6d4c2f"/><circle cx="${c0.x}" cy="${y-c0.r-28}" r="7" fill="#d63a2f"/>`;
+  const last=L.g[L.g.length-1];g+=`<rect x="${last.x}" y="${y-4}" width="${L.doorX-last.x}" height="8" fill="#6d4c2f"/>`;
+  const need=p.type==='gdir'?`<text x="${L.doorX+39}" y="18" text-anchor="middle" font-size="15" font-weight="700" fill="#fff6c9">${tr(['opens ↻','ανοίγει ↻'])}</text>`:'';
+  const svg=`<svg viewBox="0 0 ${W} 220" id="gsvg" class="gsvg"><rect width="${W}" height="220" fill="#5c6b7c"/>${[...Array(Math.ceil(W/40))].map((_,i)=>`<rect x="${i*40}" y="${200+(i%2)*2}" width="38" height="20" fill="#4a5768"/>`).join('')}${doorSVG(L.doorX,p,p.treasure||TREASURE[p.round%4])}${need}${g}</svg>`;
+  let ctl;
+  if(p.type==='gdoor'){const full=p.empty.every(e=>!e);
+    ctl=`<div class="row">${['S','M','L'].map(s=>`<button class="gtray ${p.sel===s?'sel':''} ${p.glowTray===s?'glow':''}" data-act="st" data-x="gsize" data-v="${s}" aria-label="${tr(SIZE_NAME[s])}"><svg viewBox="-48 -48 96 96">${gearSVG(0,0,GR[s],GCOL[s],1,false)}</svg><small>${tr(SIZE_NAME[s])}</small></button>`).join('')}
+      <button class="btn ${full?'blue glow':''}" data-act="st" data-x="crank" ${full&&!p.spin?'':'disabled'}>🔄 ${tr(['Turn the handle','Γύρνα τη μανιβέλα'])}</button></div>`}
+  else ctl=`<div class="row"><button class="btn" data-act="st" data-x="gchoose" data-v="L" ${p.choice?'disabled':''}>🔴 ${tr(['1 big gear','1 μεγάλο γρανάζι'])}</button><button class="btn blue" data-act="st" data-x="gchoose" data-v="SS" ${p.choice?'disabled':''}>🟢🟢 ${tr(['2 small gears','2 μικρά γρανάζια'])}</button></div>`;
+  return `<div class="stage"><div class="gboard">${svg}<div class="tcount">${p.round+1} / 3</div></div></div>${ctl}`;
+}
+function gearOpenDoor(p,ok,after){
+  p.spin=true;renderGame();sfx('flip');
+  setTimeout(()=>{if(run.p!==p)return;
+    if(ok){p.open=true;const d=document.querySelector('.gdoorpanel');if(d)d.classList.add('open');sfx('good');burst(innerWidth*.7,innerHeight/2,40);
+      Promise.all([say(tr(['The door is open! A treasure!','Η πόρτα άνοιξε! Ένας θησαυρός!'])),wait(2200)]).then(()=>{if(run.p!==p)return;after()})}
+    else{run.mistakes++;sfx('bad');const d=document.querySelector('.gdoorpanel');if(d)d.classList.add('shake');
+      Promise.all([say(tr(['The door gear turns the wrong way, so the door stays shut! Try the other one.','Το γρανάζι της πόρτας γυρίζει ανάποδα και η πόρτα μένει κλειστή! Δοκίμασε το άλλο.'])),wait(2400)]).then(()=>{if(run.p!==p)return;p.spin=false;p.choice=null;renderGame()})}
+  },1300);
+}
+function gearAct(x,b){
+  const p=run.p;
+  if(p.type==='gdoor'){
+    if(x==='gsize'){p.sel=b.dataset.v;p.glowTray=null;sfx('tap');say(tr(SIZE_NAME[p.sel]));renderGame()}
+    if(x==='slot'){const k=+b.dataset.k;if(!p.empty[k])return;if(!p.sel)return say(tr(['First pick a gear!','Πρώτα διάλεξε ένα γρανάζι!']));
+      const want=p.sizes[k];if(p.sel!==want){run.mistakes++;sfx('bad');return say(GR[p.sel]>GR[want]?tr(['Too big!','Πολύ μεγάλο!']):tr(['Too small!','Πολύ μικρό!']))}
+      p.empty[k]=false;p.glow=null;sfx('good');renderGame();if(p.empty.every(e=>!e))say(tr(['All the gears are in! Turn the handle.','Μπήκαν όλα τα γρανάζια! Γύρνα τη μανιβέλα.']))}
+    if(x==='crank'&&p.empty.every(e=>!e)&&!p.spin)gearOpenDoor(p,true,()=>{p.round++;if(p.round>=GD_ROUNDS.length)return stemWin(stemStars(run.mistakes,0,2));gdoorRound();renderGame()});
+  }
+  if(p.type==='gdir'&&x==='gchoose'&&!p.choice){p.choice=b.dataset.v==='L'?'L':'SS';
+    const n=p.rounds[p.round].pre.length+(p.choice==='L'?1:2)+p.rounds[p.round].suf.length;
+    gearOpenDoor(p,(n-1)%2===0,()=>{p.round++;p.choice=null;p.spin=false;p.open=false;if(p.round>=3)return stemWin(stemStars(run.mistakes,0,1));renderGame()})}
+}
+// drag a gear from the tray onto an empty place
+let gdrag=null;
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.gtray');if(b&&run&&run.p&&run.p.type==='gdoor')gdrag=b.dataset.v});
+document.addEventListener('pointerup',e=>{if(!gdrag)return;const v=gdrag;gdrag=null;const el=document.elementFromPoint(e.clientX,e.clientY),slot=el&&el.closest('.gslot');
+  if(slot&&run&&run.p&&run.p.type==='gdoor'){run.p.sel=v;gearAct('slot',slot)}});
 
 /* ---------- game flow ---------- */
 let run=null;
