@@ -55,7 +55,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .map-wrap{flex:1;min-height:0;display:grid;place-items:center}
 .map{position:relative;width:min(100%,calc((100dvh - 120px) * 1.43));aspect-ratio:10/7;max-width:100%;border-radius:16px;border:4px solid rgba(15,79,143,.5);overflow:hidden;box-shadow:0 10px 30px rgba(15,79,143,.35)}
 .map>svg{position:absolute;inset:0;width:100%;height:100%}
-.loc{position:absolute;transform:translate(-50%,-50%);width:15.5%;display:flex;flex-direction:column;align-items:center;gap:2px}
+.loc{position:absolute;transform:translate(-50%,-50%);width:13.5%;display:flex;flex-direction:column;align-items:center;gap:2px}
 .loc .art{width:100%;aspect-ratio:1;max-width:100%;filter:drop-shadow(0 6px 4px rgba(0,0,0,.2));transition:transform .2s}
 .loc:active .art{transform:scale(.94)}
 .loc .tag{background:var(--marble);border-radius:8px;border:2px solid rgba(28,42,72,.2);padding:3px 10px;font-family:var(--display);font-weight:600;font-size:clamp(.7rem,1.6vw,1.05rem);white-space:nowrap;box-shadow:0 3px 0 #cbbf9f;text-align:center;line-height:1.15}
@@ -253,6 +253,45 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .ptile svg{width:100%;height:100%;display:block}
 .pg{transform-origin:50px 50px;transform-box:view-box;transition:transform .25s;fill:#b9c4d2}
 .water .pg.on{fill:#3aa0e8}.power .pg.on{fill:#ffd23f}
+/* gears, shadows, planets, stars, help */
+.hintfab{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;width:64px;height:64px;font-size:1.8rem;background:#fff6c9}
+.glow{animation:glowp .6s ease-in-out infinite alternate}
+@keyframes glowp{from{box-shadow:0 0 0 4px #ffe14a}to{box-shadow:0 0 0 9px #ffe14a;background:#fff3b0}}
+.fade{opacity:.2;pointer-events:none}
+.gears{position:relative;display:flex;align-items:center;justify-content:center;padding:30px 10px 40px;width:min(100%,760px);flex-wrap:nowrap}
+.gear{position:relative;width:min(22vw,140px);aspect-ratio:1;margin-left:-3.2%;flex:none}
+.gear:first-child{margin-left:0}
+.gear svg{width:100%;height:100%;fill:#b9c4d2}
+.gear.odd svg{transform:rotate(18deg)}
+.gear:nth-child(3n+1) svg{fill:#f2b632}.gear:nth-child(3n+2) svg{fill:#43a047}.gear:nth-child(3n) svg{fill:#e53935}
+.gsp{transform-origin:0 0}
+.gear.cw .gsp{animation:spin 2.4s linear infinite}.gear.ccw .gsp{animation:spin 2.4s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.garrow{position:absolute;left:50%;top:-30px;transform:translateX(-50%);font-size:2rem;font-weight:700;color:var(--aegean)}
+.gstar{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:1.6rem}
+.sil{filter:brightness(0);opacity:.78}
+.sunscene{position:relative;width:min(100%,460px);aspect-ratio:2/1;background:linear-gradient(#bfe6ff 70%,#9cc46b 70%);border-radius:12px;border:4px solid #fffaf0}
+.sunscene .sun{position:absolute;top:6%;font-size:3rem}.sunscene .sun.l{left:6%}.sunscene .sun.r{right:6%}
+.sunscene .tree{position:absolute;left:50%;bottom:22%;transform:translateX(-50%);font-size:4rem;line-height:1;z-index:1}
+.sunscene .shd{position:absolute;bottom:14%;width:30%;height:14%;background:rgba(28,42,72,.55);border-radius:50%;filter:blur(2px)}
+.sunscene .shd.l{right:50%}.sunscene .shd.r{left:50%}
+.sunscene.small{width:150px;font-size:.5em;border-width:2px}
+.sunscene.small .tree{font-size:2.6rem}
+.planet{width:clamp(90px,16vw,150px);height:auto;display:block}
+.opt.tall.many{width:clamp(66px,9vw,104px);min-width:0;height:clamp(120px,24vh,180px);padding:4px}
+.options:has(.many){gap:8px}
+.opt.tall .planet{width:100%}
+.pname{display:block;font-family:var(--display);font-weight:700;font-size:.8rem;color:var(--ink-soft);text-align:center}
+.bigsun{font-size:clamp(3rem,8vw,5rem);align-self:center}
+.tank.sky{background:linear-gradient(#e6ecf5,#c9d4e3);transition:background .6s}
+.tank.sky.day{background:linear-gradient(#7ccaff,#e4f5ff)}.tank.sky.night{background:linear-gradient(#0b1638,#24356b)}
+.sky{position:relative;width:min(100%,calc(100dvh - 300px),560px);aspect-ratio:1;max-width:100%;background:radial-gradient(circle at 30% 20%,#24356b,#0b1638);border-radius:14px;border:4px solid #1c2a48}
+.sky svg{width:100%;height:100%;display:block}
+.clines line{stroke:#7fd3ff;stroke-width:1.2;stroke-linecap:round}
+.cstar{cursor:pointer}.cstar circle:nth-child(2){fill:#fff6c9}.cstar.on circle:nth-child(2){fill:#ffe14a}
+.cstar.glow circle:nth-child(2){fill:#ff8c1a;animation:none}
+.cstar text{font-family:var(--display);font-weight:700;font-size:5px;fill:#fff}
+.cname{font-family:var(--display);font-weight:700;font-size:7px;fill:#ffe14a}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -339,18 +378,19 @@ const ITEMS=[
 ];
 const SLOTS=[['head',['Hats','Καπέλα']],['cape',['Capes','Κάπες']],['hand',['Hands','Χέρια']],['feet',['Feet','Πόδια']]];
 const GAMES=[
-  {id:'count',name:['Olive Grove','Ελαιώνας'],skill:['Counting','Αρίθμηση'],x:17,y:40,levels:[['Count to 5','Μέχρι το 5'],['Count to 10','Μέχρι το 10'],['Add olives','Πρόσθεση']]},
-  {id:'letters',name:['Temple of Letters','Ναός των Γραμμάτων'],skill:['Letters','Γράμματα'],x:37,y:20,levels:[['Listen & find','Άκου και βρες'],['First sounds','Πρώτος ήχος'],['Big & small','Κεφαλαία & μικρά']]},
-  {id:'sizes',name:['Mount Olympus','Όρος Όλυμπος'],skill:['Big & Small','Μεγάλο & Μικρό'],x:64,y:17,gate:{coins:10},levels:[['Biggest','Το μεγαλύτερο'],['Smallest','Το μικρότερο'],['Small to big','Από μικρό σε μεγάλο']]},
-  {id:'shapes',name:['Agora Market','Αγορά'],skill:['Colors & Shapes','Χρώματα & Σχήματα'],x:84,y:42,levels:[['Colors','Χρώματα'],['Shapes','Σχήματα'],['Color + shape','Χρώμα + σχήμα']]},
-  {id:'odd',name:['Olympic Stadium','Ολυμπιακό Στάδιο'],skill:['Odd One Out','Το διαφορετικό'],x:53,y:46,gate:{coins:15},levels:[['Easy','Εύκολο'],['Tricky','Δύσκολο'],['Super tricky','Πολύ δύσκολο']]},
-  {id:'pattern',name:['Pottery Workshop','Εργαστήρι Αγγείων'],skill:['Patterns','Μοτίβα'],x:30,y:69,levels:[['A B A B','Α Β Α Β'],['A A B','Α Α Β'],['A B C','Α Β Γ']]},
-  {id:'compare',name:['Fishing Harbour','Λιμάνι των Ψαράδων'],skill:['More & Fewer','Περισσότερα & Λιγότερα'],x:11,y:79,gate:{coins:20},levels:[['More','Περισσότερα'],['Fewer','Λιγότερα'],['Biggest number','Μεγαλύτερος αριθμός']]},
+  {id:'count',name:['Olive Grove','Ελαιώνας'],skill:['Counting','Αρίθμηση'],x:18,y:45,levels:[['Count to 5','Μέχρι το 5'],['Count to 10','Μέχρι το 10'],['Add olives','Πρόσθεση']]},
+  {id:'letters',name:['Temple of Letters','Ναός των Γραμμάτων'],skill:['Letters','Γράμματα'],x:35,y:21,levels:[['Listen & find','Άκου και βρες'],['First sounds','Πρώτος ήχος'],['Big & small','Κεφαλαία & μικρά']]},
+  {id:'sizes',name:['Mount Olympus','Όρος Όλυμπος'],skill:['Big & Small','Μεγάλο & Μικρό'],x:52,y:15,gate:{coins:10},levels:[['Biggest','Το μεγαλύτερο'],['Smallest','Το μικρότερο'],['Small to big','Από μικρό σε μεγάλο']]},
+  {id:'shapes',name:['Agora Market','Αγορά'],skill:['Colors & Shapes','Χρώματα & Σχήματα'],x:63,y:45,levels:[['Colors','Χρώματα'],['Shapes','Σχήματα'],['Color + shape','Χρώμα + σχήμα']]},
+  {id:'odd',name:['Olympic Stadium','Ολυμπιακό Στάδιο'],skill:['Odd One Out','Το διαφορετικό'],x:41,y:46,gate:{coins:15},levels:[['Easy','Εύκολο'],['Tricky','Δύσκολο'],['Super tricky','Πολύ δύσκολο']]},
+  {id:'pattern',name:['Pottery Workshop','Εργαστήρι Αγγείων'],skill:['Patterns','Μοτίβα'],x:31,y:72,levels:[['A B A B','Α Β Α Β'],['A A B','Α Α Β'],['A B C','Α Β Γ']]},
+  {id:'compare',name:['Fishing Harbour','Λιμάνι των Ψαράδων'],skill:['More & Fewer','Περισσότερα & Λιγότερα'],x:10,y:80,gate:{coins:20},levels:[['More','Περισσότερα'],['Fewer','Λιγότερα'],['Biggest number','Μεγαλύτερος αριθμός']]},
   {id:'memory',name:['Aegean Sea','Αιγαίο Πέλαγος'],skill:['Memory','Μνήμη'],x:88,y:80,levels:[['3 pairs','3 ζευγάρια'],['4 pairs','4 ζευγάρια'],['6 pairs','6 ζευγάρια']]},
-  {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:14,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
+  {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
-GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:66,y:70,gate:{coins:25},levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο']]});
-GAMES.push({id:'stem',name:["Archimedes' Workshop",'Εργαστήρι του Αρχιμήδη'],skill:['STEM puzzles','Γρίφοι STEM'],x:14,y:14,gate:{coins:30},levels:[['Program Talos','Προγραμμάτισε τον Τάλω'],['Float or sink','Επιπλέει ή βυθίζεται'],['The scale','Η ζυγαριά'],['Water pipes','Οι σωλήνες του νερού'],['How things grow','Πώς μεγαλώνουν'],['Magnets','Οι μαγνήτες'],['Light the lamp','Άναψε τη λάμπα'],['Talos and the rocks','Ο Τάλως και οι βράχοι']]});
+GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο']]});
+GAMES.push({id:'space',name:['Star Observatory','Αστεροσκοπείο'],skill:['Astronomy','Αστρονομία'],x:73,y:17,gate:{coins:35},levels:[['Day or night','Μέρα ή νύχτα'],['Find the planet','Βρες τον πλανήτη'],['The Moon','Το φεγγάρι'],['Planets in order','Οι πλανήτες στη σειρά'],['Constellations','Οι αστερισμοί'],['All eight planets','Και οι οκτώ πλανήτες']]});
+GAMES.push({id:'stem',name:["Archimedes' Workshop",'Εργαστήρι του Αρχιμήδη'],skill:['STEM puzzles','Γρίφοι STEM'],x:12,y:13,gate:{coins:30},levels:[['Program Talos','Προγραμμάτισε τον Τάλω'],['Float or sink','Επιπλέει ή βυθίζεται'],['The scale','Η ζυγαριά'],['Water pipes','Οι σωλήνες του νερού'],['How things grow','Πώς μεγαλώνουν'],['Magnets','Οι μαγνήτες'],['Light the lamp','Άναψε τη λάμπα'],['Talos and the rocks','Ο Τάλως και οι βράχοι'],['Gears','Γρανάζια'],['Shadows and light','Σκιές και φως']]});
 const PUZZLES=[{type:'maze',n:6},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:8,key:true},{type:'hanoi',n:3},{type:'maze',n:9,key:true,mino:true},{type:'hanoi',n:4},{type:'maze',n:11,key:true,mino:true}];
 const isOpen=g=>!g.gate||S.unlocked.includes(g.id)||S.stars[g.id].some(x=>x>0);
 const BADGES=[
@@ -365,6 +405,7 @@ const BADGES=[
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
   {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
+  {id:'space',icon:'🔭',name:['Little Astronomer','Μικρός Αστρονόμος'],desc:['Finish every level in the Observatory','Τελείωσε όλο το Αστεροσκοπείο'],test:s=>gameDone(s,'space')},
   {id:'stem',icon:'⚙️',name:['Little Archimedes','Μικρός Αρχιμήδης'],desc:['Solve every STEM puzzle in the Workshop','Λύσε όλους τους γρίφους του Εργαστηρίου'],test:s=>gameDone(s,'stem')},
   {id:'puzzle',icon:'🧩',name:['Puzzle Master','Λύτης γρίφων'],desc:['Solve every riddle in the Cave','Λύσε όλους τους γρίφους της Σπηλιάς'],test:s=>gameDone(s,'puzzle')},
   {id:'explorer',icon:'🗝️',name:['Explorer','Εξερευνητής'],desc:['Open a locked place','Άνοιξε ένα κλειδωμένο μέρος'],test:s=>s.unlocked.length>=1},
@@ -401,7 +442,8 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['A running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
-  stem:['STEM with pictures: coding the bronze robot Talos with arrows, floating and sinking (Archimedes), balancing a scale, connecting water pipes and electric circuits, magnets, and life cycles.','STEM με εικόνες: προγραμματισμός του χάλκινου ρομπότ Τάλω με βελάκια, τι επιπλέει και τι βυθίζεται (Αρχιμήδης), ισορροπία ζυγαριάς, σωλήνες νερού και ηλεκτρικά κυκλώματα, μαγνήτες και κύκλοι ζωής.'],
+  space:['Astronomy: day and night, the planets and their order from the Sun, the phases of the Moon, and constellations with their Greek myths.','Αστρονομία: μέρα και νύχτα, οι πλανήτες και η σειρά τους από τον Ήλιο, οι φάσεις της Σελήνης και οι αστερισμοί με τους ελληνικούς μύθους τους.'],
+  stem:['STEM with pictures: coding the bronze robot Talos with arrows, floating and sinking (Archimedes), balancing a scale, connecting water pipes and electric circuits, magnets, life cycles, gears, and shadows and light.','STEM με εικόνες: προγραμματισμός του χάλκινου ρομπότ Τάλω με βελάκια, τι επιπλέει και τι βυθίζεται (Αρχιμήδης), ισορροπία ζυγαριάς, σωλήνες νερού και ηλεκτρικά κυκλώματα, μαγνήτες, κύκλοι ζωής, γρανάζια, σκιές και φως.'],
   puzzle:['Problem solving with pictures: the Minotaur labyrinth, the Tower puzzle and the wolf, sheep and grass river crossing. The light-bulb button gives a spoken hint.','Επίλυση προβλημάτων με εικόνες: ο λαβύρινθος του Μινώταυρου, ο Πύργος και το πέρασμα του λύκου, του προβάτου και του χόρτου. Το κουμπί με τη λάμπα δίνει βοήθεια.']
 };
 const TX={
@@ -666,6 +708,7 @@ const ART={
   compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
   memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
   puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  space:svgArt(cube(18,58,58,32,10,'#e9e2d0')+`<path d="M18 58A29 29 0 0 1 76 58Z" fill="#b9c4d2"/><rect x="44" y="30" width="8" height="28" fill="#1c2a48" transform="rotate(35 48 44)"/><rect x="40" y="70" width="14" height="20" fill="#6d4c2f"/>`+[[12,14],[84,10],[70,30],[26,34]].map(([x,y])=>`<rect x="${x}" y="${y}" width="6" height="6" fill="#ffe14a" transform="rotate(45 ${x+3} ${y+3})"/>`).join('')),
   stem:svgArt(cube(10,46,62,42,10,'#c8643b')+cube(10,36,62,10,10,'#a54d2a')+`<rect x="28" y="62" width="22" height="26" fill="#6d4c2f"/>`+`<g transform="translate(76 30)"><circle r="15" fill="#f2b632"/>${[0,45,90,135,180,225,270,315].map(a=>`<rect x="-4" y="-20" width="8" height="8" fill="#f2b632" transform="rotate(${a})"/>`).join('')}<circle r="6" fill="#c98a12"/></g>`+cube(36,10,14,14,6,'#ffe14a')),
   music:svgArt(cube(6,74,84,16,10,'#b98d63')+cube(14,60,68,14,10,'#d7b48e')+cube(24,48,48,12,10,'#e9cfa8')+cube(34,38,28,10,8,'#f6ead2')+`<rect x="58" y="6" width="5" height="26" fill="#1c2a48"/><rect x="58" y="6" width="18" height="6" fill="#1c2a48"/><rect x="50" y="28" width="12" height="9" fill="#1c2a48"/><rect x="72" y="6" width="4" height="22" fill="#1c2a48"/><rect x="64" y="24" width="12" height="9" fill="#1c2a48"/>`)
 };
@@ -687,9 +730,9 @@ const MAP_SVG=`<svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
 <rect width="1000" height="700" fill="url(#mSea)"/>
 <g fill="#bfe6ff" opacity=".5">${[[60,80],[880,260],[300,650],[640,660],[920,420],[40,520]].map(([x,y])=>`<rect x="${x}" y="${y}" width="26" height="6"/><rect x="${x+20}" y="${y-6}" width="18" height="6"/>`).join('')}</g>
 ${islandTiles()}
-<g fill="#e3c27e">${[[190,280,370,150],[380,150,630,120],[650,130,820,290],[200,300,290,470],[310,470,520,340],[540,330,800,300]].map(([a,b,c,d])=>{let s='';for(let t=0;t<=1;t+=.07)s+=`<rect x="${(a+(c-a)*t-6).toFixed(0)}" y="${(b+(d-b)*t-6).toFixed(0)}" width="12" height="12"/>`;return s}).join('')}</g>
-<g stroke="rgba(0,0,0,.15)" stroke-width="1">${[[440,500],[480,480],[520,505],[470,530],[510,540],[550,520]].map(([x,y],i)=>cube(x,y,30,26,10,'#ffffff')+(i%2?'':cube(x+7,y-10,16,8,6,'#2f6fd6'))+`<rect x="${x+11}" y="${y+10}" width="8" height="16" fill="#2f6fd6"/>`).join('')}
-${[[260,230],[480,230],[760,230],[800,380],[200,400],[600,460]].map(([x,y])=>cube(x-4,y,8,14,4,'#7a5a2a')+cube(x-14,y-22,28,22,8,'#5f9e3c')).join('')}</g>
+<g fill="#e3c27e">${[[180,300,320,150],[330,140,520,110],[530,110,720,125],[190,320,400,320],[410,320,620,320],[400,330,320,500],[330,505,550,505],[620,330,560,500]].map(([a,b,c,d])=>{let s='';for(let t=0;t<=1;t+=.07)s+=`<rect x="${(a+(c-a)*t-6).toFixed(0)}" y="${(b+(d-b)*t-6).toFixed(0)}" width="12" height="12"/>`;return s}).join('')}</g>
+<g stroke="rgba(0,0,0,.15)" stroke-width="1">${[[740,330],[780,310],[820,335],[770,360],[810,370],[850,350]].map(([x,y],i)=>cube(x,y,30,26,10,'#ffffff')+(i%2?'':cube(x+7,y-10,16,8,6,'#2f6fd6'))+`<rect x="${x+11}" y="${y+10}" width="8" height="16" fill="#2f6fd6"/>`).join('')}
+${[[250,240],[440,230],[640,210],[860,250],[230,420],[700,450],[450,420],[150,230]].map(([x,y])=>cube(x-4,y,8,14,4,'#7a5a2a')+cube(x-14,y-22,28,22,8,'#5f9e3c')).join('')}</g>
 </svg>`;
 
 /* ---------- rendering ---------- */
@@ -1230,7 +1273,8 @@ const TALOS='<svg viewBox="0 0 40 44" class="talos"><g stroke="rgba(0,0,0,.2)" s
 const DIRS={up:[0,-1,'⬆️'],down:[0,1,'⬇️'],left:[-1,0,'⬅️'],right:[1,0,'➡️']};
 
 function setupStem(l){
-  const c=STEM[l];run.won=false;run.hints=0;
+  const c=cfgOf(run.g,l);run.won=false;run.hints=0;
+  setupExtra(c);
   if(c.type==='code'){const n=c.n;let rocks,target,d;
     for(let k=0;k<200;k++){rocks=new Set();while(rocks.size<c.rocks)rocks.add(rand(1,n*n-1));target=rand(1,n*n-1);if(rocks.has(target))continue;
       d=codeDist(n,rocks,0,target);if(d>=c.min&&d<=c.max)break}
@@ -1238,18 +1282,18 @@ function setupStem(l){
   if(c.type==='float'||c.type==='magnet'){const pool=c.type==='float'?FLOATERS:MAGNETIC,yes=shuffle(pool.filter(x=>x[2])),no=shuffle(pool.filter(x=>!x[2]));
     run.p={type:c.type,items:shuffle([...yes.slice(0,3),...no.slice(0,2)]),i:0,busy:false}}
   if(c.type==='balance')run.p={type:'balance',round:0,left:balanceLeft(0),right:0,busy:false,over:false};
-  if(c.type==='cycle')run.p={type:'cycle',round:0,order:shuffle(CYCLES).slice(0,3),next:0,busy:false};
+  if(c.type==='cycle'&&!c.set)run.p={type:'cycle',round:0,order:shuffle(CYCLES).slice(0,3).map(([e,f])=>({items:e.map(x=>({html:`<span class="emo">${x}</span>`})),fact:f})),next:0,busy:false};
   if(c.type==='pipes')run.p=makePipes(c.n,c.kind);
-  const tx=STEM_TEXT[c.type==='pipes'?c.kind:c.type];run.cur={text:tr(tx.text),say:tr(tx.say)};
-  if(run.p.type==='cycle')run.p.deck=shuffle(run.p.order[0][0].map((e,i)=>({e,i})));
+  if(c.type!=='pick'&&c.type!=='shadow'){const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}
+  if(run.p.type==='cycle')run.p.deck=shuffle(run.p.order[0].items.map((e,i)=>({...e,i})));
 }
-function stemWin(st){run.won=true;sfx('win');burst(innerWidth/2,innerHeight/2,70);setTimeout(()=>finishLevel(st),1100)}
+function stemWin(st){if(run.hints)st=Math.min(st,2);run.won=true;sfx('win');burst(innerWidth/2,innerHeight/2,70);setTimeout(()=>finishLevel(st),1100)}
 const stemStars=(m,a,b)=>m<=a?3:m<=b?2:1;
 
 // coding: Talos follows absolute arrows on a grid
 function codeDist(n,rocks,a,b){const d=new Map([[a,0]]),q=[a];while(q.length){const c=q.shift();if(c===b)return d.get(c);for(const [dx,dy] of Object.values(DIRS)){const x=c%n+dx,y=Math.floor(c/n)+dy,k=y*n+x;if(x<0||y<0||x>=n||y>=n||rocks.has(k)||d.has(k))continue;d.set(k,d.get(c)+1);q.push(k)}}return 99}
 function codeBody(p){
-  const cells=[...Array(p.n*p.n).keys()].map(i=>`<div class="cg-c">${p.rocks.includes(i)?'<span class="rock"></span>':i===p.target?'<span class="cg-i">🏺</span>':''}</div>`).join('');
+  const cells=[...Array(p.n*p.n).keys()].map(i=>`<div class="cg-c" data-i="${i}">${p.rocks.includes(i)?'<span class="rock"></span>':i===p.target?'<span class="cg-i">🏺</span>':''}</div>`).join('');
   return `<div class="stage"><div class="cgrid" style="grid-template-columns:repeat(${p.n},minmax(0,1fr));grid-template-rows:repeat(${p.n},minmax(0,1fr))">${cells}<div class="robot" id="robot" style="width:${100/p.n}%;left:${p.pos%p.n*100/p.n}%;top:${Math.floor(p.pos/p.n)*100/p.n}%">${TALOS}</div></div></div>
   <div class="prog" id="prog">${[...Array(p.max)].map((_,k)=>`<span class="slot ${p.prog[k]?'full':''}" data-k="${k}">${p.prog[k]?DIRS[p.prog[k]][2]:''}</span>`).join('')}</div>
   <div class="row">${Object.keys(DIRS).map(d=>`<button class="icon-btn arrow" data-act="st" data-x="add" data-d="${d}" aria-label="${d}">${DIRS[d][2]}</button>`).join('')}<button class="icon-btn" data-act="st" data-x="del" aria-label="Delete">⌫</button><button class="btn blue" data-act="st" data-x="go">▶ ${tr(['Go','Πάμε'])}</button></div>`;
@@ -1269,16 +1313,17 @@ function codeGo(){
 }
 // floating and magnets: choose, then watch what really happens
 function tankBody(p){
-  const it=p.items[p.i],mag=p.type==='magnet';
+  const it=p.items[p.i],mag=p.type==='magnet',dn=p.type==='daynight';
+  if(dn)return `<div class="stage"><div class="tank sky ${p.show||''}"><span class="titem" style="top:50%">${it[0]}</span><div class="tcount">${p.i+1} / ${p.items.length}</div></div></div><div class="row"><button class="btn" data-act="st" data-x="pick" data-v="1">☀️ ${tr(['Day','Μέρα'])}</button><button class="btn blue" data-act="st" data-x="pick" data-v="0">🌙 ${tr(['Night','Νύχτα'])}</button></div>`;
   return `<div class="stage"><div class="tank ${mag?'mag':''}">${mag?'<span class="magnet">🧲</span>':'<div class="water"></div>'}<span class="titem" id="titem">${it[0]}</span><div class="tcount">${p.i+1} / ${p.items.length}</div></div></div>
   <div class="row"><button class="btn blue" data-act="st" data-x="pick" data-v="1">${mag?tr(['🧲 It sticks','🧲 Κολλάει']):tr(['⬆️ Floats','⬆️ Επιπλέει'])}</button><button class="btn" data-act="st" data-x="pick" data-v="0">${mag?tr(['✋ It does not','✋ Δεν κολλάει']):tr(['⬇️ Sinks','⬇️ Βυθίζεται'])}</button></div>`;
 }
 function tankPick(v){
   const p=run.p;if(p.busy)return;p.busy=true;const it=p.items[p.i],ok=(+v===it[2]),mag=p.type==='magnet',el=$('#titem');
-  el.style.top=mag?(it[2]?'16%':'78%'):(it[2]?'38%':'80%');
-  const fact=mag?tr([`${it[1][0]} ${it[2]?'sticks to the magnet!':'does not stick to the magnet.'}`,`${it[1][1]} ${it[2]?'κολλάει στον μαγνήτη!':'δεν κολλάει στον μαγνήτη.'}`]):tr([`${it[1][0]} ${it[2]?'floats!':'sinks!'}`,`${it[1][1]} ${it[2]?'επιπλέει!':'βυθίζεται!'}`]);
+  if(p.type==='daynight'){p.show=it[2]?'day':'night';renderGame()}else el.style.top=mag?(it[2]?'16%':'78%'):(it[2]?'38%':'80%');
+  const fact=p.type==='daynight'?tr([`${it[1][0]}: ${it[2]?'in the day!':'at night!'}`,`${it[1][1]}: ${it[2]?'τη μέρα!':'τη νύχτα!'}`]):mag?tr([`${it[1][0]} ${it[2]?'sticks to the magnet!':'does not stick to the magnet.'}`,`${it[1][1]} ${it[2]?'κολλάει στον μαγνήτη!':'δεν κολλάει στον μαγνήτη.'}`]):tr([`${it[1][0]} ${it[2]?'floats!':'sinks!'}`,`${it[1][1]} ${it[2]?'επιπλέει!':'βυθίζεται!'}`]);
   if(ok){sfx('good');burst(innerWidth/2,innerHeight/2,25)}else{run.mistakes++;sfx('bad')}
-  Promise.all([say((ok?'':tr(['Look! ','Κοίτα! ']))+fact),wait(1600)]).then(()=>{if(!run||run.p!==p)return;p.i++;p.busy=false;
+  Promise.all([say((ok?'':tr(['Look! ','Κοίτα! ']))+fact),wait(1600)]).then(()=>{if(!run||run.p!==p)return;p.i++;p.busy=false;p.show='';
     if(p.i>=p.items.length){say(tr(['Eureka! You are a little scientist!','Εύρηκα! Είσαι μικρός επιστήμονας!']));return stemWin(stemStars(run.mistakes,0,1))}renderGame()});
 }
 // balance scale: big blocks weigh 2 or 3 little ones
@@ -1305,14 +1350,14 @@ function balanceAdd(d){
       if(p.round>=3)return stemWin(stemStars(run.mistakes,0,2));p.left=balanceLeft(p.round);p.right=0;p.busy=false;renderGame();balancePaint()})}
 }
 // life cycles: tap the pictures in order
-function cycleBody(p){return `<div class="options" style="flex:1;align-items:center">${p.deck.map((c,k)=>`<button class="opt tall" data-act="st" data-x="card" data-k="${k}"><span class="emo">${c.e}</span>${c.done?`<em class="rank">${c.i+1}</em>`:''}</button>`).join('')}</div><div class="row"><div class="tcount" style="position:static">${p.round+1} / 3</div></div>`}
+function cycleBody(p){return `<div class="options" style="flex:1;align-items:center">${p.prefix?`<span class="bigsun">${p.prefix}</span>`:''}${p.deck.map((c,k)=>`<button class="opt tall ${p.deck.length>5?'many':''}" data-act="st" data-x="card" data-k="${k}">${c.html}${c.done?`<em class="rank">${c.i+1}</em>`:''}</button>`).join('')}</div><div class="row"><div class="tcount" style="position:static">${p.round+1} / ${p.order.length}</div></div>`}
 function cycleTap(k,btn){
   const p=run.p,c=p.deck[k];if(p.busy||c.done)return;
   if(c.i!==p.next){run.mistakes++;sfx('bad');btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');say(t('tryAgain'));return}
-  c.done=true;p.next++;sfx('tap');renderGame();
-  if(p.next>=4){p.busy=true;sfx('good');burst(innerWidth/2,innerHeight/2,30);
-    Promise.all([say(tr(p.order[p.round][1])),wait(1500)]).then(()=>{if(!run||run.p!==p)return;p.round++;
-      if(p.round>=3)return stemWin(stemStars(run.mistakes,0,2));p.next=0;p.busy=false;p.deck=shuffle(p.order[p.round][0].map((e,i)=>({e,i})));renderGame()})}
+  c.done=true;p.next++;sfx('tap');if(c.name&&p.next<p.deck.length)say(tr(c.name));renderGame();
+  if(p.next>=p.deck.length){p.busy=true;sfx('good');burst(innerWidth/2,innerHeight/2,30);
+    Promise.all([say(tr(p.order[p.round].fact)),wait(1500)]).then(()=>{if(!run||run.p!==p)return;p.round++;
+      if(p.round>=p.order.length)return stemWin(stemStars(run.mistakes,0,2));p.next=0;p.busy=false;p.deck=shuffle(p.order[p.round].items.map((e,i)=>({...e,i})));renderGame()})}
 }
 // pipes and wires: rotate tiles to connect the source to the goal
 const PIPE_BASE={S:[0,2],C:[0,1],T:[0,1,2]};
@@ -1348,7 +1393,9 @@ function pipesRot(i){
     say(tr(p.kind==='water'?['The water reached the flower! It is happy now.','Το νερό έφτασε στο λουλούδι! Τώρα είναι χαρούμενο.']:['The lamp is on! You made a circuit.','Η λάμπα άναψε! Έφτιαξες κύκλωμα.']));
     stemWin(stemStars(p.taps,p.need+4,p.need*2+10))}
 }
-function stemBody(){const p=run.p;return p.type==='code'?codeBody(p):p.type==='float'||p.type==='magnet'?tankBody(p):p.type==='balance'?balanceBody(p):p.type==='cycle'?cycleBody(p):pipesBody(p)}
+function stemBody(){const p=run.p;const hint=`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
+  if(['daynight','pick','stars','gears','shadow'].includes(p.type))return extraBody(p)+hint;
+  return hint+(p.type==='code'?codeBody(p):p.type==='float'||p.type==='magnet'?tankBody(p):p.type==='balance'?balanceBody(p):p.type==='cycle'?cycleBody(p):pipesBody(p))}
 function stemAct(b){
   if(!run||!run.p||run.won)return;const p=run.p,x=b.dataset.x;
   if(p.type==='code'&&!p.busy){if(x==='add'&&p.prog.length<p.max){p.prog.push(b.dataset.d);sfx('tap');renderGame()}if(x==='del'){p.prog.pop();sfx('tap');renderGame()}if(x==='go')codeGo()}
@@ -1356,14 +1403,136 @@ function stemAct(b){
   if(x==='plus')balanceAdd(1);if(x==='minus')balanceAdd(-1);
   if(x==='card')cycleTap(+b.dataset.k,b);
   if(x==='rot')pipesRot(+b.dataset.i);
+  if(x==='choose')chooseAct(b.dataset.v,b);
+  if(x==='star')starTap(+b.dataset.k);
+  if(x==='hint')stemHint();
+}
+
+/* ---------- more STEM: gears, shadows; and the Star Observatory ---------- */
+STEM.push({type:'gears'},{type:'shadow'});
+const SPACE=[{type:'daynight'},{type:'pick'},{type:'cycle',set:'moon'},{type:'cycle',set:'planets4'},{type:'stars'},{type:'cycle',set:'planets8'}];
+Object.assign(STEM_TEXT,{
+  gears:{text:['Which way will the ⭐ gear turn?','Προς τα πού θα γυρίσει το γρανάζι με το ⭐;'],say:['The first gear turns like the hands of a clock. Gears that touch push each other. Which way will the gear with the star turn?','Το πρώτο γρανάζι γυρίζει όπως οι δείκτες του ρολογιού. Τα γρανάζια που ακουμπάνε σπρώχνουν το ένα το άλλο. Προς τα πού θα γυρίσει το γρανάζι με το αστέρι;']},
+  shadow:{text:['Shadows and light','Σκιές και φως'],say:['Light makes shadows! Let us play with shadows.','Το φως φτιάχνει σκιές! Ας παίξουμε με τις σκιές.']},
+  daynight:{text:['Day or night?','Μέρα ή νύχτα;'],say:['Do we see this in the day, when the sun shines, or at night, when it is dark?','Αυτό το βλέπουμε τη μέρα, που λάμπει ο ήλιος, ή τη νύχτα, που είναι σκοτάδι;']},
+  pick:{text:['Find the planet!','Βρες τον πλανήτη!'],say:['Let us look at the planets!','Ας κοιτάξουμε τους πλανήτες!']},
+  moon:{text:['Put the Moon in order!','Βάλε το φεγγάρι στη σειρά!'],say:['The Moon changes shape every night. Tap from the thinnest to the roundest!','Το φεγγάρι αλλάζει σχήμα κάθε βράδυ. Πάτα από το πιο λεπτό στο πιο στρογγυλό!']},
+  planets:{text:['Planets from the Sun','Οι πλανήτες από τον Ήλιο'],say:['Tap the planets in order, starting from the one closest to the Sun!','Πάτα τους πλανήτες με τη σειρά, ξεκινώντας από αυτόν που είναι πιο κοντά στον Ήλιο!']},
+  stars:{text:['Join the stars!','Ένωσε τα αστέρια!'],say:['Tap the stars by their numbers: one, two, three… and see what the ancient Greeks saw in the sky!','Πάτα τα αστέρια με τη σειρά των αριθμών: ένα, δύο, τρία… και δες τι έβλεπαν στον ουρανό οι αρχαίοι Έλληνες!']}
+});
+const PLANETS={mercury:[14,'#a9a9a9',['Mercury','Ερμής']],venus:[22,'#e8c27a',['Venus','Αφροδίτη']],earth:[24,'#3a8fd6',['Earth','Γη']],mars:[18,'#d2553a',['Mars','Άρης']],jupiter:[46,'#d9a066',['Jupiter','Δίας']],saturn:[36,'#e6c47a',['Saturn','Κρόνος']],uranus:[30,'#7fd3e0',['Uranus','Ουρανός']],neptune:[29,'#3f6fd6',['Neptune','Ποσειδώνας']]};
+const PLANET_ORDER=Object.keys(PLANETS);
+function planetSVG(id){const [R,c]=PLANETS[id];let o=`<svg viewBox="-75 -75 150 150" class="planet">`;
+  if(id==='saturn')o+=`<ellipse rx="${R*1.9}" ry="${R*.42}" fill="none" stroke="#b8955a" stroke-width="${R*.2}"/>`;
+  o+=`<circle r="${R}" fill="${c}"/>`;
+  if(id==='earth')o+=`<circle cx="-8" cy="-6" r="9" fill="#4caf50"/><circle cx="9" cy="8" r="7" fill="#4caf50"/>`;
+  if(id==='jupiter')o+=`<ellipse cy="${-R*.35}" rx="${R*.94}" ry="${R*.1}" fill="#b97a45"/><ellipse cy="${R*.2}" rx="${R*.98}" ry="${R*.12}" fill="#b97a45"/><ellipse cx="${R*.35}" cy="${R*.42}" rx="${R*.18}" ry="${R*.1}" fill="#c0503a"/>`;
+  if(id==='mars')o+=`<circle cx="-5" cy="4" r="4" fill="#a83c27"/><circle cx="6" cy="-6" r="3" fill="#a83c27"/>`;
+  if(id==='saturn')o+=`<path d="M${-R*1.9} 0A${R*1.9} ${R*.42} 0 0 0 ${R*1.9} 0" fill="none" stroke="#b8955a" stroke-width="${R*.2}"/>`;
+  return o+`<circle cx="${-R*.35}" cy="${-R*.35}" r="${R*.3}" fill="#fff" opacity=".25"/></svg>`}
+const planetCard=id=>({html:planetSVG(id)+`<small class="pname">${tr(PLANETS[id][2])}</small>`,name:PLANETS[id][2]});
+const ORDER_SETS={
+  moon:()=>[{items:['🌑','🌒','🌓','🌔','🌕'].map(e=>({html:`<span class="emo">${e}</span>`})),fact:['The Moon grows from dark to full!','Το φεγγάρι μεγαλώνει από το σκοτάδι ως την πανσέληνο!']},
+            {items:['🌕','🌖','🌗','🌘','🌑'].map(e=>({html:`<span class="emo">${e}</span>`})),fact:['And then it gets smaller again, night after night!','Και μετά μικραίνει ξανά, βράδυ με το βράδυ!']}],
+  planets4:()=>[{items:PLANET_ORDER.slice(0,4).map(planetCard),fact:['Mercury, Venus, Earth, Mars: the four planets closest to the Sun!','Ερμής, Αφροδίτη, Γη, Άρης: οι τέσσερις πλανήτες πιο κοντά στον Ήλιο!']},
+                {items:PLANET_ORDER.slice(4).map(planetCard),fact:['Jupiter, Saturn, Uranus, Neptune: the four big planets far away!','Δίας, Κρόνος, Ουρανός, Ποσειδώνας: οι τέσσερις μεγάλοι πλανήτες, πολύ μακριά!']}],
+  planets8:()=>[{items:PLANET_ORDER.map(planetCard),fact:['You know all eight planets! Many have the names of Greek gods.','Ξέρεις και τους οκτώ πλανήτες! Πολλοί έχουν ονόματα ελληνικών θεών.']}]
+};
+const PLANET_Q=[
+  {q:['Tap the planet with rings','Πάτα τον πλανήτη με τα δαχτυλίδια'],a:'saturn',fact:['Saturn has beautiful rings of ice and rock!','Ο Κρόνος έχει όμορφα δαχτυλίδια από πάγο και πέτρες!']},
+  {q:['Tap the red planet','Πάτα τον κόκκινο πλανήτη'],a:'mars',fact:['Mars is the red planet!','Ο Άρης είναι ο κόκκινος πλανήτης!']},
+  {q:['Tap the biggest planet','Πάτα τον μεγαλύτερο πλανήτη'],a:'jupiter',fact:['Jupiter is the biggest planet of all!','Ο Δίας είναι ο μεγαλύτερος από όλους τους πλανήτες!']},
+  {q:['Tap our planet, the Earth','Πάτα τον δικό μας πλανήτη, τη Γη'],a:'earth',fact:['We live on the Earth, the blue planet!','Εμείς ζούμε στη Γη, τον γαλάζιο πλανήτη!']},
+  {q:['Tap the smallest planet','Πάτα τον μικρότερο πλανήτη'],a:'mercury',fact:['Mercury is the smallest planet, and the closest to the Sun!','Ο Ερμής είναι ο μικρότερος πλανήτης και ο πιο κοντινός στον Ήλιο!']}];
+const DAYNIGHT=[['☀️',['The sun','Ο ήλιος'],1],['🌙',['The moon','Το φεγγάρι'],0],['⭐',['The stars','Τα αστέρια'],0],['🌈',['The rainbow','Το ουράνιο τόξο'],1],['🦉',['The owl hunting','Η κουκουβάγια που κυνηγάει'],0],['🐓',['The rooster singing','Ο πετεινός που λαλεί'],1],['🦇',['The bats flying','Οι νυχτερίδες που πετάνε'],0],['🌻',['The open sunflower','Το ανοιχτό ηλιοτρόπιο'],1]];
+const CONSTELLATIONS=[
+  {name:['The Great Bear','Η Μεγάλη Άρκτος'],pts:[[10,28],[26,24],[41,31],[54,40],[60,63],[83,67],[87,44]],close:3,myth:['The Great Bear! The ancient Greeks saw a big bear in the sky.','Η Μεγάλη Άρκτος! Οι αρχαίοι Έλληνες έβλεπαν στον ουρανό μια μεγάλη αρκούδα.']},
+  {name:['Cassiopeia','Η Κασσιόπη'],pts:[[8,40],[28,64],[48,44],[68,66],[90,36]],close:-1,myth:['Cassiopeia, the queen sitting on her throne!','Η Κασσιόπη, η βασίλισσα που κάθεται στον θρόνο της!']},
+  {name:['Orion','Ο Ωρίωνας'],pts:[[30,14],[70,18],[58,47],[72,86],[28,86],[42,45]],close:0,extra:[[50,46]],myth:['Orion, the great hunter, with his shining belt!','Ο Ωρίωνας, ο μεγάλος κυνηγός, με τη λαμπερή του ζώνη!']}];
+const SHADOW_OBJ=['🐘','🦒','🐇','🐢','🦋','🐌','🚲','✈️','⛵','🌵','🎸','🐈','🦕','🐓'];
+const GEAR_SVG=`<svg viewBox="-50 -50 100 100"><g class="gsp">${[...Array(10)].map((_,i)=>`<rect x="-7" y="-48" width="14" height="14" rx="2" transform="rotate(${i*36})"/>`).join('')}<circle r="37"/><circle r="12" fill="#5c6b7c"/></g></svg>`;
+
+const cfgOf=(g,l)=>(g==='space'?SPACE:STEM)[l];
+const textKey=c=>c.kind||(c.set&&c.set.replace(/\d/g,''))||c.type;
+function setupExtra(c){
+  if(c.type==='cycle'&&c.set){run.p={type:'cycle',round:0,order:ORDER_SETS[c.set](),next:0,busy:false,prefix:c.set!=='moon'?'☀️':''}}
+  if(c.type==='daynight'){const d=shuffle(DAYNIGHT.filter(x=>x[2])),n=shuffle(DAYNIGHT.filter(x=>!x[2]));run.p={type:'daynight',items:shuffle([...d.slice(0,3),...n.slice(0,3)]),i:0,busy:false}}
+  if(c.type==='pick'){run.p={type:'pick',qs:shuffle(PLANET_Q),i:0,busy:false};pickRound()}
+  if(c.type==='stars'){run.p={type:'stars',rounds:shuffle(CONSTELLATIONS),round:0,next:0,busy:false,bg:[...Array(40)].map(()=>[rand(0,100),rand(0,100),Math.random()*.8+.3])}}
+  if(c.type==='gears'){run.p={type:'gears',counts:[2,3,5],round:0,spun:false,arrows:false,busy:false}}
+  if(c.type==='shadow'){run.p={type:'shadow',rounds:['match','side','match','side','match'].map(k=>k==='match'?{k,obj:null}:{k,sun:pick(['l','r'])}),i:0,busy:false};shadowRound()}
+}
+function pickRound(){const p=run.p,q=p.qs[p.i];p.opts=shuffle([q.a,...shuffle(PLANET_ORDER.filter(x=>x!==q.a)).slice(0,3)]);run.cur={text:tr(q.q),say:tr(q.q)}}
+function shadowRound(){const p=run.p,r=p.rounds[p.i];
+  if(r.k==='match'){const s=shuffle(SHADOW_OBJ);r.obj=s[0];r.opts=shuffle(s.slice(0,3));run.cur={text:tr(['Find its shadow!','Βρες τη σκιά του!']),say:tr(['Which shadow belongs to this picture?','Ποια σκιά ταιριάζει με αυτή την εικόνα;'])}}
+  else run.cur={text:tr(['Where does the shadow fall?','Πού πέφτει η σκιά;']),say:tr(['The sun is shining on the tree. Where does the tree\'s shadow fall?','Ο ήλιος λάμπει πάνω στο δέντρο. Πού πέφτει η σκιά του δέντρου;'])}}
+function extraBody(p){
+  if(p.type==='daynight')return tankBody(p);
+  if(p.type==='pick')return `<div class="options" style="flex:1;align-items:center">${p.opts.map((id,k)=>`<button class="opt planet-opt" data-act="st" data-x="choose" data-v="${k}">${planetSVG(id)}</button>`).join('')}</div><div class="row"><div class="tcount" style="position:static">${p.i+1} / ${p.qs.length}</div></div>`;
+  if(p.type==='stars'){const c=p.rounds[p.round],done=p.next>=c.pts.length;let lines='';
+    for(let k=1;k<Math.min(p.next,c.pts.length);k++)lines+=`<line x1="${c.pts[k-1][0]}" y1="${c.pts[k-1][1]}" x2="${c.pts[k][0]}" y2="${c.pts[k][1]}"/>`;
+    if(done&&c.close>=0)lines+=`<line x1="${c.pts[c.pts.length-1][0]}" y1="${c.pts[c.pts.length-1][1]}" x2="${c.pts[c.close][0]}" y2="${c.pts[c.close][1]}"/>`;
+    return `<div class="stage"><div class="sky"><svg viewBox="-6 -6 112 112">${p.bg.map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r*.5}" fill="#fff" opacity=".5"/>`).join('')}<g class="clines">${lines}</g>
+      ${(c.extra||[]).map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.4" fill="#fff6c9"/>`).join('')}
+      ${c.pts.map(([x,y],k)=>`<g class="cstar ${k<p.next?'on':''} ${p.glow===k?'glow':''}" data-act="st" data-x="star" data-k="${k}"><circle cx="${x}" cy="${y}" r="7" fill="transparent"/><circle cx="${x}" cy="${y}" r="3.4"/><text x="${x+4.5}" y="${y-4}">${k+1}</text></g>`).join('')}
+      ${done?`<text class="cname" x="50" y="104" text-anchor="middle">${tr(c.name)}</text>`:''}</svg><div class="tcount">${p.round+1} / ${p.rounds.length}</div></div></div>`}
+  if(p.type==='gears'){const n=p.counts[p.round],dirs=[...Array(n)].map((_,i)=>i%2?'ccw':'cw');
+    return `<div class="stage"><div class="gears">${dirs.map((d,i)=>`<div class="gear ${i%2?'odd':''} ${p.spun?d:''} ${i===n-1?'last':''}">${GEAR_SVG}${i===0?'<span class="garrow">↻</span>':''}${p.arrows&&i>0&&i<n-1?`<span class="garrow">${d==='cw'?'↻':'↺'}</span>`:''}${i===n-1?'<span class="gstar">⭐</span>':''}</div>`).join('')}<div class="tcount">${p.round+1} / 3</div></div></div>
+      <div class="row"><button class="btn blue" data-act="st" data-x="choose" data-v="cw">↻ ${tr(['Like a clock','Όπως το ρολόι'])}</button><button class="btn" data-act="st" data-x="choose" data-v="ccw">↺ ${tr(['The other way','Ανάποδα'])}</button></div>`}
+  if(p.type==='shadow'){const r=p.rounds[p.i];
+    if(r.k==='match')return `<div class="stage"><div class="panel scroll"><div class="pic">${r.obj}</div></div></div><div class="options">${r.opts.map((e,k)=>`<button class="opt ${p.fade===k?'fade':''}" data-act="st" data-x="choose" data-v="${k}"><span class="emo sil">${e}</span></button>`).join('')}</div>`;
+    const scene=side=>`<div class="sunscene small"><span class="tree">🌳</span><span class="shd ${side}"></span></div>`;
+    return `<div class="stage"><div class="sunscene"><span class="sun ${r.sun}">☀️</span><span class="tree">🌳</span>${r.shown?`<span class="shd ${r.sun==='l'?'r':'l'}"></span>`:''}</div></div>
+      <div class="options">${['l','r'].map(s=>`<button class="opt" data-act="st" data-x="choose" data-v="${s}">${scene(s)}</button>`).join('')}</div>`}
+}
+function nextOrWin(p,len,key='i'){p[key]++;p.busy=false;if(p[key]>=len){say(tr(['Wonderful!','Υπέροχα!']));stemWin(stemStars(run.mistakes,0,2));return true}return false}
+function chooseAct(v,btn){
+  const p=run.p;if(p.busy)return;
+  const wrong=()=>{run.mistakes++;sfx('bad');btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');say(t('tryAgain'))};
+  if(p.type==='pick'){const q=p.qs[p.i];if(p.opts[+v]!==q.a)return wrong();p.busy=true;btn.classList.add('right');sfx('good');
+    Promise.all([say(tr(q.fact)),wait(1400)]).then(()=>{if(run.p!==p)return;if(!nextOrWin(p,p.qs.length)){pickRound();renderGame();speakPrompt()}})}
+  if(p.type==='gears'){const n=p.counts[p.round],ans=n%2?'cw':'ccw',ok=v===ans;p.busy=true;p.spun=true;renderGame();
+    if(ok)sfx('good');else{run.mistakes++;sfx('bad')}
+    Promise.all([say((ok?tr(['Yes! ','Ναι! ']):tr(['Look! ','Κοίτα! ']))+tr(['Gears that touch always turn opposite ways.','Τα γρανάζια που ακουμπάνε γυρίζουν πάντα ανάποδα.'])),wait(2600)]).then(()=>{if(run.p!==p)return;p.spun=false;p.arrows=false;if(!nextOrWin(p,3,'round'))renderGame()})}
+  if(p.type==='shadow'){const r=p.rounds[p.i];
+    if(r.k==='match'){if(r.opts[+v]!==r.obj)return wrong();p.busy=true;btn.classList.add('right');sfx('good');
+      Promise.all([say(pick(tr(HEROES[S.hero].cheer))),wait(1200)]).then(()=>{if(run.p!==p)return;p.fade=null;if(!nextOrWin(p,p.rounds.length)){shadowRound();renderGame();speakPrompt()}})}
+    else{const ans=r.sun==='l'?'r':'l';if(v!==ans)return wrong();p.busy=true;r.shown=true;renderGame();sfx('good');
+      Promise.all([say(tr(['Yes! The shadow is always on the other side from the sun.','Ναι! Η σκιά πέφτει πάντα από την άλλη μεριά από τον ήλιο.'])),wait(1500)]).then(()=>{if(run.p!==p)return;if(!nextOrWin(p,p.rounds.length)){shadowRound();renderGame();speakPrompt()}})}}
+}
+function starTap(k){
+  const p=run.p,c=p.rounds[p.round];if(p.busy)return;
+  if(k!==p.next){if(k>=p.next){run.mistakes++;sfx('bad');say(tr([`Find number ${p.next+1}!`,`Βρες το ${numEl(p.next+1,'n')}!`]))}return}
+  p.next++;p.glow=null;piano([0,1,2,3,4,5,6,7][Math.min(7,k)],ac?ac.currentTime:0,.5);renderGame();
+  if(p.next>=c.pts.length){p.busy=true;sfx('good');burst(innerWidth/2,innerHeight/2,40);
+    Promise.all([say(tr(c.myth)),wait(2200)]).then(()=>{if(run.p!==p)return;p.next=0;if(!nextOrWin(p,p.rounds.length,'round'))renderGame()})}
+}
+// 💡 help: a nudge for every STEM and space puzzle; using it caps the level at two stars
+function stemHint(){
+  const p=run.p;if(!p||run.won)return;run.hints++;
+  const glow=el=>{if(!el)return;el.classList.add('glow');setTimeout(()=>el.classList.remove('glow'),3000)};
+  if(p.type==='code'){const n=p.n,rocks=new Set(p.rocks),prev=new Map([[0,null]]),q=[0];while(q.length){const c=q.shift();for(const [dx,dy] of Object.values(DIRS)){const x=c%n+dx,y=Math.floor(c/n)+dy,k=y*n+x;if(x<0||y<0||x>=n||y>=n||rocks.has(k)||prev.has(k))continue;prev.set(k,c);q.push(k)}}
+    let c=p.target;const cells=document.querySelectorAll('.cg-c');while(c!==null&&c!==undefined){glow(cells[c]);c=prev.get(c)}
+    return say(tr(['Follow the glowing squares and add one arrow for each step!','Ακολούθησε τα κουτάκια που λάμπουν και βάλε ένα βελάκι για κάθε βήμα!']))}
+  if(p.type==='float')return say(tr(['Light things and wood usually float. Heavy things and metal usually sink.','Τα ελαφριά πράγματα και το ξύλο συνήθως επιπλέουν. Τα βαριά και τα μεταλλικά συνήθως βυθίζονται.']));
+  if(p.type==='magnet')return say(tr(['A magnet only pulls things made of iron. Is this made of iron?','Ο μαγνήτης τραβάει μόνο ό,τι είναι από σίδερο. Αυτό είναι από σίδερο;']));
+  if(p.type==='daynight')return say(tr(['Think: is it bright and sunny, or dark?','Σκέψου: είναι φωτεινά με ήλιο ή σκοτάδι;']));
+  if(p.type==='balance'){const d=p.left.reduce((a,b)=>a+b,0)-p.right;return say(d>0?tr([`Add ${d} more little ${d===1?'block':'blocks'}.`,`Βάλε ακόμα ${numEl(d,'n')} ${d===1?'κυβάκι':'κυβάκια'}.`]):tr([`Take away ${-d}.`,`Βγάλε ${numEl(-d,'n')}.`]))}
+  if(p.type==='pipes'){const i=p.tiles.findIndex(t=>t.sol!==undefined&&(t.t==='S'?t.r%2!==t.sol%2:t.r!==t.sol));glow(document.querySelector(`.ptile[data-i="${i}"]`));return say(tr(['Turn the glowing piece!','Γύρισε το κομμάτι που λάμπει!']))}
+  if(p.type==='cycle'){const k=p.deck.findIndex(c=>c.i===p.next);glow(document.querySelector(`[data-x="card"][data-k="${k}"]`));return say(tr(['This one comes next!','Αυτό έρχεται μετά!']))}
+  if(p.type==='stars'){p.glow=p.next;renderGame();return say(tr([`Look for number ${p.next+1}!`,`Ψάξε το ${numEl(p.next+1,'n')}!`]))}
+  if(p.type==='gears'){p.arrows=true;renderGame();return say(tr(['Follow the arrows: each gear turns the other way from its neighbour.','Ακολούθησε τα βελάκια: κάθε γρανάζι γυρίζει ανάποδα από το διπλανό του.']))}
+  if(p.type==='pick'){const q=p.qs[p.i],k=p.opts.findIndex(id=>id!==q.a&&!document.querySelector(`[data-x="choose"][data-v="${p.opts.indexOf(id)}"].fade`));const el=document.querySelector(`[data-x="choose"][data-v="${k}"]`);if(el)el.classList.add('fade');return say(tr(['Not that one!','Όχι αυτός!']))}
+  if(p.type==='shadow'){const r=p.rounds[p.i];if(r.k==='side')return say(tr(['The shadow goes away from the sun, to the other side.','Η σκιά πάει μακριά από τον ήλιο, από την άλλη μεριά.']));
+    p.fade=r.opts.findIndex(e=>e!==r.obj);renderGame();return say(tr(['Look at the outline: ears, legs, wheels…','Κοίτα το περίγραμμα: αυτιά, πόδια, ρόδες…']))}
 }
 
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
   ui.modal=null;ui.screen='game';
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:g==='puzzle'||g==='music'||g==='stem'?1:5,mistakes:0,busy:false,nextRank:0};
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem')setupStem(l);else run.cur=GEN[g](l);
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
 function speakPrompt(){if(!run)return;const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>say(s),250)}
@@ -1372,7 +1541,7 @@ function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
   const prog=run.g==='memory'?run.found:run.q;
   let body;
-  if(run.g==='stem')body=stemBody();
+  if(run.g==='stem'||run.g==='space')body=stemBody();
   else if(run.g==='music')body=musicBody();
   else if(run.g==='puzzle')body=puzzleBody();
   else if(run.g==='memory'){const n=run.cards.length,cols=n<=6?3:4;
@@ -1386,8 +1555,8 @@ function renderGame(){
     <div class="prompt"><span class="pet" id="pet">${h.pet}</span><div class="bubble"><span>${run.g==='memory'?t('findPairs'):run.cur.text}</span><button class="icon-btn" data-act="repeat" aria-label="Repeat">${I.speaker}</button></div></div>
     ${body}</div>`;
   if(run.g==='music')musicHud();
-  if(run.g==='stem'&&run.p.type==='balance')requestAnimationFrame(()=>run&&run.p&&run.p.type==='balance'&&balancePaint());
-  if(run.g==='stem'&&run.p.type==='pipes')pipesPaint();
+  if((run.g==='stem'||run.g==='space')&&run.p.type==='balance')requestAnimationFrame(()=>run&&run.p&&run.p.type==='balance'&&balancePaint());
+  if((run.g==='stem'||run.g==='space')&&run.p.type==='pipes')pipesPaint();
 }
 function success(btn,after){
   run.busy=true;sfx('good');const r=btn.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2);
@@ -1435,7 +1604,7 @@ document.addEventListener('click',e=>{
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
-      else if(ui.screen==='game'&&run&&run.g==='stem'){const c=STEM[run.l],tx=STEM_TEXT[c.type==='pipes'?c.kind:c.type];run.cur={text:tr(tx.text),say:tr(tx.say)}}
+      else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
       else if(ui.screen==='game'&&run&&run.g==='music')run.cur.text=tr(['Catch the notes in order!','Μάζεψε τις νότες με τη σειρά!']);
       else if(ui.screen==='game'&&run&&run.g!=='memory'){run.cur=GEN[run.g](run.l);run.nextRank=0}
       render();if(ui.screen==='game')speakPrompt();else say(isEl()?'Ελληνικά!':'English!');break}
