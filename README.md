@@ -8,7 +8,7 @@ On a tablet, open the link and choose **Add to Home Screen** to get a full-scree
 
 ## The islands
 
-The map has three islands, from easiest to hardest (swipe left/right). Places are numbered and a 👇 shows what to play next. Each place has its own background. Correct answers get reward sounds and pop-up praise; finishing a place or island gets a trophy and a spoken celebration. Background sound: changing calm tunes or sea, rain, forest or a calm tone.
+The map has three islands, from easiest to hardest (swipe left/right). Places are numbered and a 👇 shows what to play next. Each place has its own background. Collecting every badge starts an Olympic award ceremony: podium in ancient Olympia, the kotinos olive wreath, a gold medal and a champion diploma (replay it from the badge hall). Correct answers get reward sounds and pop-up praise; finishing a place or island gets a trophy and a spoken celebration. Background sound: changing calm tunes or sea, rain, forest or a calm tone.
 
 ### Places
 

@@ -429,6 +429,29 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .regdots{display:flex;gap:10px;justify-content:center}
 .regdots button{width:14px;height:14px;border-radius:4px;background:#c9d1de;border:2px solid #fff}
 .regdots button.on{background:var(--sea);transform:scale(1.25)}
+/* award ceremony */
+.ceremony{align-items:center;gap:10px;overflow-y:auto}
+.cer-title{font-family:var(--display);font-size:clamp(1.6rem,5vw,2.8rem);color:#fff;-webkit-text-stroke:2px var(--gold-deep);paint-order:stroke;text-shadow:0 4px 0 rgba(0,0,0,.2)}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:6px;width:min(100%,620px)}
+.step{flex:1;display:flex;flex-direction:column;align-items:center}
+.step .block{width:100%;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:2rem;color:#fff;background:#f1e9d8;box-shadow:inset -10px -10px 0 #d8ccb0,inset 6px 6px 0 #fffaf0;color:var(--gold-deep)}
+.s1 .block{height:120px;background:#f2b632;box-shadow:inset -10px -10px 0 #c98a12,inset 6px 6px 0 #ffe58a;color:#fff}.s2 .block{height:80px}.s3 .block{height:56px}
+.cer-hero{position:relative;width:min(100%,150px)}.s1 .cer-hero{width:min(100%,190px)}
+.cer-hero svg{width:100%;height:auto;display:block}
+@media (prefers-reduced-motion:no-preference){.clap{animation:hop 1s ease-in-out infinite}.s3 .clap{animation-delay:-.5s}}
+.cer-pet{position:absolute;right:-18%;bottom:4%;font-size:2.4rem}
+.wreathdrop{position:absolute;left:50%;top:-140%;width:56%;transform:translateX(-50%);transition:top 1.5s cubic-bezier(.3,0,.3,1.2),opacity .3s;z-index:2}
+.wreathdrop.down{top:-2%;opacity:0;transition:top 1.5s cubic-bezier(.3,0,.3,1.2),opacity .3s 1.5s}
+.goldmedal{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) scale(0);font-size:3rem;transition:transform .6s cubic-bezier(.3,1.6,.5,1)}
+.goldmedal.show{transform:translate(-50%,-50%) scale(1)}
+.doves{position:fixed;inset:0;pointer-events:none;z-index:3}
+.doves span{position:absolute;font-size:2.6rem;left:-10%;top:20%}
+@media (prefers-reduced-motion:no-preference){.doves span{animation:fly 7s linear 1.5s infinite}.doves span:nth-child(2){top:12%;animation-delay:3s}.doves span:nth-child(3){top:28%;animation-delay:4.6s}}
+@keyframes fly{to{left:110%;transform:translateY(-60px)}}
+.diploma{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;background:#fffaf0;border:6px double var(--gold-deep);border-radius:8px;padding:12px 22px;max-width:min(100%,520px);opacity:0;transform:scale(.8);transition:all .6s}
+.diploma.show{opacity:1;transform:none}
+.diploma b{font-family:var(--display);font-size:1.4rem;color:var(--gold-deep)}.diploma .dname{font-family:var(--display);font-weight:700;font-size:1.8rem;color:var(--aegean)}
+.diploma span{font-weight:800;color:var(--ink-soft)}.diploma small{color:var(--ink-soft)}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}

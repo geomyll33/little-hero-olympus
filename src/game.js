@@ -14,6 +14,7 @@ const HEROES={
 const SKINS=['#f8dcc2','#eab48c','#c68a5e','#8d5a3b'];
 const ITEMS=[
   {id:'laurel',slot:'head',name:['Laurel Wreath','Δάφνινο στεφάνι'],cost:10},
+  {id:'kotinos',slot:'head',name:['Olympic Olive Wreath','Κότινος Ολυμπιονίκη'],cost:0,prize:true},
   {id:'helmet',slot:'head',name:['Bronze Helmet','Χάλκινο κράνος'],cost:25},
   {id:'wingcap',slot:'head',name:['Winged Cap','Φτερωτό καπέλο'],cost:30},
   {id:'crown',slot:'head',name:['Golden Crown','Χρυσό στέμμα'],cost:45},
@@ -247,6 +248,7 @@ function avatar(heroId,skinIdx,equip,cls='avatar'){
   else o+=cube(62,12,76,20,12,h.hair)+`<rect x="62" y="30" width="10" height="${h.style==='long'?40:16}" fill="${h.hair}"/><rect x="128" y="30" width="10" height="${h.style==='long'?40:16}" fill="${h.hair}"/>`;
   if(h.style==='pony')o+=`<rect x="140" y="22" width="10" height="10" fill="#f2b632"/>`;
   // hats
+  if(e.head==='kotinos'){for(let i=0;i<7;i++)o+=cube(56+i*13,i===0||i===6?16:i===3?6:10,12,10,6,i%2?'#8fb050':'#5f8f3a');o+=`<rect x="95" y="2" width="10" height="8" fill="#f2b632"/><rect x="60" y="14" width="6" height="6" fill="#3d4f1f"/><rect x="134" y="14" width="6" height="6" fill="#3d4f1f"/>`}
   if(e.head==='laurel')for(let i=0;i<6;i++)o+=cube(58+i*14,i===0||i===5?18:12,12,10,6,i%2?'#6f9f45':'#4f7f2f');
   if(e.head==='helmet')o+=cube(60,6,80,36,12,'#c98b2b')+`<rect x="95" y="42" width="10" height="20" fill="#c98b2b"/>`+cube(78,-6,44,12,10,'#d63a2f');
   if(e.head==='wingcap')o+=`<rect x="40" y="12" width="22" height="9" fill="#fff"/><rect x="30" y="4" width="18" height="9" fill="#fff"/><rect x="146" y="12" width="22" height="9" fill="#fff"/><rect x="160" y="4" width="18" height="9" fill="#fff"/>`+cube(62,6,76,20,12,'#d9b25c')+cube(54,24,92,6,12,'#c49a3f');
@@ -476,6 +478,7 @@ const SCENES={
   compare:()=>sky('#8fd3ff','#e4f5ff')+`<rect y="460" width="1200" height="340" fill="#2a8fdc"/>`+rep(6,i=>`<rect x="${i*220+40}" y="${520+(i%3)*70}" width="60" height="6" fill="#bfe6ff" opacity=".6"/>`)+cube(980,240,60,220,14,'#ffffff')+`<rect x="980" y="300" width="60" height="40" fill="#e53935"/><rect x="980" y="380" width="60" height="40" fill="#e53935"/>`+cube(970,210,80,30,14,'#ffe14a')+`<rect x="0" y="600" width="520" height="40" fill="#8a5a2b"/>`+rep(5,i=>`<rect x="${20+i*110}" y="600" width="14" height="200" fill="#6d4c2f"/>`),
   memory:()=>sky('#1a7fc4','#0b3c6e')+rep(14,i=>`<circle cx="${(i*173)%1200}" cy="${(i*97)%700}" r="${6+i%4*4}" fill="none" stroke="#bfe6ff" stroke-width="3" opacity=".45"/>`)+`<path d="M0 720Q300 690 600 720T1200 710V800H0Z" fill="#e9d39b"/>`+rep(8,i=>`<path d="M${80+i*150} 730q-30-90 10-160q-30 80 20 160z" fill="#3fa36b"/>`),
   music:()=>sky('#ff9548','#ffd7a8')+`<circle cx="900" cy="250" r="90" fill="#ffe9a8"/><rect y="440" width="1200" height="360" fill="#d7b48e"/>`+rep(9,i=>`<path d="M${i*140} 800V560a60 60 0 0 1 120 0V800z" fill="#b98d63"/>`),
+  ceremony:()=>sky('#7ccaff','#e4f5ff')+`<path d="M0 430Q600 330 1200 430V800H0Z" fill="#b9c98a"/>`+rep(5,r=>rep(30,c=>`<rect x="${c*42}" y="${440+r*26}" width="36" height="20" fill="${['#e53935','#1e6fd9','#fbc02d','#43a047','#fff'][(c+r)%5]}" opacity=".55"/>`))+`<rect y="570" width="1200" height="230" fill="#d9643b"/>`+rep(5,k=>`<rect y="${590+k*40}" width="1200" height="5" fill="#fff" opacity=".8"/>`)+cube(1040,250,60,180,14,'#f1e9d8')+cube(1020,230,100,24,14,'#c98b2b')+`<path d="M1070 230q-40-60 0-120q40 60 0 120z" fill="#ff8c1a"/><path d="M1070 230q-18-34 0-70q18 36 0 70z" fill="#ffe14a"/>`,
   social:()=>sky('#9fd8ff','#eaf7ff')+`<path d="M0 520Q300 430 700 470T1200 450V800H0Z" fill="#b9c98a"/><path d="M760 300h300v20H760zM770 320h20v80h-20zM820 320h20v80h-20zM870 320h20v80h-20zM920 320h20v80h-20zM970 320h20v80h-20zM1020 320h20v80h-20zM750 400h320v20H750z" fill="#f6ead2"/><path d="M740 420Q900 380 1100 430L1200 470H700Z" fill="#c9a27a"/><rect y="620" width="1200" height="180" fill="#d8ccb0"/>`+rep(6,i=>cube(80+i*190,560,120,60,14,'#e6dcc4')),
   art:()=>`<rect width="1200" height="800" fill="#f3ead8"/><rect y="640" width="1200" height="160" fill="#a0703f"/>`+rep(12,i=>`<rect x="${i*100}" y="640" width="4" height="160" fill="#8a5a2b"/>`)+`<rect y="620" width="1200" height="20" fill="#c9a77a"/>`+rep(4,i=>`<rect x="${60+i*300}" y="120" width="200" height="150" fill="#c98b2b"/><rect x="${72+i*300}" y="132" width="176" height="126" fill="${['#1d3f8f','#ecd36b','#d62d20','#1f4f8a'][i]}"/>`),
   stem:()=>`<rect width="1200" height="800" fill="#b5562f"/>`+rep(20,r=>rep(13,c=>`<rect x="${c*96+(r%2)*48-48}" y="${r*40}" width="92" height="36" fill="#c8643b"/>`))+rep(4,i=>`<g transform="translate(${180+i*280} ${180+(i%2)*120})" fill="#8f9db2" opacity=".85">${rep(10,k=>`<rect x="-10" y="-70" width="20" height="20" transform="rotate(${k*36})"/>`)}<circle r="56"/><circle r="18" fill="#5c6b7c"/></g>`)+cube(0,640,1200,160,14,'#8a5a2b'),
@@ -503,7 +506,7 @@ function topbar(){
   </div>`;
 }
 function render(){
-  setScene(ui.screen==='game'&&run?run.g:'default');
+  setScene(ui.screen==='game'&&run?run.g:ui.screen==='ceremony'?'ceremony':'default');
   if(ac&&S.music&&!(ui.screen==='game'&&run&&run.g==='music'))startMusic();
   document.documentElement.lang=S.lang;
   const s=ui.screen;
@@ -512,6 +515,7 @@ function render(){
     <div class="row" style="justify-content:flex-end"><button class="btn white small" data-act="pgate">${t('grown')}</button></div></div>`;
   if(s==='room')app.innerHTML=roomHTML();
   if(s==='badges')app.innerHTML=badgesHTML();
+  if(s==='ceremony')app.innerHTML=ceremonyHTML();
   if(s==='parents')app.innerHTML=parentsHTML();
   if(s==='game')renderGame();
   renderModal();
@@ -528,7 +532,7 @@ function welcomeHTML(){
   </div>`;
 }
 function roomHTML(){
-  const items=ITEMS.filter(i=>i.slot===ui.tab);
+  const items=ITEMS.filter(i=>i.slot===ui.tab&&(!i.prize||S.owned.includes(i.id)));
   return `<div class="screen">
     <div class="gbar"><button class="icon-btn" data-act="map" aria-label="${t('backIsland')}">${I.back}</button><div class="gtitle"><h2>${t('myHero')}</h2><div>${t('myHeroSub')}</div></div><div class="pill">${I.coin}<span>${S.coins}</span></div></div>
     <div class="room">
@@ -546,7 +550,7 @@ function roomHTML(){
     </div></div>`;
 }
 function badgesHTML(){
-  return `<div class="screen"><div class="gbar"><button class="icon-btn" data-act="map" aria-label="${t('backIsland')}">${I.back}</button><div class="gtitle"><h2>${t('badgesT')}</h2><div>${S.badges.length} / ${BADGES.length}</div></div></div>
+  return `<div class="screen"><div class="gbar"><button class="icon-btn" data-act="map" aria-label="${t('backIsland')}">${I.back}</button><div class="gtitle"><h2>${t('badgesT')}</h2><div>${S.badges.length} / ${BADGES.length}</div></div>${S.crowned?`<button class="btn" data-act="ceremony">🏆 ${tr(['Watch the ceremony again','Δες ξανά την απονομή'])}</button>`:''}</div>
   <div class="badges">${BADGES.map(b=>{const has=S.badges.includes(b.id);return `<div class="badge ${has?'':'locked'}"><div class="medal">${b.icon}</div><b>${tr(b.name)}</b><span>${tr(b.desc)}</span></div>`}).join('')}</div></div>`;
 }
 function parentsHTML(){
@@ -1707,6 +1711,36 @@ function socialAct(b){
 const RESPECT=[['😊',['I accept the result and we all go together','Δέχομαι το αποτέλεσμα και πάμε όλοι μαζί'],1],['😠',['I get angry and don\'t go','Θυμώνω και δεν πάω'],0],['🔁',['I ask to vote again and again until I win','Ζητάω να ψηφίζουμε ξανά και ξανά μέχρι να κερδίσω'],0]];
 function respectBody(){const o=shuffle(RESPECT);return `<div class="stage"><div class="panel scroll socscene"><div class="pic">🗳️😕</div><div class="socq">${tr(['Your choice did not win this time. What do you do?','Αυτή τη φορά η δική σου επιλογή δεν κέρδισε. Τι κάνεις;'])}</div></div></div><div class="options">${o.map(([e,txt,ok])=>`<button class="opt socopt story" data-act="so" data-x="respect" data-v="${ok}"><span class="emo">${e}</span><small>${tr(txt)}</small><i class="hear" data-act="so" data-x="hearr" data-t="${esc(tr(txt))}">🔊</i></button>`).join('')}</div>`}
 
+/* ---------- the Olympic award ceremony, when every badge is collected ---------- */
+const allBadges=()=>BADGES.every(b=>S.badges.includes(b.id));
+function fanfare(){if(!ac||!S.sound)return;const t=ac.currentTime+.05,N=[[67,.25],[72,.25],[76,.25],[79,.6],[76,.25],[79,1.1],[0,.3],[72,.25],[76,.25],[79,.25],[84,.6],[83,.25],[84,1.6]];let x=t;
+  N.forEach(([n,d])=>{if(n){tone(mtof(n),x,d+.3,sfxG,'triangle',.4);tone(mtof(n-12),x,d+.3,sfxG,'sine',.25);tone(mtof(n+12),x,d*.6,sfxG,'sine',.06)}x+=d})}
+function startCeremony(){if(run)run=null;ui.modal=null;ui.screen='ceremony';stopMusic();render();
+  const nm=heroName();fanfare();
+  setTimeout(()=>{const w=document.querySelector('.wreathdrop');if(w)w.classList.add('down')},1800);
+  setTimeout(()=>{const a=document.getElementById('champ');if(a)a.innerHTML=avatar(S.hero,S.skin,Object.assign({},S.equip,{head:'kotinos'}));const m=document.querySelector('.goldmedal');if(m)m.classList.add('show');burst(innerWidth/2,innerHeight/3,140)},3400);
+  setTimeout(()=>{if(ui.screen!=='ceremony')return;say(tr([`Congratulations, ${nm}! You collected every badge! Like the Olympic champions of ancient Olympia, you receive the kotinos, the crown of olive leaves. You are a true Olympic champion!`,
+    `Συγχαρητήρια, ${vocEl(nm)}! Μάζεψες όλα τα παράσημα! Όπως οι Ολυμπιονίκες στην αρχαία Ολυμπία, σου απονέμεται ο κότινος, το στεφάνι από κλαδί ελιάς. Είσαι αληθινός Ολυμπιονίκης!`]));
+    const c=document.querySelector('.diploma');if(c)c.classList.add('show')},4000);
+  setTimeout(()=>{if(ui.screen==='ceremony'){burst(innerWidth*.3,innerHeight*.4,80);burst(innerWidth*.7,innerHeight*.4,80)}},6500);
+}
+function ceremonyHTML(){
+  const others=Object.keys(HEROES).filter(h=>h!==S.hero).slice(0,2),date=new Date(S.crownedAt||Date.now()).toLocaleDateString(isEl()?'el-GR':'en-GB',{day:'numeric',month:'long',year:'numeric'});
+  const tot=starTotal(S);
+  return `<div class="screen ceremony">
+    <h1 class="cer-title">🏛️ ${tr(['Award ceremony','Τελετή απονομής'])} 🏛️</h1>
+    <div class="podium">
+      <div class="step s2"><div class="cer-hero clap">${avatar(others[0],(S.skin+1)%4,{})}</div><div class="block">2</div></div>
+      <div class="step s1"><div class="cer-hero"><span class="wreathdrop"><svg viewBox="0 0 100 40">${[...Array(9)].map((_,i)=>`<ellipse cx="${10+i*10}" cy="${20+Math.abs(i-4)*3}" rx="5" ry="10" fill="${i%2?'#8fb050':'#6f9f45'}" transform="rotate(${(i-4)*14} ${10+i*10} ${20+Math.abs(i-4)*3})"/>`).join('')}<circle cx="50" cy="12" r="5" fill="#f2b632"/></svg></span><span id="champ">${avatar(S.hero,S.skin,Object.assign({},S.equip,{head:null}))}</span><span class="goldmedal">🥇</span><span class="cer-pet">${HEROES[S.hero].pet}</span></div><div class="block">1</div></div>
+      <div class="step s3"><div class="cer-hero clap">${avatar(others[1],(S.skin+2)%4,{})}</div><div class="block">3</div></div>
+    </div>
+    <div class="doves"><span>🕊️</span><span>🕊️</span><span>🕊️</span></div>
+    <div class="diploma"><b>${tr(['Olympic Champion Diploma','Δίπλωμα Ολυμπιονίκη'])}</b><span class="dname">${esc(heroName())}</span>
+      <span>${tr([`for collecting all ${BADGES.length} badges of Little Hero of Olympus`,`για όλα τα ${BADGES.length} παράσημα του Μικρού Ήρωα του Ολύμπου`])} · ★ ${tot}</span><small>${date}</small></div>
+    <div class="row"><button class="btn blue" data-act="map">🏝️ ${t('backIsland')}</button><button class="btn white" data-act="room">👑 ${tr(['See my wreath','Δες τον κότινό μου'])}</button></div>
+  </div>`;
+}
+
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
@@ -1789,7 +1823,9 @@ function finishLevel(fixed){
   say(line);
   ui.modal={type:'result',g:run.g,l:run.l,stars,coins,newBadges:nb,placeDone,islandDone};renderModal();
 }
-function checkBadges(){const nb=[];BADGES.forEach(b=>{if(!S.badges.includes(b.id)&&b.test(S)){S.badges.push(b.id);nb.push(b.id)}});return nb}
+function checkBadges(){const nb=[];BADGES.forEach(b=>{if(!S.badges.includes(b.id)&&b.test(S)){S.badges.push(b.id);nb.push(b.id)}});
+  if(!S.crowned&&allBadges()){S.crowned=true;S.crownedAt=Date.now();if(!S.owned.includes('kotinos'))S.owned.push('kotinos');S.equip.head='kotinos';setTimeout(startCeremony,4200)}
+  return nb}
 let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElement('div');el.className='toast';document.body.appendChild(el)}el.textContent=x;clearTimeout(toastT);toastT=setTimeout(()=>el.remove(),2200)}
 
 /* ---------- events ---------- */
@@ -1815,6 +1851,7 @@ document.addEventListener('click',e=>{
     case 'room':ui.screen='room';render();break;
     case 'region':{const r=+b.dataset.r;ui.region=r;scrollToIsland(r);document.querySelectorAll('.regdots button').forEach((x,i)=>x.classList.toggle('on',i===r));break}
     case 'badges':ui.screen='badges';render();break;
+    case 'ceremony':startCeremony();break;
     case 'tab':ui.tab=b.dataset.t;render();break;
     case 'music':ui.modal={type:'music'};renderModal();break;
     case 'amb':{const v=b.dataset.v;stopMusic();if(v==='off')S.music=false;else{S.music=true;S.ambient=v}save();if(S.music)startMusic();renderModal();render();break}
