@@ -514,7 +514,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-10-26.2045';
+const BUILD='2026-10-26.2058';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -931,10 +931,10 @@ const ART={
 };
 // The world is three islands, from easiest to hardest; each place is numbered along a path
 const REGIONS=[
-  {name:['Island of First Steps','Νησί των Πρώτων Βημάτων'],games:['count','shapes','memory','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
-  {name:['Island of Discovery','Νησί των Ανακαλύψεων'],games:['pattern','social','odd','compare','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
-  {name:['Island of Explorers','Νησί των Εξερευνητών'],games:['stem','space','puzzle'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
-const MAPSLOTS={land:{6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{6:[[28,13],[72,28],[28,43],[72,58],[28,73],[70,87]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
+  {name:['Island of Dawn','Νησί της Αυγής'],games:['count','shapes','memory','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
+  {name:['Island of the Muses','Νησί των Μουσών'],games:['pattern','odd','compare','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
+  {name:["Athena's Island",'Νησί της Αθηνάς'],games:['stem','space','puzzle','social'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
+const MAPSLOTS={land:{4:[[15,60],[38,30],[62,60],[85,32]],6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{4:[[30,15],[70,38],[30,62],[68,85]],6:[[28,13],[72,28],[28,43],[72,58],[28,73],[70,87]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
 const regionOf=id=>REGIONS.findIndex(r=>r.games.includes(id));
 const isPortrait=()=>innerHeight>innerWidth*1.1;
 // the place to play next: first unfinished open place, in order from easy to hard
@@ -2255,7 +2255,7 @@ const KOTINOS_STORY=[
   {pic:'💛🫒😊',t:['The kotinos teaches us that the best reward is trying hard and being proud of what we did. Just like you!','Ο κότινος μάς μαθαίνει ότι το πιο ωραίο δώρο είναι η προσπάθεια και η χαρά για αυτό που καταφέραμε. Όπως εσύ!']}];
 let storyTimer=null;
 function storyPage(i,auto=true){clearTimeout(storyTimer);if(i<0||i>=KOTINOS_STORY.length)return;ui.modal={type:'kotinos',i};renderModal();
-  say(tr(KOTINOS_STORY[i].t)).then(()=>{if(auto&&ui.modal&&ui.modal.type==='kotinos'&&ui.modal.i===i&&i<KOTINOS_STORY.length-1)storyTimer=setTimeout(()=>storyPage(i+1),900)})}
+  const txt=tr(KOTINOS_STORY[i].t);Promise.all([say(txt),wait(Math.max(7000,txt.length*85))]).then(()=>{if(auto&&ui.modal&&ui.modal.type==='kotinos'&&ui.modal.i===i&&i<KOTINOS_STORY.length-1)storyTimer=setTimeout(()=>storyPage(i+1),900)})}
 function ceremonyHTML(){
   const others=Object.keys(HEROES).filter(h=>h!==S.hero).slice(0,2),date=new Date(S.crownedAt||Date.now()).toLocaleDateString(isEl()?'el-GR':'en-GB',{day:'numeric',month:'long',year:'numeric'});
   const tot=starTotal(S);
