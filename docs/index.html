@@ -423,6 +423,18 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 /* the 🔊 button glows when an instruction was not repeated aloud */
 @media (prefers-reduced-motion:no-preference){.bubble .icon-btn.nudge{animation:nudge 1s ease 2}}
 @keyframes nudge{50%{transform:scale(1.18);box-shadow:0 0 0 6px #ffe14a}}
+/* the world: three islands to scroll through */
+.world{flex:1;min-height:0;display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding:4px 7% 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.world::-webkit-scrollbar{display:none}
+.world .island{flex:0 0 auto;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;width:min(86%,calc((100dvh - 200px) * 1.43))}
+.world .island .map{width:100%}
+.world.port{flex-direction:column;overflow-x:hidden;overflow-y:auto;scroll-snap-type:y proximity;padding:4px 0 12px}
+.world.port .island{width:100%}
+.world.port .island .map{width:min(100%,calc((100dvh - 230px) * .7))}
+.island .regname{flex-direction:row;gap:10px}
+.regdots{display:flex;gap:10px;justify-content:center}
+.regdots button{width:14px;height:14px;border-radius:4px;background:#c9d1de;border:2px solid #fff}
+.regdots button.on{background:var(--sea);transform:scale(1.25)}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -480,7 +492,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-10-26.1910';
+const BUILD='2026-10-26.1946';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -898,7 +910,7 @@ const REGIONS=[
   {name:['Island of First Steps','Νησί των Πρώτων Βημάτων'],games:['count','shapes','memory','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
   {name:['Island of Discovery','Νησί των Ανακαλύψεων'],games:['pattern','social','odd','compare','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
   {name:['Island of Explorers','Νησί των Εξερευνητών'],games:['stem','space','puzzle'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
-const MAPSLOTS={land:{6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{6:[[28,10],[72,25],[28,41],[72,56],[28,72],[70,88]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
+const MAPSLOTS={land:{6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{6:[[28,13],[72,28],[28,43],[72,58],[28,73],[70,87]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
 const regionOf=id=>REGIONS.findIndex(r=>r.games.includes(id));
 const isPortrait=()=>innerHeight>innerWidth*1.1;
 // the place to play next: first unfinished open place, in order from easy to hard
@@ -919,24 +931,29 @@ function mapSVG(ri,port){const key=ri+(port?'p':'l');if(mapCache[key])return map
   for(let k=0;k<14;k++){const x=W*.1+((k*271+ri*97)%(W*.8)),y=H*.12+((k*173+ri*59)%(H*.76));if(!inside(x,y,.85)||pts.some(([a,b])=>Math.hypot(a-x,b-y)<150))continue;
     o+=k%4===0&&ri===0?cube(x-15,y-10,30,26,10,'#ffffff')+cube(x-8,y-20,16,8,6,'#2f6fd6'):cube(x-4,y,8,14,4,'#7a5a2a')+cube(x-14,y-22,28,22,8,ri===2?'#3f7d5c':'#5f9e3c')}
   o+='</g></svg>';return mapCache[key]=o}
-function mapHTML(){
-  const port=isPortrait(),nx=nextGame();
-  if(ui.region===undefined)ui.region=nx?Math.max(0,regionOf(nx)):0;
-  const ri=ui.region,R=REGIONS[ri],slots=MAPSLOTS[port?'port':'land'][R.games.length];
+function islandHTML(ri,port,nx){
+  const R=REGIONS[ri],slots=MAPSLOTS[port?'port':'land'][R.games.length];
   const tot=R.games.reduce((n,id)=>n+GAMES.find(g=>g.id===id).levels.length*3,0),got=R.games.reduce((n,id)=>n+S.stars[id].reduce((a,b)=>a+b,0),0);
   const locs=R.games.map((id,k)=>{const g=GAMES.find(x=>x.id===id),st=S.stars[id].reduce((a,b)=>a+b,0),open=isOpen(g),[x,y]=slots[k];
     const chip=open?`★ ${st}/${g.levels.length*3}`:g.gate.coins?`🔒 ${g.gate.coins} ${I.coin}`:`🔒 ${g.gate.badges} 🏅`;
     return `<button class="loc ${open?'':'locked'} ${id===nx?'next':''}" data-act="open" data-g="${id}" style="left:${x}%;top:${y}%" aria-label="${tr(g.name)}">${id===nx?'<span class="nextarrow">👇</span>':''}<span class="lnum">${k+1}</span>${ART[id]}<span class="tag">${tr(g.name)}<small>${chip}</small></span></button>`}).join('');
-  return `<div class="regbar"><button class="icon-btn" data-act="region" data-d="-1" ${ri===0?'disabled':''} aria-label="Previous island">◀</button>
-    <div class="regname"><b>${tr(R.name)}</b><span>★ ${got}/${tot} · ${REGIONS.map((_,i)=>`<i class="${i===ri?'on':''}"></i>`).join('')}</span></div>
-    <button class="icon-btn" data-act="region" data-d="1" ${ri===REGIONS.length-1?'disabled':''} aria-label="Next island">▶</button></div>
-    <div class="map-wrap" id="mapwrap"><div class="map ${port?'port':''}">${mapSVG(ri,port)}${locs}</div></div>`;
+  return `<section class="island" data-ri="${ri}"><div class="regname"><b>${ri+1}. ${tr(R.name)}</b><span>★ ${got}/${tot}</span></div><div class="map ${port?'port':''}">${mapSVG(ri,port)}${locs}</div></section>`;
 }
-// swipe left/right on the map to change island
-let mswipe=null;
-document.addEventListener('pointerdown',e=>{if(e.target.closest('#mapwrap'))mswipe={x:e.clientX,y:e.clientY}});
-document.addEventListener('pointerup',e=>{if(!mswipe)return;const dx=e.clientX-mswipe.x,dy=e.clientY-mswipe.y;mswipe=null;
-  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.3&&ui.screen==='map'&&!ui.modal){const r=ui.region+(dx<0?1:-1);if(r>=0&&r<REGIONS.length){ui.region=r;sfx('flip');render();say(tr(REGIONS[r].name))}}});
+// The three islands sit side by side (one under the other on a tall phone) and the child scrolls between them
+function mapHTML(){
+  const port=isPortrait(),nx=nextGame();
+  if(ui.region===undefined)ui.region=nx?Math.max(0,regionOf(nx)):0;
+  setTimeout(()=>scrollToIsland(ui.region,false),0);
+  return `<div class="world ${port?'port':''}" id="world">${REGIONS.map((_,ri)=>islandHTML(ri,port,nx)).join('')}</div>
+    <div class="regdots">${REGIONS.map((R,i)=>`<button class="${i===ui.region?'on':''}" data-act="region" data-r="${i}" aria-label="${tr(R.name)}"></button>`).join('')}</div>`;
+}
+function scrollToIsland(i,smooth=true){const w=document.getElementById('world'),el=w&&w.querySelector(`[data-ri="${i}"]`);if(!el)return;
+  const port=w.classList.contains('port');w.scrollTo({left:port?0:el.offsetLeft-(w.clientWidth-el.offsetWidth)/2,top:port?el.offsetTop-w.offsetTop:0,behavior:smooth&&!reduce?'smooth':'auto'})}
+// remember which island is in view, and light its dot
+document.addEventListener('scroll',e=>{const w=e.target;if(!w||w.id!=='world')return;clearTimeout(w._t);w._t=setTimeout(()=>{
+  const port=w.classList.contains('port'),mid=port?w.scrollTop+w.clientHeight/2:w.scrollLeft+w.clientWidth/2;let best=0,bd=1e9;
+  w.querySelectorAll('.island').forEach((el,i)=>{const c=port?el.offsetTop-w.offsetTop+el.offsetHeight/2:el.offsetLeft+el.offsetWidth/2,d=Math.abs(c-mid);if(d<bd){bd=d;best=i}});
+  if(best!==ui.region){ui.region=best;document.querySelectorAll('.regdots button').forEach((b,i)=>b.classList.toggle('on',i===best))}},120)},true);
 let lastPort=null;addEventListener('resize',()=>{const p=isPortrait();if(p!==lastPort){lastPort=p;if(ui.screen==='map')render()}});
 
 /* ---------- a background scene for each place ---------- */
@@ -2290,7 +2307,7 @@ document.addEventListener('click',e=>{
     case 'start':{const n=$('#kidname');S.name=(n&&n.value.trim())||'';S.started=true;save();ui.screen='map';render();sayL(SAY.welcome(heroName()));break}
     case 'map':if(run){const nx=nextGame();if(nx)ui.region=regionOf(nx)}run=null;ui.screen='map';ui.modal=null;ui.confirmReset=false;ui.confirmG=null;render();break;
     case 'room':ui.screen='room';render();break;
-    case 'region':{const r=ui.region+(+b.dataset.d);if(r>=0&&r<REGIONS.length){ui.region=r;render();say(tr(REGIONS[r].name))}break}
+    case 'region':{const r=+b.dataset.r;ui.region=r;scrollToIsland(r);document.querySelectorAll('.regdots button').forEach((x,i)=>x.classList.toggle('on',i===r));break}
     case 'badges':ui.screen='badges';render();break;
     case 'tab':ui.tab=b.dataset.t;render();break;
     case 'music':ui.modal={type:'music'};renderModal();break;

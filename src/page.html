@@ -417,6 +417,18 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 /* the 🔊 button glows when an instruction was not repeated aloud */
 @media (prefers-reduced-motion:no-preference){.bubble .icon-btn.nudge{animation:nudge 1s ease 2}}
 @keyframes nudge{50%{transform:scale(1.18);box-shadow:0 0 0 6px #ffe14a}}
+/* the world: three islands to scroll through */
+.world{flex:1;min-height:0;display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding:4px 7% 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.world::-webkit-scrollbar{display:none}
+.world .island{flex:0 0 auto;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;width:min(86%,calc((100dvh - 200px) * 1.43))}
+.world .island .map{width:100%}
+.world.port{flex-direction:column;overflow-x:hidden;overflow-y:auto;scroll-snap-type:y proximity;padding:4px 0 12px}
+.world.port .island{width:100%}
+.world.port .island .map{width:min(100%,calc((100dvh - 230px) * .7))}
+.island .regname{flex-direction:row;gap:10px}
+.regdots{display:flex;gap:10px;justify-content:center}
+.regdots button{width:14px;height:14px;border-radius:4px;background:#c9d1de;border:2px solid #fff}
+.regdots button.on{background:var(--sea);transform:scale(1.25)}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
