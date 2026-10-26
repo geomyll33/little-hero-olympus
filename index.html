@@ -386,6 +386,14 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .vitem b{flex:1;font-family:var(--display)}.vitem small{color:var(--gold-deep);font-weight:800}.vitem span{color:var(--sea);font-size:1.2rem}
 .vitem.sel{border-color:var(--sea);background:#e6f3ff}
 .vtip{margin:0;color:var(--ink-soft);font-size:.92rem;line-height:1.45;text-align:left}
+/* praise pop-ups */
+.praise{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);z-index:45;pointer-events:none;font-family:var(--display);font-weight:700;font-size:clamp(2.4rem,9vw,4.6rem);color:#fff;
+  -webkit-text-stroke:3px var(--aegean);paint-order:stroke;text-shadow:0 6px 0 rgba(15,79,143,.35);white-space:nowrap;animation:praise 1.3s ease-out forwards}
+.praise.oops{font-size:3rem;-webkit-text-stroke:3px #a33;color:#ffd6d6;top:44%}
+@keyframes praise{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-8deg)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.15) rotate(3deg)}35%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-90%) scale(1)}}
+@media (prefers-reduced-motion:reduce){.praise{animation:none;opacity:1}}
+.trophy{font-size:4.5rem;line-height:1}
+@media (prefers-reduced-motion:no-preference){.trophy{animation:hop .8s ease 3}}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -602,7 +610,7 @@ function vocEl(name){
 
 /* ---------- state ---------- */
 const KEY='little-hero-olympus-v1';
-const fresh=()=>({v:3,art:{},started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,voice:{},updatedAt:0});
+const fresh=()=>({v:3,ambient:'melodies',art:{},started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,voice:{},updatedAt:0});
 function normalize(s){if(s&&(s.v||0)<3&&s.stars&&s.stars.art&&s.stars.art.length===8){const a=s.stars.art;s.stars.art=[a[6],a[7],...a.slice(0,6)]}if(s)s.v=3;const f=fresh();s=Object.assign(f,s||{});s.equip=Object.assign(fresh().equip,s.equip||{});s.stars=Object.assign(fresh().stars,s.stars||{});GAMES.forEach(g=>{const a=s.stars[g.id];s.stars[g.id]=g.levels.map((_,i)=>a[i]||0)});return s}
 let S=fresh();
 try{const raw=localStorage.getItem(KEY);if(raw)S=normalize(JSON.parse(raw))}catch(e){}
@@ -707,7 +715,7 @@ const avatarImage=()=>{const img=new Image();img.src='data:image/svg+xml;charset
   document.getElementById('houses').innerHTML='<g stroke="rgba(0,0,0,.12)">'+hs.map(([x,y,w,hh],i)=>cube(x,y,w,hh,16,'#ffffff')+(i%3===0?cube(x+w*.2,y-22,w*.6,14,12,'#2f6fd6'):'')+`<rect x="${x+w*.2}" y="${y+hh*.35}" width="${w*.18}" height="${hh*.3}" fill="#2f6fd6"/><rect x="${x+w*.6}" y="${y+hh*.35}" width="${w*.18}" height="${hh*.4}" fill="#2f6fd6"/>`).join('')+'</g>'})();
 
 /* ---------- audio ---------- */
-let ac=null,sfxG,musG,musicTimer=null,step=0,nextT=0;
+let ac=null,sfxG,musG;
 function initAudio(){
   try{
     if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();
@@ -727,18 +735,57 @@ function tone(f,t,dur,dest,type='triangle',vol=.6,glide){
   g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
   o.connect(g);g.connect(dest);o.start(t);o.stop(t+dur+.05);
 }
-// A gentle Greek-flavoured tune in D minor, plucked like a bouzouki
-const MEL=[62,65,69,69,67,65,64,62,64,67,70,69,67,65,64,0, 69,72,74,72,70,69,67,65,64,65,67,64,62,0,62,0];
-function startMusic(){if(!ac||musicTimer)return;nextT=ac.currentTime+.1;musicTimer=setInterval(()=>{
-  while(nextT<ac.currentTime+.5){const n=MEL[step%MEL.length];if(n){tone(mtof(n),nextT,.9,musG,'sine',.5);tone(mtof(n+12),nextT,.5,musG,'sine',.08)}
-    if(step%4===0)tone(mtof(step%8===0?50:45),nextT,1.6,musG,'sine',.45);
-    step++;nextT+=.38}},120)}
-function stopMusic(){clearInterval(musicTimer);musicTimer=null}
+// Background sound: several calm generative tunes that take turns, or calming nature sounds
+const TRACKS=[
+  {name:['Island morning','Πρωινό στο νησί'],beat:.42,bar:4,root:60,scale:[0,2,4,7,9],chords:[[0,4,7],[9,12,16],[5,9,12],[7,11,14]]},
+  {name:['Aegean evening','Βράδυ στο Αιγαίο'],beat:.46,bar:4,root:62,scale:[0,2,3,5,7,9,10],chords:[[0,3,7],[-2,2,5],[-4,0,3],[-2,2,5]]},
+  {name:['Lullaby waves','Νανούρισμα των κυμάτων'],beat:.55,bar:3,root:65,scale:[0,2,4,5,7,9],chords:[[0,4,7],[-3,0,4],[-7,-3,0],[-5,-1,2]]},
+  {name:['Little dance','Μικρός χορός'],beat:.34,bar:4,root:57,scale:[0,2,3,5,7,8,11],chords:[[0,3,7],[5,8,12],[7,11,14],[0,3,7]]}];
+const AMBIENTS=['melodies','waves','rain','forest','calm'];
+const AMB_NAME={melodies:['🎵 Melodies','🎵 Μελωδίες'],waves:['🌊 Sea waves','🌊 Κύματα'],rain:['🌧️ Soft rain','🌧️ Απαλή βροχή'],forest:['🐦 Forest birds','🐦 Δάσος με πουλιά'],calm:['🧘 Calm tone (432 Hz)','🧘 Ήρεμος τόνος (432 Hz)']};
+let mus={timer:null,nodes:[],track:0,bars:0,step:0,next:0,mel:0};
+function noiseBuf(){if(mus.noise)return mus.noise;const b=ac.createBuffer(1,ac.sampleRate*3,ac.sampleRate),d=b.getChannelData(0);let last=0;for(let i=0;i<d.length;i++){const w=Math.random()*2-1;last=(last+.02*w)/1.02;d[i]=last*3.5}return mus.noise=b}
+function noiseSrc(){const s=ac.createBufferSource();s.buffer=noiseBuf();s.loop=true;s.start();mus.nodes.push(s);return s}
+function lfo(target,rate,depth,base){const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=rate;g.gain.value=depth;o.connect(g);g.connect(target);target.value=base;o.start();mus.nodes.push(o)}
+function pad(freqs,t,dur,vol=.12){freqs.forEach(f=>[0,4].forEach(dt=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;o.detune.value=dt;
+  g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(vol,t+dur*.35);g.gain.linearRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(musG);o.start(t);o.stop(t+dur+.05)}))}
+function startMusic(){
+  if(!ac||mus.timer||mus.nodes.length||!S.music)return;const kind=S.ambient||'melodies';
+  if(kind==='melodies'){mus.next=ac.currentTime+.2;mus.track=rand(0,TRACKS.length-1);mus.bars=0;mus.step=0;
+    mus.timer=setInterval(()=>{while(mus.next<ac.currentTime+.6){const T=TRACKS[mus.track],b=mus.step%T.bar,bar=Math.floor(mus.step/T.bar),ch=T.chords[bar%T.chords.length];
+      if(b===0){pad(ch.map(n=>mtof(T.root-12+n)),mus.next,T.beat*T.bar*1.1,.05);tone(mtof(T.root-24+ch[0]),mus.next,T.beat*T.bar,musG,'sine',.4);
+        if(bar>0&&bar%16===0){mus.track=(mus.track+1+rand(0,TRACKS.length-2))%TRACKS.length}}
+      // melody: a gentle random walk over the scale that leans on the chord, with rests
+      if(Math.random()<.72){mus.mel=Math.max(0,Math.min(T.scale.length*2-1,mus.mel+pick([-2,-1,-1,0,1,1,2])));const n=T.root+Math.floor(mus.mel/T.scale.length)*12+T.scale[mus.mel%T.scale.length];
+        tone(mtof(n),mus.next,T.beat*1.8,musG,'sine',.42);tone(mtof(n+12),mus.next,T.beat*.8,musG,'sine',.05)}
+      mus.step++;mus.next+=T.beat}},150);return}
+  const amb=ac.createGain();amb.gain.value=.0001;amb.connect(ac.destination);amb.gain.linearRampToValueAtTime(.55,ac.currentTime+2);mus.nodes.push({stop(){amb.gain.setTargetAtTime(.0001,ac.currentTime,.3);setTimeout(()=>amb.disconnect(),1500)}});
+  if(kind==='waves'){const n=noiseSrc(),f=ac.createBiquadFilter(),g=ac.createGain();f.type='lowpass';f.frequency.value=600;n.connect(f);f.connect(g);g.connect(amb);lfo(g.gain,.09,.16,.2);lfo(f.frequency,.05,250,650)}
+  if(kind==='rain'){const n=noiseSrc(),hp=ac.createBiquadFilter(),g=ac.createGain();hp.type='bandpass';hp.frequency.value=2500;hp.Q.value=.4;g.gain.value=.22;n.connect(hp);hp.connect(g);g.connect(amb);
+    mus.timer=setInterval(()=>{if(Math.random()<.6){const t=ac.currentTime+Math.random()*.2;tone(rand(1800,3200),t,.06,amb,'sine',.05,900)}},180)}
+  if(kind==='forest'){const n=noiseSrc(),f=ac.createBiquadFilter(),g=ac.createGain();f.type='lowpass';f.frequency.value=350;g.gain.value=.25;n.connect(f);f.connect(g);g.connect(amb);lfo(g.gain,.07,.1,.22);
+    mus.timer=setInterval(()=>{if(Math.random()<.35){let t=ac.currentTime+.05;const base=rand(2200,3400),k=rand(2,5);for(let i=0;i<k;i++){tone(base,t,.09,amb,'sine',.07,base*1.35);t+=.12}}},700)}
+  if(kind==='calm'){const g=ac.createGain();g.gain.value=.12;g.connect(amb);[216,324,432].forEach((f,i)=>{const o=ac.createOscillator(),og=ac.createGain();o.frequency.value=f;og.gain.value=[.5,.25,.18][i];o.connect(og);og.connect(g);o.start();mus.nodes.push(o)});lfo(g.gain,.1,.05,.12)}
+}
+function stopMusic(){clearInterval(mus.timer);mus.timer=null;mus.nodes.forEach(n=>{try{n.stop()}catch(e){}});mus.nodes=[]}
+// Reward sounds: a few different happy jingles so they do not get boring
+const JINGLES=[[72,76,79,84],[79,84,88],[67,71,74,79,83],[76,79,83,88,91],[72,79,84,88]];
+function jingle(){if(!ac||!S.sound)return;const t=ac.currentTime+.01,j=pick(JINGLES),sp=pick([.07,.09,.11]);
+  j.forEach((n,i)=>{tone(mtof(n),t+i*sp,.55,sfxG,'sine',.36);tone(mtof(n+12),t+i*sp,.25,sfxG,'sine',.06)});
+  if(Math.random()<.5)for(let i=0;i<5;i++)tone(mtof(pick([96,98,100,103])),t+.25+i*.05,.2,sfxG,'sine',.05)}
+// Big pop-up praise word instead of talking after every answer
+const PRAISE=[['Super!','Σούπερ!'],['Great!','Τέλεια!'],['Wow!','Ουάου!'],['Bravo!','Μπράβο!'],['Amazing!','Φανταστικά!'],['Yes!','Ναι!'],['Well done!','Πολύ καλά!']];
+function pop(text,cls=''){const el=document.createElement('div');el.className='praise '+cls;el.textContent=text;document.body.appendChild(el);setTimeout(()=>el.remove(),1300)}
+let streak=0;
+function praise(x,y){streak++;jingle();pop(tr(pick(PRAISE))+' '+pick(['🌟','🏅','🎉','👏','⭐','✨']));if(x!==undefined)burst(x,y,30);
+  if(streak===3)return say(tr(['Three in a row!','Τρεις σωστές στη σειρά!']));if(streak===5)return say(tr(['Five in a row! You are a star!','Πέντε στη σειρά! Είσαι αστέρι!']));
+  if(streak>5&&streak%5===0)return say(tr([`${streak} in a row!`,`${numEl(streak,'f')} σωστές στη σειρά!`]));return Promise.resolve()}
+function oops(btn){streak=0;sfx('bad');if(btn){btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake')}pop('↺','oops')}
 function sfx(kind){
   if(!ac||!S.sound)return;const t=ac.currentTime+.01;
   if(kind==='tap')tone(660,t,.12,sfxG,'sine',.22);
   if(kind==='flip')tone(520,t,.2,sfxG,'sine',.2,700);
-  if(kind==='good')[72,76,79].forEach((n,i)=>{tone(mtof(n),t+i*.09,.6,sfxG,'sine',.4);tone(mtof(n+12),t+i*.09,.3,sfxG,'sine',.06)});
+  if(kind==='good')return jingle();
   if(kind==='bad')tone(330,t,.35,sfxG,'sine',.22,262);
   if(kind==='coin'){tone(1319,t,.3,sfxG,'sine',.16);tone(1760,t+.08,.45,sfxG,'sine',.13)}
   if(kind==='win')[60,64,67,72,76,79].forEach((n,i)=>{tone(mtof(n),t+i*.13,i===5?1.4:.6,sfxG,'sine',.38);tone(mtof(n+12),t+i*.13,.4,sfxG,'sine',.05)});
@@ -977,6 +1024,9 @@ function renderModal(){
     <div class="row">${tr(['Speed','Ταχύτητα'])}: ${opt('vrate',.8,'🐢')}${opt('vrate',.92,'🙂')}${opt('vrate',1.05,'🐇')}</div>
     <div class="row">${tr(['Tone','Τόνος'])}: ${opt('vpitch',.92,tr(['deeper','βαθύς']))}${opt('vpitch',1.05,tr(['normal','κανονικός']))}${opt('vpitch',1.2,tr(['higher','ψιλός']))}</div>
     <p class="vtip">${tip}</p><button class="btn small white" data-act="close">${tr(['Close','Κλείσιμο'])}</button>`}
+  if(m.type==='music')h=`<h2>🎵 ${tr(['Music and calm sounds','Μουσική και ήχοι ηρεμίας'])}</h2><p class="sub">${tr(['Choose what plays in the background while you play.','Διάλεξε τι θα ακούγεται όσο παίζεις.'])}</p>
+    <div class="vlist">${AMBIENTS.map(k=>`<button class="vitem ${S.music&&(S.ambient||'melodies')===k?'sel':''}" data-act="amb" data-v="${k}"><b>${tr(AMB_NAME[k])}</b><span>▶</span></button>`).join('')}<button class="vitem ${S.music?'':'sel'}" data-act="amb" data-v="off"><b>🔇 ${tr(['No background sound','Χωρίς ήχο φόντου'])}</b></button></div>
+    <p class="vtip">${tr(['Melodies change by themselves. The calm sounds are gentle and steady, good for quiet focus.','Οι μελωδίες αλλάζουν μόνες τους. Οι ήχοι ηρεμίας είναι απαλοί και σταθεροί, καλοί για ήσυχη συγκέντρωση.'])}</p><button class="btn small white" data-act="close">${tr(['Close','Κλείσιμο'])}</button>`;
   if(m.type==='pgate')h=`<h2>${t('grownT')}</h2><p class="sub" style="font-size:1.4rem">${t('gateQ')} ${m.a} × ${m.c};</p><div class="row">${m.opts.map(v=>`<button class="btn white" data-act="pans" data-v="${v}">${v}</button>`).join('')}</div><button class="btn small" data-act="close">${t('backIsland')}</button>`;
   if(m.type==='gate'){const g=GAMES.find(x=>x.id===m.g),c=g.gate.coins,need=c||g.gate.badges,have=c?S.coins:S.badges.length,ok=have>=need;
     h=`<h2>${tr(g.name)}</h2><div style="width:160px;margin:0 auto;filter:grayscale(.6)">${ART[g.id]}</div>
@@ -984,7 +1034,7 @@ function renderModal(){
     <p class="sub">${c?t('gateCoins',tr(g.name),c):t('gateBadges',tr(g.name),need)} ${t('youHave',have)}</p>
     <div class="row"><button class="btn white" data-act="close">${t('backIsland')}</button>${ok?`<button class="btn" data-act="unlock" data-g="${g.id}">${t('open')}</button>`:''}</div>`}
   if(m.type==='result'){const g=GAMES.find(x=>x.id===m.g),h0=HEROES[S.hero];
-    h=`<h2>${pick(t('bravo'))}</h2>${starsRow(m.stars,true)}
+    h=`${m.placeDone?`<div class="trophy">🏆</div><h2>${m.islandDone?tr(['Island complete!','Ολοκλήρωσες το νησί!']):tr(['Place complete!','Ολοκλήρωσες το μέρος!'])}</h2>`:`<h2>${pick(t('bravo'))}</h2>`}${starsRow(m.stars,true)}
     <div class="row">${avatar(S.hero,S.skin,S.equip).replace('class="avatar"','class="avatar" style="width:120px;height:auto"')}<span class="pet" style="font-size:3.4rem">${h0.pet}</span></div>
     <div class="earn">+${m.coins} ${I.coin}</div>
     ${m.newBadges.length?`<div><b style="font-family:var(--display);font-size:1.3rem">${t('newBadge')}</b><div class="row" style="margin-top:8px">${m.newBadges.map(id=>{const b=BADGES.find(x=>x.id===id);return `<div class="badge" style="box-shadow:none;background:none"><div class="medal">${b.icon}</div><b>${tr(b.name)}</b></div>`}).join('')}</div></div>`:''}
@@ -1512,7 +1562,7 @@ function balanceAdd(d){
 function cycleBody(p){return `<div class="options" style="flex:1;align-items:center">${p.prefix?`<span class="bigsun">${p.prefix}</span>`:''}${p.deck.map((c,k)=>`<button class="opt tall ${p.deck.length>5?'many':''}" data-act="st" data-x="card" data-k="${k}">${c.html}${c.done?`<em class="rank">${c.i+1}</em>`:''}</button>`).join('')}</div><div class="row"><div class="tcount" style="position:static">${p.round+1} / ${p.order.length}</div></div>`}
 function cycleTap(k,btn){
   const p=run.p,c=p.deck[k];if(p.busy||c.done)return;
-  if(c.i!==p.next){run.mistakes++;sfx('bad');btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');say(t('tryAgain'));return}
+  if(c.i!==p.next){run.mistakes++;oops(btn);return}
   c.done=true;p.next++;sfx('tap');if(c.name&&p.next<p.deck.length)say(tr(c.name));renderGame();
   if(p.next>=p.deck.length){p.busy=true;sfx('good');burst(innerWidth/2,innerHeight/2,30);
     Promise.all([say(tr(p.order[p.round].fact)),wait(1500)]).then(()=>{if(!run||run.p!==p)return;p.round++;
@@ -1653,15 +1703,15 @@ function extraBody(p){
 function nextOrWin(p,len,key='i'){p[key]++;p.busy=false;if(p[key]>=len){say(tr(['Wonderful!','Υπέροχα!']));stemWin(stemStars(run.mistakes,0,2));return true}return false}
 function chooseAct(v,btn){
   const p=run.p;if(p.busy)return;
-  const wrong=()=>{run.mistakes++;sfx('bad');btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');say(t('tryAgain'))};
-  if(p.type==='pick'){const q=p.qs[p.i];if(p.opts[+v]!==q.a)return wrong();p.busy=true;btn.classList.add('right');sfx('good');
+  const wrong=()=>{run.mistakes++;oops(btn)};
+  if(p.type==='pick'){const q=p.qs[p.i];if(p.opts[+v]!==q.a)return wrong();p.busy=true;btn.classList.add('right');praise();
     Promise.all([say(tr(q.fact)),wait(1400)]).then(()=>{if(run.p!==p)return;if(!nextOrWin(p,p.qs.length)){pickRound();renderGame();speakPrompt()}})}
   if(p.type==='gears'){const n=p.counts[p.round],ans=n%2?'cw':'ccw',ok=v===ans;p.busy=true;p.spun=true;renderGame();
     if(ok)sfx('good');else{run.mistakes++;sfx('bad')}
     Promise.all([say((ok?tr(['Yes! ','Ναι! ']):tr(['Look! ','Κοίτα! ']))+tr(['Gears that touch always turn opposite ways.','Τα γρανάζια που ακουμπάνε γυρίζουν πάντα ανάποδα.'])),wait(2600)]).then(()=>{if(run.p!==p)return;p.spun=false;p.arrows=false;if(!nextOrWin(p,3,'round'))renderGame()})}
   if(p.type==='shadow'){const r=p.rounds[p.i];
-    if(r.k==='match'){if(r.opts[+v]!==r.obj)return wrong();p.busy=true;btn.classList.add('right');sfx('good');
-      Promise.all([say(pick(tr(HEROES[S.hero].cheer))),wait(1200)]).then(()=>{if(run.p!==p)return;p.fade=null;if(!nextOrWin(p,p.rounds.length)){shadowRound();renderGame();speakPrompt()}})}
+    if(r.k==='match'){if(r.opts[+v]!==r.obj)return wrong();p.busy=true;btn.classList.add('right');
+      Promise.all([praise(),wait(1200)]).then(()=>{if(run.p!==p)return;p.fade=null;if(!nextOrWin(p,p.rounds.length)){shadowRound();renderGame();speakPrompt()}})}
     else{const ans=r.sun==='l'?'r':'l';if(v!==ans)return wrong();p.busy=true;r.shown=true;renderGame();sfx('good');
       Promise.all([say(tr(['Yes! The shadow is always on the other side from the sun.','Ναι! Η σκιά πέφτει πάντα από την άλλη μεριά από τον ήλιο.'])),wait(1500)]).then(()=>{if(run.p!==p)return;if(!nextOrWin(p,p.rounds.length)){shadowRound();renderGame();speakPrompt()}})}}
 }
@@ -1924,7 +1974,7 @@ function mixBody(p){
 function mixAct(x,b){
   const p=run.p;if(p.busy)return;
   if(x==='mixpick'){const [a,c,r]=p.rounds[p.i];
-    if(b.dataset.v!==r){run.mistakes++;sfx('bad');b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400);return say(t('tryAgain'))}
+    if(b.dataset.v!==r){run.mistakes++;return oops(b)}
     p.busy=true;p.shown=true;renderGame();sfx('good');
     Promise.all([say(mixSay(a,c,r)),wait(1600)]).then(()=>{if(run.p!==p)return;p.busy=false;p.i++;if(p.i>=p.rounds.length)return stemWin(stemStars(run.mistakes,0,2));mixRound();renderGame()})}
   if(x==='mixbase'){const c=b.dataset.v;if(p.pick.includes(c)){p.pick=p.pick.filter(z=>z!==c);return renderGame()}
@@ -1986,15 +2036,16 @@ function notesAct(b){
     if(p.kind==='simon'){if(k!==r[p.next]){run.mistakes++;sfx('bad');p.busy=true;say(tr(['Oops! Listen again.','Ωπ! Άκου ξανά.'])).then(()=>playSeq(r,.75)).then(()=>{if(run.p===p){p.busy=false;p.next=0}});return}
       p.next++;if(p.next>=r.length)ntDone(p,tr(['You played the tune!','Έπαιξες τη μελωδία!']));return}}
   if(x==='hl'&&!p.busy){const [a,c]=p.rounds[p.round],ans=c>a?'up':'down';
-    if(b.dataset.v!==ans){run.mistakes++;sfx('bad');b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400);return say(t('tryAgain'))}
+    if(b.dataset.v!==ans){run.mistakes++;return oops(b)}
     playSeq([a,c],.5,true);ntDone(p,tr(ans==='up'?['Yes, higher!','Ναι, πιο ψηλά!']:['Yes, lower!','Ναι, πιο χαμηλά!']))}
 }
 
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
-  ui.modal=null;ui.screen='game';
+  ui.modal=null;ui.screen='game';streak=0;
   run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
+  run.wasDone=gameDone(S,g);
   if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
@@ -2024,9 +2075,9 @@ function renderGame(){
   if((run.g==='stem'||run.g==='space')&&run.p.type==='pipes')pipesPaint();
 }
 function success(btn,after){
-  run.busy=true;sfx('good');const r=btn.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2);
+  run.busy=true;const r=btn.getBoundingClientRect();const pr=praise(r.left+r.width/2,r.top+r.height/2);
   $('#pet')?.classList.add('happy');const r0=run;
-  Promise.all([say(after||pick(tr(HEROES[S.hero].cheer))),wait(1300)]).then(()=>{if(run!==r0)return;run.q++;run.busy=false;if(run.q>=run.total)return finishLevel();run.cur=GEN[run.g](run.l);run.nextRank=0;renderGame();speakPrompt()});
+  Promise.all([after?say(after):pr,wait(1300)]).then(()=>{if(run!==r0)return;run.q++;run.busy=false;if(run.q>=run.total)return finishLevel();run.cur=GEN[run.g](run.l);run.nextRank=0;renderGame();speakPrompt()});
 }
 function answer(btn,i){
   if(run.busy)return;const c=run.cur,o=c.options[i];if(btn.classList.contains('wrong')||btn.classList.contains('right'))return;
@@ -2034,19 +2085,19 @@ function answer(btn,i){
     if(o.rank===run.nextRank){btn.classList.add('right');btn.insertAdjacentHTML('beforeend',`<em class="rank">${o.rank+1}</em>`);run.nextRank++;
       if(run.nextRank>=c.options.length)return success(btn);
       sfx('tap');say(String(run.nextRank));}
-    else{run.mistakes++;sfx('bad');btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');say(t('tryAgain'))}
+    else{run.mistakes++;oops(btn)}
     return;
   }
   if(o.ok){btn.classList.add('right');success(btn,o.after)}
-  else{run.mistakes++;sfx('bad');btn.classList.add('shake','wrong');say(!isEl()&&o.say?`That's ${o.say}. Try again!`:t('tryAgain'))}
+  else{run.mistakes++;oops(btn);btn.classList.add('wrong');if(!isEl()&&o.say&&run.g==='letters')say(`That's ${o.say}.`)}
 }
 function flip(i){
   const c=run.cards[i];if(run.busy||c.up||c.done)return;
   c.up=true;run.open.push(c);sfx('flip');say(tr(c.n));
   document.querySelector(`.card[data-i="${i}"]`).classList.add('up');
   if(run.open.length===2){const [a,b]=run.open;run.busy=true;
-    setTimeout(()=>{if(a.e===b.e){a.done=b.done=true;run.found++;sfx('good');const el=document.querySelector(`.card[data-i="${b.i}"]`).getBoundingClientRect();burst(el.left+el.width/2,el.top+el.height/2,25);say(pick(tr(SAY.match)))}
-      else{a.up=b.up=false;run.mistakes++}
+    setTimeout(()=>{if(a.e===b.e){a.done=b.done=true;run.found++;const el=document.querySelector(`.card[data-i="${b.i}"]`).getBoundingClientRect();praise(el.left+el.width/2,el.top+el.height/2)}
+      else{a.up=b.up=false;run.mistakes++;streak=0}
       run.open=[];run.busy=false;renderGame();if(run.found>=run.total)setTimeout(finishLevel,700)},a.e===b.e?500:1100)}
 }
 function finishLevel(fixed){
@@ -2055,8 +2106,13 @@ function finishLevel(fixed){
   S.stars[run.g][run.l]=Math.max(S.stars[run.g][run.l],stars);S.coins+=coins;
   const nb=checkBadges();save();sfx('win');setTimeout(()=>sfx('coin'),900);
   burst(innerWidth/2,innerHeight/3,80);
-  sayL(SAY.result(heroName(),stars,coins,nb.length));
-  ui.modal={type:'result',g:run.g,l:run.l,stars,coins,newBadges:nb};renderModal();
+  streak=0;const placeDone=gameDone(S,run.g)&&!run.wasDone,R=REGIONS[regionOf(run.g)],islandDone=placeDone&&R&&R.games.every(id=>gameDone(S,id));
+  let line=tr(SAY.result(heroName(),stars,coins,nb.length));
+  if(islandDone)line+=' '+tr([`And you finished the whole ${R.name[0]}! You are a true hero!`,`Και ολοκλήρωσες όλο το ${R.name[1]}! Είσαι αληθινός ήρωας!`]);
+  else if(placeDone)line+=' '+tr(['You finished every level here! Fantastic!','Ολοκλήρωσες όλα τα επίπεδα εδώ! Φανταστικά!']);
+  if(placeDone){setTimeout(()=>sfx('win'),1400);setTimeout(()=>burst(innerWidth/2,innerHeight/2,120),1400)}
+  say(line);
+  ui.modal={type:'result',g:run.g,l:run.l,stars,coins,newBadges:nb,placeDone,islandDone};renderModal();
 }
 function checkBadges(){const nb=[];BADGES.forEach(b=>{if(!S.badges.includes(b.id)&&b.test(S)){S.badges.push(b.id);nb.push(b.id)}});return nb}
 let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElement('div');el.className='toast';document.body.appendChild(el)}el.textContent=x;clearTimeout(toastT);toastT=setTimeout(()=>el.remove(),2200)}
@@ -2084,7 +2140,8 @@ document.addEventListener('click',e=>{
     case 'region':{const r=ui.region+(+b.dataset.d);if(r>=0&&r<REGIONS.length){ui.region=r;render();say(tr(REGIONS[r].name))}break}
     case 'badges':ui.screen='badges';render();break;
     case 'tab':ui.tab=b.dataset.t;render();break;
-    case 'music':S.music=!S.music;S.music?startMusic():stopMusic();save();render();break;
+    case 'music':ui.modal={type:'music'};renderModal();break;
+    case 'amb':{const v=b.dataset.v;stopMusic();if(v==='off')S.music=false;else{S.music=true;S.ambient=v}save();if(S.music)startMusic();renderModal();render();break}
     case 'sound':S.sound=!S.sound;if(!S.sound&&'speechSynthesis' in window)speechSynthesis.cancel();save();render();break;
     case 'open':{const g=GAMES.find(x=>x.id===b.dataset.g);
       if(!isOpen(g)){ui.modal={type:'gate',g:g.id};renderModal();const n=tr(g.name);say(g.gate.coins?t('gateCoins',n,g.gate.coins)+' '+t('youHave',S.coins):t('gateBadges',n,g.gate.badges)+' '+t('youHave',S.badges.length));break}
