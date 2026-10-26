@@ -420,6 +420,9 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .voter{position:relative;transition:transform .3s}.voter i{position:absolute;right:-10px;bottom:-6px;font-size:.55em;font-style:normal;opacity:0}
 .voter.cast{transform:translateY(-6px)}.voter.cast i{opacity:1}
 .votechoice{position:relative}.tally{position:absolute;top:-10px;right:-10px;background:var(--sea);color:#fff;border-radius:50%;width:36px;height:36px;display:grid;place-items:center;font-family:var(--display);font-size:1.2rem}
+/* the 🔊 button glows when an instruction was not repeated aloud */
+@media (prefers-reduced-motion:no-preference){.bubble .icon-btn.nudge{animation:nudge 1s ease 2}}
+@keyframes nudge{50%{transform:scale(1.18);box-shadow:0 0 0 6px #ffe14a}}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -477,7 +480,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-10-26.1840';
+const BUILD='2026-10-26.1910';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -1378,7 +1381,7 @@ function setupMusic(l){
   run.m.label=sname;
   run.m.avatarImg=avatarImage();
   const m=run.m;
-  setTimeout(()=>{if(run&&run.m===m)say(run.cur.say).then(()=>{if(run&&run.m===m)return playSong(m.song,i=>{m.showing=i;musicHud()})}).then(()=>{if(run&&run.m===m){m.showing=-1;musicHud();m.phase='count';m.t=0}})},300);
+  setTimeout(()=>{if(run&&run.m===m)sayOnce(run.cur.say).then(()=>{if(run&&run.m===m)return playSong(m.song,i=>{m.showing=i;musicHud()})}).then(()=>{if(run&&run.m===m){m.showing=-1;musicHud();m.phase='count';m.t=0}})},300);
   requestAnimationFrame(ts=>{m.last=ts;requestAnimationFrame(musicLoop)});
 }
 function musicBody(){
@@ -2034,7 +2037,7 @@ function setupNotes(k){
   if(kind==='ear')run.p.rounds=[...Array(6)].map((_,i)=>{const o=shuffle([0,2,4,5,7]).slice(0,3).sort((a,b)=>a-b);return {opts:o,t:pick(o)}});
   if(kind==='simon')run.p.rounds=[2,3,4,5].map(n=>[...Array(n)].map(()=>rand(0,4)));
   run.cur={text:tr(NT_TEXT[kind].text),say:tr(NT_TEXT[kind].say)};
-  const p=run.p;setTimeout(()=>{if(run&&run.p===p)say(run.cur.say).then(()=>{if(run&&run.p===p)ntRound()})},300);
+  const p=run.p;setTimeout(()=>{if(run&&run.p===p)sayOnce(run.cur.say).then(()=>{if(run&&run.p===p)ntRound()})},300);
 }
 function flashBar(i){const el=document.querySelector(`.bar[data-k="${i}"]`);if(!el)return;el.classList.remove('hit');void el.offsetWidth;el.classList.add('hit')}
 function playSeq(seq,gap=.6,flash=true){if(!ac)return wait(seq.length*gap*1000+200);const t0=ac.currentTime+.1;
@@ -2190,7 +2193,14 @@ function startLevel(g,l){
   if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
-function speakPrompt(){if(!run)return;if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;setTimeout(()=>say(run.cur.say).then(()=>{if(run&&run.p===p)say(tr(p.rounds[p.i].q))}),250);return}if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>say(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p)}),250);return}const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>say(s),250)}
+// Instructions are spoken the first time; the same instruction again stays quiet (the 🔊 button always repeats it)
+const heard=new Set();
+function sayOnce(text){if(!heard.has(text)){heard.add(text);return say(text)}nudgeRepeat();return Promise.resolve()}
+function nudgeRepeat(){setTimeout(()=>{const b=document.querySelector('.bubble [data-act="repeat"]');if(b){b.classList.remove('nudge');void b.offsetWidth;b.classList.add('nudge')}},50)}
+function speakPrompt(force){if(!run)return;const sp=force?(x=>{heard.add(x);return say(x)}):sayOnce;
+  if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(tr(p.rounds[p.i].q))}),250);return}
+  if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p)}),250);return}
+  const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>sp(s),250)}
 function setupMemory(){const pairs=shuffle(SEA).slice(0,run.total);run.cards=shuffle([...pairs,...pairs]).map((p,i)=>({i,e:p[0],n:p[1],up:false,done:false}));run.open=[];run.found=0}
 function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
@@ -2288,16 +2298,16 @@ document.addEventListener('click',e=>{
     case 'sound':S.sound=!S.sound;if(!S.sound&&'speechSynthesis' in window)speechSynthesis.cancel();save();render();break;
     case 'open':{const g=GAMES.find(x=>x.id===b.dataset.g);
       if(!isOpen(g)){ui.modal={type:'gate',g:g.id};renderModal();const n=tr(g.name);say(g.gate.coins?t('gateCoins',n,g.gate.coins)+' '+t('youHave',S.coins):t('gateBadges',n,g.gate.badges)+' '+t('youHave',S.badges.length));break}
-      ui.modal={type:'levels',g:g.id};renderModal();sayL(SAY.pick(g));break}
+      ui.modal={type:'levels',g:g.id};renderModal();sayOnce(tr(SAY.pick(g)));break}
     case 'unlock':{const g=GAMES.find(x=>x.id===b.dataset.g);
       if(g.gate.coins){if(S.coins<g.gate.coins){say(t('needCoins'));break}S.coins-=g.gate.coins}
       else if(S.badges.length<g.gate.badges)break;
       S.unlocked.push(g.id);sfx('win');const nb=checkBadges();save();render();burst(innerWidth/2,innerHeight/2,70);
       if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));
-      ui.modal={type:'levels',g:g.id};renderModal();sayL(SAY.pick(g));break}
+      ui.modal={type:'levels',g:g.id};renderModal();sayOnce(tr(SAY.pick(g)));break}
     case 'close':ui.modal=null;if(ui.screen==='game'){run=null;ui.screen='map';render()}else renderModal();break;
     case 'play':startLevel(b.dataset.g,+b.dataset.l);break;
-    case 'repeat':speakPrompt();break;
+    case 'repeat':speakPrompt(true);break;
     case 'ans':answer(b,+b.dataset.i);break;
     case 'card':flip(+b.dataset.i);break;
     case 'pz':puzzleAct(b);break;

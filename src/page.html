@@ -414,6 +414,9 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .voter{position:relative;transition:transform .3s}.voter i{position:absolute;right:-10px;bottom:-6px;font-size:.55em;font-style:normal;opacity:0}
 .voter.cast{transform:translateY(-6px)}.voter.cast i{opacity:1}
 .votechoice{position:relative}.tally{position:absolute;top:-10px;right:-10px;background:var(--sea);color:#fff;border-radius:50%;width:36px;height:36px;display:grid;place-items:center;font-family:var(--display);font-size:1.2rem}
+/* the 🔊 button glows when an instruction was not repeated aloud */
+@media (prefers-reduced-motion:no-preference){.bubble .icon-btn.nudge{animation:nudge 1s ease 2}}
+@keyframes nudge{50%{transform:scale(1.18);box-shadow:0 0 0 6px #ffe14a}}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
