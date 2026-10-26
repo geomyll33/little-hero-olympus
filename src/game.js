@@ -590,6 +590,10 @@ function renderModal(){
   if(m.type==='music')h=`<h2>🎵 ${tr(['Music and calm sounds','Μουσική και ήχοι ηρεμίας'])}</h2><p class="sub">${tr(['Choose what plays in the background while you play.','Διάλεξε τι θα ακούγεται όσο παίζεις.'])}</p>
     <div class="vlist">${AMBIENTS.map(k=>`<button class="vitem ${S.music&&(S.ambient||'melodies')===k?'sel':''}" data-act="amb" data-v="${k}"><b>${tr(AMB_NAME[k])}</b><span>▶</span></button>`).join('')}<button class="vitem ${S.music?'':'sel'}" data-act="amb" data-v="off"><b>🔇 ${tr(['No background sound','Χωρίς ήχο φόντου'])}</b></button></div>
     <p class="vtip">${tr(['Melodies change by themselves. The calm sounds are gentle and steady, good for quiet focus.','Οι μελωδίες αλλάζουν μόνες τους. Οι ήχοι ηρεμίας είναι απαλοί και σταθεροί, καλοί για ήσυχη συγκέντρωση.'])}</p><button class="btn small white" data-act="close">${tr(['Close','Κλείσιμο'])}</button>`;
+  if(m.type==='kotinos'){const pg=KOTINOS_STORY[m.i],last=m.i===KOTINOS_STORY.length-1;
+    h=`<h2>🫒 ${tr(['The story of the kotinos','Η ιστορία του κότινου'])}</h2><div class="storypic">${pg.pic}</div><p class="storytext">${tr(pg.t)}</p>
+    <div class="regdots">${KOTINOS_STORY.map((_,k)=>`<button class="${k===m.i?'on':''}" data-act="kstory" data-v="${k}" data-auto="0" aria-label="${k+1}"></button>`).join('')}</div>
+    <div class="row"><button class="btn white small" data-act="kstory" data-v="${m.i-1}" data-auto="0" ${m.i?'':'disabled'}>◀</button><button class="btn white small" data-act="kstory" data-v="${m.i}" data-auto="0">🔊</button>${last?`<button class="btn blue small" data-act="kclose">✔ ${tr(['The end','Τέλος'])}</button>`:`<button class="btn blue small" data-act="kstory" data-v="${m.i+1}">▶</button>`}</div>`}
   if(m.type==='pgate')h=`<h2>${t('grownT')}</h2><p class="sub" style="font-size:1.4rem">${t('gateQ')} ${m.a} × ${m.c};</p><div class="row">${m.opts.map(v=>`<button class="btn white" data-act="pans" data-v="${v}">${v}</button>`).join('')}</div><button class="btn small" data-act="close">${t('backIsland')}</button>`;
   if(m.type==='gate'){const g=GAMES.find(x=>x.id===m.g),c=g.gate.coins,need=c||g.gate.badges,have=c?S.coins:S.badges.length,ok=have>=need;
     h=`<h2>${tr(g.name)}</h2><div style="width:160px;margin:0 auto;filter:grayscale(.6)">${ART[g.id]}</div>
@@ -1724,6 +1728,18 @@ function startCeremony(){if(run)run=null;ui.modal=null;ui.screen='ceremony';stop
     const c=document.querySelector('.diploma');if(c)c.classList.add('show')},4000);
   setTimeout(()=>{if(ui.screen==='ceremony'){burst(innerWidth*.3,innerHeight*.4,80);burst(innerWidth*.7,innerHeight*.4,80)}},6500);
 }
+// The story of the kotinos, told page by page
+const KOTINOS_STORY=[
+  {pic:'🏛️🌳',t:['Long, long ago, in ancient Olympia, a special wild olive tree grew next to the temple of Zeus.','Πριν από πολλά πολλά χρόνια, στην αρχαία Ολυμπία, δίπλα στον ναό του Δία, φύτρωνε μια ιερή αγριελιά.']},
+  {pic:'👦✂️🌿',t:['A boy cut its branches with golden scissors.','Ένα αγόρι έκοβε τα κλαδιά της με ένα χρυσό ψαλίδι.']},
+  {pic:'🌿➡️🫒',t:['With the branches they made crowns. This olive crown was called the kotinos.','Με τα κλαδιά έφτιαχναν στεφάνια. Αυτό το στεφάνι από ελιά λεγόταν κότινος.']},
+  {pic:'🏃‍♂️🏆🫒',t:['The kotinos was the only prize for the winners of the Olympic Games. No money, no gold. Just olive leaves!','Ο κότινος ήταν το μόνο δώρο για τους νικητές των Ολυμπιακών Αγώνων. Όχι χρήματα, όχι χρυσάφι. Μόνο φύλλα ελιάς!']},
+  {pic:'🎉🏛️👏',t:['But it was the greatest honour! The whole city celebrated its champion.','Όμως ήταν η μεγαλύτερη τιμή! Όλη η πόλη γιόρταζε τον νικητή της.']},
+  {pic:'🇬🇷🥇🫒',t:['At the Olympic Games in Athens in 2004, the winners wore olive crowns again, just like long ago.','Και στους Ολυμπιακούς Αγώνες της Αθήνας, το 2004, οι νικητές φόρεσαν ξανά στεφάνι ελιάς, όπως τα παλιά χρόνια.']},
+  {pic:'💛🫒😊',t:['The kotinos teaches us that the best reward is trying hard and being proud of what we did. Just like you!','Ο κότινος μάς μαθαίνει ότι το πιο ωραίο δώρο είναι η προσπάθεια και η χαρά για αυτό που καταφέραμε. Όπως εσύ!']}];
+let storyTimer=null;
+function storyPage(i,auto=true){clearTimeout(storyTimer);if(i<0||i>=KOTINOS_STORY.length)return;ui.modal={type:'kotinos',i};renderModal();
+  say(tr(KOTINOS_STORY[i].t)).then(()=>{if(auto&&ui.modal&&ui.modal.type==='kotinos'&&ui.modal.i===i&&i<KOTINOS_STORY.length-1)storyTimer=setTimeout(()=>storyPage(i+1),900)})}
 function ceremonyHTML(){
   const others=Object.keys(HEROES).filter(h=>h!==S.hero).slice(0,2),date=new Date(S.crownedAt||Date.now()).toLocaleDateString(isEl()?'el-GR':'en-GB',{day:'numeric',month:'long',year:'numeric'});
   const tot=starTotal(S);
@@ -1737,7 +1753,7 @@ function ceremonyHTML(){
     <div class="doves"><span>🕊️</span><span>🕊️</span><span>🕊️</span></div>
     <div class="diploma"><b>${tr(['Olympic Champion Diploma','Δίπλωμα Ολυμπιονίκη'])}</b><span class="dname">${esc(heroName())}</span>
       <span>${tr([`for collecting all ${BADGES.length} badges of Little Hero of Olympus`,`για όλα τα ${BADGES.length} παράσημα του Μικρού Ήρωα του Ολύμπου`])} · ★ ${tot}</span><small>${date}</small></div>
-    <div class="row"><button class="btn blue" data-act="map">🏝️ ${t('backIsland')}</button><button class="btn white" data-act="room">👑 ${tr(['See my wreath','Δες τον κότινό μου'])}</button></div>
+    <div class="row"><button class="btn kotbtn" data-act="kstory" data-v="0">🫒 ${tr(['What is the kotinos?','Τι είναι ο κότινος;'])}</button><button class="btn blue" data-act="map">🏝️ ${t('backIsland')}</button><button class="btn white" data-act="room">👑 ${tr(['See my wreath','Δες τον κότινό μου'])}</button></div>
   </div>`;
 }
 
@@ -1852,6 +1868,8 @@ document.addEventListener('click',e=>{
     case 'region':{const r=+b.dataset.r;ui.region=r;scrollToIsland(r);document.querySelectorAll('.regdots button').forEach((x,i)=>x.classList.toggle('on',i===r));break}
     case 'badges':ui.screen='badges';render();break;
     case 'ceremony':startCeremony();break;
+    case 'kstory':storyPage(+b.dataset.v,b.dataset.auto!=='0');break;
+    case 'kclose':clearTimeout(storyTimer);if('speechSynthesis' in window)speechSynthesis.cancel();ui.modal=null;renderModal();break;
     case 'tab':ui.tab=b.dataset.t;render();break;
     case 'music':ui.modal={type:'music'};renderModal();break;
     case 'amb':{const v=b.dataset.v;stopMusic();if(v==='off')S.music=false;else{S.music=true;S.ambient=v}save();if(S.music)startMusic();renderModal();render();break}
