@@ -394,6 +394,26 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 @media (prefers-reduced-motion:reduce){.praise{animation:none;opacity:1}}
 .trophy{font-size:4.5rem;line-height:1}
 @media (prefers-reduced-motion:no-preference){.trophy{animation:hop .8s ease 3}}
+/* the Pnyx */
+.socscene{max-width:min(100%,720px)}
+.socscene .pic{font-size:clamp(2.6rem,9vw,5rem);white-space:nowrap}
+.socq{font-family:var(--display);font-weight:700;font-size:clamp(1.05rem,2.6vw,1.5rem);color:var(--ink);text-align:center;max-width:40ch}
+.socopt{min-width:120px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.socopt.story{width:clamp(150px,26vw,230px);position:relative;padding:10px 10px 12px}
+.socopt.story small{font-weight:800;font-size:clamp(.85rem,2vw,1rem);line-height:1.25;color:var(--ink)}
+.socopt.reading{outline:5px solid var(--gold)}
+.socopt .hear{position:absolute;top:6px;right:6px;font-style:normal;font-size:1.1rem;background:#e6f3ff;border-radius:8px;padding:2px 5px}
+.cleanup{position:relative;width:min(100%,760px);aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:4px solid #fffaf0}
+.cleanup.beach{background:linear-gradient(#5fb6f0 0 22%,#f0d79c 22%)}
+.cleanup.park{background:linear-gradient(#9fd8ff 0 22%,#8fc45e 22%)}
+.litter{position:absolute;transform:translate(-50%,-50%);font-size:clamp(2rem,6vw,3.4rem);line-height:1;transition:all .35s;padding:4px;border-radius:10px}
+.litter.tobin{left:92%!important;top:84%!important;transform:translate(-50%,-50%) scale(.3);opacity:0}
+.bin{position:absolute;right:2%;bottom:2%;font-size:3.4rem;display:flex;flex-direction:column;align-items:center;line-height:1}
+.bin b{font-family:var(--display);font-size:1rem;background:#fffaf0;border-radius:6px;padding:0 6px}
+.voters{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:clamp(2rem,6vw,3rem)}
+.voter{position:relative;transition:transform .3s}.voter i{position:absolute;right:-10px;bottom:-6px;font-size:.55em;font-style:normal;opacity:0}
+.voter.cast{transform:translateY(-6px)}.voter.cast i{opacity:1}
+.votechoice{position:relative}.tally{position:absolute;top:-10px;right:-10px;background:var(--sea);color:#fff;border-radius:50%;width:36px;height:36px;display:grid;place-items:center;font-family:var(--display);font-size:1.2rem}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -491,6 +511,7 @@ const GAMES=[
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},starts:[5],levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο'],['Note stairs','Η σκάλα των νοτών'],['High or low?','Ψηλά ή χαμηλά;'],['Listen and find','Άκου και βρες'],['Repeat the tune','Επανάλαβε τη μελωδία']]});
+GAMES.push({id:'social',name:['The Pnyx','Η Πνύκα'],skill:['Kindness & democracy','Κοινωνικότητα & Δημοκρατία'],x:50,y:50,levels:[['How do they feel?','Πώς νιώθει;'],['A good friend','Ο καλός φίλος'],['No to bullying','Όχι στον εκφοβισμό'],['Volunteers','Εθελοντές'],['Neighbourhood helpers','Οι βοηθοί της γειτονιάς'],['We vote!','Ψηφίζουμε!']]});
 GAMES.push({id:'art',name:['Art Gallery','Πινακοθήκη'],skill:['Painting','Ζωγραφική'],x:87,y:52,gate:{coins:20},levels:[['Mixing colours','Ανάμειξη χρωμάτων'],['Which two colours?','Ποια δύο χρώματα;'],['Mondrian','Μοντριάν'],['Kandinsky','Καντίνσκι'],['Dolphins of Knossos','Δελφίνια της Κνωσού'],['Sunflowers','Ηλιοτρόπια'],['The Great Wave','Το μεγάλο κύμα'],['The Starry Night','Έναστρη νύχτα']]});
 GAMES.push({id:'space',name:['Star Observatory','Αστεροσκοπείο'],skill:['Astronomy','Αστρονομία'],x:73,y:17,gate:{coins:35},levels:[['Day or night','Μέρα ή νύχτα'],['Find the planet','Βρες τον πλανήτη'],['The Moon','Το φεγγάρι'],['Planets in order','Οι πλανήτες στη σειρά'],['Constellations','Οι αστερισμοί'],['All eight planets','Και οι οκτώ πλανήτες']]});
 GAMES.push({id:'stem',name:["Archimedes' Workshop",'Εργαστήρι του Αρχιμήδη'],skill:['STEM puzzles','Γρίφοι STEM'],x:12,y:13,gate:{coins:30},levels:[['Program Talos','Προγραμμάτισε τον Τάλω'],['Float or sink','Επιπλέει ή βυθίζεται'],['The scale','Η ζυγαριά'],['Water pipes','Οι σωλήνες του νερού'],['How things grow','Πώς μεγαλώνουν'],['Magnets','Οι μαγνήτες'],['Light the lamp','Άναψε τη λάμπα'],['Talos and the rocks','Ο Τάλως και οι βράχοι'],['Gears','Γρανάζια'],['Shadows and light','Σκιές και φως'],['The gear door','Η πόρτα με τα γρανάζια'],['The secret door','Η μυστική πόρτα']]});
@@ -508,6 +529,7 @@ const BADGES=[
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
   {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
+  {id:'social',icon:'🤝',name:['Good Citizen','Καλός πολίτης'],desc:['Finish every level on the Pnyx','Τελείωσε όλα τα επίπεδα στην Πνύκα'],test:s=>gameDone(s,'social')},
   {id:'art',icon:'🎨',name:['Little Painter','Μικρός Ζωγράφος'],desc:['Paint every picture in the Gallery','Ζωγράφισε όλους τους πίνακες της Πινακοθήκης'],test:s=>gameDone(s,'art')},
   {id:'space',icon:'🔭',name:['Little Astronomer','Μικρός Αστρονόμος'],desc:['Finish every level in the Observatory','Τελείωσε όλο το Αστεροσκοπείο'],test:s=>gameDone(s,'space')},
   {id:'stem',icon:'⚙️',name:['Little Archimedes','Μικρός Αρχιμήδης'],desc:['Solve every STEM puzzle in the Workshop','Λύσε όλους τους γρίφους του Εργαστηρίου'],test:s=>gameDone(s,'stem')},
@@ -546,6 +568,7 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['Learning the notes on a xylophone (the note stairs, high or low, listen and find, repeat the tune), and a running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Μαθαίνει τις νότες σε ξυλόφωνο (η σκάλα των νοτών, ψηλά ή χαμηλά, άκου και βρες, επανάλαβε τη μελωδία) και παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
+  social:['Social and emotional learning: recognising feelings, being a good friend, what to do about bullying (tell a trusted grown-up, say stop, include others), volunteering by cleaning up, the people who help our neighbourhood, and democracy through a class vote on the Pnyx.','Κοινωνική και συναισθηματική μάθηση: αναγνώριση συναισθημάτων, ο καλός φίλος, τι κάνουμε με τον εκφοβισμό (το λέμε σε έναν μεγάλο, λέμε «σταμάτα», δεν αφήνουμε κανέναν απέξω), εθελοντισμός με καθαρισμό, οι άνθρωποι που βοηθούν τη γειτονιά μας και δημοκρατία με ψηφοφορία της τάξης στην Πνύκα.'],
   art:['First colour-mixing puzzles (red and yellow make orange…), then colouring famous paintings with the original shown beside them; stars depend on how alike the painting is: Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh and Hokusai. The child can peek at the artist\'s colours and hears a short story about each painting. Finished paintings stay in the gallery.','Πρώτα γρίφοι ανάμειξης χρωμάτων (κόκκινο και κίτρινο κάνουν πορτοκαλί…), μετά χρωματισμός διάσημων πινάκων με το πρωτότυπο δίπλα· τα αστέρια εξαρτώνται από το πόσο μοιάζει ο πίνακας: Μοντριάν, Καντίνσκι, τα μινωικά δελφίνια της Κνωσού, βαν Γκογκ και Χοκουσάι. Το παιδί μπορεί να δει τα χρώματα του ζωγράφου και ακούει μια μικρή ιστορία για κάθε πίνακα. Οι πίνακες που τελειώνει μένουν στην πινακοθήκη.'],
   space:['Astronomy: day and night, the planets and their order from the Sun, the phases of the Moon, and constellations with their Greek myths.','Αστρονομία: μέρα και νύχτα, οι πλανήτες και η σειρά τους από τον Ήλιο, οι φάσεις της Σελήνης και οι αστερισμοί με τους ελληνικούς μύθους τους.'],
   stem:['STEM with pictures: coding the bronze robot Talos with arrows, floating and sinking (Archimedes), balancing a scale, connecting water pipes and electric circuits, magnets, life cycles, gears (and gear doors to open), and shadows and light.','STEM με εικόνες: προγραμματισμός του χάλκινου ρομπότ Τάλω με βελάκια, τι επιπλέει και τι βυθίζεται (Αρχιμήδης), ισορροπία ζυγαριάς, σωλήνες νερού και ηλεκτρικά κυκλώματα, μαγνήτες, κύκλοι ζωής, γρανάζια (και πόρτες που ανοίγουν με γρανάζια), σκιές και φως.'],
@@ -854,6 +877,7 @@ const ART={
   compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
   memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
   puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  social:svgArt(cube(4,76,92,14,10,'#d8ccb0')+cube(18,62,64,14,10,'#e6dcc4')+cube(32,48,36,14,10,'#f1e9d8')+cube(40,26,20,22,8,'#2f6fd6')+`<rect x="44" y="22" width="12" height="4" fill="#1c2a48"/><rect x="45" y="30" width="10" height="7" fill="#fff"/>`+`<text x="14" y="40" font-size="16">✋</text><text x="72" y="38" font-size="16">✋</text>`),
   art:svgArt(cube(8,30,84,58,10,'#f1e9d8')+`<rect x="16" y="40" width="30" height="22" fill="#1d3f8f"/><circle cx="38" cy="46" r="4" fill="#f2d24a"/><rect x="52" y="40" width="30" height="22" fill="#d62d20"/><rect x="52" y="40" width="10" height="8" fill="#f6d32d"/><rect x="62" y="40" width="3" height="22" fill="#111"/><rect x="40" y="70" width="16" height="18" fill="#6d4c2f"/>`+cube(20,12,60,10,10,'#e9563d')),
   space:svgArt(cube(18,58,58,32,10,'#e9e2d0')+`<path d="M18 58A29 29 0 0 1 76 58Z" fill="#b9c4d2"/><rect x="44" y="30" width="8" height="28" fill="#1c2a48" transform="rotate(35 48 44)"/><rect x="40" y="70" width="14" height="20" fill="#6d4c2f"/>`+[[12,14],[84,10],[70,30],[26,34]].map(([x,y])=>`<rect x="${x}" y="${y}" width="6" height="6" fill="#ffe14a" transform="rotate(45 ${x+3} ${y+3})"/>`).join('')),
   stem:svgArt(cube(10,46,62,42,10,'#c8643b')+cube(10,36,62,10,10,'#a54d2a')+`<rect x="28" y="62" width="22" height="26" fill="#6d4c2f"/>`+`<g transform="translate(76 30)"><circle r="15" fill="#f2b632"/>${[0,45,90,135,180,225,270,315].map(a=>`<rect x="-4" y="-20" width="8" height="8" fill="#f2b632" transform="rotate(${a})"/>`).join('')}<circle r="6" fill="#c98a12"/></g>`+cube(36,10,14,14,6,'#ffe14a')),
@@ -862,9 +886,9 @@ const ART={
 // The world is three islands, from easiest to hardest; each place is numbered along a path
 const REGIONS=[
   {name:['Island of First Steps','Νησί των Πρώτων Βημάτων'],games:['count','shapes','memory','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
-  {name:['Island of Discovery','Νησί των Ανακαλύψεων'],games:['pattern','odd','compare','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
+  {name:['Island of Discovery','Νησί των Ανακαλύψεων'],games:['pattern','social','odd','compare','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
   {name:['Island of Explorers','Νησί των Εξερευνητών'],games:['stem','space','puzzle'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
-const MAPSLOTS={land:{5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
+const MAPSLOTS={land:{6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{6:[[28,10],[72,25],[28,41],[72,56],[28,72],[70,88]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
 const regionOf=id=>REGIONS.findIndex(r=>r.games.includes(id));
 const isPortrait=()=>innerHeight>innerWidth*1.1;
 // the place to play next: first unfinished open place, in order from easy to hard
@@ -919,6 +943,7 @@ const SCENES={
   compare:()=>sky('#8fd3ff','#e4f5ff')+`<rect y="460" width="1200" height="340" fill="#2a8fdc"/>`+rep(6,i=>`<rect x="${i*220+40}" y="${520+(i%3)*70}" width="60" height="6" fill="#bfe6ff" opacity=".6"/>`)+cube(980,240,60,220,14,'#ffffff')+`<rect x="980" y="300" width="60" height="40" fill="#e53935"/><rect x="980" y="380" width="60" height="40" fill="#e53935"/>`+cube(970,210,80,30,14,'#ffe14a')+`<rect x="0" y="600" width="520" height="40" fill="#8a5a2b"/>`+rep(5,i=>`<rect x="${20+i*110}" y="600" width="14" height="200" fill="#6d4c2f"/>`),
   memory:()=>sky('#1a7fc4','#0b3c6e')+rep(14,i=>`<circle cx="${(i*173)%1200}" cy="${(i*97)%700}" r="${6+i%4*4}" fill="none" stroke="#bfe6ff" stroke-width="3" opacity=".45"/>`)+`<path d="M0 720Q300 690 600 720T1200 710V800H0Z" fill="#e9d39b"/>`+rep(8,i=>`<path d="M${80+i*150} 730q-30-90 10-160q-30 80 20 160z" fill="#3fa36b"/>`),
   music:()=>sky('#ff9548','#ffd7a8')+`<circle cx="900" cy="250" r="90" fill="#ffe9a8"/><rect y="440" width="1200" height="360" fill="#d7b48e"/>`+rep(9,i=>`<path d="M${i*140} 800V560a60 60 0 0 1 120 0V800z" fill="#b98d63"/>`),
+  social:()=>sky('#9fd8ff','#eaf7ff')+`<path d="M0 520Q300 430 700 470T1200 450V800H0Z" fill="#b9c98a"/><path d="M760 300h300v20H760zM770 320h20v80h-20zM820 320h20v80h-20zM870 320h20v80h-20zM920 320h20v80h-20zM970 320h20v80h-20zM1020 320h20v80h-20zM750 400h320v20H750z" fill="#f6ead2"/><path d="M740 420Q900 380 1100 430L1200 470H700Z" fill="#c9a27a"/><rect y="620" width="1200" height="180" fill="#d8ccb0"/>`+rep(6,i=>cube(80+i*190,560,120,60,14,'#e6dcc4')),
   art:()=>`<rect width="1200" height="800" fill="#f3ead8"/><rect y="640" width="1200" height="160" fill="#a0703f"/>`+rep(12,i=>`<rect x="${i*100}" y="640" width="4" height="160" fill="#8a5a2b"/>`)+`<rect y="620" width="1200" height="20" fill="#c9a77a"/>`+rep(4,i=>`<rect x="${60+i*300}" y="120" width="200" height="150" fill="#c98b2b"/><rect x="${72+i*300}" y="132" width="176" height="126" fill="${['#1d3f8f','#ecd36b','#d62d20','#1f4f8a'][i]}"/>`),
   stem:()=>`<rect width="1200" height="800" fill="#b5562f"/>`+rep(20,r=>rep(13,c=>`<rect x="${c*96+(r%2)*48-48}" y="${r*40}" width="92" height="36" fill="#c8643b"/>`))+rep(4,i=>`<g transform="translate(${180+i*280} ${180+(i%2)*120})" fill="#8f9db2" opacity=".85">${rep(10,k=>`<rect x="-10" y="-70" width="20" height="20" transform="rotate(${k*36})"/>`)}<circle r="56"/><circle r="18" fill="#5c6b7c"/></g>`)+cube(0,640,1200,160,14,'#8a5a2b'),
   space:()=>sky('#0b1638','#24356b')+rep(70,i=>`<circle cx="${(i*137)%1200}" cy="${(i*89)%800}" r="${1+i%3}" fill="#fff" opacity="${.4+(i%5)/10}"/>`)+`<circle cx="980" cy="160" r="60" fill="#f7e98a"/><circle cx="1004" cy="146" r="56" fill="#0f1d47"/><circle cx="200" cy="640" r="40" fill="#d2553a"/><ellipse cx="420" cy="220" rx="70" ry="14" fill="none" stroke="#b8955a" stroke-width="8"/><circle cx="420" cy="220" r="34" fill="#e6c47a"/>`,
@@ -2040,22 +2065,131 @@ function notesAct(b){
     playSeq([a,c],.5,true);ntDone(p,tr(ans==='up'?['Yes, higher!','Ναι, πιο ψηλά!']:['Yes, lower!','Ναι, πιο χαμηλά!']))}
 }
 
+/* ---------- The Pnyx: feelings, kindness, no to bullying, volunteering, community, democracy ---------- */
+const FEELINGS=[['😊',['happy','χαρούμενος']],['😢',['sad','λυπημένος']],['😠',['angry','θυμωμένος']],['😨',['scared','φοβισμένος']]];
+const FEEL_Q=[
+  {scene:'🧒🍦⬇️',q:['His ice cream fell on the ground. How does he feel?','Του έπεσε το παγωτό κάτω. Πώς νιώθει;'],a:1,why:['Sad. A hug or a kind word can help.','Λυπημένος. Μια αγκαλιά ή μια καλή κουβέντα βοηθάει.']},
+  {scene:'👧🎁',q:['She got a present. How does she feel?','Πήρε ένα δώρο. Πώς νιώθει;'],a:0,why:['Happy! We can share her joy.','Χαρούμενη! Μπορούμε να χαρούμε μαζί της.']},
+  {scene:'🧒⛈️⚡',q:['There is loud thunder. How does he feel?','Ακούγεται δυνατή βροντή. Πώς νιώθει;'],a:3,why:['Scared. We can hold his hand and tell him it will pass.','Φοβισμένος. Μπορούμε να του κρατήσουμε το χέρι και να του πούμε ότι θα περάσει.']},
+  {scene:'👦🧱💥',q:['Someone knocked down his tower on purpose. How does he feel?','Κάποιος του χάλασε τον πύργο επίτηδες. Πώς νιώθει;'],a:2,why:['Angry. When we are angry, we take a deep breath and talk about it.','Θυμωμένος. Όταν θυμώνουμε, παίρνουμε βαθιά ανάσα και το λέμε με λόγια.']},
+  {scene:'👧👧🤝',q:['Her friend came to play with her. How does she feel?','Ήρθε η φίλη της να παίξουν. Πώς νιώθει;'],a:0,why:['Happy! Friends make us smile.','Χαρούμενη! Οι φίλοι μάς κάνουν να χαμογελάμε.']},
+  {scene:'🧒😝👦',q:['Others laugh at him and call him names. How does he feel?','Τον κοροϊδεύουν και του λένε άσχημα λόγια. Πώς νιώθει;'],a:1,why:['Sad. Mean words hurt. We never say them.','Λυπημένος. Τα άσχημα λόγια πονάνε. Δεν τα λέμε ποτέ.']}];
+const KIND_Q=[
+  {scene:'🧒🪑 ... ⚽👧👦',q:['A child sits alone at break time. What do you do?','Ένα παιδί κάθεται μόνο του στο διάλειμμα. Τι κάνεις;'],opts:[['🤝',['I ask them to play with us','Το καλώ να παίξει μαζί μας'],1],['🙈',['I pretend not to see','Κάνω πως δεν το βλέπω'],0],['😝',['I stick my tongue out','Του βγάζω τη γλώσσα'],0]],why:['When we invite someone, they feel happy, and we gain a new friend.','Όταν καλούμε κάποιον να παίξει, νιώθει χαρά και κερδίζουμε έναν νέο φίλο.']},
+  {scene:'👧💥🩹',q:['Your friend fell and got hurt. What do you do?','Η φίλη σου έπεσε και χτύπησε. Τι κάνεις;'],opts:[['🤗',['I help her up and ask if she is OK','Τη βοηθάω να σηκωθεί και ρωτάω αν είναι καλά'],1],['😂',['I laugh','Γελάω'],0],['🏃',['I run away','Φεύγω τρέχοντας'],0]],why:['Helping a friend who is hurt is what a good friend does.','Όταν βοηθάμε έναν φίλο που χτύπησε, είμαστε καλοί φίλοι.']},
+  {scene:'🍪🍪🧒 👦',q:['You have two cookies and your friend has none.','Έχεις δύο μπισκότα και ο φίλος σου κανένα.'],opts:[['🍪',['I give him one','Του δίνω το ένα'],1],['😋',['I eat both in front of him','Τα τρώω και τα δύο μπροστά του'],0],['🙅',['I tell him to go away','Του λέω «φύγε»'],0]],why:['Sharing makes everyone happy, you too!','Όταν μοιραζόμαστε, χαίρονται όλοι, κι εσύ!']},
+  {scene:'🏰💥🧒',q:['By mistake, you knocked down a friend\'s tower.','Κατά λάθος χάλασες τον πύργο ενός φίλου.'],opts:[['🙏',['I say sorry and help rebuild it','Λέω «συγγνώμη» και τον βοηθάω να τον ξαναφτιάξει'],1],['🤫',['I say nothing','Δεν λέω τίποτα'],0],['👉',['I say someone else did it','Λέω ότι φταίει άλλος'],0]],why:['Saying sorry and fixing our mistake is brave and kind.','Όταν λέμε «συγγνώμη» και διορθώνουμε το λάθος μας, είμαστε γενναίοι και καλοί.']}];
+const BULLY_Q=[
+  {scene:'👦😝👧😢',q:['A child keeps making fun of another child. What do you do?','Ένα παιδί κοροϊδεύει συνέχεια ένα άλλο. Τι κάνεις;'],opts:[['🧑‍🏫',['I tell a grown-up, like the teacher or my parents','Το λέω σε έναν μεγάλο, στη δασκάλα ή στους γονείς'],1],['😂',['I laugh too','Γελάω κι εγώ'],0],['🤐',['I tell nobody','Δεν το λέω σε κανέναν'],0]],why:['When someone is being picked on, we tell a grown-up we trust. That is not telling tales, it is helping.','Όταν κάποιον τον πειράζουν, το λέμε σε έναν μεγάλο που εμπιστευόμαστε. Αυτό δεν είναι «κάρφωμα», είναι βοήθεια.']},
+  {scene:'🧒➡️🧸 👦',q:['Someone grabs your toy from you.','Κάποιος σου παίρνει το παιχνίδι με το ζόρι.'],opts:[['✋',['I say loudly and calmly: Stop! I don\'t like that','Λέω δυνατά και ήρεμα: «Σταμάτα! Δεν μου αρέσει»'],1],['👊',['I hit him','Τον χτυπάω'],0],['😭',['I hide and say nothing','Κρύβομαι και δεν λέω τίποτα'],0]],why:['We say stop in a firm voice, and if needed we ask a grown-up for help. We never hit.','Λέμε «σταμάτα» με σταθερή φωνή και, αν χρειαστεί, ζητάμε βοήθεια από έναν μεγάλο. Δεν χτυπάμε ποτέ.']},
+  {scene:'👧👧👧 ❌ 👦',q:['The group tells a child: you can\'t play with us.','Η παρέα λέει σε ένα παιδί: «Εσύ δεν παίζεις μαζί μας».'],opts:[['💛',['I say: come on, let\'s all play together!','Λέω: «Ελάτε, ας παίξουμε όλοι μαζί!»'],1],['👍',['I agree with the group','Συμφωνώ με την παρέα'],0],['🙈',['I look the other way','Γυρίζω από την άλλη'],0]],why:['Nobody should be left out. Everyone can play!','Κανείς δεν πρέπει να μένει απέξω. Όλοι μπορούν να παίξουν!']},
+  {scene:'🧒😢',q:['A child is crying because of mean words.','Ένα παιδί κλαίει γιατί του είπαν άσχημα λόγια.'],opts:[['🤗',['I sit next to them and say: I am your friend','Κάθομαι δίπλα του και του λέω: «Είμαι φίλος σου»'],1],['📣',['I tell everyone so they laugh','Το λέω σε όλους για να γελάσουν'],0],['🚶',['I keep playing','Συνεχίζω το παιχνίδι μου'],0]],why:['A kind friend can make a sad child feel better.','Ένας καλός φίλος μπορεί να κάνει ένα λυπημένο παιδί να νιώσει καλύτερα.']}];
+const HELPERS=[['👩‍🚒',['the firefighter','η πυροσβέστρια'],'🧯',['The firefighter puts out fires and keeps us safe!','Η πυροσβέστρια σβήνει τις φωτιές και μας προστατεύει!'],['What does the firefighter need for her work?','Τι χρειάζεται η πυροσβέστρια για τη δουλειά της;']],
+  ['🧑‍⚕️',['the doctor','ο γιατρός'],'🩺',['The doctor helps us when we are ill!','Ο γιατρός μάς βοηθάει όταν είμαστε άρρωστοι!'],['What does the doctor need for his work?','Τι χρειάζεται ο γιατρός για τη δουλειά του;']],
+  ['🧑‍🏫',['the teacher','η δασκάλα'],'📚',['The teacher helps us learn new things!','Η δασκάλα μάς βοηθάει να μαθαίνουμε καινούργια πράγματα!'],['What does the teacher need for her work?','Τι χρειάζεται η δασκάλα για τη δουλειά της;']],
+  ['👮',['the police officer','ο αστυνομικός'],'🚓',['The police officer keeps our neighbourhood safe!','Ο αστυνομικός φροντίζει να είναι ασφαλής η γειτονιά μας!'],['What does the police officer need for his work?','Τι χρειάζεται ο αστυνομικός για τη δουλειά του;']],
+  ['🧑‍🍳',['the baker','ο φούρναρης'],'🍞',['The baker bakes our bread every morning!','Ο φούρναρης ψήνει το ψωμί μας κάθε πρωί!'],['What does the baker make?','Τι φτιάχνει ο φούρναρης;']],
+  ['🧑‍🌾',['the farmer','η αγρότισσα'],'🥕',['The farmer grows the vegetables we eat!','Η αγρότισσα καλλιεργεί τα λαχανικά που τρώμε!'],['What does the farmer grow?','Τι καλλιεργεί η αγρότισσα;']]];
+const VOTE_TOPICS=[{q:['Where shall the class go on a trip?','Πού θα πάει η τάξη εκδρομή;'],c:[['🏖️',['the sea','θάλασσα']],['🌲',['the forest','δάσος']]]},
+  {q:['What shall we play today?','Τι θα παίξουμε σήμερα;'],c:[['⚽',['football','μπάλα']],['🎨',['painting','ζωγραφική']]]},
+  {q:['Which pet shall the class have?','Ποιο ζωάκι θα έχει η τάξη;'],c:[['🐠',['a fish','ψαράκι']],['🐢',['a tortoise','χελωνίτσα']]]}];
+const VOTERS=['🐶','🐱','🐰','🦊','🐻','🐼'];
+const SOC_TEXT={feel:['How do they feel?','Πώς νιώθει;'],kind:['What does a good friend do?','Τι κάνει ένας καλός φίλος;'],bully:['No to bullying!','Όχι στον εκφοβισμό!'],clean:['Let\'s clean up together!','Ας καθαρίσουμε όλοι μαζί!'],help:['Helpers of our neighbourhood','Οι βοηθοί της γειτονιάς'],vote:['Let\'s vote!','Ας ψηφίσουμε!']};
+const SOC_INTRO={feel:['Look at the picture and find the feeling.','Κοίτα την εικόνα και βρες πώς νιώθει.'],kind:['Listen to the story and choose what a good friend would do.','Άκου την ιστορία και διάλεξε τι θα έκανε ένας καλός φίλος.'],bully:['Bullying is when someone keeps hurting or scaring another child. Choose what we do.','Εκφοβισμός είναι όταν κάποιος πειράζει ή φοβίζει συνέχεια ένα άλλο παιδί. Διάλεξε τι κάνουμε.'],
+  clean:['We are volunteers today! Tap the rubbish to put it in the bin. Leave the animals and shells where they are!','Σήμερα είμαστε εθελοντές! Πάτα τα σκουπίδια για να μπουν στον κάδο. Τα ζωάκια και τα κοχύλια τα αφήνουμε στη θέση τους!'],
+  help:['Many people help our neighbourhood. Find what each one needs.','Πολλοί άνθρωποι βοηθούν τη γειτονιά μας. Βρες τι χρειάζεται ο καθένας.'],
+  vote:['Here on the Pnyx, the ancient Athenians voted together. Now it is your turn! Everyone has one vote.','Εδώ στην Πνύκα οι αρχαίοι Αθηναίοι ψήφιζαν όλοι μαζί. Τώρα είναι η σειρά σου! Ο καθένας έχει μία ψήφο.']};
+const SOCIAL=['feel','kind','bully','clean','help','vote'];
+function setupSocial(l){
+  const k=SOCIAL[l];run.hints=0;run.won=false;
+  run.p={type:'social',kind:k,i:0,busy:false,fade:null};const p=run.p;
+  if(k==='feel')p.qs=shuffle(FEEL_Q).slice(0,5);
+  if(k==='kind'||k==='bully')p.qs=shuffle(k==='kind'?KIND_Q:BULLY_Q).map(q=>({...q,opts:shuffle(q.opts)}));
+  if(k==='help')p.qs=shuffle(HELPERS).slice(0,5).map(h=>({h,opts:shuffle([h[2],...shuffle(HELPERS.filter(x=>x!==h).map(x=>x[2])).slice(0,2)])}));
+  if(k==='clean')p.rounds=[{place:'beach',junk:['🥤','🧴','🛍️','🥫','📰','🍾'],nature:['🐚','🦀','🐢']},{place:'park',junk:['🥤','🛍️','🍌','📰','🧃','🥫'],nature:['🌼','🐦','🐌']}].map(r=>({...r,items:shuffle([...r.junk.map(e=>({e,junk:1})),...r.nature.map(e=>({e,junk:0}))]).map((it,n)=>({...it,x:8+(n%5)*19+rand(-3,3),y:n<5?30+rand(-6,6):62+rand(-6,6),gone:false}))}));
+  if(k==='vote')p.rounds=VOTE_TOPICS.map((t0,n)=>({...t0,mine:null,votes:null,counted:0,stage:'choose',last:n===2}));
+  run.cur={text:tr(SOC_TEXT[k]),say:tr(SOC_INTRO[k])};
+}
+function socQ(p){const q=p.qs[p.i];
+  if(p.kind==='feel')return {scene:q.scene,q:tr(q.q)};
+  if(p.kind==='help')return {scene:q.h[0],q:tr(q.h[4])};
+  return {scene:q.scene,q:tr(q.q)}}
+function socialBody(p){
+  const hint=`<button class="icon-btn hintfab" data-act="so" data-x="hint" aria-label="Help">💡</button>`;
+  if(p.kind==='feel'||p.kind==='kind'||p.kind==='bully'||p.kind==='help'){const q=p.qs[p.i],sq=socQ(p);
+    let opts;
+    if(p.kind==='feel')opts=FEELINGS.map(([e,n],k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="so" data-x="pick" data-v="${k}"><span class="emo">${e}</span><small class="pname">${tr(n)}</small></button>`).join('');
+    else if(p.kind==='help')opts=q.opts.map((e,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="so" data-x="pick" data-v="${k}"><span class="emo">${e}</span></button>`).join('');
+    else opts=q.opts.map(([e,txt],k)=>`<button class="opt socopt story ${p.fade===k?'fade':''} ${p.reading===k?'reading':''}" data-act="so" data-x="pick" data-v="${k}"><span class="emo">${e}</span><small>${tr(txt)}</small><i class="hear" data-act="so" data-x="hear" data-v="${k}">🔊</i></button>`).join('');
+    return `<div class="stage"><div class="panel scroll socscene"><div class="pic">${sq.scene}</div><div class="socq">${esc(sq.q)}</div></div></div><div class="options">${opts}</div><div class="row"><div class="tcount" style="position:static">${p.i+1} / ${p.qs.length}</div></div>${hint}`}
+  if(p.kind==='clean'){const r=p.rounds[p.i],left=r.items.filter(it=>it.junk&&!it.gone).length;
+    return `<div class="stage"><div class="cleanup ${r.place}">${r.items.map((it,k)=>it.gone?'':`<button class="litter ${p.glow===k?'glow':''}" data-act="so" data-x="item" data-k="${k}" style="left:${it.x}%;top:${it.y}%">${it.e}</button>`).join('')}<span class="bin">🗑️<b>${r.junk.length-left}/${r.junk.length}</b></span></div></div><div class="row"><div class="tcount" style="position:static">${p.i+1} / ${p.rounds.length}</div></div>${hint}`}
+  if(p.kind==='vote'){const r=p.rounds[p.i];
+    const choice=(c,k)=>`<button class="opt socopt votechoice ${r.mine===k?'right':''}" data-act="so" data-x="${r.stage==='choose'?'myvote':'winner'}" data-v="${k}" ${r.stage==='count'?'disabled':''}><span class="emo">${c[0]}</span><small class="pname">${tr(c[1])}</small>${r.votes?`<b class="tally">${r.votes.slice(0,r.counted).filter(v=>v===k).length}</b>`:''}</button>`;
+    const voters=r.votes?r.votes.map((v,k)=>`<span class="voter ${k<r.counted?'cast':''}">${k<VOTERS.length?VOTERS[k]:'🧒'}<i>${r.c[v][0]}</i></span>`).join(''):VOTERS.map(e=>`<span class="voter">${e}</span>`).join('')+'<span class="voter">🧒</span>';
+    return `<div class="stage"><div class="panel scroll socscene"><div class="socq">🗳️ ${esc(tr(r.q))}</div><div class="voters">${voters}</div></div></div><div class="options">${r.c.map(choice).join('')}</div>
+      <div class="row">${r.stage==='ready'?`<button class="btn blue" data-act="so" data-x="count">🗳️ ${tr(['Count the votes','Μέτρα τις ψήφους'])}</button>`:''}<div class="tcount" style="position:static">${p.i+1} / ${p.rounds.length}</div></div>${hint}`}
+}
+// read the question and each answer aloud, highlighting the card being read
+async function socRead(p){const q=p.qs[p.i],sq=socQ(p);p.reading=-1;await say(sq.q);
+  if(p.kind==='kind'||p.kind==='bully'){for(let k=0;k<q.opts.length;k++){if(run.p!==p||p.busy||p.picked)return;p.reading=k;renderGame();await say(tr(q.opts[k][1]))}p.reading=-1;if(run.p===p)renderGame()}}
+function socNext(p){p.i++;p.busy=false;p.fade=null;p.picked=false;p.glow=null;const n=p.qs?p.qs.length:p.rounds.length;
+  if(p.i>=n)return stemWin(stemStars(run.mistakes,0,2));renderGame();if(p.qs)socRead(p);else if(p.kind==='vote')say(tr(p.rounds[p.i].q))}
+function socialAct(b){
+  const p=run.p,x=b.dataset.x;if(!p||run.won)return;
+  if(x==='hear'){const q=p.qs[p.i];say(tr(q.opts[+b.dataset.v][1]));return}
+  if(x==='hint'){run.hints++;
+    if(p.qs){const q=p.qs[p.i];const good=p.kind==='feel'?q.a:p.kind==='help'?q.opts.indexOf(q.h[2]):q.opts.findIndex(o=>o[2]);
+      const opts=p.kind==='feel'?FEELINGS:p.kind==='help'?q.opts:q.opts;p.fade=[...opts.keys()].find(k=>k!==good&&k!==p.fade);renderGame();
+      return say(p.kind==='kind'||p.kind==='bully'?tr(['Think: what would make everyone feel good?','Σκέψου: τι θα έκανε όλους να νιώσουν καλά;']):tr(['Not that one!','Όχι αυτό!']))}
+    if(p.kind==='clean'){const r=p.rounds[p.i];p.glow=r.items.findIndex(it=>it.junk&&!it.gone);renderGame();return say(tr(['Pick up the glowing one!','Μάζεψε αυτό που λάμπει!']))}
+    if(p.kind==='vote'){const r=p.rounds[p.i];return say(r.stage==='winner'?tr(['Count the animals for each choice. The bigger number wins!','Μέτρα τα ζωάκια για κάθε επιλογή. Κερδίζει ο μεγαλύτερος αριθμός!']):tr(['Choose what you like most!','Διάλεξε αυτό που σου αρέσει πιο πολύ!']))}}
+  if(x==='pick'&&p.qs&&!p.busy){const q=p.qs[p.i],k=+b.dataset.v;p.picked=true;
+    const ok=p.kind==='feel'?k===q.a:p.kind==='help'?q.opts[k]===q.h[2]:q.opts[k][2];
+    if(!ok){run.mistakes++;oops(b);if(p.kind==='kind'||p.kind==='bully')say(tr(['How would you feel if someone did that to you? Let\'s choose something kinder.','Πώς θα ένιωθες αν σου το έκαναν αυτό; Ας διαλέξουμε κάτι πιο καλό.']));return}
+    p.busy=true;b.classList.add('right');praise();
+    const why=p.kind==='help'?q.h[3]:q.why;Promise.all([wait(700).then(()=>say(tr(why))),wait(2000)]).then(()=>{if(run.p===p)socNext(p)});return}
+  if(x==='item'&&p.kind==='clean'&&!p.busy){const r=p.rounds[p.i],it=r.items[+b.dataset.k];
+    if(!it.junk){run.mistakes++;oops(b);say(tr(['That is part of nature. We leave it!','Αυτό είναι κομμάτι της φύσης. Το αφήνουμε!']));return}
+    it.gone=true;p.glow=null;jingle();b.classList.add('tobin');setTimeout(()=>{if(run.p===p)renderGame()},350);
+    if(r.items.every(z=>!z.junk||z.gone)){p.busy=true;setTimeout(()=>{burst(innerWidth/2,innerHeight/2,60);Promise.all([say(p.i===0?tr(['The beach is clean! Helping others without being paid is called volunteering.','Η παραλία καθάρισε! Όταν βοηθάμε όλοι μαζί χωρίς να πληρωνόμαστε, αυτό λέγεται εθελοντισμός.']):tr(['The park is clean for everyone! Well done, volunteer!','Το πάρκο καθάρισε για όλους! Μπράβο, εθελοντή!'])),wait(1500)]).then(()=>{if(run.p===p)socNext(p)})},500)}
+    return}
+  if(p.kind==='vote'){const r=p.rounds[p.i];
+    if(x==='myvote'&&r.stage==='choose'){r.mine=+b.dataset.v;sfx('tap');
+      // the animals vote too; the last round is set so your choice does not win
+      let others;do{others=VOTERS.map(()=>rand(0,1));const all=[...others,r.mine],a=all.filter(v=>v===0).length;if(a!==all.length-a&&(!r.last||(a>all.length-a?0:1)!==r.mine))break}while(true);
+      r.votes=[...others,r.mine];r.stage='ready';renderGame();say(tr(['Your vote is in the box! Now let\'s count all the votes.','Η ψήφος σου μπήκε στην κάλπη! Τώρα ας μετρήσουμε όλες τις ψήφους.']));return}
+    if(x==='count'&&r.stage==='ready'){r.stage='count';renderGame();let n=0;const tick=()=>{if(run.p!==p)return;r.counted=++n;sfx('tap');renderGame();
+        if(n<r.votes.length)return setTimeout(tick,450);r.stage='winner';renderGame();say(tr(['Which one has more votes and wins?','Ποιο έχει τις περισσότερες ψήφους και κερδίζει;']))};setTimeout(tick,300);return}
+    if(x==='winner'&&r.stage==='winner'){const k=+b.dataset.v,a=r.votes.filter(v=>v===0).length,win=a>r.votes.length-a?0:1;
+      if(k!==win){run.mistakes++;oops(b);return}
+      p.busy=true;praise();const msg=tr([`Yes! ${r.c[win][1][0]} wins with more votes. The majority decides.`,`Ναι! Κερδίζει: ${r.c[win][1][1]}, με τις περισσότερες ψήφους. Αποφασίζει η πλειοψηφία.`]);
+      Promise.all([wait(600).then(()=>say(msg)),wait(2200)]).then(()=>{if(run.p!==p)return;
+        if(r.last&&r.mine!==win){p.busy=false;p.qs=null;p.kind='vote';r.stage='respect';renderGame();
+          say(tr(['Your choice did not win this time. What do you do?','Αυτή τη φορά η δική σου επιλογή δεν κέρδισε. Τι κάνεις;']))}else socNext(p)});return}
+    if(x==='respect'){const ok=b.dataset.v==='1';if(!ok){run.mistakes++;oops(b);return}p.busy=true;praise();
+      Promise.all([wait(600).then(()=>say(tr(['That is democracy! Everyone has one vote, we listen to each other, and we accept what most people chose. In ancient Athens, citizens voted right here on the Pnyx!','Αυτή είναι η δημοκρατία! Ο καθένας έχει μία ψήφο, ακούμε όλους και δεχόμαστε αυτό που διάλεξαν οι περισσότεροι. Στην αρχαία Αθήνα οι πολίτες ψήφιζαν εδώ, στην Πνύκα!']))),wait(2500)]).then(()=>{if(run.p===p)stemWin(stemStars(run.mistakes,0,2))});return}}
+}
+const RESPECT=[['😊',['I accept the result and we all go together','Δέχομαι το αποτέλεσμα και πάμε όλοι μαζί'],1],['😠',['I get angry and don\'t go','Θυμώνω και δεν πάω'],0],['🔁',['I ask to vote again and again until I win','Ζητάω να ψηφίζουμε ξανά και ξανά μέχρι να κερδίσω'],0]];
+function respectBody(){const o=shuffle(RESPECT);return `<div class="stage"><div class="panel scroll socscene"><div class="pic">🗳️😕</div><div class="socq">${tr(['Your choice did not win this time. What do you do?','Αυτή τη φορά η δική σου επιλογή δεν κέρδισε. Τι κάνεις;'])}</div></div></div><div class="options">${o.map(([e,txt,ok])=>`<button class="opt socopt story" data-act="so" data-x="respect" data-v="${ok}"><span class="emo">${e}</span><small>${tr(txt)}</small><i class="hear" data-act="so" data-x="hearr" data-t="${esc(tr(txt))}">🔊</i></button>`).join('')}</div>`}
+
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
   ui.modal=null;ui.screen='game';streak=0;
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
   run.wasDone=gameDone(S,g);
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else run.cur=GEN[g](l);
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
-function speakPrompt(){if(!run)return;const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>say(s),250)}
+function speakPrompt(){if(!run)return;if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;setTimeout(()=>say(run.cur.say).then(()=>{if(run&&run.p===p)say(tr(p.rounds[p.i].q))}),250);return}if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>say(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p)}),250);return}const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>say(s),250)}
 function setupMemory(){const pairs=shuffle(SEA).slice(0,run.total);run.cards=shuffle([...pairs,...pairs]).map((p,i)=>({i,e:p[0],n:p[1],up:false,done:false}));run.open=[];run.found=0}
 function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
   const prog=run.g==='memory'?run.found:run.q;
   let body;
-  if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
+  if(run.g==='social')body=run.p.rounds&&run.p.rounds[run.p.i]&&run.p.rounds[run.p.i].stage==='respect'?respectBody():socialBody(run.p);
+  else if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
   else if(run.g==='music'&&run.p&&run.p.type==='notes')body=notesBody(run.p);
   else if(run.g==='stem'||run.g==='space')body=stemBody();
   else if(run.g==='music')body=musicBody();
@@ -2121,11 +2255,12 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt')sfx('tap');
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so')sfx('tap');
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
+      else if(ui.screen==='game'&&run&&run.g==='social')run.cur={text:tr(SOC_TEXT[run.p.kind]),say:tr(SOC_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='music'&&run.p&&run.p.type==='notes')run.cur={text:tr(NT_TEXT[run.p.kind].text),say:tr(NT_TEXT[run.p.kind].say)};
       else if(ui.screen==='game'&&run&&run.g==='art'&&run.p.type!=='art')run.cur.text=tr(run.p.type==='mix1'?['What colour will we get?','Τι χρώμα θα βγει;']:['Which two colours make it?','Ποια δύο χρώματα το φτιάχνουν;']);
       else if(ui.screen==='game'&&run&&run.g==='art'){const pt=run.p.pt;run.cur.text=tr([`«${pt.title[0]}», ${pt.by[0]}`,`«${pt.title[1]}», ${pt.by[1]}`])}
@@ -2161,6 +2296,7 @@ document.addEventListener('click',e=>{
     case 'mv':musicMove(+b.dataset.d);break;
     case 'st':if(run&&run.g==='art'){if(run.p.type==='art')artAct(b.dataset.x,b);else if(b.dataset.x==='hint')mixHint();else mixAct(b.dataset.x,b)}else stemAct(b);break;
     case 'nt':notesAct(b);break;
+    case 'so':if(b.dataset.x==='hearr'){say(b.dataset.t);break}socialAct(b);break;
     case 'unlockall':S.unlocked=GAMES.filter(g=>g.gate).map(g=>g.id);save();toast(t('allOpen'));render();break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}
     case 'buy':{const it=ITEMS.find(x=>x.id===b.dataset.id);if(S.coins<it.cost){say(t('needCoins'));break}S.coins-=it.cost;S.owned.push(it.id);S.equip[it.slot]=it.id;sfx('coin');const nb=checkBadges();save();render();const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,40);sayL(SAY.wow(tr(it.name)));if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));break}
