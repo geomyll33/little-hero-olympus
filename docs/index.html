@@ -477,6 +477,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 <div id="app"></div>
 
 <script>
+const BUILD='2026-10-26.1840';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -1026,6 +1027,7 @@ function parentsHTML(){
   return `<div class="screen"><div class="gbar"><button class="icon-btn" data-act="map" aria-label="${t('backIsland')}">${I.back}</button><div class="gtitle"><h2>${t('grownT')}</h2><div>${t('grownSub')}</div></div>${langSwitch()}</div>
   <div class="parents">
     <p>${t('intro')}</p>
+    <p style="color:var(--ink-soft);font-size:.9rem">${tr(['Version','Έκδοση'])}: ${BUILD}</p>
     <div style="overflow-x:auto"><table><thead><tr><th>${t('place')}</th><th>${t('teaches')}</th>${[1,2,3,4,5,6,7,8].map(i=>`<th>${i}</th>`).join('')}<th></th></tr></thead><tbody>
     ${GAMES.map(g=>`<tr><td><b>${tr(g.name)}</b></td><td>${tr(TEACH[g.id])}</td>${[0,1,2,3,4,5,6,7].map(i=>`<td>${i<g.levels.length?(S.stars[g.id][i]?'★'.repeat(S.stars[g.id][i]):'–'):''}</td>`).join('')}<td>${S.stars[g.id].some(x=>x)?(ui.confirmG===g.id?`<button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 5px 0 #a33;white-space:nowrap" data-act="resetg2" data-g="${g.id}">${t('resetYes')}</button>`:`<button class="btn small white" style="white-space:nowrap" data-act="resetg" data-g="${g.id}">↺ ${t('resetG')}</button>`):''}</td></tr>`).join('')}
     </tbody></table></div>
@@ -1184,7 +1186,7 @@ function setupPuzzle(l){
 function puzzleBody(){
   const p=run.p,hint=`<button class="icon-btn" data-act="pz" data-x="hint" aria-label="Hint" style="font-size:1.7rem">💡</button>`;
   if(p.type==='maze')return mazeBody()+`<div class="row">${hint}</div>`;
-  if(p.type==='hanoi')return `<div class="stage"><div class="hanoi">${p.pegs.map((pg,i)=>`<button class="peg ${p.sel===i?'sel':''}" data-act="pz" data-x="peg" data-i="${i}" aria-label="${tr(ORD[i])}"><span class="pole"></span>${pg.map((d,k)=>`<span class="disc ${p.sel===i&&k===pg.length-1?'up':''}" style="width:${34+d*20}%;background:${DISC_COLORS[d-1]}"></span>`).join('')}${i===2?'<span class="flag">⭐</span>':''}</button>`).join('')}</div></div><div class="row">${hint}</div>`;
+  if(p.type==='hanoi')return `<div class="stage"><div class="hanoi">${p.pegs.map((pg,i)=>`<button class="peg ${p.sel===i?'sel':''}" data-act="pz" data-x="peg" data-i="${i}" aria-label="${tr(ORD[i])}"><span class="pole"></span>${pg.map((d,k)=>`<span class="disc ${p.sel===i&&k===pg.length-1?'up':''}" style="width:${(28+d*70/p.n).toFixed(1)}%;background:${DISC_COLORS[(d-1)%DISC_COLORS.length]}"></span>`).join('')}${i===2?'<span class="flag">⭐</span>':''}</button>`).join('')}</div></div><div class="row">${hint}</div>`;
   const item=([k,e])=>{const inBoat=p.cargo===k,left=inBoat?null:(p.side[k]?79:3),top=12+RIVER.findIndex(x=>x[0]===k)*29;
     return inBoat?'':`<button class="r-it ${p.oops===k?'oops':''}" data-act="pz" data-x="item" data-k="${k}" style="left:${left}%;top:${top}%" aria-label="${tr(RIVER.find(x=>x[0]===k)[2])}">${e}</button>`};
   const cargo=p.cargo?RIVER.find(x=>x[0]===p.cargo):null;

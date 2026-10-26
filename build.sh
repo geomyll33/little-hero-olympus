@@ -2,7 +2,8 @@
 # Builds two copies from src/: index.html (Claude artifact body) and docs/index.html (standalone page for GitHub Pages).
 set -e
 cd "$(dirname "$0")"
-{ cat src/page.html; echo '<script>'; cat src/game.js; echo '</script>'; } > index.html
+STAMP=$(date -u +%Y-%m-%d.%H%M)
+{ cat src/page.html; echo '<script>'; sed "s/__BUILD__/$STAMP/" src/game.js; echo '</script>'; } > index.html
 mkdir -p docs
 {
   echo '<!doctype html><html lang="en"><head><meta charset="utf-8">'
