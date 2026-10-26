@@ -6,7 +6,11 @@ A bilingual (English / Greek) learning game for 5-year-olds, set on a Greek isla
 
 On a tablet, open the link and choose **Add to Home Screen** to get a full-screen app icon.
 
-## The island
+## The islands
+
+The map has three islands, from easiest to hardest (swipe left/right). Places are numbered and a 👇 shows what to play next. Each place has its own background.
+
+### Places
 
 | Place | Skill |
 |---|---|

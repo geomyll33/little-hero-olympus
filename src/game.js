@@ -38,7 +38,7 @@ const GAMES=[
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},starts:[5],levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο'],['Note stairs','Η σκάλα των νοτών'],['High or low?','Ψηλά ή χαμηλά;'],['Listen and find','Άκου και βρες'],['Repeat the tune','Επανάλαβε τη μελωδία']]});
-GAMES.push({id:'art',name:['Art Gallery','Πινακοθήκη'],skill:['Painting','Ζωγραφική'],x:87,y:52,gate:{coins:20},starts:[6],levels:[['Mondrian','Μοντριάν'],['Kandinsky','Καντίνσκι'],['Dolphins of Knossos','Δελφίνια της Κνωσού'],['Sunflowers','Ηλιοτρόπια'],['The Great Wave','Το μεγάλο κύμα'],['The Starry Night','Έναστρη νύχτα'],['Mixing colours','Ανάμειξη χρωμάτων'],['Which two colours?','Ποια δύο χρώματα;']]});
+GAMES.push({id:'art',name:['Art Gallery','Πινακοθήκη'],skill:['Painting','Ζωγραφική'],x:87,y:52,gate:{coins:20},levels:[['Mixing colours','Ανάμειξη χρωμάτων'],['Which two colours?','Ποια δύο χρώματα;'],['Mondrian','Μοντριάν'],['Kandinsky','Καντίνσκι'],['Dolphins of Knossos','Δελφίνια της Κνωσού'],['Sunflowers','Ηλιοτρόπια'],['The Great Wave','Το μεγάλο κύμα'],['The Starry Night','Έναστρη νύχτα']]});
 GAMES.push({id:'space',name:['Star Observatory','Αστεροσκοπείο'],skill:['Astronomy','Αστρονομία'],x:73,y:17,gate:{coins:35},levels:[['Day or night','Μέρα ή νύχτα'],['Find the planet','Βρες τον πλανήτη'],['The Moon','Το φεγγάρι'],['Planets in order','Οι πλανήτες στη σειρά'],['Constellations','Οι αστερισμοί'],['All eight planets','Και οι οκτώ πλανήτες']]});
 GAMES.push({id:'stem',name:["Archimedes' Workshop",'Εργαστήρι του Αρχιμήδη'],skill:['STEM puzzles','Γρίφοι STEM'],x:12,y:13,gate:{coins:30},levels:[['Program Talos','Προγραμμάτισε τον Τάλω'],['Float or sink','Επιπλέει ή βυθίζεται'],['The scale','Η ζυγαριά'],['Water pipes','Οι σωλήνες του νερού'],['How things grow','Πώς μεγαλώνουν'],['Magnets','Οι μαγνήτες'],['Light the lamp','Άναψε τη λάμπα'],['Talos and the rocks','Ο Τάλως και οι βράχοι'],['Gears','Γρανάζια'],['Shadows and light','Σκιές και φως'],['The gear door','Η πόρτα με τα γρανάζια'],['The secret door','Η μυστική πόρτα']]});
 const PUZZLES=[{type:'maze',n:6},{type:'hanoi',n:2},{type:'river'},{type:'maze',n:8,key:true},{type:'hanoi',n:3},{type:'maze',n:9,key:true,mino:true},{type:'hanoi',n:4},{type:'maze',n:11,key:true,mino:true}];
@@ -93,7 +93,7 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['Learning the notes on a xylophone (the note stairs, high or low, listen and find, repeat the tune), and a running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Μαθαίνει τις νότες σε ξυλόφωνο (η σκάλα των νοτών, ψηλά ή χαμηλά, άκου και βρες, επανάλαβε τη μελωδία) και παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
-  art:['Colouring famous paintings, plus colour-mixing puzzles (red and yellow make orange…): Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh and Hokusai. The child can peek at the artist\'s colours and hears a short story about each painting. Finished paintings stay in the gallery.','Χρωματισμός διάσημων πινάκων και γρίφοι ανάμειξης χρωμάτων (κόκκινο και κίτρινο κάνουν πορτοκαλί…): Μοντριάν, Καντίνσκι, τα μινωικά δελφίνια της Κνωσού, βαν Γκογκ και Χοκουσάι. Το παιδί μπορεί να δει τα χρώματα του ζωγράφου και ακούει μια μικρή ιστορία για κάθε πίνακα. Οι πίνακες που τελειώνει μένουν στην πινακοθήκη.'],
+  art:['First colour-mixing puzzles (red and yellow make orange…), then colouring famous paintings with the original shown beside them; stars depend on how alike the painting is: Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh and Hokusai. The child can peek at the artist\'s colours and hears a short story about each painting. Finished paintings stay in the gallery.','Πρώτα γρίφοι ανάμειξης χρωμάτων (κόκκινο και κίτρινο κάνουν πορτοκαλί…), μετά χρωματισμός διάσημων πινάκων με το πρωτότυπο δίπλα· τα αστέρια εξαρτώνται από το πόσο μοιάζει ο πίνακας: Μοντριάν, Καντίνσκι, τα μινωικά δελφίνια της Κνωσού, βαν Γκογκ και Χοκουσάι. Το παιδί μπορεί να δει τα χρώματα του ζωγράφου και ακούει μια μικρή ιστορία για κάθε πίνακα. Οι πίνακες που τελειώνει μένουν στην πινακοθήκη.'],
   space:['Astronomy: day and night, the planets and their order from the Sun, the phases of the Moon, and constellations with their Greek myths.','Αστρονομία: μέρα και νύχτα, οι πλανήτες και η σειρά τους από τον Ήλιο, οι φάσεις της Σελήνης και οι αστερισμοί με τους ελληνικούς μύθους τους.'],
   stem:['STEM with pictures: coding the bronze robot Talos with arrows, floating and sinking (Archimedes), balancing a scale, connecting water pipes and electric circuits, magnets, life cycles, gears (and gear doors to open), and shadows and light.','STEM με εικόνες: προγραμματισμός του χάλκινου ρομπότ Τάλω με βελάκια, τι επιπλέει και τι βυθίζεται (Αρχιμήδης), ισορροπία ζυγαριάς, σωλήνες νερού και ηλεκτρικά κυκλώματα, μαγνήτες, κύκλοι ζωής, γρανάζια (και πόρτες που ανοίγουν με γρανάζια), σκιές και φως.'],
   puzzle:['Problem solving with pictures: the Minotaur labyrinth, the Tower puzzle and the wolf, sheep and grass river crossing. The light-bulb button gives a spoken hint.','Επίλυση προβλημάτων με εικόνες: ο λαβύρινθος του Μινώταυρου, ο Πύργος και το πέρασμα του λύκου, του προβάτου και του χόρτου. Το κουμπί με τη λάμπα δίνει βοήθεια.']
@@ -157,8 +157,8 @@ function vocEl(name){
 
 /* ---------- state ---------- */
 const KEY='little-hero-olympus-v1';
-const fresh=()=>({v:2,art:{},started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,voice:{},updatedAt:0});
-function normalize(s){const f=fresh();s=Object.assign(f,s||{});s.equip=Object.assign(fresh().equip,s.equip||{});s.stars=Object.assign(fresh().stars,s.stars||{});GAMES.forEach(g=>{const a=s.stars[g.id];s.stars[g.id]=g.levels.map((_,i)=>a[i]||0)});return s}
+const fresh=()=>({v:3,art:{},started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,voice:{},updatedAt:0});
+function normalize(s){if(s&&(s.v||0)<3&&s.stars&&s.stars.art&&s.stars.art.length===8){const a=s.stars.art;s.stars.art=[a[6],a[7],...a.slice(0,6)]}if(s)s.v=3;const f=fresh();s=Object.assign(f,s||{});s.equip=Object.assign(fresh().equip,s.equip||{});s.stars=Object.assign(fresh().stars,s.stars||{});GAMES.forEach(g=>{const a=s.stars[g.id];s.stars[g.id]=g.levels.map((_,i)=>a[i]||0)});return s}
 let S=fresh();
 try{const raw=localStorage.getItem(KEY);if(raw)S=normalize(JSON.parse(raw))}catch(e){}
 let ui={screen:S.started?'map':'welcome',tab:'head',modal:null};
@@ -367,28 +367,75 @@ const ART={
   stem:svgArt(cube(10,46,62,42,10,'#c8643b')+cube(10,36,62,10,10,'#a54d2a')+`<rect x="28" y="62" width="22" height="26" fill="#6d4c2f"/>`+`<g transform="translate(76 30)"><circle r="15" fill="#f2b632"/>${[0,45,90,135,180,225,270,315].map(a=>`<rect x="-4" y="-20" width="8" height="8" fill="#f2b632" transform="rotate(${a})"/>`).join('')}<circle r="6" fill="#c98a12"/></g>`+cube(36,10,14,14,6,'#ffe14a')),
   music:svgArt(cube(6,74,84,16,10,'#b98d63')+cube(14,60,68,14,10,'#d7b48e')+cube(24,48,48,12,10,'#e9cfa8')+cube(34,38,28,10,8,'#f6ead2')+`<rect x="58" y="6" width="5" height="26" fill="#1c2a48"/><rect x="58" y="6" width="18" height="6" fill="#1c2a48"/><rect x="50" y="28" width="12" height="9" fill="#1c2a48"/><rect x="72" y="6" width="4" height="22" fill="#1c2a48"/><rect x="64" y="24" width="12" height="9" fill="#1c2a48"/>`)
 };
-// The island is a baseplate of studded blocks
-function islandTiles(){
-  let o='';const T=34;
-  const inside=(x,y,cx,cy,rx,ry)=>{const a=Math.atan2(y-cy,x-cx),w=1+.07*Math.sin(3*a)+.04*Math.cos(5*a);return ((x-cx)/rx)**2+((y-cy)/ry)**2<w*w};
-  for(let y=T/2;y<700;y+=T)for(let x=T/2;x<1000;x+=T){
-    let col=null;
-    if(inside(x,y,515,330,400,265))col=inside(x,y,515,330,350,222)?((x/T+y/T)%2<1?'#7cc35a':'#74bb52'):'#f0d79c';
-    else if(inside(x,y,910,150,92,40))col='#9aa7b8';
-    else if(inside(x,y,140,96,96,44))col='#f0d79c';
-    if(col)o+=`<rect x="${x-T/2}" y="${y-T/2}" width="${T}" height="${T}" fill="${col}"/><circle cx="${x}" cy="${y}" r="7" fill="${shade(col,.18)}"/><circle cx="${x}" cy="${y+1.5}" r="7" fill="none" stroke="${shade(col,-.15)}" stroke-width="1.5" opacity=".6"/>`;
-  }
-  return o;
+// The world is three islands, from easiest to hardest; each place is numbered along a path
+const REGIONS=[
+  {name:['Island of First Steps','Νησί των Πρώτων Βημάτων'],games:['count','shapes','memory','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
+  {name:['Island of Discovery','Νησί των Ανακαλύψεων'],games:['pattern','odd','compare','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
+  {name:['Island of Explorers','Νησί των Εξερευνητών'],games:['stem','space','puzzle'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
+const MAPSLOTS={land:{5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
+const regionOf=id=>REGIONS.findIndex(r=>r.games.includes(id));
+const isPortrait=()=>innerHeight>innerWidth*1.1;
+// the place to play next: first unfinished open place, in order from easy to hard
+function nextGame(){const order=REGIONS.flatMap(r=>r.games),g=id=>GAMES.find(x=>x.id===id);
+  return order.find(id=>isOpen(g(id))&&!gameDone(S,id))||order.find(id=>!gameDone(S,id))||null}
+const mapCache={};
+function mapSVG(ri,port){const key=ri+(port?'p':'l');if(mapCache[key])return mapCache[key];
+  const R=REGIONS[ri],W=port?700:1000,H=port?1000:700,T=34,cx=W/2,cy=H/2,rx=W*.45,ry=H*.43;
+  const inside=(x,y,k)=>{const a=Math.atan2(y-cy,x-cx),w=(1+.06*Math.sin(3*a+ri)+.04*Math.cos(5*a))*k;return ((x-cx)/rx)**2+((y-cy)/ry)**2<w*w};
+  let o=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="mSea${key}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3aa0e8"/><stop offset="1" stop-color="#1665b0"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#mSea${key})"/>`;
+  for(let k=0;k<8;k++){const x=(k*317+ri*91)%W,y=(k*211+ri*53)%H;o+=`<rect x="${x}" y="${y}" width="26" height="6" fill="#bfe6ff" opacity=".5"/>`}
+  for(let y=T/2;y<H;y+=T)for(let x=T/2;x<W;x+=T){if(!inside(x,y,1))continue;const col=inside(x,y,.88)?R.grass[(x/T+y/T)%2<1?0:1]:R.sand;
+    o+=`<rect x="${x-T/2}" y="${y-T/2}" width="${T}" height="${T}" fill="${col}"/><circle cx="${x}" cy="${y}" r="7" fill="${shade(col,.18)}"/>`}
+  const pts=MAPSLOTS[port?'port':'land'][R.games.length].map(([x,y])=>[x*W/100,y*H/100]);
+  o+='<g fill="#e3c27e">';for(let i=1;i<pts.length;i++){const [a,b]=pts[i-1],[c,d]=pts[i];for(let t=0;t<=1;t+=.06)o+=`<rect x="${(a+(c-a)*t-7).toFixed(0)}" y="${(b+(d-b)*t-7).toFixed(0)}" width="14" height="14"/>`}o+='</g>';
+  // trees and houses, kept away from the places
+  o+='<g stroke="rgba(0,0,0,.15)" stroke-width="1">';
+  for(let k=0;k<14;k++){const x=W*.1+((k*271+ri*97)%(W*.8)),y=H*.12+((k*173+ri*59)%(H*.76));if(!inside(x,y,.85)||pts.some(([a,b])=>Math.hypot(a-x,b-y)<150))continue;
+    o+=k%4===0&&ri===0?cube(x-15,y-10,30,26,10,'#ffffff')+cube(x-8,y-20,16,8,6,'#2f6fd6'):cube(x-4,y,8,14,4,'#7a5a2a')+cube(x-14,y-22,28,22,8,ri===2?'#3f7d5c':'#5f9e3c')}
+  o+='</g></svg>';return mapCache[key]=o}
+function mapHTML(){
+  const port=isPortrait(),nx=nextGame();
+  if(ui.region===undefined)ui.region=nx?Math.max(0,regionOf(nx)):0;
+  const ri=ui.region,R=REGIONS[ri],slots=MAPSLOTS[port?'port':'land'][R.games.length];
+  const tot=R.games.reduce((n,id)=>n+GAMES.find(g=>g.id===id).levels.length*3,0),got=R.games.reduce((n,id)=>n+S.stars[id].reduce((a,b)=>a+b,0),0);
+  const locs=R.games.map((id,k)=>{const g=GAMES.find(x=>x.id===id),st=S.stars[id].reduce((a,b)=>a+b,0),open=isOpen(g),[x,y]=slots[k];
+    const chip=open?`★ ${st}/${g.levels.length*3}`:g.gate.coins?`🔒 ${g.gate.coins} ${I.coin}`:`🔒 ${g.gate.badges} 🏅`;
+    return `<button class="loc ${open?'':'locked'} ${id===nx?'next':''}" data-act="open" data-g="${id}" style="left:${x}%;top:${y}%" aria-label="${tr(g.name)}">${id===nx?'<span class="nextarrow">👇</span>':''}<span class="lnum">${k+1}</span>${ART[id]}<span class="tag">${tr(g.name)}<small>${chip}</small></span></button>`}).join('');
+  return `<div class="regbar"><button class="icon-btn" data-act="region" data-d="-1" ${ri===0?'disabled':''} aria-label="Previous island">◀</button>
+    <div class="regname"><b>${tr(R.name)}</b><span>★ ${got}/${tot} · ${REGIONS.map((_,i)=>`<i class="${i===ri?'on':''}"></i>`).join('')}</span></div>
+    <button class="icon-btn" data-act="region" data-d="1" ${ri===REGIONS.length-1?'disabled':''} aria-label="Next island">▶</button></div>
+    <div class="map-wrap" id="mapwrap"><div class="map ${port?'port':''}">${mapSVG(ri,port)}${locs}</div></div>`;
 }
-const MAP_SVG=`<svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
-<defs><linearGradient id="mSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3aa0e8"/><stop offset="1" stop-color="#1665b0"/></linearGradient></defs>
-<rect width="1000" height="700" fill="url(#mSea)"/>
-<g fill="#bfe6ff" opacity=".5">${[[60,80],[880,260],[300,650],[640,660],[920,420],[40,520]].map(([x,y])=>`<rect x="${x}" y="${y}" width="26" height="6"/><rect x="${x+20}" y="${y-6}" width="18" height="6"/>`).join('')}</g>
-${islandTiles()}
-<g fill="#e3c27e">${[[180,300,320,150],[330,140,520,110],[530,110,720,125],[190,320,400,320],[410,320,620,320],[400,330,320,500],[330,505,550,505],[620,330,560,500],[640,320,850,340]].map(([a,b,c,d])=>{let s='';for(let t=0;t<=1;t+=.07)s+=`<rect x="${(a+(c-a)*t-6).toFixed(0)}" y="${(b+(d-b)*t-6).toFixed(0)}" width="12" height="12"/>`;return s}).join('')}</g>
-<g stroke="rgba(0,0,0,.15)" stroke-width="1">${[[690,520],[730,500],[770,525],[720,550],[760,560],[800,540]].map(([x,y],i)=>cube(x,y,30,26,10,'#ffffff')+(i%2?'':cube(x+7,y-10,16,8,6,'#2f6fd6'))+`<rect x="${x+11}" y="${y+10}" width="8" height="16" fill="#2f6fd6"/>`).join('')}
-${[[250,240],[440,230],[640,210],[860,250],[230,420],[700,450],[450,420],[150,230]].map(([x,y])=>cube(x-4,y,8,14,4,'#7a5a2a')+cube(x-14,y-22,28,22,8,'#5f9e3c')).join('')}</g>
-</svg>`;
+// swipe left/right on the map to change island
+let mswipe=null;
+document.addEventListener('pointerdown',e=>{if(e.target.closest('#mapwrap'))mswipe={x:e.clientX,y:e.clientY}});
+document.addEventListener('pointerup',e=>{if(!mswipe)return;const dx=e.clientX-mswipe.x,dy=e.clientY-mswipe.y;mswipe=null;
+  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.3&&ui.screen==='map'&&!ui.modal){const r=ui.region+(dx<0?1:-1);if(r>=0&&r<REGIONS.length){ui.region=r;sfx('flip');render();say(tr(REGIONS[r].name))}}});
+let lastPort=null;addEventListener('resize',()=>{const p=isPortrait();if(p!==lastPort){lastPort=p;if(ui.screen==='map')render()}});
+
+/* ---------- a background scene for each place ---------- */
+const sceneEl=document.getElementById('scene'),SCENE_DEFAULT=sceneEl.innerHTML;let sceneNow='default';
+const sky=(a,b)=>`<defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="1200" height="800" fill="url(#sg)"/>`;
+const rep=(n,f)=>[...Array(n)].map((_,i)=>f(i)).join('');
+const SCENES={
+  count:()=>sky('#8fd3ff','#e8f7ff')+`<path d="M0 560Q300 470 600 540T1200 520V800H0Z" fill="#9cc46b"/><path d="M0 640Q400 580 800 640T1200 620V800H0Z" fill="#7fb04f"/>`+rep(9,i=>{const x=60+i*135,y=600+(i%2)*40;return cube(x,y-10,14,50,6,'#7a5a2a')+cube(x-34,y-70,80,56,14,i%2?'#8fbf62':'#7fa65a')+`<rect x="${x-14}" y="${y-50}" width="9" height="9" fill="#3d4f1f"/><rect x="${x+20}" y="${y-40}" width="9" height="9" fill="#3d4f1f"/>`}),
+  letters:()=>sky('#f6efe0','#e9dcc0')+rep(2,s=>rep(3,i=>{const x=s?1200-80-i*90:20+i*90;return cube(x,120,50,560,14,'#fffaf0')+cube(x-10,100,70,20,14,'#f1e9d8')}))+`<rect y="680" width="1200" height="40" fill="#e6dcc4"/><rect y="720" width="1200" height="80" fill="#d8ccb0"/><rect x="0" y="40" width="1200" height="40" fill="#f1e9d8"/>`,
+  sizes:()=>sky('#a9dcff','#eef8ff')+`<path d="M-50 800L300 300L520 560L700 260L1000 600L1250 380V800Z" fill="#a3b0c2"/><path d="M300 300L250 372L330 352L360 390ZM700 260L650 330L720 320L760 350Z" fill="#fff"/><path d="M0 800L250 520L500 700L760 480L1200 760V800Z" fill="#8f9db2"/>`+rep(4,i=>`<rect x="${100+i*280}" y="${80+(i%2)*60}" width="${120+i*10}" height="34" fill="#fff" opacity=".9"/>`),
+  shapes:()=>sky('#ffd9a0','#fff1d6')+rep(6,i=>{const x=i*210-20;return cube(x,520,180,180,20,'#c8a46a')+rep(6,k=>`<rect x="${x+k*30}" y="460" width="30" height="60" fill="${k%2?'#fff':'#2f6fd6'}"/>`)+cube(x+20,560,30,30,8,['#e53935','#fbc02d','#43a047'][i%3])+cube(x+70,560,30,30,8,['#1e6fd9','#fb8c00','#8e44ad'][i%3])})+`<rect y="700" width="1200" height="100" fill="#d8b47a"/>`,
+  odd:()=>sky('#8fd3ff','#e4f5ff')+`<rect y="300" width="1200" height="160" fill="#c9d1de"/>`+rep(4,k=>`<rect y="${310+k*36}" width="1200" height="20" fill="${['#e53935','#1e6fd9','#fbc02d','#43a047'][k]}" opacity=".55"/>`)+`<rect y="460" width="1200" height="340" fill="#d9643b"/>`+rep(6,k=>`<rect y="${480+k*52}" width="1200" height="5" fill="#fff" opacity=".8"/>`),
+  pattern:()=>`<rect width="1200" height="800" fill="#c8643b"/><rect y="0" width="1200" height="70" fill="#a54d2a"/>`+rep(40,i=>`<path d="M${i*30} 58h22V40H${i*30+8}v10h8" fill="none" stroke="#1c2a48" stroke-width="4"/>`)+rep(3,k=>`<rect x="0" y="${300+k*180}" width="1200" height="16" fill="#8a5a2b"/>`+rep(7,i=>{const x=60+i*170+(k%2)*60;return `<path d="M${x} ${296+k*180}q-6-50 14-70h20q20 20 14 70z" fill="${['#e9a23b','#1c2a48','#f3e6c4'][(i+k)%3]}"/>`})),
+  compare:()=>sky('#8fd3ff','#e4f5ff')+`<rect y="460" width="1200" height="340" fill="#2a8fdc"/>`+rep(6,i=>`<rect x="${i*220+40}" y="${520+(i%3)*70}" width="60" height="6" fill="#bfe6ff" opacity=".6"/>`)+cube(980,240,60,220,14,'#ffffff')+`<rect x="980" y="300" width="60" height="40" fill="#e53935"/><rect x="980" y="380" width="60" height="40" fill="#e53935"/>`+cube(970,210,80,30,14,'#ffe14a')+`<rect x="0" y="600" width="520" height="40" fill="#8a5a2b"/>`+rep(5,i=>`<rect x="${20+i*110}" y="600" width="14" height="200" fill="#6d4c2f"/>`),
+  memory:()=>sky('#1a7fc4','#0b3c6e')+rep(14,i=>`<circle cx="${(i*173)%1200}" cy="${(i*97)%700}" r="${6+i%4*4}" fill="none" stroke="#bfe6ff" stroke-width="3" opacity=".45"/>`)+`<path d="M0 720Q300 690 600 720T1200 710V800H0Z" fill="#e9d39b"/>`+rep(8,i=>`<path d="M${80+i*150} 730q-30-90 10-160q-30 80 20 160z" fill="#3fa36b"/>`),
+  music:()=>sky('#ff9548','#ffd7a8')+`<circle cx="900" cy="250" r="90" fill="#ffe9a8"/><rect y="440" width="1200" height="360" fill="#d7b48e"/>`+rep(9,i=>`<path d="M${i*140} 800V560a60 60 0 0 1 120 0V800z" fill="#b98d63"/>`),
+  art:()=>`<rect width="1200" height="800" fill="#f3ead8"/><rect y="640" width="1200" height="160" fill="#a0703f"/>`+rep(12,i=>`<rect x="${i*100}" y="640" width="4" height="160" fill="#8a5a2b"/>`)+`<rect y="620" width="1200" height="20" fill="#c9a77a"/>`+rep(4,i=>`<rect x="${60+i*300}" y="120" width="200" height="150" fill="#c98b2b"/><rect x="${72+i*300}" y="132" width="176" height="126" fill="${['#1d3f8f','#ecd36b','#d62d20','#1f4f8a'][i]}"/>`),
+  stem:()=>`<rect width="1200" height="800" fill="#b5562f"/>`+rep(20,r=>rep(13,c=>`<rect x="${c*96+(r%2)*48-48}" y="${r*40}" width="92" height="36" fill="#c8643b"/>`))+rep(4,i=>`<g transform="translate(${180+i*280} ${180+(i%2)*120})" fill="#8f9db2" opacity=".85">${rep(10,k=>`<rect x="-10" y="-70" width="20" height="20" transform="rotate(${k*36})"/>`)}<circle r="56"/><circle r="18" fill="#5c6b7c"/></g>`)+cube(0,640,1200,160,14,'#8a5a2b'),
+  space:()=>sky('#0b1638','#24356b')+rep(70,i=>`<circle cx="${(i*137)%1200}" cy="${(i*89)%800}" r="${1+i%3}" fill="#fff" opacity="${.4+(i%5)/10}"/>`)+`<circle cx="980" cy="160" r="60" fill="#f7e98a"/><circle cx="1004" cy="146" r="56" fill="#0f1d47"/><circle cx="200" cy="640" r="40" fill="#d2553a"/><ellipse cx="420" cy="220" rx="70" ry="14" fill="none" stroke="#b8955a" stroke-width="8"/><circle cx="420" cy="220" r="34" fill="#e6c47a"/>`,
+  puzzle:()=>sky('#3a3f4b','#1d2129')+rep(30,i=>cube((i*157)%1200,500+(i*61)%260,60+(i%3)*30,50+(i%2)*30,14,['#5c6b7c','#4a5768','#6d7a8c'][i%3]))+rep(3,i=>`<rect x="${200+i*400}" y="200" width="16" height="70" fill="#6d4c2f"/><path d="M${208+i*400} 200q-24-30 0-60q24 30 0 60z" fill="#ff8c1a"/><circle cx="${208+i*400}" cy="190" r="70" fill="#ffb347" opacity=".12"/>`)
+};
+const DARK_SCENES=['memory','space','puzzle','stem','pattern'];
+function setScene(id){const key=SCENES[id]?id:'default';if(key===sceneNow)return;sceneNow=key;
+  sceneEl.innerHTML=key==='default'?SCENE_DEFAULT:`<g stroke="rgba(0,0,0,.08)">${SCENES[key]()}</g>`;
+  document.body.classList.toggle('dark-scene',DARK_SCENES.includes(key))}
 
 /* ---------- rendering ---------- */
 const app=$('#app');
@@ -406,13 +453,12 @@ function topbar(){
   </div>`;
 }
 function render(){
+  setScene(ui.screen==='game'&&run?run.g:'default');
   if(ac&&S.music&&!(ui.screen==='game'&&run&&run.g==='music'))startMusic();
   document.documentElement.lang=S.lang;
   const s=ui.screen;
   if(s==='welcome')app.innerHTML=welcomeHTML();
-  if(s==='map')app.innerHTML=`<div class="screen">${topbar()}<div class="map-wrap"><div class="map">${MAP_SVG}${GAMES.map(g=>{const st=S.stars[g.id].reduce((a,b)=>a+b,0),open=isOpen(g);
-      const chip=open?`★ ${st}/${g.levels.length*3}`:g.gate.coins?`🔒 ${g.gate.coins} ${I.coin}`:`🔒 ${g.gate.badges} 🏅`;
-      return `<button class="loc ${open?'':'locked'}" data-act="open" data-g="${g.id}" style="left:${g.x}%;top:${g.y}%" aria-label="${tr(g.name)}">${ART[g.id]}<span class="tag">${tr(g.name)}<small>${chip}</small></span></button>`}).join('')}</div></div>
+  if(s==='map')app.innerHTML=`<div class="screen">${topbar()}${mapHTML()}
     <div class="row" style="justify-content:flex-end"><button class="btn white small" data-act="pgate">${t('grown')}</button></div></div>`;
   if(s==='room')app.innerHTML=roomHTML();
   if(s==='badges')app.innerHTML=badgesHTML();
@@ -1294,29 +1340,32 @@ const PAINTINGS=[
 const EXTRA_COLORS=['#e53935','#1e6fd9','#fbc02d','#43a047','#fb8c00','#8e44ad','#ec407a','#6d4c41','#111111'];
 function paletteFor(pt){const u=[...new Set(pt.regions.map(r=>r[1]))];return [...new Set([...u,'#ffffff',...EXTRA_COLORS])].slice(0,16)}
 function artSVG(pt,fills,cls=''){return `<svg viewBox="${pt.vb}" class="${cls}">${pt.regions.map(([d],k)=>`<path d="${d}" fill="${fills[k]||'#ffffff'}" data-act="st" data-x="paint" data-k="${k}" fill-rule="evenodd"/>`).join('')}${pt.lines}</svg>`}
-const artThumb=i=>{if(i>=PAINTINGS.length)return `<div class="mixthumb">${i===PAINTINGS.length?'🔴+🟡=🟠':'🟢=?+?'}</div>`;const pt=PAINTINGS[i];return artSVG(pt,(S.art&&S.art[pt.id])||[],'artthumb').replace(/ data-act="st" data-x="paint" data-k="\d+"/g,'')};
+const ART_MIX=2;
+const artThumb=i=>{if(i<ART_MIX)return `<div class="mixthumb">${i===0?'🔴+🟡=🟠':'🟢=?+?'}</div>`;const pt=PAINTINGS[i-ART_MIX];return artSVG(pt,(S.art&&S.art[pt.id])||[],'artthumb').replace(/ data-act="st" data-x="paint" data-k="\d+"/g,'')};
 function setupArt(l){
-  if(l>=PAINTINGS.length){run.hints=0;run.won=false;return setupMix(l-PAINTINGS.length)}
-  const pt=PAINTINGS[l],saved=(S.art&&S.art[pt.id])||[];
-  run.p={type:'art',pt,fills:pt.regions.map((_,k)=>saved[k]||null),sel:paletteFor(pt)[0],hist:[],peek:false};
+  if(l<ART_MIX){run.hints=0;run.won=false;return setupMix(l)}
+  const pt=PAINTINGS[l-ART_MIX],saved=(S.art&&S.art[pt.id])||[];
+  run.p={type:'art',pt,fills:pt.regions.map((_,k)=>saved[k]||null),sel:paletteFor(pt)[0],hist:[],ref:true};
   const by=tr(pt.by);
   run.cur={text:tr([`«${pt.title[0]}», ${by}`,`«${pt.title[1]}», ${by}`]),say:tr([`This is ${pt.title[0]} by ${pt.by[0]}. Pick a colour and tap to paint!`,`Αυτός είναι ο πίνακας «${pt.title[1]}» ${pt.id==='dolphins'?'από την αρχαία Κνωσό':'του '+pt.by[1]}. Διάλεξε χρώμα και πάτα για να βάψεις!`])};
 }
 function artBody(p){
   const pal=paletteFor(p.pt),done=p.fills.filter(Boolean).length,need=Math.ceil(p.fills.length*.9);
-  return `<div class="stage artstage"><div class="canvasbox">${artSVG(p.pt,p.peek?p.pt.regions.map(r=>r[1]):p.fills,'artwork')}</div>
-    <div class="palette">${pal.map(c=>`<button class="pot ${p.sel===c?'sel':''}" style="--c:${c}" data-act="st" data-x="color" data-v="${c}" aria-label="${c}"></button>`).join('')}</div></div>
-    <div class="row"><button class="btn white small" data-act="st" data-x="undo">↩ ${tr(['Undo','Αναίρεση'])}</button><button class="btn white small" data-act="st" data-x="peek">🖼️ ${tr(["See the artist's colours",'Τα χρώματα του ζωγράφου'])}</button><button class="btn ${done>=need?'blue':''}" data-act="st" data-x="done" ${done>=need?'':'disabled'}>✅ ${tr(['Finished!','Τελείωσα!'])}</button></div>`;
+  const refImg=artSVG(p.pt,p.pt.regions.map(r=>r[1]),'artref').replace(/ data-act="st" data-x="paint" data-k="\d+"/g,'');
+  return `<div class="stage artstage"><div class="canvasbox">${artSVG(p.pt,p.fills,'artwork')}</div>
+    <div class="artside">${p.ref?`<div class="refbox"><small>🖼️ ${tr(['The original','Το πρωτότυπο'])}</small>${refImg}</div>`:''}<div class="palette">${pal.map(c=>`<button class="pot ${p.sel===c?'sel':''}" style="--c:${c}" data-act="st" data-x="color" data-v="${c}" aria-label="${c}"></button>`).join('')}</div></div></div>
+    <div class="row"><button class="btn white small" data-act="st" data-x="undo">↩ ${tr(['Undo','Αναίρεση'])}</button><button class="btn white small" data-act="st" data-x="peek">🖼️ ${p.ref?tr(['Hide the original','Κρύψε το πρωτότυπο']):tr(['Show the original','Δείξε το πρωτότυπο'])}</button><button class="btn ${done>=need?'blue':''}" data-act="st" data-x="done" ${done>=need?'':'disabled'}>✅ ${tr(['Finished!','Τελείωσα!'])}</button></div>`;
 }
 function artAct(x,b){
   const p=run.p;
   if(x==='color'){p.sel=b.dataset.v;sfx('tap');document.querySelectorAll('.pot').forEach(el=>el.classList.toggle('sel',el===b));return}
-  if(x==='paint'&&!p.peek){const k=+b.dataset.k;p.hist.push([k,p.fills[k]]);p.fills[k]=p.sel;b.setAttribute('fill',p.sel);if(ac&&S.sound)tone(520+k%5*60,ac.currentTime,.25,sfxG,'sine',.2,380);artRefresh();return}
+  if(x==='paint'){const k=+b.dataset.k;p.hist.push([k,p.fills[k]]);p.fills[k]=p.sel;b.setAttribute('fill',p.sel);if(ac&&S.sound)tone(520+k%5*60,ac.currentTime,.25,sfxG,'sine',.2,380);artRefresh();return}
   if(x==='undo'){const h=p.hist.pop();if(h){p.fills[h[0]]=h[1];renderGame()}return}
-  if(x==='peek'){if(p.peek)return;p.peek=true;renderGame();say(tr(["These are the artist's colours!",'Αυτά είναι τα χρώματα του ζωγράφου!']));setTimeout(()=>{if(run&&run.p===p){p.peek=false;renderGame()}},3000);return}
+  if(x==='peek'){p.ref=!p.ref;renderGame();if(p.ref)say(tr(["Look at the original and try to paint it the same!",'Κοίτα το πρωτότυπο και προσπάθησε να το ζωγραφίσεις ίδιο!']));return}
   if(x==='done'){run.won=true;S.art=Object.assign({},S.art,{[p.pt.id]:p.fills.slice()});save();sfx('win');burst(innerWidth/2,innerHeight/2,90);
-    const same=p.fills.filter((c,k)=>c===p.pt.regions[k][1]).length/p.fills.length;
-    Promise.all([say(tr(['What a beautiful painting! ','Τι όμορφος πίνακας! '])+(same>.7?tr(['Just like the artist! ','Σαν τον ζωγράφο! ']):'')+tr(p.pt.fact)),wait(1500)]).then(()=>{if(run&&run.p===p)finishLevel(3)})}
+    const same=p.fills.filter((c,k)=>c===p.pt.regions[k][1]).length/p.fills.length,pct=Math.round(same*100),st=same>=.85?3:same>=.6?2:1;
+    toast(`🎯 ${tr(['Likeness','Ομοιότητα'])}: ${pct}%`);
+    Promise.all([say(tr(['What a beautiful painting! ','Τι όμορφος πίνακας! '])+tr([`It looks ${pct} percent like the original. `,`Μοιάζει ${pct} τοις εκατό με το πρωτότυπο. `])+(st===3?tr(['Just like the artist! ','Σαν τον ζωγράφο! ']):'')+tr(p.pt.fact)),wait(1500)]).then(()=>{if(run&&run.p===p)finishLevel(st)})}
 }
 function artRefresh(){const p=run.p,btn=document.querySelector('[data-x="done"]');if(!btn)return;const ok=p.fills.filter(Boolean).length>=Math.ceil(p.fills.length*.9);btn.disabled=!ok;btn.classList.toggle('blue',ok)}
 
@@ -1574,8 +1623,9 @@ document.addEventListener('click',e=>{
     case 'hero':S.hero=b.dataset.h;sayL(SAY.hero(HEROES[S.hero]));save();render();break;
     case 'skin':S.skin=+b.dataset.i;save();render();break;
     case 'start':{const n=$('#kidname');S.name=(n&&n.value.trim())||'';S.started=true;save();ui.screen='map';render();sayL(SAY.welcome(heroName()));break}
-    case 'map':run=null;ui.screen='map';ui.modal=null;ui.confirmReset=false;ui.confirmG=null;render();break;
+    case 'map':if(run){const nx=nextGame();if(nx)ui.region=regionOf(nx)}run=null;ui.screen='map';ui.modal=null;ui.confirmReset=false;ui.confirmG=null;render();break;
     case 'room':ui.screen='room';render();break;
+    case 'region':{const r=ui.region+(+b.dataset.d);if(r>=0&&r<REGIONS.length){ui.region=r;render();say(tr(REGIONS[r].name))}break}
     case 'badges':ui.screen='badges';render();break;
     case 'tab':ui.tab=b.dataset.t;render();break;
     case 'music':S.music=!S.music;S.music?startMusic():stopMusic();save();render();break;
