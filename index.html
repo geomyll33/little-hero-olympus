@@ -380,6 +380,12 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
   .artref{width:min(130px,34vw)}
   .palette{grid-template-columns:repeat(8,34px);gap:6px}.pot{width:34px;height:34px}
 }
+/* voice panel */
+.vlist{display:flex;flex-direction:column;gap:6px;max-height:34vh;overflow:auto;text-align:left}
+.vitem{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:#fff;border:3px solid rgba(28,42,72,.12)}
+.vitem b{flex:1;font-family:var(--display)}.vitem small{color:var(--gold-deep);font-weight:800}.vitem span{color:var(--sea);font-size:1.2rem}
+.vitem.sel{border-color:var(--sea);background:#e6f3ff}
+.vtip{margin:0;color:var(--ink-soft);font-size:.92rem;line-height:1.45;text-align:left}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -759,7 +765,7 @@ function say(text){if(S.lang==='el')SPEAK_FIX.forEach(([a,b])=>{text=text.replac
   if(!S.sound||!('speechSynthesis' in window))return res();
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const L=S.lang;
     if(!voices[L])voices[L]=findVoice(L);
-    if(voices[L])u.voice=voices[L];u.lang=voices[L]?voices[L].lang:(L==='el'?'el-GR':'en-GB');u.rate=.92;u.pitch=1.05;
+    if(voices[L])u.voice=voices[L];u.lang=voices[L]?voices[L].lang:(L==='el'?'el-GR':'en-GB');u.rate=S.vrate||.92;u.pitch=S.vpitch||1.05;
     let done=false;const fin=()=>{if(!done){done=true;res()}};u.onend=fin;u.onerror=fin;setTimeout(fin,1500+text.length*120);
     utter=u;speechSynthesis.speak(u)}catch(e){res()}
 })}
@@ -888,7 +894,7 @@ function topbar(){
     <button class="icon-btn" data-act="badges" aria-label="${t('badgesT')}">${I.medal}</button>
     <button class="icon-btn" data-act="room" aria-label="${t('myHero')}">${I.hanger}</button>
     <button class="icon-btn ${S.music?'':'off'}" data-act="music" aria-label="Music">${I.music}</button>
-    <button class="icon-btn ${S.sound?'':'off'}" data-act="sound" aria-label="Voice">${I.sound}</button>
+    <button class="icon-btn ${S.sound?'':'off'}" data-act="voicepanel" aria-label="Voice">${I.sound}</button>
   </div>`;
 }
 function render(){
@@ -960,6 +966,17 @@ function renderModal(){
     h=`<h2>${tr(g.name)}</h2><div class="sub">${tr(g.skill)}</div><div class="levels">${g.levels.map((name,i)=>{const open=i===0||(g.starts||[]).includes(i)||st[i-1]>0;
       return `<button class="lvl ${open?'':'locked'}" ${open?`data-act="play" data-g="${g.id}" data-l="${i}"`:'disabled'}>${g.id==='art'?artThumb(i):`<b>${i+1}</b>`}${open?starsRow(st[i]):I.lock}<span>${tr(name)}</span></button>`}).join('')}</div>
       <button class="btn white small" data-act="close">${t('backIsland')}</button>`}
+  if(m.type==='voice'){const vs=langVoices(S.lang).sort((a,b)=>voiceScore(b)-voiceScore(a)),cur=findVoice(S.lang),best=vs[0];
+    const ios=/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)&&'ontouchend' in document,android=/Android/i.test(navigator.userAgent);
+    const tip=isEl()?(ios?'Για πιο ζεστή ελληνική φωνή στο iPad/iPhone: Ρυθμίσεις → Προσβασιμότητα → Εκφωνούμενο περιεχόμενο → Φωνές → Ελληνικά → πατήστε «Μελίνα (Βελτιωμένη)» για λήψη. Μετά ξανανοίξτε αυτό το παράθυρο.':android?'Για πιο ζεστή ελληνική φωνή στο Android: Ρυθμίσεις → Γλώσσα → Μετατροπή κειμένου σε ομιλία → Google → Εγκατάσταση δεδομένων φωνής → Ελληνικά. Μετά ξανανοίξτε αυτό το παράθυρο.':'Για περισσότερες φωνές, προσθέστε ελληνική φωνή από τις ρυθμίσεις ομιλίας της συσκευής σας.')
+      :(ios?'For a warmer voice on iPad/iPhone: Settings → Accessibility → Spoken Content → Voices → English → download an "Enhanced" or "Premium" voice. Then open this panel again.':android?'For a warmer voice on Android: Settings → Language → Text-to-speech → Google → Install voice data. Then open this panel again.':'For more voices, add one in your device\'s speech settings.');
+    const opt=(k,v,label)=>`<button class="btn small ${(S[k]||(k==='vrate'?.92:1.05))===v?'blue':'white'}" data-act="vset" data-k="${k}" data-v="${v}">${label}</button>`;
+    h=`<h2>🗣️ ${tr(['Storyteller voice','Φωνή αφηγήτριας'])}</h2>
+    <button class="btn ${S.sound?'blue':'white'}" data-act="vsound">${S.sound?tr(['🔊 Voice and sounds: on','🔊 Φωνή και ήχοι: ανοιχτά']):tr(['🔇 Voice and sounds: off','🔇 Φωνή και ήχοι: κλειστά'])}</button>
+    <div class="vlist">${vs.length?vs.map(v=>`<button class="vitem ${cur&&cur.name===v.name?'sel':''}" data-act="vpick" data-v="${esc(v.name)}"><b>${esc(isEl()?v.name.replace(/Enhanced/i,'Βελτιωμένη').replace(/Premium/i,'Κορυφαία'):v.name)}</b><small>${[v===best?'⭐ '+tr(['Recommended','Προτείνεται']):'',/natural|neural|premium|enhanced/i.test(v.name)?tr(['high quality','υψηλή ποιότητα']):''].filter(Boolean).join(' · ')}</small><span>▶</span></button>`).join(''):`<p class="sub">${isEl()?'Δεν βρέθηκε ελληνική φωνή σε αυτή τη συσκευή.':'No voice was found on this device.'}</p>`}</div>
+    <div class="row">${tr(['Speed','Ταχύτητα'])}: ${opt('vrate',.8,'🐢')}${opt('vrate',.92,'🙂')}${opt('vrate',1.05,'🐇')}</div>
+    <div class="row">${tr(['Tone','Τόνος'])}: ${opt('vpitch',.92,tr(['deeper','βαθύς']))}${opt('vpitch',1.05,tr(['normal','κανονικός']))}${opt('vpitch',1.2,tr(['higher','ψιλός']))}</div>
+    <p class="vtip">${tip}</p><button class="btn small white" data-act="close">${tr(['Close','Κλείσιμο'])}</button>`}
   if(m.type==='pgate')h=`<h2>${t('grownT')}</h2><p class="sub" style="font-size:1.4rem">${t('gateQ')} ${m.a} × ${m.c};</p><div class="row">${m.opts.map(v=>`<button class="btn white" data-act="pans" data-v="${v}">${v}</button>`).join('')}</div><button class="btn small" data-act="close">${t('backIsland')}</button>`;
   if(m.type==='gate'){const g=GAMES.find(x=>x.id===m.g),c=g.gate.coins,need=c||g.gate.badges,have=c?S.coins:S.badges.length,ok=have>=need;
     h=`<h2>${tr(g.name)}</h2><div style="width:160px;margin:0 auto;filter:grayscale(.6)">${ART[g.id]}</div>
@@ -2095,6 +2112,10 @@ document.addEventListener('click',e=>{
     case 'rename':{const n=$('#pname');S.name=n.value.trim();save();toast(t('nameSaved'));break}
     case 'pgate':{const a=rand(4,9),c=rand(4,9),n=a*c,o=new Set([n]);while(o.size<4)o.add(n+pick([-10,-6,-4,-2,2,3,4,6,8,10]));ui.modal={type:'pgate',a,c,opts:shuffle([...o])};renderModal();break}
     case 'pans':{const ok=+b.dataset.v===ui.modal.a*ui.modal.c;ui.modal=null;if(ok){ui.screen='parents';render()}else renderModal();break}
+    case 'voicepanel':ui.modal={type:'voice'};renderModal();break;
+    case 'vpick':{S.voice=Object.assign({},S.voice,{[S.lang]:b.dataset.v});delete voices[S.lang];save();renderModal();say(tr(['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']));break}
+    case 'vset':{S[b.dataset.k]=+b.dataset.v;save();renderModal();say(tr(['Like this?','Έτσι σου αρέσει;']));break}
+    case 'vsound':S.sound=!S.sound;if(!S.sound&&'speechSynthesis' in window)speechSynthesis.cancel();save();render();break;
     case 'reset1':ui.confirmReset=true;render();break;
     case 'resetg':ui.confirmG=b.dataset.g;render();break;
     case 'resetg2':{const g=GAMES.find(x=>x.id===b.dataset.g);S.stars[g.id]=g.levels.map(()=>0);S.badges=S.badges.filter(x=>x!==g.id&&x!=='olympus');ui.confirmG=null;save();render();toast('↺ '+tr(g.name));break}

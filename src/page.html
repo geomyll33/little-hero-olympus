@@ -380,6 +380,12 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
   .artref{width:min(130px,34vw)}
   .palette{grid-template-columns:repeat(8,34px);gap:6px}.pot{width:34px;height:34px}
 }
+/* voice panel */
+.vlist{display:flex;flex-direction:column;gap:6px;max-height:34vh;overflow:auto;text-align:left}
+.vitem{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:#fff;border:3px solid rgba(28,42,72,.12)}
+.vitem b{flex:1;font-family:var(--display)}.vitem small{color:var(--gold-deep);font-weight:800}.vitem span{color:var(--sea);font-size:1.2rem}
+.vitem.sel{border-color:var(--sea);background:#e6f3ff}
+.vtip{margin:0;color:var(--ink-soft);font-size:.92rem;line-height:1.45;text-align:left}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
