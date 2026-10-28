@@ -485,6 +485,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .cake{display:flex;flex-direction:column;align-items:center;line-height:1}.cake .candles{font-size:1.1rem;max-width:110px;word-break:break-all;text-align:center}.cake .cakebody{font-size:3rem}.cake b{font-family:var(--display);font-size:1.2rem;color:var(--ink)}
 .cake.q{font-family:var(--display);font-size:3rem;color:var(--ink-soft);min-width:90px;text-align:center}
 a.btn{text-decoration:none;display:inline-flex;align-items:center}
+.vchars{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -542,7 +543,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-10-28.1524';
+const BUILD='2026-10-28.1750';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -1162,6 +1163,13 @@ function noVoiceHelp(){const wv=/; wv\)|WebView/i.test(navigator.userAgent),can=
   if(!can||wv)return `<p class="sub">${tr(['This screen is inside an app, and apps often cannot speak. Open the game in Chrome or Edge and the voice will work.','Αυτή η οθόνη είναι μέσα σε εφαρμογή, και οι εφαρμογές συχνά δεν μπορούν να μιλήσουν. Άνοιξε το παιχνίδι στο Chrome ή στο Edge και η φωνή θα δουλέψει.'])}</p><div class="row">${open}</div>`;
   return `<p class="sub">${tr(['The phone did not list its voices. Tap Try it: if you hear the voice, the narrator works with the phone\'s own voice.','Το κινητό δεν έδωσε λίστα με φωνές. Πάτα «Δοκίμασε»: αν ακούσεις φωνή, η αφήγηση δουλεύει με τη φωνή του κινητού.'])}</p>
     <div class="row"><button class="btn small blue" data-act="vtest">🔊 ${tr(['Try it','Δοκίμασε'])}</button>${open}</div>`}
+// one phone voice can still sound like different characters by changing its pitch and speed
+const VCHARS=[{e:'🦉',n:['Storyteller','Αφηγήτρια'],r:.92,p:1.05,l:['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']},
+  {e:'⚡',n:['Zeus','Δίας'],r:.8,p:.55,l:['I am Zeus, king of Olympus! Let the games begin!','Είμαι ο Δίας, ο βασιλιάς του Ολύμπου! Ας αρχίσουν οι αγώνες!']},
+  {e:'🪽',n:['Hermes','Ερμής'],r:1.1,p:1.45,l:['I am Hermes, the fastest of all! Quick, let us play!','Είμαι ο Ερμής, ο πιο γρήγορος απ\' όλους! Γρήγορα, πάμε να παίξουμε!']},
+  {e:'👵',n:['Granny','Γιαγιά'],r:.78,p:.85,l:['Come here, my sweet child, and I will tell you a story.','Έλα εδώ, χρυσό μου παιδί, να σου πω μια ιστορία.']},
+  {e:'🧒',n:['Little friend','Μικρός φίλος'],r:1,p:1.7,l:['Hi! I am your little friend! Let us play together!','Γεια! Είμαι ο μικρός σου φίλος! Πάμε να παίξουμε μαζί!']},
+  {e:'🤖',n:['Robot Talos','Ρομπότ Τάλως'],r:.85,p:.3,l:['I am Talos, the bronze robot. Ready to play.','Είμαι ο Τάλως, το χάλκινο ρομπότ. Έτοιμος για παιχνίδι.']}];
 function renderModal(){
   let v=$('.veil');if(v)v.remove();const m=ui.modal;if(!m)return;
   let h='';
@@ -1182,7 +1190,8 @@ function renderModal(){
     ${S.sound?`<div class="row">${tr(['Rewards','Επιβράβευση'])}: ${[['jingle','🎵',['Tunes','Μελωδίες']],['crowd','👏',['Applause','Χειροκρότημα']],['mix','🎉',['Both','Και τα δύο']]].map(([k,e,n])=>`<button class="btn small ${(S.cheers||'mix')===k?'blue':'white'}" data-act="vcheer" data-v="${k}">${e} ${tr(n)}</button>`).join('')}</div>`:''}
     ${vs.length?`<div class="vlist">${vs.map(v=>`<button class="vitem ${cur&&cur.name===v.name?'sel':''}" data-act="vpick" data-v="${esc(v.name)}"><b>${esc(isEl()?v.name.replace(/Enhanced/i,'Βελτιωμένη').replace(/Premium/i,'Κορυφαία'):v.name)}</b><small>${[v===best?'⭐ '+tr(['Recommended','Προτείνεται']):'',/natural|neural|premium|enhanced/i.test(v.name)?tr(['high quality','υψηλή ποιότητα']):'',v.localService===false?tr(['🌐 online, needs internet','🌐 online, θέλει ίντερνετ']):''].filter(Boolean).join(' · ')}</small><span>▶</span></button>`).join('')}</div>`:noVoiceHelp()}
     <div class="row">${tr(['Speed','Ταχύτητα'])}: ${opt('vrate',.8,'🐢')}${opt('vrate',.92,'🙂')}${opt('vrate',1.05,'🐇')}</div>
-    <div class="row">${tr(['Tone','Τόνος'])}: ${opt('vpitch',.92,tr(['deeper','βαθύς']))}${opt('vpitch',1.05,tr(['normal','κανονικός']))}${opt('vpitch',1.2,tr(['higher','ψιλός']))}</div>
+    <div class="sub" style="margin-top:6px"><b>${tr(['Character voices','Φωνές χαρακτήρων'])}</b></div>
+    <div class="vchars">${VCHARS.map((c,k)=>`<button class="btn small ${Math.abs((S.vrate||.92)-c.r)<.01&&Math.abs((S.vpitch||1.05)-c.p)<.01?'blue':'white'}" data-act="vchar" data-v="${k}">${c.e} ${tr(c.n)}</button>`).join('')}</div>
     <p class="vtip">${tip}</p><button class="btn small white" data-act="close">${tr(['Close','Κλείσιμο'])}</button>`}
   if(m.type==='music')h=`<h2>🎵 ${tr(['Music and calm sounds','Μουσική και ήχοι ηρεμίας'])}</h2><p class="sub">${tr(['Choose what plays in the background while you play.','Διάλεξε τι θα ακούγεται όσο παίζεις.'])}</p>
     <div class="vlist">${AMBIENTS.map(k=>`<button class="vitem ${S.music&&(S.ambient||'melodies')===k?'sel':''}" data-act="amb" data-v="${k}"><b>${tr(AMB_NAME[k])}</b><span>▶</span></button>`).join('')}<button class="vitem ${S.music?'':'sel'}" data-act="amb" data-v="off"><b>🔇 ${tr(['No background sound','Χωρίς ήχο φόντου'])}</b></button></div>
@@ -2620,6 +2629,7 @@ document.addEventListener('click',e=>{
     case 'pans':{const ok=+b.dataset.v===ui.modal.a*ui.modal.c;ui.modal=null;if(ok){ui.screen='parents';render()}else renderModal();break}
     case 'voicepanel':ui.modal={type:'voice'};renderModal();if('speechSynthesis' in window&&!langVoices(S.lang).length)[400,1200,3000].forEach(ms=>setTimeout(()=>{if(ui.modal&&ui.modal.type==='voice'&&langVoices(S.lang).length){delete voices[S.lang];renderModal()}},ms));break;
     case 'vpick':{S.voice=Object.assign({},S.voice,{[S.lang]:b.dataset.v});delete voices[S.lang];save();renderModal();say(tr(['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']));break}
+    case 'vchar':{const c=VCHARS[+b.dataset.v];S.vrate=c.r;S.vpitch=c.p;save();renderModal();say(tr(c.l));break}
     case 'vset':{S[b.dataset.k]=+b.dataset.v;save();renderModal();say(tr(['Like this?','Έτσι σου αρέσει;']));break}
     case 'vsound':S.sound=!S.sound;save();render();renderModal();if(S.sound){initAudio();jingle()}break;
     case 'vvoice':S.voiceOn=!S.voiceOn;if(!S.voiceOn&&'speechSynthesis' in window)speechSynthesis.cancel();save();render();renderModal();if(S.voiceOn)say(tr(['Hello! I will tell you the story.','Γεια σου! Εγώ θα σου λέω την ιστορία.']));break;
