@@ -402,14 +402,20 @@ function duck(on){if(!ac)return;const t=ac.currentTime;[[sfxG,.32],[crowdG,.55]]
 const SPEAK_FIX=[[/γρανάζια/g,'γρα-νάζια'],[/γρανάζι/g,'γρα-νάζι']];
 function say(text,force){if(S.lang==='el')SPEAK_FIX.forEach(([a,b])=>{text=text.replace(a,b)});return new Promise(res=>{
   if((!S.voiceOn&&!force)||!('speechSynthesis' in window))return res();
-  try{speechSynthesis.cancel();const tok=++sayTok,gap=force?0:Math.min(1200,Math.max(0,sfxEnd-performance.now()));
-    const go=()=>{if(tok!==sayTok)return res();const u=new SpeechSynthesisUtterance(text);const L=S.lang;
+  try{const ss=speechSynthesis;if(ss.speaking||ss.pending)ss.cancel();const tok=++sayTok,gap=force?0:Math.min(1200,Math.max(0,sfxEnd-performance.now()));
+    let done=false;const fin=()=>{if(!done){done=true;duck(false);res()}};
+    const speakNow=retry=>{if(tok!==sayTok||done)return fin();const u=new SpeechSynthesisUtterance(text);const L=S.lang;
       if(!voices[L])voices[L]=findVoice(L);
       if(voices[L])u.voice=voices[L];u.lang=voices[L]?voices[L].lang:(L==='el'?'el-GR':'en-GB');u.rate=S.vrate||.92;u.pitch=S.vpitch||1.05;
-      let done=false;const fin=()=>{if(!done){done=true;duck(false);res()}};u.onstart=()=>duck(true);u.onend=fin;u.onerror=fin;setTimeout(fin,1500+text.length*120);
-      utter=u;speechSynthesis.speak(u)};
-    gap>30?setTimeout(go,gap):go()}catch(e){res()}
+      let started=false;u.onstart=()=>{started=true;duck(true)};u.onend=fin;u.onerror=e=>{if(!started&&!retry&&e&&e.error!=='interrupted'&&e.error!=='canceled')return setTimeout(()=>speakNow(true),150);fin()};
+      utter=u;if(ss.paused)ss.resume();ss.speak(u);
+      // some Android phones drop an utterance silently: if nothing started, try once more
+      if(!retry)setTimeout(()=>{if(!started&&!done&&tok===sayTok&&!ss.speaking){ss.cancel();speakNow(true)}},900)};
+    setTimeout(fin,2500+text.length*120);
+    gap>30?setTimeout(()=>speakNow(false),gap):speakNow(false)}catch(e){res()}
 })}
+// wake the phone's speech engine on the first touch, so later speech (even with the narrator off) is not blocked
+if('speechSynthesis' in window){speechSynthesis.getVoices();addEventListener('pointerdown',function wake(){removeEventListener('pointerdown',wake,true);try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}},true)}
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
 /* ---------- particles ---------- */
