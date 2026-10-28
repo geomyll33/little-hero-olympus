@@ -359,12 +359,21 @@ function praise(x,y){streak++;if(S.cheers!=='crowd')jingle();if(S.cheers==='crow
   if(streak===3)return say(tr(['Three in a row!','Τρεις σωστές στη σειρά!']));if(streak===5)return say(tr(['Five in a row! You are a star!','Πέντε στη σειρά! Είσαι αστέρι!']));
   if(streak>5&&streak%5===0)return say(tr([`${streak} in a row!`,`${numEl(streak,'f')} σωστές στη σειρά!`]));return Promise.resolve()}
 function oops(btn){streak=0;sfx('bad');if(btn){btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake')}pop('↺','oops')}
+// Error sounds: a few friendly ones in turn, never the same one twice in a row
+const OOPS=[
+  t=>{tone(330,t,.22,sfxG,'triangle',.55);tone(262,t+.2,.4,sfxG,'triangle',.55)},
+  t=>{tone(420,t,.45,sfxG,'sine',.6,120);tone(840,t,.2,sfxG,'sine',.12,240)},
+  t=>{tone(196,t,.12,sfxG,'square',.22);tone(196,t+.16,.18,sfxG,'square',.22)},
+  t=>{[392,370,349].forEach((f,i)=>tone(f,t+i*.16,.2,sfxG,'triangle',.5));tone(330,t+.48,.45,sfxG,'triangle',.5,300)},
+  t=>{tone(160,t,.3,sfxG,'sawtooth',.18,140);tone(240,t,.3,sfxG,'triangle',.35,210)}];
+let lastOops=-1;
+function oopsSound(t){let k;do k=Math.floor(Math.random()*OOPS.length);while(k===lastOops);lastOops=k;OOPS[k](t);busyFor(k===3?950:600)}
 function sfx(kind){
   if(!ac||!S.sound)return;const t=ac.currentTime+.01;busyFor({tap:150,flip:220,bad:500,coin:500,win:1700,good:1000}[kind]||300);
   if(kind==='tap')tone(660,t,.12,sfxG,'sine',.22);
   if(kind==='flip')tone(520,t,.2,sfxG,'sine',.2,700);
   if(kind==='good')return jingle();
-  if(kind==='bad')tone(330,t,.35,sfxG,'sine',.22,262);
+  if(kind==='bad')oopsSound(t);
   if(kind==='coin'){tone(1319,t,.3,sfxG,'sine',.16);tone(1760,t+.08,.45,sfxG,'sine',.13)}
   if(kind==='win')[60,64,67,72,76,79].forEach((n,i)=>{tone(mtof(n),t+i*.13,i===5?1.4:.6,sfxG,'sine',.38);tone(mtof(n+12),t+i*.13,.4,sfxG,'sine',.05)});
 }
