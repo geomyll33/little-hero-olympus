@@ -486,6 +486,9 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .cake.q{font-family:var(--display);font-size:3rem;color:var(--ink-soft);min-width:90px;text-align:center}
 a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .vchars{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.opt .hear{position:absolute;top:6px;right:6px;font-style:normal;font-size:1.1rem;background:#e6f3ff;border-radius:8px;padding:2px 5px;line-height:1.2}
+.opt.socopt,.opt.daycard,.opt.tall{position:relative}.wday{cursor:pointer}
+.opt.socopt:has(>.hear){padding-top:30px}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -543,7 +546,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-10-28.1750';
+const BUILD='2026-10-28.1824';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -945,8 +948,8 @@ function busyFor(ms){sfxEnd=Math.max(sfxEnd,performance.now()+ms)}
 function duck(on){if(!ac)return;const t=ac.currentTime;[[sfxG,.32],[crowdG,.55]].forEach(([g,v])=>{if(g){g.gain.cancelScheduledValues(t);g.gain.setTargetAtTime(on?v*.4:v,t,.08)}})}
 // words some tablet voices stress wrongly are respelled for the narrator only
 const SPEAK_FIX=[[/γρανάζια/g,'γρα-νάζια'],[/γρανάζι/g,'γρα-νάζι']];
-function say(text){if(S.lang==='el')SPEAK_FIX.forEach(([a,b])=>{text=text.replace(a,b)});return new Promise(res=>{
-  if(!S.voiceOn||!('speechSynthesis' in window))return res();
+function say(text,force){if(S.lang==='el')SPEAK_FIX.forEach(([a,b])=>{text=text.replace(a,b)});return new Promise(res=>{
+  if((!S.voiceOn&&!force)||!('speechSynthesis' in window))return res();
   try{speechSynthesis.cancel();const tok=++sayTok,gap=Math.min(1200,Math.max(0,sfxEnd-performance.now()));
     const go=()=>{if(tok!==sayTok)return res();const u=new SpeechSynthesisUtterance(text);const L=S.lang;
       if(!voices[L])voices[L]=findVoice(L);
@@ -2285,13 +2288,13 @@ function socialBody(p){
       <div class="row">${r.stage==='ready'?`<button class="btn blue" data-act="so" data-x="count">🗳️ ${tr(['Count the votes','Μέτρα τις ψήφους'])}</button>`:''}<div class="tcount" style="position:static">${p.i+1} / ${p.rounds.length}</div></div>${hint}`}
 }
 // read the question and each answer aloud, highlighting the card being read
-async function socRead(p){const q=p.qs[p.i],sq=socQ(p);p.reading=-1;await say(sq.q);
-  if(p.kind==='kind'||p.kind==='bully'){for(let k=0;k<q.opts.length;k++){if(run.p!==p||p.busy||p.picked)return;p.reading=k;renderGame();await say(tr(q.opts[k][1]))}p.reading=-1;if(run.p===p)renderGame()}}
+async function socRead(p,force){const q=p.qs[p.i],sq=socQ(p);p.reading=-1;await say(sq.q,force);
+  if(p.kind==='kind'||p.kind==='bully'){for(let k=0;k<q.opts.length;k++){if(run.p!==p||p.busy||p.picked)return;p.reading=k;renderGame();await say(tr(q.opts[k][1]),force)}p.reading=-1;if(run.p===p)renderGame()}}
 function socNext(p){p.i++;p.busy=false;p.fade=null;p.picked=false;p.glow=null;const n=p.qs?p.qs.length:p.rounds.length;
   if(p.i>=n)return stemWin(stemStars(run.mistakes,0,2));renderGame();if(p.qs)socRead(p);else if(p.kind==='vote')say(tr(p.rounds[p.i].q))}
 function socialAct(b){
   const p=run.p,x=b.dataset.x;if(!p||run.won)return;
-  if(x==='hear'){const q=p.qs[p.i];say(tr(q.opts[+b.dataset.v][1]));return}
+  if(x==='hear'){const q=p.qs[p.i];say(tr(q.opts[+b.dataset.v][1]),true);return}
   if(x==='hint'){run.hints++;
     if(p.qs){const q=p.qs[p.i];const good=p.kind==='feel'?q.a:p.kind==='help'?q.opts.indexOf(q.h[2]):q.opts.findIndex(o=>o[2]);
       const opts=p.kind==='feel'?FEELINGS:p.kind==='help'?q.opts:q.opts;p.fade=[...opts.keys()].find(k=>k!==good&&k!==p.fade);renderGame();
@@ -2428,19 +2431,20 @@ function timeQ(p){const q=p.qs[p.i];
       :tr([`This year is ${q.year}. Which year ${q.last?'was last year':'will next year be'}?`,`Φέτος είναι το ${q.year}. ${q.last?'Ποια χρονιά ήταν πέρσι':'Ποια χρονιά θα είναι του χρόνου'};`]);
   if(p.kind==='set')return tr([`Set the clock to ${timeWords(q.h,q.m)}!`,`Βάλε το ρολόι στις ${q.m?HALF_EL[q.h]:HOUR_EL[q.h]}!`]);
   return tr(['What time is it?','Τι ώρα είναι;'])}
+const hearT=t=>`<i class="hear" data-act="tm" data-x="hear" data-t="${esc(t)}">🔊</i>`;
 function timeBody(p){
   const hint=`<button class="icon-btn hintfab" data-act="tm" data-x="hint" aria-label="Help">💡</button>`,cnt=(a,b)=>`<div class="row"><div class="tcount" style="position:static">${a} / ${b}</div></div>`;
   if(p.deck){const many=p.deck.length>5;
-    return `<div class="options" style="flex:1;align-items:center">${p.deck.map((c,k)=>{const lab=p.kind==='week'?`<span class="dayname">${tr(DAYS[c.id])}</span>`:`<span class="emo">${ROUTINE[c.id][0]}</span><small class="pname">${tr(ROUTINE[c.id][1])}</small>`;
+    return `<div class="options" style="flex:1;align-items:center">${p.deck.map((c,k)=>{const lab=p.kind==='week'?`<span class="dayname">${tr(DAYS[c.id])}</span>${hearT(tr(DAYS[c.id]))}`:`<span class="emo">${ROUTINE[c.id][0]}</span><small class="pname">${tr(ROUTINE[c.id][1])}</small>${hearT(tr(ROUTINE[c.id][1]))}`;
       return `<button class="opt ${p.kind==='week'?'daycard':`tall ${many?'many':''}`} ${p.glow===k?'glow':''}" data-act="tm" data-x="card" data-k="${k}">${lab}${c.done?`<em class="rank">${c.i+1}</em>`:''}</button>`}).join('')}</div>${cnt(p.round+1,p.order.length)}${hint}`}
   const q=p.qs[p.i],qt=timeQ(p);let stage='',opts='';
-  if(p.kind==='yesterday'){stage=`<div class="week">${DAYS.map((d,k)=>`<div class="wday ${k===q.today?'today':''} ${p.shown&&k===q.ans?'ans':''}"><b>${tr(d)}</b>${k===q.today?`<small>${tr(['today','σήμερα'])}</small>`:''}</div>`).join('')}</div>`;
-    opts=q.opts.map((d,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${d}"><span class="dayname">${tr(DAYS[d])}</span></button>`).join('')}
-  if(p.kind==='seasons'){stage=`<div class="pic">${q[0]}</div>`;opts=SEASONS.map((s,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" style="background:${s[2]}" data-act="tm" data-x="pick" data-v="${k}"><span class="emo">${s[0]}</span><small class="pname">${tr(s[1])}</small></button>`).join('')}
+  if(p.kind==='yesterday'){stage=`<div class="week">${DAYS.map((d,k)=>`<div class="wday ${k===q.today?'today':''} ${p.shown&&k===q.ans?'ans':''}" data-act="tm" data-x="hear" data-t="${esc(tr(d))}"><b>${tr(d)}</b>${k===q.today?`<small>${tr(['today','σήμερα'])}</small>`:''}</div>`).join('')}</div>`;
+    opts=q.opts.map((d,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${d}"><span class="dayname">${tr(DAYS[d])}</span>${hearT(tr(DAYS[d]))}</button>`).join('')}
+  if(p.kind==='seasons'){stage=`<div class="pic">${q[0]}</div>`;opts=SEASONS.map((s,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" style="background:${s[2]}" data-act="tm" data-x="pick" data-v="${k}"><span class="emo">${s[0]}</span><small class="pname">${tr(s[1])}</small>${hearT(tr(s[1]))}</button>`).join('')}
   if(p.kind==='years'){stage=q.cake?`<div class="yearrow"><div class="ylab">${tr(['Last year','Πέρσι'])}<div class="cake q">${q.last?'?':cake(q.cake-1)}</div></div><div class="ylab now">${tr(['This year','Φέτος'])}${cake(q.cake)}</div><div class="ylab">${tr(['Next year','Του χρόνου'])}<div class="cake q">${q.last?cake(q.cake+1):'?'}</div></div></div>`
       :`<div class="yearrow"><div class="ylab">${tr(['Last year','Πέρσι'])}<div class="ybig">${q.last?'?':q.year-1}</div></div><div class="ylab now">${tr(['This year','Φέτος'])}<div class="ybig">${q.year}</div></div><div class="ylab">${tr(['Next year','Του χρόνου'])}<div class="ybig">${q.last?q.year+1:'?'}</div></div></div>`;
     opts=q.opts.map((v,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${v}">${q.cake?cake(v):`<span class="dayname">${v}</span>`}</button>`).join('')}
-  if(p.kind==='oclock'||p.kind==='half'){stage=clockSVG(q.h,q.m);opts=q.opts.map(([h,m],k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${h}:${m}"><span class="digital">${timeDigits(h,m)}</span><small class="pname">${timeWords(h,m)}</small></button>`).join('')}
+  if(p.kind==='oclock'||p.kind==='half'){stage=clockSVG(q.h,q.m);opts=q.opts.map(([h,m],k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${h}:${m}"><span class="digital">${timeDigits(h,m)}</span><small class="pname">${timeWords(h,m)}</small>${hearT(timeWords(h,m))}</button>`).join('')}
   if(p.kind==='set'){const svg=clockSVG(p.ch,p.cm,{drag:true,glow:p.glow}).replace('<svg ','<svg id="dragclock" ');stage=`<div class="digital">${timeDigits(q.h,q.m)}</div>${svg}`;
     opts=`<button class="btn" data-act="tm" data-x="check">✔ ${tr(['Ready!','Έτοιμο!'])}</button>`}
   return `<div class="stage"><div class="panel scroll socscene"><div class="socq">${esc(qt)}</div>${stage}</div></div><div class="options">${opts}</div>${cnt(p.i+1,p.qs.length)}${hint}`;
@@ -2452,7 +2456,7 @@ function timeExplain(p){const q=p.qs[p.i];
   return tr([`Yes! It is ${timeWords(q.h,q.m)}.`,`Ναι! Είναι ${timeWords(q.h,q.m)}.`])}
 function timeNext(p){p.i++;p.busy=false;p.fade=null;p.glow=null;p.shown=false;if(p.i>=p.qs.length)return stemWin(stemStars(run.mistakes,0,2));if(p.kind==='set'){p.ch=12;p.cm=0}renderGame();sayOnce(timeQ(p))}
 function timeAct(b){
-  const p=run.p,x=b.dataset.x;if(!p||run.won||p.busy)return;
+  const p=run.p,x=b.dataset.x;if(x==='hear')return say(b.dataset.t,true);if(!p||run.won||p.busy)return;
   if(x==='hint'){run.hints++;
     if(p.deck){const k=p.deck.findIndex(c=>c.i===p.next);p.glow=k;renderGame();return say(tr(['This one comes next!','Αυτό έρχεται μετά!']))}
     const q=p.qs[p.i];
@@ -2491,9 +2495,9 @@ function startLevel(g,l){
 const heard=new Set();
 function sayOnce(text){if(!heard.has(text)){heard.add(text);return say(text)}nudgeRepeat();return Promise.resolve()}
 function nudgeRepeat(){setTimeout(()=>{const b=document.querySelector('.bubble [data-act="repeat"]');if(b){b.classList.remove('nudge');void b.offsetWidth;b.classList.add('nudge')}},50)}
-function speakPrompt(force){if(!run)return;const sp=force?(x=>{heard.add(x);return say(x)}):sayOnce;
+function speakPrompt(force){if(!run)return;const sp=force?(x=>{heard.add(x);return say(x,true)}):sayOnce;
   if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(tr(p.rounds[p.i].q))}),250);return}
-  if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p)}),250);return}
+  if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p,force)}),250);return}
   if(run.g==='time'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(timeQ(p))}),250);return}
   const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>sp(s),250)}
 function setupMemory(){const pairs=shuffle(SEA).slice(0,run.total);run.cards=shuffle([...pairs,...pairs]).map((p,i)=>({i,e:p[0],n:p[1],up:false,done:false}));run.open=[];run.found=0}
@@ -2618,7 +2622,7 @@ document.addEventListener('click',e=>{
     case 'st':if(run&&run.g==='art'){if(run.p.type==='art')artAct(b.dataset.x,b);else if(b.dataset.x==='hint')mixHint();else mixAct(b.dataset.x,b)}else stemAct(b);break;
     case 'nt':notesAct(b);break;
     case 'tm':timeAct(b);break;
-    case 'so':if(b.dataset.x==='hearr'){say(b.dataset.t);break}socialAct(b);break;
+    case 'so':if(b.dataset.x==='hearr'){say(b.dataset.t,true);break}socialAct(b);break;
     case 'unlockall':S.unlocked=GAMES.filter(g=>g.gate).map(g=>g.id);save();toast(t('allOpen'));render();break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}
     case 'buy':{const it=ITEMS.find(x=>x.id===b.dataset.id);if(S.coins<it.cost){say(t('needCoins'));break}S.coins-=it.cost;S.owned.push(it.id);S.equip[it.slot]=it.id;sfx('coin');const nb=checkBadges();save();render();const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,40);sayL(SAY.wow(tr(it.name)));if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));break}
