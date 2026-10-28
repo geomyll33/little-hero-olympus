@@ -402,7 +402,7 @@ function duck(on){if(!ac)return;const t=ac.currentTime;[[sfxG,.32],[crowdG,.55]]
 const SPEAK_FIX=[[/γρανάζια/g,'γρα-νάζια'],[/γρανάζι/g,'γρα-νάζι']];
 function say(text,force){if(S.lang==='el')SPEAK_FIX.forEach(([a,b])=>{text=text.replace(a,b)});return new Promise(res=>{
   if((!S.voiceOn&&!force)||!('speechSynthesis' in window))return res();
-  try{speechSynthesis.cancel();const tok=++sayTok,gap=Math.min(1200,Math.max(0,sfxEnd-performance.now()));
+  try{speechSynthesis.cancel();const tok=++sayTok,gap=force?0:Math.min(1200,Math.max(0,sfxEnd-performance.now()));
     const go=()=>{if(tok!==sayTok)return res();const u=new SpeechSynthesisUtterance(text);const L=S.lang;
       if(!voices[L])voices[L]=findVoice(L);
       if(voices[L])u.voice=voices[L];u.lang=voices[L]?voices[L].lang:(L==='el'?'el-GR':'en-GB');u.rate=S.vrate||.92;u.pitch=S.vpitch||1.05;
@@ -1947,11 +1947,11 @@ function startLevel(g,l){
 const heard=new Set();
 function sayOnce(text){if(!heard.has(text)){heard.add(text);return say(text)}nudgeRepeat();return Promise.resolve()}
 function nudgeRepeat(){setTimeout(()=>{const b=document.querySelector('.bubble [data-act="repeat"]');if(b){b.classList.remove('nudge');void b.offsetWidth;b.classList.add('nudge')}},50)}
-function speakPrompt(force){if(!run)return;const sp=force?(x=>{heard.add(x);return say(x,true)}):sayOnce;
-  if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(tr(p.rounds[p.i].q))}),250);return}
-  if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p,force)}),250);return}
-  if(run.g==='time'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(timeQ(p))}),250);return}
-  const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>sp(s),250)}
+function speakPrompt(force){if(!run)return;const later=f=>force?f():setTimeout(f,250),sp=force?(x=>{heard.add(x);return say(x,true)}):sayOnce;
+  if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(tr(p.rounds[p.i].q))}));return}
+  if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p,force)}));return}
+  if(run.g==='time'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(timeQ(p))}));return}
+  const s=run.g==='memory'?tr(SAY.memory):run.cur.say;later(()=>sp(s))}
 function setupMemory(){const pairs=shuffle(SEA).slice(0,run.total);run.cards=shuffle([...pairs,...pairs]).map((p,i)=>({i,e:p[0],n:p[1],up:false,done:false}));run.open=[];run.found=0}
 function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
