@@ -8,7 +8,7 @@ On a tablet, open the link and choose **Add to Home Screen** to get a full-scree
 
 ## The islands
 
-The map has three islands, from easiest to hardest: Island of Dawn, Island of the Muses and Athena's Island (scroll between them). Places are numbered and a 👇 shows what to play next. Each place has its own background. Collecting every badge starts an Olympic award ceremony: podium in ancient Olympia, the kotinos olive wreath, a gold medal and a champion diploma (replay it from the badge hall). The narrator and the game sounds have separate on/off switches, and rewards can be tunes, applause with cheers and whistles, or both. Correct answers get reward sounds and pop-up praise; finishing a place or island gets a trophy and a spoken celebration. Background sound: changing calm tunes or sea, rain, forest or a calm tone.
+The map has three islands, from easiest to hardest: Island of Dawn, Island of the Muses and Athena's Island (scroll between them). Places are numbered and a 👇 shows what to play next. Each place has its own background. Collecting every badge starts an Olympic award ceremony: podium in ancient Olympia, the kotinos olive wreath, a gold medal and a champion diploma (replay it from the badge hall). The narrator and the game sounds have separate on/off switches, and rewards can be tunes, applause with cheers and whistles, or both. With the narrator off, "listen and find" games show the target on screen instead, and the music listening games ask for sound. Correct answers get reward sounds and pop-up praise; finishing a place or island gets a trophy and a spoken celebration. Background sound: changing calm tunes or sea, rain, forest or a calm tone.
 
 ### Places
 
@@ -22,7 +22,7 @@ The map has three islands, from easiest to hardest: Island of Dawn, Island of th
 | Pottery Workshop · Εργαστήρι Αγγείων | Patterns |
 | Fishing Harbour · Λιμάνι των Ψαράδων | More and fewer |
 | Aegean Sea · Αιγαίο Πέλαγος | Memory cards |
-| Tower of the Winds · Ο Πύργος των Ανέμων | Time: the order of a day, days of the week, yesterday/today/tomorrow (with the real day), the seasons, last year/this year/next year, reading the clock (o'clock and half past) and setting the clock |
+| Tower of the Winds · Ο Πύργος των Ανέμων | Time: the order of a day, days of the week, yesterday/today/tomorrow (with the real day), the seasons, last year/this year/next year, reading the clock (o'clock and half past) and setting the clock by dragging both hands |
 | Music Odeon · Μουσικό Ωδείο | Learn the notes on a xylophone (note stairs, high or low, listen and find, repeat the tune) and a runner game: catch coloured notes to play Mozart, Beethoven, Brahms, Grieg and Bach |
 | Archimedes' Workshop · Εργαστήρι του Αρχιμήδη | STEM: code the robot Talos with arrows, float or sink, balance scale, water pipes, electric circuit, magnets, life cycles, gears, shadows and light, gear doors to open (12 levels, 💡 help) |
 | Star Observatory · Αστεροσκοπείο | Astronomy: day/night, planets placed on their orbits around the Sun, Moon phases, constellations with Greek myths (6 levels, 💡 help) |

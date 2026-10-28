@@ -466,7 +466,8 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 /* tower of the winds */
 .clock{width:min(62vw,calc(100dvh - 430px),300px);height:auto;max-width:100%}
 .clock .hand{transition:transform .5s cubic-bezier(.3,1.4,.5,1);transform-origin:0 0}
-.cnum{cursor:pointer}
+#dragclock{touch-action:none;cursor:grab}#dragclock.dragging .hand{transition:none}
+.cue{width:110px;height:110px;padding:8px;border-radius:20px;background:#fffaf0;box-shadow:0 6px 0 rgba(0,0,0,.12);display:grid;place-items:center}.cue svg{width:100%;height:100%}
 .digital{font-family:var(--display);font-weight:700;font-size:2rem;color:var(--aegean)}
 .dayname{font-family:var(--display);font-weight:700;font-size:clamp(1rem,2.6vw,1.3rem);color:var(--aegean)}
 .opt.daycard{width:auto;min-width:118px;height:72px;padding:0 12px;flex-direction:column;justify-content:center;position:relative}
@@ -540,7 +541,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-10-28.0849';
+const BUILD='2026-10-28.0906';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -1141,6 +1142,8 @@ function parentsHTML(){
 function renderModal(){
   let v=$('.veil');if(v)v.remove();const m=ui.modal;if(!m)return;
   let h='';
+  if(m.type==='needsound')h=`<div class="trophy">🔔</div><h2>${tr(['This game needs sound','Αυτό το παιχνίδι θέλει ήχο'])}</h2><p class="sub">${tr(['Here we listen to music and notes. Turn on the game sounds to play.','Εδώ ακούμε μουσική και νότες. Άνοιξε τους ήχους του παιχνιδιού για να παίξεις.'])}</p>
+    <button class="btn blue" data-act="soundon">🔔 ${tr(['Turn on sounds and play','Άνοιξε τους ήχους και παίξε'])}</button><button class="btn small white" data-act="close">${tr(['Back','Πίσω'])}</button>`;
   if(m.type==='levels'){const g=GAMES.find(x=>x.id===m.g),st=S.stars[g.id];
     h=`<h2>${tr(g.name)}</h2><div class="sub">${tr(g.skill)}</div><div class="levels">${g.levels.map((name,i)=>{const open=i===0||(g.starts||[]).includes(i)||st[i-1]>0;
       return `<button class="lvl ${open?'':'locked'}" ${open?`data-act="play" data-g="${g.id}" data-l="${i}"`:'disabled'}>${g.id==='art'?artThumb(i):`<b>${i+1}</b>`}${open?starsRow(st[i]):I.lock}<span>${tr(name)}</span></button>`}).join('')}</div>
@@ -1207,11 +1210,13 @@ const GEN={
   letters(l){
     if(isEl()){
       const w=pick(GREEK),opts=distinct(GREEK,w,2);
+      if(l===0&&!S.voiceOn)return {text:'Βρες το ίδιο γράμμα',say:'Βρες το ίδιο γράμμα.',stage:`<div class="panel scroll" style="padding:10px 40px"><div class="letter-xl">${w[0]}</div></div>`,options:opts.map(x=>({html:`<span class="let">${x[0]}</span>`,ok:x===w}))};
       if(l===0)return {text:'Άκου και βρες το γράμμα',say:`Βρες το γράμμα ${w[2]}.`,stage:`<button class="listen" data-act="repeat" aria-label="Άκου ξανά">${I.speaker}</button>`,options:opts.map(x=>({html:`<span class="let">${x[0]}</span>`,ok:x===w}))};
       if(l===1)return {text:'Ποιο γράμμα λείπει;',say:`${w[3]}! Με ποιο γράμμα αρχίζει η λέξη ${w[3]};`,stage:`<div class="panel scroll"><div class="pic">${w[4]}</div><div class="bigword"><u>?</u>${esc(w[3].slice(1))}</div></div>`,options:opts.map(x=>({html:`<span class="let">${x[0]}</span>`,ok:x===w,after:`${x[2]}, όπως ${w[3]}!`}))};
       return {text:'Βρες το μικρό γράμμα',say:`Αυτό είναι το κεφαλαίο ${w[2]}. Βρες το μικρό ${w[2]}.`,stage:`<div class="panel scroll" style="padding:10px 40px"><div class="letter-xl">${w[0]}</div></div>`,options:opts.map(x=>({html:`<span class="let">${x[1]}</span>`,ok:x===w}))};
     }
     if(l===0){const t0=pick([...ABC]),opts=distinct([...ABC],t0,2);
+      if(!S.voiceOn)return {text:'Find the same letter',say:'Find the same letter.',stage:`<div class="panel scroll" style="padding:10px 40px"><div class="letter-xl">${t0}</div></div>`,options:opts.map(v=>({html:`<span class="let">${v}</span>`,ok:v===t0}))};
       return {text:'Listen and find the letter',say:`Find the letter ${t0}.`,stage:`<button class="listen" data-act="repeat" aria-label="Hear it again">${I.speaker}</button>`,options:opts.map(v=>({html:`<span class="let">${v}</span>`,ok:v===t0,say:v}))}}
     if(l===1){const w=pick(WORDS_EN),opts=distinct([...ABC],w[0],2);
       return {text:'Which letter is missing?',say:`${w[1]}! Which letter does ${w[1]} start with?`,stage:`<div class="panel scroll"><div class="pic">${w[2]}</div><div class="bigword"><u>?</u>${esc(w[1].slice(1))}</div></div>`,options:opts.map(v=>({html:`<span class="let">${v}</span>`,ok:v===w[0],say:v,after:`${v} for ${w[1]}!`}))}}
@@ -1221,13 +1226,13 @@ const GEN={
   shapes(l){
     const colName=(c,s)=>isEl()?colorEl(c,s):c[2];
     if(l===0){const cs=shuffle(COLORS).slice(0,3),c=pick(cs);
-      return {text:tr([`Tap the <span style="color:${c[1]}">${c[2]}</span> vase`,`Πάτα το <span style="color:${c[1]}">${c[3]}</span> βάζο`]),say:tr([`Tap the ${c[2]} vase.`,`Πάτα το ${c[3]} βάζο.`]),big:true,options:cs.map(x=>({html:vaseSVG(x[1]),ok:x===c,say:x[2]}))}}
+      return {stage:S.voiceOn?undefined:`<div class="cue">${vaseSVG(c[1])}</div>`,text:tr([`Tap the <span style="color:${c[1]}">${c[2]}</span> vase`,`Πάτα το <span style="color:${c[1]}">${c[3]}</span> βάζο`]),say:tr([`Tap the ${c[2]} vase.`,`Πάτα το ${c[3]} βάζο.`]),big:true,options:cs.map(x=>({html:vaseSVG(x[1]),ok:x===c,say:x[2]}))}}
     if(l===1){const ss=shuffle(SHAPES).slice(0,4),s=pick(ss),c=pick(COLORS)[1],el=SHAPE_EL[s].join(' ');
-      return {text:tr([`Tap the ${s}`,`Πάτα ${el}`]),say:tr([`Tap the ${s}.`,`Πάτα ${el}.`]),big:true,options:ss.map(x=>({html:shapeSVG(x,c),ok:x===s,say:x}))}}
+      return {stage:S.voiceOn?undefined:`<div class="cue">${shapeSVG(s,'#b9c2d0')}</div>`,text:tr([`Tap the ${s}`,`Πάτα ${el}`]),say:tr([`Tap the ${s}.`,`Πάτα ${el}.`]),big:true,options:ss.map(x=>({html:shapeSVG(x,c),ok:x===s,say:x}))}}
     const tc=pick(COLORS),ts=pick(SHAPES),oc=pick(COLORS.filter(c=>c!==tc)),os=pick(SHAPES.filter(s=>s!==ts));
     const set=[[ts,tc],[ts,oc],[os,tc],[pick(SHAPES.filter(s=>s!==ts)),pick(COLORS.filter(c=>c!==tc))]];
     const [art,noun]=SHAPE_EL[ts];
-    return {text:tr([`Tap the <span style="color:${tc[1]}">${tc[2]}</span> ${ts}`,`Πάτα ${art} <span style="color:${tc[1]}">${colName(tc,ts)}</span> ${noun}`]),say:tr([`Tap the ${tc[2]} ${ts}.`,`Πάτα ${art} ${colName(tc,ts)} ${noun}.`]),big:true,options:shuffle(set).map(([s,c])=>({html:shapeSVG(s,c[1]),ok:s===ts&&c===tc,say:`${c[2]} ${s}`}))};
+    return {stage:S.voiceOn?undefined:`<div class="cue">${shapeSVG(ts,tc[1])}</div>`,text:tr([`Tap the <span style="color:${tc[1]}">${tc[2]}</span> ${ts}`,`Πάτα ${art} <span style="color:${tc[1]}">${colName(tc,ts)}</span> ${noun}`]),say:tr([`Tap the ${tc[2]} ${ts}.`,`Πάτα ${art} ${colName(tc,ts)} ${noun}.`]),big:true,options:shuffle(set).map(([s,c])=>({html:shapeSVG(s,c[1]),ok:s===ts&&c===tc,say:`${c[2]} ${s}`}))};
   },
   pattern(l){
     let units,len;
@@ -2342,8 +2347,19 @@ function clockSVG(h,m,opts={}){const ha=((h%12)+m/60)*30,ma=m*6;
   return `<svg viewBox="-110 -110 220 220" class="clock ${opts.cls||''}"><circle r="104" fill="#c98b2b"/><circle r="94" fill="#fffaf0"/>
   ${[...Array(60)].map((_,i)=>`<rect x="-1" y="-92" width="2" height="${i%5?4:9}" fill="#4b5a78" transform="rotate(${i*6})"/>`).join('')}
   ${[...Array(12)].map((_,i)=>{const n=i+1,a=n*30*Math.PI/180;return `<g ${opts.tap?`class="cnum" data-act="tm" data-x="hour" data-v="${n}"`:''}><circle cx="${(Math.sin(a)*72).toFixed(1)}" cy="${(-Math.cos(a)*72).toFixed(1)}" r="15" fill="${opts.glow===n?'#ffe14a':'transparent'}"/><text x="${(Math.sin(a)*72).toFixed(1)}" y="${(-Math.cos(a)*72+7).toFixed(1)}" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="20" fill="#1c2a48">${n}</text></g>`}).join('')}
-  <g class="hand" style="transform:rotate(${ma}deg)"><rect x="-3.5" y="-80" width="7" height="88" rx="3" fill="#1e6fd9"/></g>
-  <g class="hand" style="transform:rotate(${ha}deg)"><rect x="-5" y="-52" width="10" height="60" rx="4" fill="#e53935"/></g><circle r="8" fill="#1c2a48"/></svg>`}
+  <g class="hand mh" style="transform:rotate(${ma}deg)"><rect x="-3.5" y="-80" width="7" height="88" rx="3" fill="#1e6fd9"/>${opts.drag?'<circle cy="-74" r="9" fill="#1e6fd9"/>':''}</g>
+  <g class="hand hh" style="transform:rotate(${ha}deg)"><rect x="-5" y="-52" width="10" height="60" rx="4" fill="#e53935"/>${opts.drag?'<circle cy="-46" r="11" fill="#e53935"/>':''}</g><circle r="8" fill="#1c2a48"/></svg>`}
+// the clockmaker level: grab a hand and turn it; it snaps to the nearest hour or five minutes when let go
+let cdrag=null;
+function clockPoint(e,svg){const r=svg.getBoundingClientRect(),x=e.clientX-(r.left+r.width/2),y=e.clientY-(r.top+r.height/2);return {a:(Math.atan2(x,-y)*180/Math.PI+360)%360,d:Math.hypot(x,y)/(r.width/2)*110}}
+document.addEventListener('pointerdown',e=>{const svg=e.target.closest&&e.target.closest('#dragclock');const p=run&&run.p;if(!svg||!p||p.kind!=='set'||run.won||p.busy)return;e.preventDefault();
+  const {a,d}=clockPoint(e,svg),diff=(x,y)=>{const v=Math.abs(x-y)%360;return Math.min(v,360-v)},dh=diff(a,((p.ch%12)+p.cm/60)*30),dm=diff(a,p.cm*6);
+  cdrag={svg,hand:Math.abs(dh-dm)<25?(d>60?'m':'h'):dm<dh?'m':'h',a};svg.classList.add('dragging');svg.setPointerCapture?.(e.pointerId);p.glow=null;sfx('tap');clockTurn(e)});
+document.addEventListener('pointermove',e=>{if(cdrag)clockTurn(e)});
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>{if(!cdrag)return;const {hand,a}=cdrag,p=run&&run.p;cdrag=null;if(!p||p.kind!=='set')return;
+  if(hand==='m')p.cm=Math.round(a/30)%12*5;else{let h=Math.round(a/30-p.cm/60)%12;p.ch=h<=0?h+12:h}
+  sfx('flip');renderGame()}));
+function clockTurn(e){const {a}=clockPoint(e,cdrag.svg);cdrag.a=a;const el=cdrag.svg.querySelector(cdrag.hand==='m'?'.mh':'.hh');if(el)el.style.transform=`rotate(${a}deg)`}
 const cake=n=>`<div class="cake"><div class="candles">${'🕯️'.repeat(n)}</div><div class="cakebody">🎂</div><b>${n}</b></div>`;
 const TIME_KINDS=['routine','week','yesterday','seasons','years','oclock','half','set'];
 const TIME_TEXT={routine:['My day','Η μέρα μου'],week:['The days of the week','Οι μέρες της εβδομάδας'],yesterday:['Yesterday, today, tomorrow','Χτες, σήμερα, αύριο'],seasons:['The seasons','Οι εποχές'],years:['Last year, this year, next year','Πέρσι, φέτος, του χρόνου'],oclock:["What time is it?",'Τι ώρα είναι;'],half:['Half past','Και μισή'],set:['Set the clock','Βάλε εσύ την ώρα']};
@@ -2354,7 +2370,7 @@ const TIME_INTRO={routine:['What do we do first in the day, and what after? Tap 
   years:['This year is now. Last year was the year before. Next year is the year that comes.','Φέτος είναι τώρα. Πέρσι ήταν ο προηγούμενος χρόνος. Του χρόνου είναι ο χρόνος που έρχεται.'],
   oclock:['Here in the Tower of the Winds, the ancient Athenians told the time with sundials and a water clock. The small red hand shows the hour. When the big blue hand points to twelve, it is exactly that hour.','Εδώ, στον Πύργο των Ανέμων, οι αρχαίοι Αθηναίοι έβλεπαν την ώρα με ηλιακά ρολόγια και με μια κλεψύδρα. Ο μικρός κόκκινος δείκτης δείχνει την ώρα. Όταν ο μεγάλος μπλε δείκτης δείχνει το δώδεκα, η ώρα είναι ακριβώς.'],
   half:['When the big blue hand points down to six, it is half past.','Όταν ο μεγάλος μπλε δείκτης δείχνει κάτω, στο έξι, η ώρα είναι και μισή.'],
-  set:['Now you are the clockmaker! Tap a number to move the small red hand, and choose where the big blue hand goes.','Τώρα είσαι εσύ ο ωρολογοποιός! Πάτα έναν αριθμό για να πάει εκεί ο μικρός κόκκινος δείκτης, και διάλεξε πού θα πάει ο μεγάλος μπλε.']};
+  set:['Now you are the clockmaker! Drag the small red hand to the hour, and the big blue hand to twelve or to six. Then tap Ready!','Τώρα είσαι εσύ ο ωρολογοποιός! Σύρε με το δάχτυλο τον μικρό κόκκινο δείκτη στην ώρα και τον μεγάλο μπλε στο δώδεκα ή στο έξι. Μετά πάτα «Έτοιμο!».']};
 function setupTime(l){
   const k=TIME_KINDS[l];run.hints=0;run.won=false;const p=run.p={type:'time',kind:k,i:0,busy:false,fade:null,glow:null};
   if(k==='routine'){p.order=[[0,1,2,3,6],[0,1,3,4,5,6]];p.round=0;timeDeck()}
@@ -2389,8 +2405,8 @@ function timeBody(p){
       :`<div class="yearrow"><div class="ylab">${tr(['Last year','Πέρσι'])}<div class="ybig">${q.last?'?':q.year-1}</div></div><div class="ylab now">${tr(['This year','Φέτος'])}<div class="ybig">${q.year}</div></div><div class="ylab">${tr(['Next year','Του χρόνου'])}<div class="ybig">${q.last?q.year+1:'?'}</div></div></div>`;
     opts=q.opts.map((v,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${v}">${q.cake?cake(v):`<span class="dayname">${v}</span>`}</button>`).join('')}
   if(p.kind==='oclock'||p.kind==='half'){stage=clockSVG(q.h,q.m);opts=q.opts.map(([h,m],k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${h}:${m}"><span class="digital">${timeDigits(h,m)}</span><small class="pname">${timeWords(h,m)}</small></button>`).join('')}
-  if(p.kind==='set'){stage=clockSVG(p.ch,p.cm,{tap:true,glow:p.glow});
-    opts=`<button class="btn ${p.cm===0?'blue':'white'}" data-act="tm" data-x="min" data-v="0">🔵 ${tr(['Big hand on 12','Μεγάλος δείκτης στο 12'])}</button><button class="btn ${p.cm===30?'blue':'white'}" data-act="tm" data-x="min" data-v="30">🔵 ${tr(['Big hand on 6','Μεγάλος δείκτης στο 6'])}</button><button class="btn" data-act="tm" data-x="check">✔ ${tr(['Ready!','Έτοιμο!'])}</button>`}
+  if(p.kind==='set'){const svg=clockSVG(p.ch,p.cm,{drag:true,glow:p.glow}).replace('<svg ','<svg id="dragclock" ');stage=`<div class="digital">${timeDigits(q.h,q.m)}</div>${svg}`;
+    opts=`<button class="btn" data-act="tm" data-x="check">✔ ${tr(['Ready!','Έτοιμο!'])}</button>`}
   return `<div class="stage"><div class="panel scroll socscene"><div class="socq">${esc(qt)}</div>${stage}</div></div><div class="options">${opts}</div>${cnt(p.i+1,p.qs.length)}${hint}`;
 }
 function timeExplain(p){const q=p.qs[p.i];
@@ -2420,14 +2436,14 @@ function timeAct(b){
     p.busy=true;p.shown=true;b.classList.add('right');praise();if(p.kind==='yesterday')renderGame();
     Promise.all([wait(500).then(()=>say(timeExplain(p))),wait(1800)]).then(()=>{if(run.p===p)timeNext(p)});return}
   if(p.kind==='set'){
-    if(x==='hour'){p.ch=+b.dataset.v;p.glow=null;sfx('tap');renderGame();return}
-    if(x==='min'){p.cm=+b.dataset.v;sfx('tap');renderGame();return}
     if(x==='check'){const q=p.qs[p.i];if(p.ch===q.h&&p.cm===q.m){p.busy=true;praise();Promise.all([wait(500).then(()=>say(timeExplain(p))),wait(1800)]).then(()=>{if(run.p===p)timeNext(p)})}
       else{run.mistakes++;oops(b);say(p.ch!==q.h?tr(['Look at the small red hand again.','Κοίτα ξανά τον μικρό κόκκινο δείκτη.']):tr(['Look at the big blue hand again.','Κοίτα ξανά τον μεγάλο μπλε δείκτη.']))}}}
 }
 
 /* ---------- game flow ---------- */
 let run=null;
+// listening games: the songs and the ear-training note games
+const needsSound=(g,l)=>g==='music'&&(l<5||['highlow','ear','simon'].includes(NOTE_ACTS[l-5]));
 function startLevel(g,l){
   ui.modal=null;ui.screen='game';streak=0;
   run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
@@ -2556,7 +2572,8 @@ document.addEventListener('click',e=>{
       if(nb.length)toast(t('newBadge')+' '+tr(BADGES.find(x=>x.id===nb[0]).name));
       ui.modal={type:'levels',g:g.id};renderModal();sayOnce(tr(SAY.pick(g)));break}
     case 'close':ui.modal=null;if(ui.screen==='game'){run=null;ui.screen='map';render()}else renderModal();break;
-    case 'play':startLevel(b.dataset.g,+b.dataset.l);break;
+    case 'play':{const g=b.dataset.g,l=+b.dataset.l;if(!S.sound&&needsSound(g,l)){ui.modal={type:'needsound',g,l};renderModal();break}startLevel(g,l);break}
+    case 'soundon':{const m=ui.modal;S.sound=true;save();initAudio();startLevel(m.g,m.l);break}
     case 'repeat':speakPrompt(true);break;
     case 'ans':answer(b,+b.dataset.i);break;
     case 'card':flip(+b.dataset.i);break;
