@@ -393,7 +393,7 @@ function findVoice(lang){
   const vs=langVoices(lang),want=S.voice&&S.voice[lang];
   return vs.find(v=>v.name===want)||vs.sort((a,b)=>voiceScore(b)-voiceScore(a))[0]||null;
 }
-if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=()=>{delete voices.en;delete voices.el};
+if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=()=>{delete voices.en;delete voices.el;if(ui.modal&&ui.modal.type==='voice')renderModal()};
 ['online','offline'].forEach(ev=>addEventListener(ev,()=>{delete voices.en;delete voices.el}));
 let utter=null,sayTok=0,sfxEnd=0;
 function busyFor(ms){sfxEnd=Math.max(sfxEnd,performance.now()+ms)}
@@ -612,6 +612,12 @@ function parentsHTML(){
 }
 
 /* ---------- level picker & results ---------- */
+// When the voice list is empty: an app's built-in browser often cannot speak, while Chrome can; and some phones speak without listing voices
+function noVoiceHelp(){const wv=/; wv\)|WebView/i.test(navigator.userAgent),can='speechSynthesis' in window,url='https://geomyll33.github.io/little-hero-olympus/';
+  const open=`<a class="btn small blue" href="${url}" target="_blank" rel="noopener">🌐 ${tr(['Open in the browser','Άνοιξε στον browser'])}</a>`;
+  if(!can||wv)return `<p class="sub">${tr(['This screen is inside an app, and apps often cannot speak. Open the game in Chrome or Edge and the voice will work.','Αυτή η οθόνη είναι μέσα σε εφαρμογή, και οι εφαρμογές συχνά δεν μπορούν να μιλήσουν. Άνοιξε το παιχνίδι στο Chrome ή στο Edge και η φωνή θα δουλέψει.'])}</p><div class="row">${open}</div>`;
+  return `<p class="sub">${tr(['The phone did not list its voices. Tap Try it: if you hear the voice, the narrator works with the phone\'s own voice.','Το κινητό δεν έδωσε λίστα με φωνές. Πάτα «Δοκίμασε»: αν ακούσεις φωνή, η αφήγηση δουλεύει με τη φωνή του κινητού.'])}</p>
+    <div class="row"><button class="btn small blue" data-act="vtest">🔊 ${tr(['Try it','Δοκίμασε'])}</button>${open}</div>`}
 function renderModal(){
   let v=$('.veil');if(v)v.remove();const m=ui.modal;if(!m)return;
   let h='';
@@ -630,7 +636,7 @@ function renderModal(){
     <div class="row"><button class="btn small ${S.voiceOn?'blue':'white'}" data-act="vvoice">${S.voiceOn?tr(['🗣️ Narrator: on','🗣️ Αφήγηση: ανοιχτή']):tr(['🤐 Narrator: off','🤐 Αφήγηση: κλειστή'])}</button>
     <button class="btn small ${S.sound?'blue':'white'}" data-act="vsound">${S.sound?tr(['🔔 Game sounds: on','🔔 Ήχοι παιχνιδιού: ανοιχτοί']):tr(['🔕 Game sounds: off','🔕 Ήχοι παιχνιδιού: κλειστοί'])}</button></div>
     ${S.sound?`<div class="row">${tr(['Rewards','Επιβράβευση'])}: ${[['jingle','🎵',['Tunes','Μελωδίες']],['crowd','👏',['Applause','Χειροκρότημα']],['mix','🎉',['Both','Και τα δύο']]].map(([k,e,n])=>`<button class="btn small ${(S.cheers||'mix')===k?'blue':'white'}" data-act="vcheer" data-v="${k}">${e} ${tr(n)}</button>`).join('')}</div>`:''}
-    <div class="vlist">${vs.length?vs.map(v=>`<button class="vitem ${cur&&cur.name===v.name?'sel':''}" data-act="vpick" data-v="${esc(v.name)}"><b>${esc(isEl()?v.name.replace(/Enhanced/i,'Βελτιωμένη').replace(/Premium/i,'Κορυφαία'):v.name)}</b><small>${[v===best?'⭐ '+tr(['Recommended','Προτείνεται']):'',/natural|neural|premium|enhanced/i.test(v.name)?tr(['high quality','υψηλή ποιότητα']):'',v.localService===false?tr(['🌐 online, needs internet','🌐 online, θέλει ίντερνετ']):''].filter(Boolean).join(' · ')}</small><span>▶</span></button>`).join(''):`<p class="sub">${isEl()?'Δεν βρέθηκε ελληνική φωνή σε αυτή τη συσκευή.':'No voice was found on this device.'}</p>`}</div>
+    ${vs.length?`<div class="vlist">${vs.map(v=>`<button class="vitem ${cur&&cur.name===v.name?'sel':''}" data-act="vpick" data-v="${esc(v.name)}"><b>${esc(isEl()?v.name.replace(/Enhanced/i,'Βελτιωμένη').replace(/Premium/i,'Κορυφαία'):v.name)}</b><small>${[v===best?'⭐ '+tr(['Recommended','Προτείνεται']):'',/natural|neural|premium|enhanced/i.test(v.name)?tr(['high quality','υψηλή ποιότητα']):'',v.localService===false?tr(['🌐 online, needs internet','🌐 online, θέλει ίντερνετ']):''].filter(Boolean).join(' · ')}</small><span>▶</span></button>`).join('')}</div>`:noVoiceHelp()}
     <div class="row">${tr(['Speed','Ταχύτητα'])}: ${opt('vrate',.8,'🐢')}${opt('vrate',.92,'🙂')}${opt('vrate',1.05,'🐇')}</div>
     <div class="row">${tr(['Tone','Τόνος'])}: ${opt('vpitch',.92,tr(['deeper','βαθύς']))}${opt('vpitch',1.05,tr(['normal','κανονικός']))}${opt('vpitch',1.2,tr(['higher','ψιλός']))}</div>
     <p class="vtip">${tip}</p><button class="btn small white" data-act="close">${tr(['Close','Κλείσιμο'])}</button>`}
@@ -2068,7 +2074,7 @@ document.addEventListener('click',e=>{
     case 'rename':{const n=$('#pname');S.name=n.value.trim();save();toast(t('nameSaved'));break}
     case 'pgate':{const a=rand(4,9),c=rand(4,9),n=a*c,o=new Set([n]);while(o.size<4)o.add(n+pick([-10,-6,-4,-2,2,3,4,6,8,10]));ui.modal={type:'pgate',a,c,opts:shuffle([...o])};renderModal();break}
     case 'pans':{const ok=+b.dataset.v===ui.modal.a*ui.modal.c;ui.modal=null;if(ok){ui.screen='parents';render()}else renderModal();break}
-    case 'voicepanel':ui.modal={type:'voice'};renderModal();break;
+    case 'voicepanel':ui.modal={type:'voice'};renderModal();if('speechSynthesis' in window&&!langVoices(S.lang).length)[400,1200,3000].forEach(ms=>setTimeout(()=>{if(ui.modal&&ui.modal.type==='voice'&&langVoices(S.lang).length){delete voices[S.lang];renderModal()}},ms));break;
     case 'vpick':{S.voice=Object.assign({},S.voice,{[S.lang]:b.dataset.v});delete voices[S.lang];save();renderModal();say(tr(['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']));break}
     case 'vset':{S[b.dataset.k]=+b.dataset.v;save();renderModal();say(tr(['Like this?','Έτσι σου αρέσει;']));break}
     case 'vsound':S.sound=!S.sound;save();render();renderModal();if(S.sound){initAudio();jingle()}break;
@@ -2077,7 +2083,7 @@ document.addEventListener('click',e=>{
     case 'reset1':ui.confirmReset=true;render();break;
     case 'resetg':ui.confirmG=b.dataset.g;render();break;
     case 'resetg2':{const g=GAMES.find(x=>x.id===b.dataset.g);S.stars[g.id]=g.levels.map(()=>0);S.badges=S.badges.filter(x=>x!==g.id&&x!=='olympus');ui.confirmG=null;save();render();toast('↺ '+tr(g.name));break}
-    case 'vtest':delete voices[S.lang];say(tr(['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']));break;
+    case 'vtest':delete voices[S.lang];if(!S.voiceOn){S.voiceOn=true;save();renderModal()}say(tr(['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']));break;
     case 'reset0':ui.confirmReset=false;render();break;
     case 'reset2':{const keep={music:S.music,sound:S.sound,voiceOn:S.voiceOn,cheers:S.cheers,lang:S.lang};S=Object.assign(fresh(),keep);save();ui.confirmReset=false;ui.screen='welcome';render();break}
   }
