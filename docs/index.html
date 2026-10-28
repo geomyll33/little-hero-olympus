@@ -541,7 +541,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-10-28.1141';
+const BUILD='2026-10-28.1518';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -927,6 +927,8 @@ const langVoices=lang=>('speechSynthesis' in window?speechSynthesis.getVoices():
 function voiceScore(v){let s=0;const n=v.name;
   if(/natural|neural|premium|enhanced|online|siri/i.test(n))s+=10;
   if(/google/i.test(n))s+=5;
+  // online (cloud) voices sound most natural; use them only while connected, otherwise they stay silent
+  if(v.localService===false)s+=navigator.onLine?6:-20;
   if(/melina|athina|μελίνα|αθηνά|sonia|libby|serena|samantha|martha|kate|female/i.test(n))s+=4;
   if(/compact|espeak/i.test(n))s-=8;
   if(/en[-_]GB/i.test(v.lang))s+=1;return s}
@@ -935,6 +937,7 @@ function findVoice(lang){
   return vs.find(v=>v.name===want)||vs.sort((a,b)=>voiceScore(b)-voiceScore(a))[0]||null;
 }
 if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=()=>{delete voices.en;delete voices.el};
+['online','offline'].forEach(ev=>addEventListener(ev,()=>{delete voices.en;delete voices.el}));
 let utter=null,sayTok=0,sfxEnd=0;
 function busyFor(ms){sfxEnd=Math.max(sfxEnd,performance.now()+ms)}
 function duck(on){if(!ac)return;const t=ac.currentTime;[[sfxG,.32],[crowdG,.55]].forEach(([g,v])=>{if(g){g.gain.cancelScheduledValues(t);g.gain.setTargetAtTime(on?v*.4:v,t,.08)}})}
@@ -1170,7 +1173,7 @@ function renderModal(){
     <div class="row"><button class="btn small ${S.voiceOn?'blue':'white'}" data-act="vvoice">${S.voiceOn?tr(['🗣️ Narrator: on','🗣️ Αφήγηση: ανοιχτή']):tr(['🤐 Narrator: off','🤐 Αφήγηση: κλειστή'])}</button>
     <button class="btn small ${S.sound?'blue':'white'}" data-act="vsound">${S.sound?tr(['🔔 Game sounds: on','🔔 Ήχοι παιχνιδιού: ανοιχτοί']):tr(['🔕 Game sounds: off','🔕 Ήχοι παιχνιδιού: κλειστοί'])}</button></div>
     ${S.sound?`<div class="row">${tr(['Rewards','Επιβράβευση'])}: ${[['jingle','🎵',['Tunes','Μελωδίες']],['crowd','👏',['Applause','Χειροκρότημα']],['mix','🎉',['Both','Και τα δύο']]].map(([k,e,n])=>`<button class="btn small ${(S.cheers||'mix')===k?'blue':'white'}" data-act="vcheer" data-v="${k}">${e} ${tr(n)}</button>`).join('')}</div>`:''}
-    <div class="vlist">${vs.length?vs.map(v=>`<button class="vitem ${cur&&cur.name===v.name?'sel':''}" data-act="vpick" data-v="${esc(v.name)}"><b>${esc(isEl()?v.name.replace(/Enhanced/i,'Βελτιωμένη').replace(/Premium/i,'Κορυφαία'):v.name)}</b><small>${[v===best?'⭐ '+tr(['Recommended','Προτείνεται']):'',/natural|neural|premium|enhanced/i.test(v.name)?tr(['high quality','υψηλή ποιότητα']):''].filter(Boolean).join(' · ')}</small><span>▶</span></button>`).join(''):`<p class="sub">${isEl()?'Δεν βρέθηκε ελληνική φωνή σε αυτή τη συσκευή.':'No voice was found on this device.'}</p>`}</div>
+    <div class="vlist">${vs.length?vs.map(v=>`<button class="vitem ${cur&&cur.name===v.name?'sel':''}" data-act="vpick" data-v="${esc(v.name)}"><b>${esc(isEl()?v.name.replace(/Enhanced/i,'Βελτιωμένη').replace(/Premium/i,'Κορυφαία'):v.name)}</b><small>${[v===best?'⭐ '+tr(['Recommended','Προτείνεται']):'',/natural|neural|premium|enhanced/i.test(v.name)?tr(['high quality','υψηλή ποιότητα']):'',v.localService===false?tr(['🌐 online, needs internet','🌐 online, θέλει ίντερνετ']):''].filter(Boolean).join(' · ')}</small><span>▶</span></button>`).join(''):`<p class="sub">${isEl()?'Δεν βρέθηκε ελληνική φωνή σε αυτή τη συσκευή.':'No voice was found on this device.'}</p>`}</div>
     <div class="row">${tr(['Speed','Ταχύτητα'])}: ${opt('vrate',.8,'🐢')}${opt('vrate',.92,'🙂')}${opt('vrate',1.05,'🐇')}</div>
     <div class="row">${tr(['Tone','Τόνος'])}: ${opt('vpitch',.92,tr(['deeper','βαθύς']))}${opt('vpitch',1.05,tr(['normal','κανονικός']))}${opt('vpitch',1.2,tr(['higher','ψιλός']))}</div>
     <p class="vtip">${tip}</p><button class="btn small white" data-act="close">${tr(['Close','Κλείσιμο'])}</button>`}
