@@ -165,8 +165,8 @@ function vocEl(name){
 
 /* ---------- state ---------- */
 const KEY='little-hero-olympus-v1';
-const fresh=()=>({v:3,ambient:'melodies',art:{},started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,voice:{},updatedAt:0});
-function normalize(s){if(s&&(s.v||0)<3&&s.stars&&s.stars.art&&s.stars.art.length===8){const a=s.stars.art;s.stars.art=[a[6],a[7],...a.slice(0,6)]}if(s)s.v=3;const f=fresh();s=Object.assign(f,s||{});s.equip=Object.assign(fresh().equip,s.equip||{});s.stars=Object.assign(fresh().stars,s.stars||{});GAMES.forEach(g=>{const a=s.stars[g.id];s.stars[g.id]=g.levels.map((_,i)=>a[i]||0)});return s}
+const fresh=()=>({v:3,ambient:'melodies',art:{},started:false,name:'',lang:'en',hero:'athena',skin:0,coins:5,owned:[],unlocked:[],equip:{head:null,cape:null,hand:null,feet:null},stars:Object.fromEntries(GAMES.map(g=>[g.id,g.levels.map(()=>0)])),badges:[],music:true,sound:true,voiceOn:true,cheers:'mix',voice:{},updatedAt:0});
+function normalize(s){const oldVoice=s&&!('voiceOn' in s)?s.sound!==false:null;if(s&&(s.v||0)<3&&s.stars&&s.stars.art&&s.stars.art.length===8){const a=s.stars.art;s.stars.art=[a[6],a[7],...a.slice(0,6)]}if(s)s.v=3;const f=fresh();s=Object.assign(f,s||{});s.equip=Object.assign(fresh().equip,s.equip||{});s.stars=Object.assign(fresh().stars,s.stars||{});GAMES.forEach(g=>{const a=s.stars[g.id];s.stars[g.id]=g.levels.map((_,i)=>a[i]||0)});if(oldVoice!==null)s.voiceOn=oldVoice;return s}
 let S=fresh();
 try{const raw=localStorage.getItem(KEY);if(raw)S=normalize(JSON.parse(raw))}catch(e){}
 let ui={screen:S.started?'map':'welcome',tab:'head',modal:null};
@@ -271,7 +271,7 @@ const avatarImage=()=>{const img=new Image();img.src='data:image/svg+xml;charset
   document.getElementById('houses').innerHTML='<g stroke="rgba(0,0,0,.12)">'+hs.map(([x,y,w,hh],i)=>cube(x,y,w,hh,16,'#ffffff')+(i%3===0?cube(x+w*.2,y-22,w*.6,14,12,'#2f6fd6'):'')+`<rect x="${x+w*.2}" y="${y+hh*.35}" width="${w*.18}" height="${hh*.3}" fill="#2f6fd6"/><rect x="${x+w*.6}" y="${y+hh*.35}" width="${w*.18}" height="${hh*.4}" fill="#2f6fd6"/>`).join('')+'</g>'})();
 
 /* ---------- audio ---------- */
-let ac=null,sfxG,musG;
+let ac=null,sfxG,musG,crowdG;
 function initAudio(){
   try{
     if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();
@@ -279,6 +279,7 @@ function initAudio(){
       const lp1=ac.createBiquadFilter();lp1.type='lowpass';lp1.frequency.value=3000;lp1.connect(m);
       const lp2=ac.createBiquadFilter();lp2.type='lowpass';lp2.frequency.value=1600;lp2.connect(m);
       sfxG=ac.createGain();sfxG.gain.value=.32;sfxG.connect(lp1);
+      const lp3=ac.createBiquadFilter();lp3.type='lowpass';lp3.frequency.value=6500;lp3.connect(m);crowdG=ac.createGain();crowdG.gain.value=.55;crowdG.connect(lp3);
       musG=ac.createGain();musG.gain.value=.07;musG.connect(lp2);
       const d=ac.createDelay();d.delayTime.value=.33;const fb=ac.createGain();fb.gain.value=.28;musG.connect(d);d.connect(fb);fb.connect(d);d.connect(m);}
     if(ac.state==='suspended')ac.resume();
@@ -329,11 +330,32 @@ const JINGLES=[[72,76,79,84],[79,84,88],[67,71,74,79,83],[76,79,83,88,91],[72,79
 function jingle(){if(!ac||!S.sound)return;const t=ac.currentTime+.01,j=pick(JINGLES),sp=pick([.07,.09,.11]);
   j.forEach((n,i)=>{tone(mtof(n),t+i*sp,.55,sfxG,'sine',.36);tone(mtof(n+12),t+i*sp,.25,sfxG,'sine',.06)});
   if(Math.random()<.5)for(let i=0;i<5;i++)tone(mtof(pick([96,98,100,103])),t+.25+i*.05,.2,sfxG,'sine',.05)}
+// Crowd rewards: applause, cheers and whistles, made from noise and voices so they need no files
+function whiteBuf(){if(mus.white)return mus.white;const b=ac.createBuffer(1,ac.sampleRate*2,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return mus.white=b}
+function clap(t,vol){const s=ac.createBufferSource();s.buffer=whiteBuf();const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=900+Math.random()*1500;f.Q.value=1.1;const g=ac.createGain();
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+.08+Math.random()*.06);s.connect(f);f.connect(g);g.connect(crowdG);s.start(t,Math.random()*1.7,.18)}
+function applause(t,dur,people){for(let p=0;p<people;p++){const gap=.2+Math.random()*.12;let x=t+Math.random()*.25;
+  while(x<t+dur){const k=(x-t)/dur,fade=k<.6?1:1-(k-.6)/.4;clap(x,Math.max(.02,.32*fade*(.6+Math.random()*.4)));x+=gap*(.85+Math.random()*.3)}}}
+function whistle(t){const o=ac.createOscillator(),g=ac.createGain(),v=ac.createOscillator(),vg=ac.createGain();o.type='sine';v.frequency.value=6;vg.gain.value=30;v.connect(vg);vg.connect(o.frequency);
+  o.frequency.setValueAtTime(1400,t);o.frequency.exponentialRampToValueAtTime(2500,t+.25);o.frequency.setValueAtTime(1600,t+.38);o.frequency.exponentialRampToValueAtTime(2600,t+.58);o.frequency.exponentialRampToValueAtTime(1800,t+.9);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.16,t+.04);g.gain.setValueAtTime(.16,t+.27);g.gain.exponentialRampToValueAtTime(.01,t+.34);g.gain.exponentialRampToValueAtTime(.16,t+.42);g.gain.exponentialRampToValueAtTime(.0001,t+.95);
+  o.connect(g);g.connect(crowdG);o.start(t);v.start(t);o.stop(t+1);v.stop(t+1)}
+function cheer(t,dur){for(let i=0;i<7;i++){const o=ac.createOscillator();o.type='sawtooth';const f0=200+Math.random()*220,st=t+Math.random()*.15,g=ac.createGain();
+    o.frequency.setValueAtTime(f0,st);o.frequency.linearRampToValueAtTime(f0*1.4,st+.25);o.frequency.linearRampToValueAtTime(f0*1.12,st+dur);
+    g.gain.setValueAtTime(.0001,st);g.gain.exponentialRampToValueAtTime(.045,st+.12);g.gain.setValueAtTime(.045,st+dur*.6);g.gain.exponentialRampToValueAtTime(.0001,st+dur);
+    [[800,.7],[1200,.45],[2500,.12]].forEach(([fr,a])=>{const bp=ac.createBiquadFilter();bp.type='bandpass';bp.frequency.value=fr*(.95+Math.random()*.1);bp.Q.value=7;const ga=ac.createGain();ga.gain.value=a;o.connect(bp);bp.connect(ga);ga.connect(g)});
+    g.connect(crowdG);o.start(st);o.stop(st+dur+.05)}
+  const s=ac.createBufferSource();s.buffer=whiteBuf();const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=1100;f.Q.value=.8;const g=ac.createGain();
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.05,t+.15);g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(f);f.connect(g);g.connect(crowdG);s.start(t,0,dur+.1)}
+// size: 'small' after a right answer, 'big' at the end of a level, 'huge' for a finished place
+function crowd(size){if(!ac||!S.sound||S.cheers==='jingle')return;const t=ac.currentTime+.05;
+  if(size==='small'){const k=pick(['clap','whistle','cheer']);if(k==='clap')applause(t,1,4);else if(k==='whistle')whistle(t);else cheer(t,.8);return}
+  applause(t,size==='huge'?3.5:2.2,size==='huge'?14:9);cheer(t+.1,size==='huge'?1.6:1.1);whistle(t+.5);if(size==='huge'){whistle(t+1.6);cheer(t+1.8,1.2)}}
 // Big pop-up praise word instead of talking after every answer
 const PRAISE=[['Super!','Σούπερ!'],['Great!','Τέλεια!'],['Wow!','Ουάου!'],['Bravo!','Μπράβο!'],['Amazing!','Φανταστικά!'],['Yes!','Ναι!'],['Well done!','Πολύ καλά!']];
 function pop(text,cls=''){const el=document.createElement('div');el.className='praise '+cls;el.textContent=text;document.body.appendChild(el);setTimeout(()=>el.remove(),1300)}
 let streak=0;
-function praise(x,y){streak++;jingle();pop(tr(pick(PRAISE))+' '+pick(['🌟','🏅','🎉','👏','⭐','✨']));if(x!==undefined)burst(x,y,30);
+function praise(x,y){streak++;if(S.cheers!=='crowd')jingle();if(S.cheers==='crowd'||streak===3||streak===5||(S.cheers==='mix'&&Math.random()<.3))crowd('small');pop(tr(pick(PRAISE))+' '+pick(['🌟','🏅','🎉','👏','⭐','✨']));if(x!==undefined)burst(x,y,30);
   if(streak===3)return say(tr(['Three in a row!','Τρεις σωστές στη σειρά!']));if(streak===5)return say(tr(['Five in a row! You are a star!','Πέντε στη σειρά! Είσαι αστέρι!']));
   if(streak>5&&streak%5===0)return say(tr([`${streak} in a row!`,`${numEl(streak,'f')} σωστές στη σειρά!`]));return Promise.resolve()}
 function oops(btn){streak=0;sfx('bad');if(btn){btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake')}pop('↺','oops')}
@@ -365,7 +387,7 @@ let utter=null;
 // words some tablet voices stress wrongly are respelled for the narrator only
 const SPEAK_FIX=[[/γρανάζια/g,'γρα-νάζια'],[/γρανάζι/g,'γρα-νάζι']];
 function say(text){if(S.lang==='el')SPEAK_FIX.forEach(([a,b])=>{text=text.replace(a,b)});return new Promise(res=>{
-  if(!S.sound||!('speechSynthesis' in window))return res();
+  if(!S.voiceOn||!('speechSynthesis' in window))return res();
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const L=S.lang;
     if(!voices[L])voices[L]=findVoice(L);
     if(voices[L])u.voice=voices[L];u.lang=voices[L]?voices[L].lang:(L==='el'?'el-GR':'en-GB');u.rate=S.vrate||.92;u.pitch=S.vpitch||1.05;
@@ -507,7 +529,7 @@ function topbar(){
     <button class="icon-btn" data-act="badges" aria-label="${t('badgesT')}">${I.medal}</button>
     <button class="icon-btn" data-act="room" aria-label="${t('myHero')}">${I.hanger}</button>
     <button class="icon-btn ${S.music?'':'off'}" data-act="music" aria-label="Music">${I.music}</button>
-    <button class="icon-btn ${S.sound?'':'off'}" data-act="voicepanel" aria-label="Voice">${I.sound}</button>
+    <button class="icon-btn ${S.sound||S.voiceOn?'':'off'}" data-act="voicepanel" aria-label="Voice">${I.sound}</button>
   </div>`;
 }
 function render(){
@@ -586,8 +608,10 @@ function renderModal(){
     const tip=isEl()?(ios?'Για πιο ζεστή ελληνική φωνή στο iPad/iPhone: Ρυθμίσεις → Προσβασιμότητα → Εκφωνούμενο περιεχόμενο → Φωνές → Ελληνικά → πατήστε «Μελίνα (Βελτιωμένη)» για λήψη. Μετά ξανανοίξτε αυτό το παράθυρο.':android?'Για πιο ζεστή ελληνική φωνή στο Android: Ρυθμίσεις → Γλώσσα → Μετατροπή κειμένου σε ομιλία → Google → Εγκατάσταση δεδομένων φωνής → Ελληνικά. Μετά ξανανοίξτε αυτό το παράθυρο.':'Για περισσότερες φωνές, προσθέστε ελληνική φωνή από τις ρυθμίσεις ομιλίας της συσκευής σας.')
       :(ios?'For a warmer voice on iPad/iPhone: Settings → Accessibility → Spoken Content → Voices → English → download an "Enhanced" or "Premium" voice. Then open this panel again.':android?'For a warmer voice on Android: Settings → Language → Text-to-speech → Google → Install voice data. Then open this panel again.':'For more voices, add one in your device\'s speech settings.');
     const opt=(k,v,label)=>`<button class="btn small ${(S[k]||(k==='vrate'?.92:1.05))===v?'blue':'white'}" data-act="vset" data-k="${k}" data-v="${v}">${label}</button>`;
-    h=`<h2>🗣️ ${tr(['Storyteller voice','Φωνή αφηγήτριας'])}</h2>
-    <button class="btn ${S.sound?'blue':'white'}" data-act="vsound">${S.sound?tr(['🔊 Voice and sounds: on','🔊 Φωνή και ήχοι: ανοιχτά']):tr(['🔇 Voice and sounds: off','🔇 Φωνή και ήχοι: κλειστά'])}</button>
+    h=`<h2>🗣️ ${tr(['Voice and sounds','Φωνή και ήχοι'])}</h2>
+    <div class="row"><button class="btn small ${S.voiceOn?'blue':'white'}" data-act="vvoice">${S.voiceOn?tr(['🗣️ Narrator: on','🗣️ Αφήγηση: ανοιχτή']):tr(['🤐 Narrator: off','🤐 Αφήγηση: κλειστή'])}</button>
+    <button class="btn small ${S.sound?'blue':'white'}" data-act="vsound">${S.sound?tr(['🔔 Game sounds: on','🔔 Ήχοι παιχνιδιού: ανοιχτοί']):tr(['🔕 Game sounds: off','🔕 Ήχοι παιχνιδιού: κλειστοί'])}</button></div>
+    ${S.sound?`<div class="row">${tr(['Rewards','Επιβράβευση'])}: ${[['jingle','🎵',['Tunes','Μελωδίες']],['crowd','👏',['Applause','Χειροκρότημα']],['mix','🎉',['Both','Και τα δύο']]].map(([k,e,n])=>`<button class="btn small ${(S.cheers||'mix')===k?'blue':'white'}" data-act="vcheer" data-v="${k}">${e} ${tr(n)}</button>`).join('')}</div>`:''}
     <div class="vlist">${vs.length?vs.map(v=>`<button class="vitem ${cur&&cur.name===v.name?'sel':''}" data-act="vpick" data-v="${esc(v.name)}"><b>${esc(isEl()?v.name.replace(/Enhanced/i,'Βελτιωμένη').replace(/Premium/i,'Κορυφαία'):v.name)}</b><small>${[v===best?'⭐ '+tr(['Recommended','Προτείνεται']):'',/natural|neural|premium|enhanced/i.test(v.name)?tr(['high quality','υψηλή ποιότητα']):''].filter(Boolean).join(' · ')}</small><span>▶</span></button>`).join(''):`<p class="sub">${isEl()?'Δεν βρέθηκε ελληνική φωνή σε αυτή τη συσκευή.':'No voice was found on this device.'}</p>`}</div>
     <div class="row">${tr(['Speed','Ταχύτητα'])}: ${opt('vrate',.8,'🐢')}${opt('vrate',.92,'🙂')}${opt('vrate',1.05,'🐇')}</div>
     <div class="row">${tr(['Tone','Τόνος'])}: ${opt('vpitch',.92,tr(['deeper','βαθύς']))}${opt('vpitch',1.05,tr(['normal','κανονικός']))}${opt('vpitch',1.2,tr(['higher','ψιλός']))}</div>
@@ -1725,7 +1749,7 @@ const allBadges=()=>BADGES.every(b=>S.badges.includes(b.id));
 function fanfare(){if(!ac||!S.sound)return;const t=ac.currentTime+.05,N=[[67,.25],[72,.25],[76,.25],[79,.6],[76,.25],[79,1.1],[0,.3],[72,.25],[76,.25],[79,.25],[84,.6],[83,.25],[84,1.6]];let x=t;
   N.forEach(([n,d])=>{if(n){tone(mtof(n),x,d+.3,sfxG,'triangle',.4);tone(mtof(n-12),x,d+.3,sfxG,'sine',.25);tone(mtof(n+12),x,d*.6,sfxG,'sine',.06)}x+=d})}
 function startCeremony(){if(run)run=null;ui.modal=null;ui.screen='ceremony';stopMusic();render();
-  const nm=heroName();fanfare();
+  const nm=heroName();fanfare();setTimeout(()=>crowd('huge'),300);
   setTimeout(()=>{const w=document.querySelector('.wreathdrop');if(w)w.classList.add('down')},1800);
   setTimeout(()=>{const a=document.getElementById('champ');if(a)a.innerHTML=avatar(S.hero,S.skin,Object.assign({},S.equip,{head:'kotinos'}));const m=document.querySelector('.goldmedal');if(m)m.classList.add('show');burst(innerWidth/2,innerHeight/3,140)},3400);
   setTimeout(()=>{if(ui.screen!=='ceremony')return;say(tr([`Congratulations, ${nm}! You collected every badge! Like the Olympic champions of ancient Olympia, you receive the kotinos, the crown of olive leaves. You are a true Olympic champion!`,
@@ -1832,7 +1856,7 @@ function timeExplain(p){const q=p.qs[p.i];
   if(p.kind==='seasons')return tr(q[2]);
   if(p.kind==='years')return q.cake?tr([`Yes! ${q.ans} candles.`,`Ναι! ${numEl(q.ans,'n')} κεράκια.`]):tr([`Yes! ${q.ans}.`,`Ναι! Το ${q.ans}.`]);
   return tr([`Yes! It is ${timeWords(q.h,q.m)}.`,`Ναι! Είναι ${timeWords(q.h,q.m)}.`])}
-function timeNext(p){p.i++;p.busy=false;p.fade=null;p.glow=null;p.shown=false;if(p.i>=p.qs.length)return stemWin(stemStars(run.mistakes,0,2));if(p.kind==='set'){p.ch=12;p.cm=0}renderGame();say(timeQ(p))}
+function timeNext(p){p.i++;p.busy=false;p.fade=null;p.glow=null;p.shown=false;if(p.i>=p.qs.length)return stemWin(stemStars(run.mistakes,0,2));if(p.kind==='set'){p.ch=12;p.cm=0}renderGame();sayOnce(timeQ(p))}
 function timeAct(b){
   const p=run.p,x=b.dataset.x;if(!p||run.won||p.busy)return;
   if(x==='hint'){run.hints++;
@@ -1876,7 +1900,7 @@ function nudgeRepeat(){setTimeout(()=>{const b=document.querySelector('.bubble [
 function speakPrompt(force){if(!run)return;const sp=force?(x=>{heard.add(x);return say(x)}):sayOnce;
   if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(tr(p.rounds[p.i].q))}),250);return}
   if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p)}),250);return}
-  if(run.g==='time'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)say(timeQ(p))}),250);return}
+  if(run.g==='time'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(timeQ(p))}),250);return}
   const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>sp(s),250)}
 function setupMemory(){const pairs=shuffle(SEA).slice(0,run.total);run.cards=shuffle([...pairs,...pairs]).map((p,i)=>({i,e:p[0],n:p[1],up:false,done:false}));run.open=[];run.found=0}
 function renderGame(){
@@ -1934,13 +1958,13 @@ function finishLevel(fixed){
   const m=run.mistakes,stars=fixed||(run.g==='memory'?(m<=run.total?3:m<=run.total*2?2:1):(m===0?3:m<=2?2:1));
   const first=S.stars[run.g][run.l]===0,coins=2+stars*2+(first?3:0);
   S.stars[run.g][run.l]=Math.max(S.stars[run.g][run.l],stars);S.coins+=coins;
-  const nb=checkBadges();save();sfx('win');setTimeout(()=>sfx('coin'),900);
+  const nb=checkBadges();save();sfx('win');crowd('big');setTimeout(()=>sfx('coin'),900);
   burst(innerWidth/2,innerHeight/3,80);
   streak=0;const placeDone=gameDone(S,run.g)&&!run.wasDone,R=REGIONS[regionOf(run.g)],islandDone=placeDone&&R&&R.games.every(id=>gameDone(S,id));
   let line=tr(SAY.result(heroName(),stars,coins,nb.length));
   if(islandDone)line+=' '+tr([`And you finished the whole ${R.name[0]}! You are a true hero!`,`Και ολοκλήρωσες όλο το ${R.name[1]}! Είσαι αληθινός ήρωας!`]);
   else if(placeDone)line+=' '+tr(['You finished every level here! Fantastic!','Ολοκλήρωσες όλα τα επίπεδα εδώ! Φανταστικά!']);
-  if(placeDone){setTimeout(()=>sfx('win'),1400);setTimeout(()=>burst(innerWidth/2,innerHeight/2,120),1400)}
+  if(placeDone){setTimeout(()=>{sfx('win');crowd('huge')},1400);setTimeout(()=>burst(innerWidth/2,innerHeight/2,120),1400)}
   say(line);
   ui.modal={type:'result',g:run.g,l:run.l,stars,coins,newBadges:nb,placeDone,islandDone};renderModal();
 }
@@ -1979,7 +2003,7 @@ document.addEventListener('click',e=>{
     case 'tab':ui.tab=b.dataset.t;render();break;
     case 'music':ui.modal={type:'music'};renderModal();break;
     case 'amb':{const v=b.dataset.v;stopMusic();if(v==='off')S.music=false;else{S.music=true;S.ambient=v}save();if(S.music)startMusic();renderModal();render();break}
-    case 'sound':S.sound=!S.sound;if(!S.sound&&'speechSynthesis' in window)speechSynthesis.cancel();save();render();break;
+    case 'sound':{const on=!(S.sound||S.voiceOn);S.sound=on;S.voiceOn=on;if(!on&&'speechSynthesis' in window)speechSynthesis.cancel();save();render();break}
     case 'open':{const g=GAMES.find(x=>x.id===b.dataset.g);
       if(!isOpen(g)){ui.modal={type:'gate',g:g.id};renderModal();const n=tr(g.name);say(g.gate.coins?t('gateCoins',n,g.gate.coins)+' '+t('youHave',S.coins):t('gateBadges',n,g.gate.badges)+' '+t('youHave',S.badges.length));break}
       ui.modal={type:'levels',g:g.id};renderModal();sayOnce(tr(SAY.pick(g)));break}
@@ -2011,13 +2035,15 @@ document.addEventListener('click',e=>{
     case 'voicepanel':ui.modal={type:'voice'};renderModal();break;
     case 'vpick':{S.voice=Object.assign({},S.voice,{[S.lang]:b.dataset.v});delete voices[S.lang];save();renderModal();say(tr(['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']));break}
     case 'vset':{S[b.dataset.k]=+b.dataset.v;save();renderModal();say(tr(['Like this?','Έτσι σου αρέσει;']));break}
-    case 'vsound':S.sound=!S.sound;if(!S.sound&&'speechSynthesis' in window)speechSynthesis.cancel();save();render();break;
+    case 'vsound':S.sound=!S.sound;save();render();renderModal();if(S.sound){initAudio();jingle()}break;
+    case 'vvoice':S.voiceOn=!S.voiceOn;if(!S.voiceOn&&'speechSynthesis' in window)speechSynthesis.cancel();save();render();renderModal();if(S.voiceOn)say(tr(['Hello! I will tell you the story.','Γεια σου! Εγώ θα σου λέω την ιστορία.']));break;
+    case 'vcheer':S.cheers=b.dataset.v;save();renderModal();initAudio();if(S.cheers!=='crowd')jingle();crowd(S.cheers==='jingle'?'small':'big');break;
     case 'reset1':ui.confirmReset=true;render();break;
     case 'resetg':ui.confirmG=b.dataset.g;render();break;
     case 'resetg2':{const g=GAMES.find(x=>x.id===b.dataset.g);S.stars[g.id]=g.levels.map(()=>0);S.badges=S.badges.filter(x=>x!==g.id&&x!=='olympus');ui.confirmG=null;save();render();toast('↺ '+tr(g.name));break}
     case 'vtest':delete voices[S.lang];say(tr(['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']));break;
     case 'reset0':ui.confirmReset=false;render();break;
-    case 'reset2':{const keep={music:S.music,sound:S.sound,lang:S.lang};S=Object.assign(fresh(),keep);save();ui.confirmReset=false;ui.screen='welcome';render();break}
+    case 'reset2':{const keep={music:S.music,sound:S.sound,voiceOn:S.voiceOn,cheers:S.cheers,lang:S.lang};S=Object.assign(fresh(),keep);save();ui.confirmReset=false;ui.screen='welcome';render();break}
   }
 });
 document.addEventListener('change',e=>{if(e.target.id==='vsel'){S.voice=Object.assign({},S.voice,{[S.lang]:e.target.value});delete voices[S.lang];save();say(tr(['Hello! I am your storyteller.','Γεια σου! Είμαι η αφηγήτριά σου.']))}});
