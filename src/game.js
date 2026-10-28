@@ -40,6 +40,7 @@ const GAMES=[
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},starts:[5],levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο'],['Note stairs','Η σκάλα των νοτών'],['High or low?','Ψηλά ή χαμηλά;'],['Listen and find','Άκου και βρες'],['Repeat the tune','Επανάλαβε τη μελωδία']]});
+GAMES.push({id:'time',name:['Tower of the Winds','Ο Πύργος των Ανέμων'],skill:['Time','Ο χρόνος'],x:50,y:50,levels:[['My day','Η μέρα μου'],['Days of the week','Οι μέρες της εβδομάδας'],['Yesterday & tomorrow','Χτες και αύριο'],['The seasons','Οι εποχές'],['Last year & next year','Πέρσι και του χρόνου'],["O'clock",'Η ώρα'],['Half past','Και μισή'],['Set the clock','Βάλε την ώρα']]});
 GAMES.push({id:'social',name:['The Pnyx','Η Πνύκα'],skill:['Kindness & democracy','Κοινωνικότητα & Δημοκρατία'],x:50,y:50,levels:[['How do they feel?','Πώς νιώθει;'],['A good friend','Ο καλός φίλος'],['No to bullying','Όχι στον εκφοβισμό'],['Volunteers','Εθελοντές'],['Neighbourhood helpers','Οι βοηθοί της γειτονιάς'],['We vote!','Ψηφίζουμε!']]});
 GAMES.push({id:'art',name:['Art Gallery','Πινακοθήκη'],skill:['Painting','Ζωγραφική'],x:87,y:52,gate:{coins:20},levels:[['Mixing colours','Ανάμειξη χρωμάτων'],['Which two colours?','Ποια δύο χρώματα;'],['Mondrian','Μοντριάν'],['Kandinsky','Καντίνσκι'],['Dolphins of Knossos','Δελφίνια της Κνωσού'],['Sunflowers','Ηλιοτρόπια'],['The Great Wave','Το μεγάλο κύμα'],['The Starry Night','Έναστρη νύχτα']]});
 GAMES.push({id:'space',name:['Star Observatory','Αστεροσκοπείο'],skill:['Astronomy','Αστρονομία'],x:73,y:17,gate:{coins:35},levels:[['Day or night','Μέρα ή νύχτα'],['Find the planet','Βρες τον πλανήτη'],['The Moon','Το φεγγάρι'],['Planets in order','Οι πλανήτες στη σειρά'],['Constellations','Οι αστερισμοί'],['All eight planets','Και οι οκτώ πλανήτες']]});
@@ -58,6 +59,7 @@ const BADGES=[
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
   {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
+  {id:'time',icon:'⏳',name:['Keeper of Time','Φύλακας του χρόνου'],desc:['Finish every level in the Tower of the Winds','Τελείωσε όλα τα επίπεδα στον Πύργο των Ανέμων'],test:s=>gameDone(s,'time')},
   {id:'social',icon:'🤝',name:['Good Citizen','Καλός πολίτης'],desc:['Finish every level on the Pnyx','Τελείωσε όλα τα επίπεδα στην Πνύκα'],test:s=>gameDone(s,'social')},
   {id:'art',icon:'🎨',name:['Little Painter','Μικρός Ζωγράφος'],desc:['Paint every picture in the Gallery','Ζωγράφισε όλους τους πίνακες της Πινακοθήκης'],test:s=>gameDone(s,'art')},
   {id:'space',icon:'🔭',name:['Little Astronomer','Μικρός Αστρονόμος'],desc:['Finish every level in the Observatory','Τελείωσε όλο το Αστεροσκοπείο'],test:s=>gameDone(s,'space')},
@@ -97,6 +99,7 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['Learning the notes on a xylophone (the note stairs, high or low, listen and find, repeat the tune), and a running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Μαθαίνει τις νότες σε ξυλόφωνο (η σκάλα των νοτών, ψηλά ή χαμηλά, άκου και βρες, επανάλαβε τη μελωδία) και παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
+  time:['Time: the order of a day, the days of the week, yesterday/today/tomorrow (with the real day), the seasons, last year/this year/next year, reading the clock on the hour and half hour, and setting a clock.','Ο χρόνος: η σειρά της μέρας, οι μέρες της εβδομάδας, χτες/σήμερα/αύριο (με την πραγματική μέρα), οι εποχές, πέρσι/φέτος/του χρόνου, η ώρα (ακριβώς και μισή) και ρύθμιση ρολογιού.'],
   social:['Social and emotional learning: recognising feelings, being a good friend, what to do about bullying (tell a trusted grown-up, say stop, include others), volunteering by cleaning up, the people who help our neighbourhood, and democracy through a class vote on the Pnyx.','Κοινωνική και συναισθηματική μάθηση: αναγνώριση συναισθημάτων, ο καλός φίλος, τι κάνουμε με τον εκφοβισμό (το λέμε σε έναν μεγάλο, λέμε «σταμάτα», δεν αφήνουμε κανέναν απέξω), εθελοντισμός με καθαρισμό, οι άνθρωποι που βοηθούν τη γειτονιά μας και δημοκρατία με ψηφοφορία της τάξης στην Πνύκα.'],
   art:['First colour-mixing puzzles (red and yellow make orange…), then colouring famous paintings with the original shown beside them; stars depend on how alike the painting is: Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh and Hokusai. The child can peek at the artist\'s colours and hears a short story about each painting. Finished paintings stay in the gallery.','Πρώτα γρίφοι ανάμειξης χρωμάτων (κόκκινο και κίτρινο κάνουν πορτοκαλί…), μετά χρωματισμός διάσημων πινάκων με το πρωτότυπο δίπλα· τα αστέρια εξαρτώνται από το πόσο μοιάζει ο πίνακας: Μοντριάν, Καντίνσκι, τα μινωικά δελφίνια της Κνωσού, βαν Γκογκ και Χοκουσάι. Το παιδί μπορεί να δει τα χρώματα του ζωγράφου και ακούει μια μικρή ιστορία για κάθε πίνακα. Οι πίνακες που τελειώνει μένουν στην πινακοθήκη.'],
   space:['Astronomy: day and night, the planets and their order from the Sun, the phases of the Moon, and constellations with their Greek myths.','Αστρονομία: μέρα και νύχτα, οι πλανήτες και η σειρά τους από τον Ήλιο, οι φάσεις της Σελήνης και οι αστερισμοί με τους ελληνικούς μύθους τους.'],
@@ -407,6 +410,7 @@ const ART={
   compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
   memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
   puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  time:svgArt(cube(30,30,40,60,10,'#f1e9d8')+`<path d="M30 30L50 8L70 30Z" fill="#c9a27a"/><path d="M76 24L50 6" stroke="#c9a27a" stroke-width="2"/><circle cx="50" cy="52" r="13" fill="#fffaf0" stroke="#c98b2b" stroke-width="3"/><path d="M50 52V43M50 52L57 55" stroke="#1c2a48" stroke-width="2.5" stroke-linecap="round"/><path d="M36 76h28" stroke="#c9a27a" stroke-width="2"/>`),
   social:svgArt(cube(4,76,92,14,10,'#d8ccb0')+cube(18,62,64,14,10,'#e6dcc4')+cube(32,48,36,14,10,'#f1e9d8')+cube(40,26,20,22,8,'#2f6fd6')+`<rect x="44" y="22" width="12" height="4" fill="#1c2a48"/><rect x="45" y="30" width="10" height="7" fill="#fff"/>`+`<text x="14" y="40" font-size="16">✋</text><text x="72" y="38" font-size="16">✋</text>`),
   art:svgArt(cube(8,30,84,58,10,'#f1e9d8')+`<rect x="16" y="40" width="30" height="22" fill="#1d3f8f"/><circle cx="38" cy="46" r="4" fill="#f2d24a"/><rect x="52" y="40" width="30" height="22" fill="#d62d20"/><rect x="52" y="40" width="10" height="8" fill="#f6d32d"/><rect x="62" y="40" width="3" height="22" fill="#111"/><rect x="40" y="70" width="16" height="18" fill="#6d4c2f"/>`+cube(20,12,60,10,10,'#e9563d')),
   space:svgArt(cube(18,58,58,32,10,'#e9e2d0')+`<path d="M18 58A29 29 0 0 1 76 58Z" fill="#b9c4d2"/><rect x="44" y="30" width="8" height="28" fill="#1c2a48" transform="rotate(35 48 44)"/><rect x="40" y="70" width="14" height="20" fill="#6d4c2f"/>`+[[12,14],[84,10],[70,30],[26,34]].map(([x,y])=>`<rect x="${x}" y="${y}" width="6" height="6" fill="#ffe14a" transform="rotate(45 ${x+3} ${y+3})"/>`).join('')),
@@ -416,7 +420,7 @@ const ART={
 // The world is three islands, from easiest to hardest; each place is numbered along a path
 const REGIONS=[
   {name:['Island of Dawn','Νησί της Αυγής'],games:['count','shapes','memory','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
-  {name:['Island of the Muses','Νησί των Μουσών'],games:['pattern','odd','compare','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
+  {name:['Island of the Muses','Νησί των Μουσών'],games:['pattern','odd','compare','time','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
   {name:["Athena's Island",'Νησί της Αθηνάς'],games:['stem','space','puzzle','social'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
 const MAPSLOTS={land:{4:[[15,60],[38,30],[62,60],[85,32]],6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{4:[[30,15],[70,38],[30,62],[68,85]],6:[[28,13],[72,28],[28,43],[72,58],[28,73],[70,87]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
 const regionOf=id=>REGIONS.findIndex(r=>r.games.includes(id));
@@ -479,6 +483,7 @@ const SCENES={
   memory:()=>sky('#1a7fc4','#0b3c6e')+rep(14,i=>`<circle cx="${(i*173)%1200}" cy="${(i*97)%700}" r="${6+i%4*4}" fill="none" stroke="#bfe6ff" stroke-width="3" opacity=".45"/>`)+`<path d="M0 720Q300 690 600 720T1200 710V800H0Z" fill="#e9d39b"/>`+rep(8,i=>`<path d="M${80+i*150} 730q-30-90 10-160q-30 80 20 160z" fill="#3fa36b"/>`),
   music:()=>sky('#ff9548','#ffd7a8')+`<circle cx="900" cy="250" r="90" fill="#ffe9a8"/><rect y="440" width="1200" height="360" fill="#d7b48e"/>`+rep(9,i=>`<path d="M${i*140} 800V560a60 60 0 0 1 120 0V800z" fill="#b98d63"/>`),
   ceremony:()=>sky('#7ccaff','#e4f5ff')+`<path d="M0 430Q600 330 1200 430V800H0Z" fill="#b9c98a"/>`+rep(5,r=>rep(30,c=>`<rect x="${c*42}" y="${440+r*26}" width="36" height="20" fill="${['#e53935','#1e6fd9','#fbc02d','#43a047','#fff'][(c+r)%5]}" opacity=".55"/>`))+`<rect y="570" width="1200" height="230" fill="#d9643b"/>`+rep(5,k=>`<rect y="${590+k*40}" width="1200" height="5" fill="#fff" opacity=".8"/>`)+cube(1040,250,60,180,14,'#f1e9d8')+cube(1020,230,100,24,14,'#c98b2b')+`<path d="M1070 230q-40-60 0-120q40 60 0 120z" fill="#ff8c1a"/><path d="M1070 230q-18-34 0-70q18 36 0 70z" fill="#ffe14a"/>`,
+  time:()=>sky('#8fd3ff','#eaf7ff')+`<rect y="600" width="1200" height="200" fill="#e6dcc4"/>`+cube(860,200,180,400,30,'#f1e9d8')+`<path d="M860 200L950 120L1040 200Z" fill="#c9a27a"/><circle cx="950" cy="330" r="60" fill="#fffaf0" stroke="#c98b2b" stroke-width="10"/><path d="M950 330V290M950 330L978 345" stroke="#1c2a48" stroke-width="10" stroke-linecap="round"/>`+rep(4,i=>cube(80+i*170,560,60,40,10,'#d8ccb0')+`<path d="M${110+i*170} 560l40 -16" stroke="#6d7a8c" stroke-width="6"/>`),
   social:()=>sky('#9fd8ff','#eaf7ff')+`<path d="M0 520Q300 430 700 470T1200 450V800H0Z" fill="#b9c98a"/><path d="M760 300h300v20H760zM770 320h20v80h-20zM820 320h20v80h-20zM870 320h20v80h-20zM920 320h20v80h-20zM970 320h20v80h-20zM1020 320h20v80h-20zM750 400h320v20H750z" fill="#f6ead2"/><path d="M740 420Q900 380 1100 430L1200 470H700Z" fill="#c9a27a"/><rect y="620" width="1200" height="180" fill="#d8ccb0"/>`+rep(6,i=>cube(80+i*190,560,120,60,14,'#e6dcc4')),
   art:()=>`<rect width="1200" height="800" fill="#f3ead8"/><rect y="640" width="1200" height="160" fill="#a0703f"/>`+rep(12,i=>`<rect x="${i*100}" y="640" width="4" height="160" fill="#8a5a2b"/>`)+`<rect y="620" width="1200" height="20" fill="#c9a77a"/>`+rep(4,i=>`<rect x="${60+i*300}" y="120" width="200" height="150" fill="#c98b2b"/><rect x="${72+i*300}" y="132" width="176" height="126" fill="${['#1d3f8f','#ecd36b','#d62d20','#1f4f8a'][i]}"/>`),
   stem:()=>`<rect width="1200" height="800" fill="#b5562f"/>`+rep(20,r=>rep(13,c=>`<rect x="${c*96+(r%2)*48-48}" y="${r*40}" width="92" height="36" fill="#c8643b"/>`))+rep(4,i=>`<g transform="translate(${180+i*280} ${180+(i%2)*120})" fill="#8f9db2" opacity=".85">${rep(10,k=>`<rect x="-10" y="-70" width="20" height="20" transform="rotate(${k*36})"/>`)}<circle r="56"/><circle r="18" fill="#5c6b7c"/></g>`)+cube(0,640,1200,160,14,'#8a5a2b'),
@@ -1757,13 +1762,111 @@ function ceremonyHTML(){
   </div>`;
 }
 
+/* ---------- the Tower of the Winds: learning about time ---------- */
+const DAYS=[['Monday','Δευτέρα'],['Tuesday','Τρίτη'],['Wednesday','Τετάρτη'],['Thursday','Πέμπτη'],['Friday','Παρασκευή'],['Saturday','Σάββατο'],['Sunday','Κυριακή']];
+const ROUTINE=[['🌅',['Wake up','Ξυπνάω']],['🥣',['Breakfast','Πρωινό']],['🏫',['School','Σχολείο']],['🍝',['Lunch','Μεσημεριανό']],['🛝',['Play','Παιχνίδι']],['🛁',['Bath','Μπάνιο']],['🌙',['Sleep','Ύπνος']]];
+const SEASONS=[['❄️',['winter','χειμώνας'],'#9fd3ff'],['🌸',['spring','άνοιξη'],'#bfe8a0'],['☀️',['summer','καλοκαίρι'],'#ffe08a'],['🍂',['autumn','φθινόπωρο'],'#f2b57a']];
+const SEASON_PICS=[['☃️❄️',0,['In winter it is cold and sometimes it snows.','Τον χειμώνα κάνει κρύο και καμιά φορά χιονίζει.']],['🎄🎁',0,['Christmas is in winter.','Τα Χριστούγεννα είναι τον χειμώνα.']],['🌸🐝',1,['In spring the flowers open and the bees come out.','Την άνοιξη ανοίγουν τα λουλούδια και βγαίνουν οι μέλισσες.']],['🐣🥚',1,['Easter is in spring.','Το Πάσχα είναι την άνοιξη.']],['🏖️🍉',2,['In summer it is hot and we swim in the sea.','Το καλοκαίρι κάνει ζέστη και κολυμπάμε στη θάλασσα.']],['🍦🕶️',2,['Ice cream and sunglasses: summer!','Παγωτό και γυαλιά ηλίου: καλοκαίρι!']],['🍂🍄',3,['In autumn the leaves turn brown and fall.','Το φθινόπωρο τα φύλλα κιτρινίζουν και πέφτουν.']],['☔🎒',3,['In autumn it rains and school starts again.','Το φθινόπωρο βρέχει και ξεκινάει το σχολείο.']]];
+const HOUR_EL=['δώδεκα','μία','δύο','τρεις','τέσσερις','πέντε','έξι','επτά','οχτώ','εννιά','δέκα','έντεκα','δώδεκα'];
+const HALF_EL=['δωδεκάμισι','μιάμιση','δυόμισι','τρεισήμισι','τεσσερισήμισι','πεντέμισι','εξίμισι','εφτάμισι','οχτώμισι','εννιάμισι','δεκάμισι','εντεκάμισι','δωδεκάμισι'];
+const HOUR_EN=['twelve','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
+const timeWords=(h,m)=>tr([m?`half past ${HOUR_EN[h]}`:`${HOUR_EN[h]} o'clock`,m?HALF_EL[h]:(h===1?'μία η ώρα':`${HOUR_EL[h]} η ώρα`)]);
+const timeDigits=(h,m)=>`${h}:${m?'30':'00'}`;
+function clockSVG(h,m,opts={}){const ha=((h%12)+m/60)*30,ma=m*6;
+  return `<svg viewBox="-110 -110 220 220" class="clock ${opts.cls||''}"><circle r="104" fill="#c98b2b"/><circle r="94" fill="#fffaf0"/>
+  ${[...Array(60)].map((_,i)=>`<rect x="-1" y="-92" width="2" height="${i%5?4:9}" fill="#4b5a78" transform="rotate(${i*6})"/>`).join('')}
+  ${[...Array(12)].map((_,i)=>{const n=i+1,a=n*30*Math.PI/180;return `<g ${opts.tap?`class="cnum" data-act="tm" data-x="hour" data-v="${n}"`:''}><circle cx="${(Math.sin(a)*72).toFixed(1)}" cy="${(-Math.cos(a)*72).toFixed(1)}" r="15" fill="${opts.glow===n?'#ffe14a':'transparent'}"/><text x="${(Math.sin(a)*72).toFixed(1)}" y="${(-Math.cos(a)*72+7).toFixed(1)}" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="20" fill="#1c2a48">${n}</text></g>`}).join('')}
+  <g class="hand" style="transform:rotate(${ma}deg)"><rect x="-3.5" y="-80" width="7" height="88" rx="3" fill="#1e6fd9"/></g>
+  <g class="hand" style="transform:rotate(${ha}deg)"><rect x="-5" y="-52" width="10" height="60" rx="4" fill="#e53935"/></g><circle r="8" fill="#1c2a48"/></svg>`}
+const cake=n=>`<div class="cake"><div class="candles">${'🕯️'.repeat(n)}</div><div class="cakebody">🎂</div><b>${n}</b></div>`;
+const TIME_KINDS=['routine','week','yesterday','seasons','years','oclock','half','set'];
+const TIME_TEXT={routine:['My day','Η μέρα μου'],week:['The days of the week','Οι μέρες της εβδομάδας'],yesterday:['Yesterday, today, tomorrow','Χτες, σήμερα, αύριο'],seasons:['The seasons','Οι εποχές'],years:['Last year, this year, next year','Πέρσι, φέτος, του χρόνου'],oclock:["What time is it?",'Τι ώρα είναι;'],half:['Half past','Και μισή'],set:['Set the clock','Βάλε εσύ την ώρα']};
+const TIME_INTRO={routine:['What do we do first in the day, and what after? Tap the pictures in order, from morning to night!','Τι κάνουμε πρώτα μέσα στη μέρα και τι μετά; Πάτα τις εικόνες με τη σειρά, από το πρωί ως το βράδυ!'],
+  week:['A week has seven days. Tap them in order, starting with Monday!','Η εβδομάδα έχει επτά μέρες. Πάτα τες με τη σειρά, ξεκινώντας από τη Δευτέρα!'],
+  yesterday:['Yesterday is the day before today. Tomorrow is the day after today.','Χτες είναι η μέρα πριν από το σήμερα. Αύριο είναι η μέρα μετά το σήμερα.'],
+  seasons:['The year has four seasons: winter, spring, summer and autumn. Which season is it in the picture?','Ο χρόνος έχει τέσσερις εποχές: χειμώνα, άνοιξη, καλοκαίρι και φθινόπωρο. Ποια εποχή δείχνει η εικόνα;'],
+  years:['This year is now. Last year was the year before. Next year is the year that comes.','Φέτος είναι τώρα. Πέρσι ήταν ο προηγούμενος χρόνος. Του χρόνου είναι ο χρόνος που έρχεται.'],
+  oclock:['Here in the Tower of the Winds, the ancient Athenians told the time with sundials and a water clock. The small red hand shows the hour. When the big blue hand points to twelve, it is exactly that hour.','Εδώ, στον Πύργο των Ανέμων, οι αρχαίοι Αθηναίοι έβλεπαν την ώρα με ηλιακά ρολόγια και με μια κλεψύδρα. Ο μικρός κόκκινος δείκτης δείχνει την ώρα. Όταν ο μεγάλος μπλε δείκτης δείχνει το δώδεκα, η ώρα είναι ακριβώς.'],
+  half:['When the big blue hand points down to six, it is half past.','Όταν ο μεγάλος μπλε δείκτης δείχνει κάτω, στο έξι, η ώρα είναι και μισή.'],
+  set:['Now you are the clockmaker! Tap a number to move the small red hand, and choose where the big blue hand goes.','Τώρα είσαι εσύ ο ωρολογοποιός! Πάτα έναν αριθμό για να πάει εκεί ο μικρός κόκκινος δείκτης, και διάλεξε πού θα πάει ο μεγάλος μπλε.']};
+function setupTime(l){
+  const k=TIME_KINDS[l];run.hints=0;run.won=false;const p=run.p={type:'time',kind:k,i:0,busy:false,fade:null,glow:null};
+  if(k==='routine'){p.order=[[0,1,2,3,6],[0,1,3,4,5,6]];p.round=0;timeDeck()}
+  if(k==='week'){p.order=[[0,1,2,3,4,5,6]];p.round=0;timeDeck()}
+  if(k==='yesterday'){const today=(new Date().getDay()+6)%7;p.qs=['y','t','y','t','dby','dat'].map((q,n)=>({q,today:n===0||n===1?today:rand(0,6)}));p.qs.forEach(x=>{const d={y:-1,t:1,dby:-2,dat:2}[x.q];x.ans=(x.today+d+7)%7;x.opts=shuffle([x.ans,...shuffle([0,1,2,3,4,5,6].filter(v=>v!==x.ans)).slice(0,2)])})}
+  if(k==='seasons')p.qs=shuffle(SEASON_PICS).slice(0,6);
+  if(k==='years'){const y=new Date().getFullYear();p.qs=[...[0,1,2,3].map(n=>{const c=rand(3,6),last=n%2===0;return {cake:c,last,ans:last?c-1:c+1,opts:shuffle([c-1,c,c+1])}}),{year:y,last:true,ans:y-1,opts:shuffle([y-1,y,y+1])},{year:y,last:false,ans:y+1,opts:shuffle([y-1,y,y+1])}]}
+  if(k==='oclock'||k==='half')p.qs=shuffle([1,2,3,4,5,6,7,8,9,10,11,12]).slice(0,5).map((h,n)=>{const m=k==='half'&&n%2===0?30:0,others=shuffle([1,2,3,4,5,6,7,8,9,10,11,12].filter(x=>x!==h)).map(x=>[x,k==='half'?pick([0,30]):0]);
+    return {h,m,opts:shuffle([[h,m],...(k==='half'?[[h,m?0:30],others[0]]:others.slice(0,2))])}});
+  if(k==='set'){p.qs=[3,7,10].map(h=>({h,m:0})).concat([{h:rand(1,6),m:30},{h:rand(7,12),m:30}]);p.ch=12;p.cm=0}
+  run.cur={text:tr(TIME_TEXT[k]),say:tr(TIME_INTRO[k])};
+}
+function timeDeck(){const p=run.p,ids=p.order[p.round];p.next=0;p.deck=shuffle(ids.map((id,i)=>({id,i})))}
+function timeQ(p){const q=p.qs[p.i];
+  if(p.kind==='yesterday'){const w={y:['yesterday','χτες'],t:['tomorrow','αύριο'],dby:['the day before yesterday','προχτές'],dat:['the day after tomorrow','μεθαύριο']}[q.q],past=q.q==='y'||q.q==='dby';
+    return tr([`Today is ${DAYS[q.today][0]}. What day ${past?'was':'will be'} ${w[0]}?`,`Σήμερα είναι ${DAYS[q.today][1]}. ${past?'Τι μέρα ήταν':'Τι μέρα θα είναι'} ${w[1]};`])}
+  if(p.kind==='seasons')return tr(['Which season is it?','Ποια εποχή είναι;']);
+  if(p.kind==='years')return q.cake?tr([`This year the cake has ${q.cake} candles. How many ${q.last?'did it have last year':'will it have next year'}?`,`Φέτος η τούρτα έχει ${numEl(q.cake,'n')} κεράκια. Πόσα ${q.last?'είχε πέρσι':'θα έχει του χρόνου'};`])
+      :tr([`This year is ${q.year}. Which year ${q.last?'was last year':'will next year be'}?`,`Φέτος είναι το ${q.year}. ${q.last?'Ποια χρονιά ήταν πέρσι':'Ποια χρονιά θα είναι του χρόνου'};`]);
+  if(p.kind==='set')return tr([`Set the clock to ${timeWords(q.h,q.m)}!`,`Βάλε το ρολόι στις ${q.m?HALF_EL[q.h]:HOUR_EL[q.h]}!`]);
+  return tr(['What time is it?','Τι ώρα είναι;'])}
+function timeBody(p){
+  const hint=`<button class="icon-btn hintfab" data-act="tm" data-x="hint" aria-label="Help">💡</button>`,cnt=(a,b)=>`<div class="row"><div class="tcount" style="position:static">${a} / ${b}</div></div>`;
+  if(p.deck){const many=p.deck.length>5;
+    return `<div class="options" style="flex:1;align-items:center">${p.deck.map((c,k)=>{const lab=p.kind==='week'?`<span class="dayname">${tr(DAYS[c.id])}</span>`:`<span class="emo">${ROUTINE[c.id][0]}</span><small class="pname">${tr(ROUTINE[c.id][1])}</small>`;
+      return `<button class="opt ${p.kind==='week'?'daycard':`tall ${many?'many':''}`} ${p.glow===k?'glow':''}" data-act="tm" data-x="card" data-k="${k}">${lab}${c.done?`<em class="rank">${c.i+1}</em>`:''}</button>`}).join('')}</div>${cnt(p.round+1,p.order.length)}${hint}`}
+  const q=p.qs[p.i],qt=timeQ(p);let stage='',opts='';
+  if(p.kind==='yesterday'){stage=`<div class="week">${DAYS.map((d,k)=>`<div class="wday ${k===q.today?'today':''} ${p.shown&&k===q.ans?'ans':''}"><b>${tr(d)}</b>${k===q.today?`<small>${tr(['today','σήμερα'])}</small>`:''}</div>`).join('')}</div>`;
+    opts=q.opts.map((d,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${d}"><span class="dayname">${tr(DAYS[d])}</span></button>`).join('')}
+  if(p.kind==='seasons'){stage=`<div class="pic">${q[0]}</div>`;opts=SEASONS.map((s,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" style="background:${s[2]}" data-act="tm" data-x="pick" data-v="${k}"><span class="emo">${s[0]}</span><small class="pname">${tr(s[1])}</small></button>`).join('')}
+  if(p.kind==='years'){stage=q.cake?`<div class="yearrow"><div class="ylab">${tr(['Last year','Πέρσι'])}<div class="cake q">${q.last?'?':cake(q.cake-1)}</div></div><div class="ylab now">${tr(['This year','Φέτος'])}${cake(q.cake)}</div><div class="ylab">${tr(['Next year','Του χρόνου'])}<div class="cake q">${q.last?cake(q.cake+1):'?'}</div></div></div>`
+      :`<div class="yearrow"><div class="ylab">${tr(['Last year','Πέρσι'])}<div class="ybig">${q.last?'?':q.year-1}</div></div><div class="ylab now">${tr(['This year','Φέτος'])}<div class="ybig">${q.year}</div></div><div class="ylab">${tr(['Next year','Του χρόνου'])}<div class="ybig">${q.last?q.year+1:'?'}</div></div></div>`;
+    opts=q.opts.map((v,k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${v}">${q.cake?cake(v):`<span class="dayname">${v}</span>`}</button>`).join('')}
+  if(p.kind==='oclock'||p.kind==='half'){stage=clockSVG(q.h,q.m);opts=q.opts.map(([h,m],k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="tm" data-x="pick" data-v="${h}:${m}"><span class="digital">${timeDigits(h,m)}</span><small class="pname">${timeWords(h,m)}</small></button>`).join('')}
+  if(p.kind==='set'){stage=clockSVG(p.ch,p.cm,{tap:true,glow:p.glow});
+    opts=`<button class="btn ${p.cm===0?'blue':'white'}" data-act="tm" data-x="min" data-v="0">🔵 ${tr(['Big hand on 12','Μεγάλος δείκτης στο 12'])}</button><button class="btn ${p.cm===30?'blue':'white'}" data-act="tm" data-x="min" data-v="30">🔵 ${tr(['Big hand on 6','Μεγάλος δείκτης στο 6'])}</button><button class="btn" data-act="tm" data-x="check">✔ ${tr(['Ready!','Έτοιμο!'])}</button>`}
+  return `<div class="stage"><div class="panel scroll socscene"><div class="socq">${esc(qt)}</div>${stage}</div></div><div class="options">${opts}</div>${cnt(p.i+1,p.qs.length)}${hint}`;
+}
+function timeExplain(p){const q=p.qs[p.i];
+  if(p.kind==='yesterday')return tr([`Yes! ${DAYS[q.ans][0]}.`,`Ναι! ${DAYS[q.ans][1]}.`]);
+  if(p.kind==='seasons')return tr(q[2]);
+  if(p.kind==='years')return q.cake?tr([`Yes! ${q.ans} candles.`,`Ναι! ${numEl(q.ans,'n')} κεράκια.`]):tr([`Yes! ${q.ans}.`,`Ναι! Το ${q.ans}.`]);
+  return tr([`Yes! It is ${timeWords(q.h,q.m)}.`,`Ναι! Είναι ${timeWords(q.h,q.m)}.`])}
+function timeNext(p){p.i++;p.busy=false;p.fade=null;p.glow=null;p.shown=false;if(p.i>=p.qs.length)return stemWin(stemStars(run.mistakes,0,2));if(p.kind==='set'){p.ch=12;p.cm=0}renderGame();say(timeQ(p))}
+function timeAct(b){
+  const p=run.p,x=b.dataset.x;if(!p||run.won||p.busy)return;
+  if(x==='hint'){run.hints++;
+    if(p.deck){const k=p.deck.findIndex(c=>c.i===p.next);p.glow=k;renderGame();return say(tr(['This one comes next!','Αυτό έρχεται μετά!']))}
+    const q=p.qs[p.i];
+    if(p.kind==='set'){p.glow=q.h;renderGame();return say(tr([`The small red hand goes on ${q.h}. The big blue hand goes on ${q.m?'6':'12'}.`,`Ο μικρός κόκκινος δείκτης πάει στο ${q.h}. Ο μεγάλος μπλε δείκτης πάει στο ${q.m?'έξι':'δώδεκα'}.`]))}
+    if(p.kind==='yesterday')return say(q.q==='y'||q.q==='dby'?tr(['Look one step to the left of today.','Κοίτα πριν από το σήμερα, προς τα αριστερά.']):tr(['Look after today, to the right.','Κοίτα μετά το σήμερα, προς τα δεξιά.']));
+    const wrong=p.kind==='seasons'?[0,1,2,3].filter(v=>v!==q[1]):p.kind==='years'?q.opts.map((v,k)=>v===q.ans?-1:k).filter(k=>k>=0):q.opts.map((o,k)=>o[0]===q.h&&o[1]===q.m?-1:k).filter(k=>k>=0);
+    p.fade=pick(wrong);renderGame();return say(tr(['Not that one!','Όχι αυτό!']))}
+  if(x==='card'){const k=+b.dataset.k,c=p.deck[k];if(c.done)return;
+    if(c.i!==p.next){run.mistakes++;return oops(b)}
+    c.done=true;p.next++;p.glow=null;sfx('tap');say(p.kind==='week'?tr(DAYS[c.id]):tr(ROUTINE[c.id][1]));renderGame();
+    if(p.next>=p.deck.length){p.busy=true;praise();const fact=p.kind==='week'?['Seven days make a week! Saturday and Sunday are the weekend.','Επτά μέρες κάνουν μια εβδομάδα! Το Σάββατο και η Κυριακή λέγονται Σαββατοκύριακο.']:['Morning, noon, afternoon and evening: that is a whole day!','Πρωί, μεσημέρι, απόγευμα και βράδυ: αυτή είναι μια ολόκληρη μέρα!'];
+      Promise.all([wait(500).then(()=>say(tr(fact))),wait(2200)]).then(()=>{if(run.p!==p)return;p.busy=false;p.round++;if(p.round>=p.order.length)return stemWin(stemStars(run.mistakes,0,2));timeDeck();renderGame()})}
+    return}
+  if(x==='pick'){const q=p.qs[p.i],v=b.dataset.v;
+    const ok=p.kind==='yesterday'?+v===q.ans:p.kind==='seasons'?+v===q[1]:p.kind==='years'?+v===q.ans:v===`${q.h}:${q.m}`;
+    if(!ok){run.mistakes++;return oops(b)}
+    p.busy=true;p.shown=true;b.classList.add('right');praise();if(p.kind==='yesterday')renderGame();
+    Promise.all([wait(500).then(()=>say(timeExplain(p))),wait(1800)]).then(()=>{if(run.p===p)timeNext(p)});return}
+  if(p.kind==='set'){
+    if(x==='hour'){p.ch=+b.dataset.v;p.glow=null;sfx('tap');renderGame();return}
+    if(x==='min'){p.cm=+b.dataset.v;sfx('tap');renderGame();return}
+    if(x==='check'){const q=p.qs[p.i];if(p.ch===q.h&&p.cm===q.m){p.busy=true;praise();Promise.all([wait(500).then(()=>say(timeExplain(p))),wait(1800)]).then(()=>{if(run.p===p)timeNext(p)})}
+      else{run.mistakes++;oops(b);say(p.ch!==q.h?tr(['Look at the small red hand again.','Κοίτα ξανά τον μικρό κόκκινο δείκτη.']):tr(['Look at the big blue hand again.','Κοίτα ξανά τον μεγάλο μπλε δείκτη.']))}}}
+}
+
 /* ---------- game flow ---------- */
 let run=null;
 function startLevel(g,l){
   ui.modal=null;ui.screen='game';streak=0;
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
   run.wasDone=gameDone(S,g);
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else run.cur=GEN[g](l);
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
 // Instructions are spoken the first time; the same instruction again stays quiet (the 🔊 button always repeats it)
@@ -1773,13 +1876,15 @@ function nudgeRepeat(){setTimeout(()=>{const b=document.querySelector('.bubble [
 function speakPrompt(force){if(!run)return;const sp=force?(x=>{heard.add(x);return say(x)}):sayOnce;
   if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(tr(p.rounds[p.i].q))}),250);return}
   if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p)}),250);return}
+  if(run.g==='time'&&run.p&&run.p.qs){const p=run.p;setTimeout(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)say(timeQ(p))}),250);return}
   const s=run.g==='memory'?tr(SAY.memory):run.cur.say;setTimeout(()=>sp(s),250)}
 function setupMemory(){const pairs=shuffle(SEA).slice(0,run.total);run.cards=shuffle([...pairs,...pairs]).map((p,i)=>({i,e:p[0],n:p[1],up:false,done:false}));run.open=[];run.found=0}
 function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
   const prog=run.g==='memory'?run.found:run.q;
   let body;
-  if(run.g==='social')body=run.p.rounds&&run.p.rounds[run.p.i]&&run.p.rounds[run.p.i].stage==='respect'?respectBody():socialBody(run.p);
+  if(run.g==='time')body=timeBody(run.p);
+  else if(run.g==='social')body=run.p.rounds&&run.p.rounds[run.p.i]&&run.p.rounds[run.p.i].stage==='respect'?respectBody():socialBody(run.p);
   else if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
   else if(run.g==='music'&&run.p&&run.p.type==='notes')body=notesBody(run.p);
   else if(run.g==='stem'||run.g==='space')body=stemBody();
@@ -1848,11 +1953,12 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so')sfx('tap');
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm')sfx('tap');
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
+      else if(ui.screen==='game'&&run&&run.g==='time')run.cur={text:tr(TIME_TEXT[run.p.kind]),say:tr(TIME_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='social')run.cur={text:tr(SOC_TEXT[run.p.kind]),say:tr(SOC_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='music'&&run.p&&run.p.type==='notes')run.cur={text:tr(NT_TEXT[run.p.kind].text),say:tr(NT_TEXT[run.p.kind].say)};
       else if(ui.screen==='game'&&run&&run.g==='art'&&run.p.type!=='art')run.cur.text=tr(run.p.type==='mix1'?['What colour will we get?','Τι χρώμα θα βγει;']:['Which two colours make it?','Ποια δύο χρώματα το φτιάχνουν;']);
@@ -1892,6 +1998,7 @@ document.addEventListener('click',e=>{
     case 'mv':musicMove(+b.dataset.d);break;
     case 'st':if(run&&run.g==='art'){if(run.p.type==='art')artAct(b.dataset.x,b);else if(b.dataset.x==='hint')mixHint();else mixAct(b.dataset.x,b)}else stemAct(b);break;
     case 'nt':notesAct(b);break;
+    case 'tm':timeAct(b);break;
     case 'so':if(b.dataset.x==='hearr'){say(b.dataset.t);break}socialAct(b);break;
     case 'unlockall':S.unlocked=GAMES.filter(g=>g.gate).map(g=>g.id);save();toast(t('allOpen'));render();break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}

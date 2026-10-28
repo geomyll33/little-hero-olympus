@@ -457,6 +457,26 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
 .storytext{font-family:var(--display);font-weight:700;font-size:clamp(1.1rem,3vw,1.45rem);color:var(--ink);margin:0;line-height:1.35}
 .kotbtn{background:#8fb050;box-shadow:0 6px 0 #5f8f3a;color:#fff}
 @media (prefers-reduced-motion:no-preference){.kotbtn{animation:nudge 1.2s ease 6 4.5s}}
+/* tower of the winds */
+.clock{width:min(62vw,calc(100dvh - 430px),300px);height:auto;max-width:100%}
+.clock .hand{transition:transform .5s cubic-bezier(.3,1.4,.5,1);transform-origin:0 0}
+.cnum{cursor:pointer}
+.digital{font-family:var(--display);font-weight:700;font-size:2rem;color:var(--aegean)}
+.dayname{font-family:var(--display);font-weight:700;font-size:clamp(1rem,2.6vw,1.3rem);color:var(--aegean)}
+.opt.daycard{width:auto;min-width:118px;height:72px;padding:0 12px;flex-direction:column;justify-content:center;position:relative}
+.opt.daycard .rank{top:-10px;left:-6px;width:30px;height:30px;font-size:1rem}
+@media (max-width:600px){.opt.daycard{min-width:42%}}
+.week{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.wday{min-width:72px;padding:8px 6px;border-radius:10px;background:#fff;border:3px solid #e6dcc4;text-align:center;display:flex;flex-direction:column}
+.wday b{font-family:var(--display);font-size:.9rem;color:var(--ink)}.wday small{font-weight:800;color:#fff}
+.wday.today{background:var(--sea);border-color:var(--aegean)}.wday.today b{color:#fff}
+.wday.ans{background:#d9f7e3;border-color:var(--good)}
+.yearrow{display:flex;gap:14px;align-items:flex-end;justify-content:center;flex-wrap:wrap}
+.ylab{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--display);font-weight:700;color:var(--ink-soft)}
+.ylab.now{color:var(--aegean)}
+.ybig{font-family:var(--display);font-weight:700;font-size:2.2rem;color:var(--aegean);min-width:90px;text-align:center}
+.cake{display:flex;flex-direction:column;align-items:center;line-height:1}.cake .candles{font-size:1.1rem;max-width:110px;word-break:break-all;text-align:center}.cake .cakebody{font-size:3rem}.cake b{font-family:var(--display);font-size:1.2rem;color:var(--ink)}
+.cake.q{font-family:var(--display);font-size:3rem;color:var(--ink-soft);min-width:90px;text-align:center}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
