@@ -483,6 +483,35 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .opt .hear{position:absolute;top:6px;right:6px;font-style:normal;font-size:1.1rem;background:#e6f3ff;border-radius:8px;padding:2px 5px;line-height:1.2}
 .opt.socopt,.opt.daycard,.opt.tall{position:relative}.wday{cursor:pointer}
 .opt.socopt:has(>.hear){padding-top:30px}
+/* writing pad */
+.writewrap{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;width:100%}
+.wpad{width:min(80vw,calc(100dvh - 300px),440px);aspect-ratio:1;height:auto;background:#fff;border-radius:20px;border:3px solid rgba(28,42,72,.15);box-shadow:0 6px 0 #cbbf9f;touch-action:none;cursor:crosshair}
+.wmodel{width:clamp(70px,22vw,140px);aspect-ratio:1;background:var(--marble);border-radius:16px;border:3px dashed #cbbf9f;padding:6px}
+.wmodel svg{width:100%;height:100%}
+.wstart{animation:wpulse 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes wpulse{50%{transform:scale(1.25)}}
+@media (orientation:portrait){.wpad{width:min(88vw,calc(100dvh - 330px),440px)}}
+/* parents' fine-motor report */
+.parents.report{max-width:960px;user-select:text;-webkit-user-select:text}
+.report section{display:flex;flex-direction:column;gap:8px}
+.report h3{font-size:1.15rem;color:var(--aegean)}
+.report ul{margin:0;padding-left:20px;line-height:1.5;display:flex;flex-direction:column;gap:6px}
+.rhead p{margin:4px 0 0}
+.disclaimer{background:#fff4d6;border-left:6px solid var(--gold);border-radius:10px;padding:10px 14px;line-height:1.45;font-size:.95rem}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.kpi{background:#fff;border-radius:14px;padding:10px 12px;border:2px solid var(--marble-2);display:flex;flex-direction:column;gap:2px}
+.kpi b{font-family:var(--display);font-size:1.6rem;color:var(--aegean);font-variant-numeric:tabular-nums}
+.kpi span{font-weight:700;font-size:.9rem}.kpi small{color:var(--ink-soft);font-size:.78rem}
+.note{color:var(--ink-soft);font-size:.9rem;margin:0}
+.rchart{width:100%;height:auto;background:#fff;border-radius:12px;border:2px solid var(--marble-2)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.85rem}.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.gcell{background:#fff;border-radius:10px;border:2px solid var(--marble-2);padding:4px;display:flex;flex-direction:column;align-items:center;font-variant-numeric:tabular-nums}
+.gcell svg{width:100%;aspect-ratio:1}.gcell b{font-family:var(--display)}.gcell small{font-size:.7rem;color:var(--ink-soft)}
+.gcell.good{border-color:#7cc796;background:#effaf2}.gcell.mid{border-color:#f2d27a;background:#fffbea}.gcell.low{border-color:#f0a77f;background:#fff3ec}.gcell.none{opacity:.55}
+.rtable td,.rtable th{white-space:nowrap}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body{height:auto;overflow:visible;background:#fff}#scene,#fx,.noprint{display:none!important}#app{height:auto;display:block;padding:0}
+  .screen{display:block}.parents{overflow:visible;max-width:none;background:#fff;padding:0}.report section{break-inside:avoid}.gcell{break-inside:avoid}}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -540,7 +569,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-10-28.1839';
+const BUILD='2026-11-07.1710';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -572,7 +601,7 @@ const ITEMS=[
 const SLOTS=[['head',['Hats','Καπέλα']],['cape',['Capes','Κάπες']],['hand',['Hands','Χέρια']],['feet',['Feet','Πόδια']]];
 const GAMES=[
   {id:'count',name:['Olive Grove','Ελαιώνας'],skill:['Counting','Αρίθμηση'],x:18,y:45,levels:[['Count to 5','Μέχρι το 5'],['Count to 10','Μέχρι το 10'],['Add olives','Πρόσθεση']]},
-  {id:'letters',name:['Temple of Letters','Ναός των Γραμμάτων'],skill:['Letters','Γράμματα'],x:35,y:21,levels:[['Listen & find','Άκου και βρες'],['First sounds','Πρώτος ήχος'],['Big & small','Κεφαλαία & μικρά']]},
+  {id:'letters',name:['Temple of Letters','Ναός των Γραμμάτων'],skill:['Letters & numbers','Γράμματα και αριθμοί'],x:35,y:21,starts:[3,5],levels:[['Listen & find','Άκου και βρες'],['First sounds','Πρώτος ήχος'],['Big & small','Κεφαλαία & μικρά'],['Trace letters','Γράψε πάνω στα γράμματα'],['Copy letters','Αντίγραψε γράμματα'],['Trace numbers','Γράψε πάνω στους αριθμούς'],['Copy numbers','Αντίγραψε αριθμούς']]},
   {id:'sizes',name:['Mount Olympus','Όρος Όλυμπος'],skill:['Big & Small','Μεγάλο & Μικρό'],x:52,y:15,gate:{coins:10},levels:[['Biggest','Το μεγαλύτερο'],['Smallest','Το μικρότερο'],['Small to big','Από μικρό σε μεγάλο']]},
   {id:'shapes',name:['Agora Market','Αγορά'],skill:['Colors & Shapes','Χρώματα & Σχήματα'],x:63,y:45,levels:[['Colors','Χρώματα'],['Shapes','Σχήματα'],['Color + shape','Χρώμα + σχήμα']]},
   {id:'odd',name:['Olympic Stadium','Ολυμπιακό Στάδιο'],skill:['Odd One Out','Το διαφορετικό'],x:41,y:46,gate:{coins:15},levels:[['Easy','Εύκολο'],['Tricky','Δύσκολο'],['Super tricky','Πολύ δύσκολο']]},
@@ -633,7 +662,7 @@ const SIZE_THINGS=['🦉','🐢','🫒','⭐','🐬','🍎','🏛️','⛵','�
 const ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const TEACH={
   count:['Counting objects 1–10 and simple addition up to 10. Tapping each olive counts it aloud.','Μέτρηση αντικειμένων 1–10 και απλή πρόσθεση έως το 10. Κάθε ελιά που πατιέται μετριέται φωναχτά.'],
-  letters:['English: capital letters by sound, first sounds, capital to small. Greek: the same with Α Β Γ.','Αγγλικά: κεφαλαία γράμματα από τον ήχο, πρώτος ήχος, κεφαλαία-μικρά. Ελληνικά: το ίδιο με Α Β Γ.'],
+  letters:['Letters and numbers: capital letters by sound, first sounds, capital to small, and writing with a finger: tracing and copying every letter (Greek or English) and the numbers 0–9, with fine-motor measurements for the parents\' report.','Γράμματα και αριθμοί: κεφαλαία από τον ήχο, πρώτος ήχος, κεφαλαία-μικρά, και γραφή με το δάχτυλο: ίχνος και αντιγραφή όλων των γραμμάτων (ελληνικά ή αγγλικά) και των αριθμών 0–9, με μετρήσεις λεπτής κινητικότητας για την αναφορά γονέων.'],
   sizes:['Comparing sizes: biggest, smallest, and ordering from small to big.','Σύγκριση μεγεθών: μεγαλύτερο, μικρότερο και σειρά από μικρό σε μεγάλο.'],
   shapes:['Naming six colours and five shapes, then combining both.','Έξι χρώματα και πέντε σχήματα, και μετά συνδυασμός τους.'],
   odd:['Sorting into groups (fruits, animals, vehicles, clothes, toys) and spotting what does not belong.','Ομαδοποίηση (φρούτα, ζώα, οχήματα, ρούχα, παιχνίδια) και εντοπισμός του διαφορετικού.'],
@@ -1108,6 +1137,7 @@ function render(){
   if(s==='badges')app.innerHTML=badgesHTML();
   if(s==='ceremony')app.innerHTML=ceremonyHTML();
   if(s==='parents')app.innerHTML=parentsHTML();
+  if(s==='fmreport')app.innerHTML=fmReportHTML();
   if(s==='game')renderGame();
   renderModal();
 }
@@ -1148,6 +1178,7 @@ function parentsHTML(){
   return `<div class="screen"><div class="gbar"><button class="icon-btn" data-act="map" aria-label="${t('backIsland')}">${I.back}</button><div class="gtitle"><h2>${t('grownT')}</h2><div>${t('grownSub')}</div></div>${langSwitch()}</div>
   <div class="parents">
     <p>${t('intro')}</p>
+    <div class="row" style="justify-content:flex-start"><button class="btn small blue" data-act="fmreport">📊 ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button></div>
     <p style="color:var(--ink-soft);font-size:.9rem">${tr(['Version','Έκδοση'])}: ${BUILD}</p>
     <div style="overflow-x:auto"><table><thead><tr><th>${t('place')}</th><th>${t('teaches')}</th>${[1,2,3,4,5,6,7,8].map(i=>`<th>${i}</th>`).join('')}<th></th></tr></thead><tbody>
     ${GAMES.map(g=>`<tr><td><b>${tr(g.name)}</b></td><td>${tr(TEACH[g.id])}</td>${[0,1,2,3,4,5,6,7].map(i=>`<td>${i<g.levels.length?(S.stars[g.id][i]?'★'.repeat(S.stars[g.id][i]):'–'):''}</td>`).join('')}<td>${S.stars[g.id].some(x=>x)?(ui.confirmG===g.id?`<button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 5px 0 #a33;white-space:nowrap" data-act="resetg2" data-g="${g.id}">${t('resetYes')}</button>`:`<button class="btn small white" style="white-space:nowrap" data-act="resetg" data-g="${g.id}">↺ ${t('resetG')}</button>`):''}</td></tr>`).join('')}
@@ -1376,7 +1407,7 @@ function mazeStepToward(target){
   while(target!==m.pos&&guard++<4){
     const dx=target%m.n-m.pos%m.n,dy=Math.floor(target/m.n)-Math.floor(m.pos/m.n),nb=mazeNbrs(m.W,m.n,m.pos);
     const tries=Math.abs(dx)>=Math.abs(dy)?[dx?m.pos+Math.sign(dx):null,dy?m.pos+Math.sign(dy)*m.n:null]:[dy?m.pos+Math.sign(dy)*m.n:null,dx?m.pos+Math.sign(dx):null];
-    const to=tries.find(c=>c!==null&&nb.includes(c));if(to===undefined)break;
+    const to=tries.find(c=>c!==null&&nb.includes(c));if(to===undefined){if(m.lastBump!==target){m.bumps=(m.bumps||0)+1;m.lastBump=target}break}m.lastBump=-1;if(!m.t0)m.t0=performance.now();
     mazeMove(to);if(run.won)break;
   }
 }
@@ -1386,7 +1417,7 @@ function mazeMove(to){
   sfx('tap');
   if(to===m.keyAt&&!m.hasKey){m.hasKey=true;sfx('coin');say(tr(['The key! Now find the door.','Το κλειδί! Τώρα βρες την πόρτα.']))}
   if(to===m.mino)return mazeCaught();
-  if(to===m.exit){if(m.hasKey)puzzleWin();else say(tr(['The door is locked. Find the key!','Η πόρτα είναι κλειδωμένη. Βρες το κλειδί!']))}
+  if(to===m.exit){if(m.hasKey){const f=fmStore();f.maze.push({t:Date.now(),n:m.n,bumps:m.bumps||0,dur:Math.round(performance.now()-(m.t0||performance.now())),moves:m.moves,best:m.best});if(f.maze.length>100)f.maze.shift();puzzleWin()}else say(tr(['The door is locked. Find the key!','Η πόρτα είναι κλειδωμένη. Βρες το κλειδί!']))}
 }
 function mazeCaught(){
   const m=run.p;
@@ -2480,6 +2511,259 @@ function timeAct(b){
       else{run.mistakes++;oops(b);say(p.ch!==q.h?tr(['Look at the small red hand again.','Κοίτα ξανά τον μικρό κόκκινο δείκτη.']):tr(['Look at the big blue hand again.','Κοίτα ξανά τον μεγάλο μπλε δείκτη.']))}}}
 }
 
+/* ---------- Writing: trace and copy letters, numbers and shapes, with fine-motor records ---------- */
+// Strokes in a 100x100 box (cap line y=10, base line y=90), in the usual school order and direction.
+const SHP={
+  A:['M50 10 L18 90','M50 10 L82 90','M31 62 L69 62'],
+  B:['M26 10 L26 90','M26 10 L54 10 Q74 10 74 30 Q74 50 54 50 L26 50','M26 50 L57 50 Q79 50 79 70 Q79 90 57 90 L26 90'],
+  C:['M77 24 Q66 10 50 10 Q20 10 20 50 Q20 90 50 90 Q66 90 77 76'],
+  D:['M26 10 L26 90','M26 10 L44 10 Q78 10 78 50 Q78 90 44 90 L26 90'],
+  E:['M26 10 L26 90','M26 10 L74 10','M26 50 L66 50','M26 90 L74 90'],
+  F:['M26 10 L26 90','M26 10 L74 10','M26 50 L64 50'],
+  G:['M77 24 Q66 10 50 10 Q20 10 20 50 Q20 90 50 90 Q78 90 78 62 L56 62'],
+  H:['M24 10 L24 90','M76 10 L76 90','M24 50 L76 50'],
+  I:['M50 10 L50 90'],
+  J:['M64 10 L64 70 Q64 90 45 90 Q29 90 26 76'],
+  K:['M26 10 L26 90','M74 10 L26 56','M40 43 L76 90'],
+  L:['M28 10 L28 90 L74 90'],
+  M:['M16 90 L16 10 L50 62 L84 10 L84 90'],
+  N:['M24 90 L24 10 L76 90 L76 10'],
+  O:['M50 10 A32 40 0 0 0 50 90 A32 40 0 0 0 50 10'],
+  P:['M26 10 L26 90','M26 10 L54 10 Q77 10 77 32 Q77 54 54 54 L26 54'],
+  Q:['M50 10 A32 40 0 0 0 50 90 A32 40 0 0 0 50 10','M58 70 L80 92'],
+  R:['M26 10 L26 90','M26 10 L54 10 Q77 10 77 32 Q77 54 54 54 L26 54','M46 54 L78 90'],
+  S:['M75 22 Q66 10 50 10 Q25 10 25 30 Q25 48 50 50 Q75 52 75 70 Q75 90 50 90 Q33 90 23 78'],
+  T:['M16 10 L84 10','M50 10 L50 90'],
+  U:['M24 10 L24 62 Q24 90 50 90 Q76 90 76 62 L76 10'],
+  V:['M18 10 L50 90 L82 10'],
+  W:['M10 10 L28 90 L50 36 L72 90 L90 10'],
+  X:['M20 10 L80 90','M80 10 L20 90'],
+  Y:['M18 10 L50 50','M82 10 L50 50 L50 90'],
+  Z:['M22 10 L78 10 L22 90 L78 90']};
+const GLYPH=Object.assign({},SHP,{
+  'Α':SHP.A,'Β':SHP.B,'Γ':['M28 10 L28 90','M28 10 L76 10'],'Δ':['M50 10 L16 90 L84 90 L50 10'],'Ε':SHP.E,'Ζ':SHP.Z,'Η':SHP.H,
+  'Θ':['M50 10 A32 40 0 0 0 50 90 A32 40 0 0 0 50 10','M34 50 L66 50'],'Ι':SHP.I,'Κ':SHP.K,'Λ':['M50 10 L18 90','M50 10 L82 90'],'Μ':SHP.M,'Ν':SHP.N,
+  'Ξ':['M22 10 L78 10','M32 50 L68 50','M22 90 L78 90'],'Ο':SHP.O,'Π':['M26 10 L26 90','M26 10 L74 10 L74 90'],'Ρ':SHP.P,
+  'Σ':['M78 10 L22 10 L52 50 L22 90 L78 90'],'Τ':SHP.T,'Υ':SHP.Y,'Φ':['M50 10 L50 90','M50 26 A30 22 0 0 0 50 70 A30 22 0 0 0 50 26'],'Χ':SHP.X,
+  'Ψ':['M50 10 L50 90','M18 14 Q18 60 50 60 Q82 60 82 14'],'Ω':['M28 90 L42 90 Q18 72 18 48 Q18 12 50 12 Q82 12 82 48 Q82 72 58 90 L72 90'],
+  '0':['M50 10 A28 40 0 0 0 50 90 A28 40 0 0 0 50 10'],'1':['M32 28 L55 10 L55 90'],'2':['M24 30 Q26 10 50 10 Q76 10 76 32 Q76 52 24 90 L78 90'],
+  '3':['M24 22 Q34 10 50 10 Q74 10 74 30 Q74 50 48 50 Q78 50 78 70 Q78 90 50 90 Q32 90 22 80'],'4':['M60 10 L18 64 L82 64','M62 36 L62 90'],
+  '5':['M74 10 L32 10 L28 46 Q40 38 52 40 Q78 42 78 66 Q78 90 50 90 Q32 90 22 80'],'6':['M70 14 Q60 10 50 10 Q22 12 22 55 Q22 90 50 90 Q78 90 78 66 Q78 44 50 44 Q30 44 23 60'],
+  '7':['M20 10 L80 10 L40 90'],'8':['M50 50 Q24 46 24 29 Q24 10 50 10 Q76 10 76 29 Q76 46 50 50 Q20 54 20 71 Q20 90 50 90 Q80 90 80 71 Q80 54 50 50'],
+  '9':['M76 34 Q76 54 50 54 Q24 54 24 32 Q24 10 50 10 Q76 10 76 34 L74 90'],
+  // shapes for the copying check, in the order children usually master them (Beery VMI)
+  's:vline':['M50 12 L50 88'],'s:hline':['M12 50 L88 50'],'s:circle':['M50 12 A38 38 0 0 0 50 88 A38 38 0 0 0 50 12'],
+  's:cross':['M50 12 L50 88','M12 50 L88 50'],'s:square':['M18 18 L18 82 L82 82 L82 18 L18 18'],'s:x':['M18 18 L82 82','M82 18 L18 82'],
+  's:triangle':['M50 14 L14 84 L86 84 L50 14'],'s:diamond':['M50 10 L20 50 L50 90 L80 50 L50 10']});
+const SHAPE_INFO={'s:vline':[['vertical line','κάθετη γραμμή'],2],'s:hline':[['horizontal line','οριζόντια γραμμή'],2.5],'s:circle':[['circle','κύκλος'],3],
+  's:cross':[['cross','σταυρός'],4],'s:square':[['square','τετράγωνο'],4.5],'s:x':[['X','Χ (διαγώνιος σταυρός)'],5],'s:triangle':[['triangle','τρίγωνο'],5],'s:diamond':[['diamond','ρόμβος'],6.5]};
+const CORNERS={'s:square':[[18,18],[18,82],[82,82],[82,18]],'s:triangle':[[50,14],[14,84],[86,84]],'s:diamond':[[50,10],[20,50],[50,90],[80,50]]};
+const SET_EL='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ',SET_NUM='0123456789';
+const DIGIT_EL=['μηδέν','ένα','δύο','τρία','τέσσερα','πέντε','έξι','επτά','οχτώ','εννιά'],DIGIT_EN=['zero','one','two','three','four','five','six','seven','eight','nine'];
+const glyphSet=k=>k.startsWith('s:')?'shape':SET_NUM.includes(k)?'num':SET_EL.includes(k)?'el':'en';
+const glyphName=k=>k.startsWith('s:')?tr(SHAPE_INFO[k][0]):SET_NUM.includes(k)?tr([DIGIT_EN[+k],DIGIT_EL[+k]]):SET_EL.includes(k)?GREEK.find(g=>g[0]===k)[2]:k;
+// sample each stroke into evenly spaced points with the browser's own path measuring
+const pathCache={};let samplerPath=null;
+function sampleD(d){if(pathCache[d])return pathCache[d];
+  if(!samplerPath){const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('width','0');s.setAttribute('height','0');s.style.position='absolute';samplerPath=document.createElementNS('http://www.w3.org/2000/svg','path');s.appendChild(samplerPath);document.body.appendChild(s)}
+  samplerPath.setAttribute('d',d);const L=samplerPath.getTotalLength(),n=Math.max(4,Math.ceil(L/2)),pts=[];for(let i=0;i<=n;i++){const p=samplerPath.getPointAtLength(L*i/n);pts.push([p.x,p.y])}
+  return pathCache[d]={pts,len:L,curve:/[QACS]/i.test(d)}}
+const gModel=k=>GLYPH[k].map(sampleD);
+const d2=(a,b)=>(a[0]-b[0])**2+(a[1]-b[1])**2;
+function nearD(p,pts){let m=1e9,ix=0;for(let i=0;i<pts.length;i++){const v=d2(p,pts[i]);if(v<m){m=v;ix=i}}return [Math.sqrt(m),ix]}
+const coverOf=(model,ink,tol)=>ink.length?model.filter(q=>nearD(q,ink)[0]<=tol).length/model.length:0;
+const meanDev=(ink,model)=>ink.length?ink.reduce((s,p)=>s+nearD(p,model)[0],0)/ink.length:99;
+const polyLen=pts=>pts.reduce((s,p,i)=>i?s+Math.sqrt(d2(p,pts[i-1])):0,0);
+// even spacing along what the child drew, so fast and slow drawing weigh the same
+function resample(pts,step=2){if(pts.length<2)return pts.map(p=>[p[0],p[1]]);const out=[[pts[0][0],pts[0][1]]];let acc=0;
+  for(let i=1;i<pts.length;i++){let a=[pts[i-1][0],pts[i-1][1]];const b=pts[i];let seg=Math.sqrt(d2(a,b));
+    while(acc+seg>=step){const t=(step-acc)/seg;a=[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];out.push(a);seg=Math.sqrt(d2(a,b));acc=0}acc+=seg}
+  const last=pts[pts.length-1];if(d2(out[out.length-1],last)>.25)out.push([last[0],last[1]]);return out}
+// movement quality of the raw pointer stream: speed, its variability, pauses and wobble
+function motionOf(strokes){const sp=[];let pauses=0,turns=0,len=0;
+  strokes.forEach(st=>{for(let i=1;i<st.length;i++){const dt=st[i][2]-st[i-1][2],dd=Math.sqrt(d2(st[i],st[i-1]));if(dt>250)pauses++;if(dt>0&&dt<250&&dd>0)sp.push(dd/dt*1000)}
+    const r=resample(st,3);len+=polyLen(r);for(let i=2;i<r.length;i++){const a=Math.atan2(r[i-1][1]-r[i-2][1],r[i-1][0]-r[i-2][0]),b=Math.atan2(r[i][1]-r[i-1][1],r[i][0]-r[i-1][0]);let t=Math.abs(b-a);if(t>Math.PI)t=2*Math.PI-t;if(t>1.05)turns++}});
+  const m=sp.length?sp.reduce((a,b)=>a+b,0)/sp.length:0,sd=sp.length?Math.sqrt(sp.reduce((a,b)=>a+(b-m)**2,0)/sp.length):0;
+  return {spd:m,cv:m?sd/m:0,pauses,wob:len?turns/len*100:0,len}}
+const r1=x=>Math.round(x*10)/10;
+function fmStore(){S.fm=S.fm||{};const f=S.fm;f.items=f.items||[];f.best=f.best||{};f.smp=f.smp||{};f.checks=f.checks||[];f.maze=f.maze||[];f.taps=f.taps||{};return f}
+function fmItem(it){const f=fmStore();f.items.push(it);if(f.items.length>700)f.items.splice(0,f.items.length-700);
+  const bk=it.m+':'+it.k;if(it.ok)f.best[bk]=Math.max(f.best[bk]||0,it.sc);
+  const s={t:it.t,m:it.m,s:run.p.ink.map(st=>resample(st,2.5).map(p=>[Math.round(p[0]),Math.round(p[1])]))};
+  const cur=f.smp[it.k]||{};if(!cur.f)cur.f=s;cur.l=s;f.smp[it.k]=cur}
+// letters to practise: the first ones in alphabet order that are not yet written well
+function pickGlyphs(set,mode,n){const f=fmStore(),chars=[...set];const todo=chars.filter(c=>(f.best[mode+':'+c]||0)<80);
+  return (todo.length>=n?todo.slice(0,n):[...todo,...shuffle(chars.filter(c=>!todo.includes(c)))].slice(0,n))}
+const WRITE_LV=[['trace','letters'],['copy','letters'],['trace','num'],['copy','num']];
+const CHECK_LIST=['s:vline','s:hline','s:circle','s:cross','s:square','s:x','s:triangle','s:diamond'];
+function setupWrite(l,check){const [mode,what]=check?['check','']:WRITE_LV[l];
+  const set=what==='num'?SET_NUM:isEl()?SET_EL:ABC;
+  const list=check?[...CHECK_LIST,...(isEl()?['Α','Σ']:['A','S']),'2']:pickGlyphs(set,mode,5);
+  run.hints=0;run.won=false;run.total=list.length;run.q=0;
+  run.p={type:'write',mode,check:!!check,list,i:0,ink:[],si:0,att:1,demo:true,busy:false,res:[]};
+  if(check){run.title=tr(['Fine-motor check','Αξιολόγηση λεπτής κινητικότητας']);run.checkAt=Date.now()}
+  writeCur(true)}
+function writeIntro(){const p=run.p;if(p.check)return tr(['Copy each drawing as well as you can. There is no wrong answer, just do your best!','Αντίγραψε κάθε σχέδιο όσο καλύτερα μπορείς. Δεν υπάρχει λάθος, απλώς κάνε ό,τι καλύτερο μπορείς!']);
+  return p.mode==='trace'?tr(['Put your finger on the green dot and follow the grey line, in the direction of the arrow.','Βάλε το δάχτυλο στην πράσινη τελίτσα και ακολούθησε τη γκρι γραμμή, όπως δείχνει το βελάκι.'])
+    :tr(['Look at the model and write it yourself in the empty box. Then tap Ready!','Κοίτα το δείγμα και γράψ\' το μόνος σου στο άδειο κουτί. Μετά πάτα «Έτοιμο!».'])}
+function writeAsk(){const p=run.p,k=p.list[p.i],nm=glyphName(k),m=p.check?(k.startsWith('s:')||p.i>=CHECK_LIST.length?'copy':'trace'):p.mode;
+  return k.startsWith('s:')?tr([`Copy the ${nm}.`,`Αντίγραψε: ${nm}.`]):m==='trace'?tr([`Write ${nm}.`,`Γράψε το ${nm}.`]):tr([`Copy ${nm}.`,`Αντίγραψε το ${nm}.`])}
+function writeCur(first){const p=run.p;p.k=p.list[p.i];p.model=gModel(p.k);p.ink=[];p.si=0;p.att=1;p.t0=null;p.fails=0;p.cur=p.check?(p.i<CHECK_LIST.length?'copy':'trace'):p.mode;p.demo=true;
+  p.strokeRes=[];p.revSeen=false;run.q=p.i;run.cur={text:esc(writeAsk()),say:first?writeIntro()+' '+writeAsk():writeAsk()}}
+const inkPoly=st=>st.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ');
+function writeBody(p){
+  const hint=p.check?'':`<button class="icon-btn hintfab" data-act="wr" data-x="hint" aria-label="Help">💡</button>`,cnt=`<div class="tcount" style="position:static">${p.i+1} / ${p.list.length}</div>`;
+  const guides=`<path d="M0 10H100M0 90H100" stroke="#9fc3e6" stroke-width=".6"/><path d="M0 50H100" stroke="#c9dcef" stroke-width=".5" stroke-dasharray="2 2"/>`;
+  let model='';
+  if(p.cur==='trace'){model=GLYPH[p.k].map((d,i)=>`<path d="${d}" fill="none" stroke="${i<p.si?'#bfe3c9':'#dfe5ee'}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${i<p.si?'#7cc796':'#9aa7bb'}" stroke-width="1.1" stroke-dasharray="1.5 3" stroke-linecap="round"/>`).join('');
+    if(p.si<p.model.length){const m=p.model[p.si].pts,a=m[0],b=m[Math.min(m.length-1,4)],ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
+      model+=`<g transform="translate(${a[0]} ${a[1]})"><circle r="5.5" fill="#2e9e5b" class="wstart"/><text y="2" text-anchor="middle" font-size="6" font-weight="700" fill="#fff" font-family="Ubuntu,sans-serif">${p.si+1}</text><path d="M7 -2.5L12 0L7 2.5Z" fill="#2e9e5b" transform="rotate(${ang})"/></g>`;
+      if(p.demo)model+=`<circle r="3.2" fill="#f2b632" stroke="#c98a12" stroke-width=".8"><animateMotion dur="${Math.max(1.2,p.model[p.si].len/45).toFixed(1)}s" repeatCount="indefinite" path="${GLYPH[p.k][p.si]}"/></circle>`}}
+  const pad=`<svg id="wpad" class="wpad" viewBox="0 0 100 100">${guides}${model}<g id="wink" fill="none" stroke="#1e6fd9" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">${p.ink.map(st=>`<polyline points="${inkPoly(st)}"/>`).join('')}</g></svg>`;
+  const sample=p.cur==='copy'?`<div class="wmodel"><svg viewBox="0 0 100 100">${GLYPH[p.k].map(d=>`<path d="${d}" fill="none" stroke="#1c2a48" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}</svg></div>`:'';
+  const btns=`<div class="row"><button class="btn small white" data-act="wr" data-x="clear">↺ ${tr(['Erase','Σβήσε'])}</button>${p.cur==='copy'?`<button class="btn small" data-act="wr" data-x="done">✔ ${tr(['Ready!','Έτοιμο!'])}</button>`:''}${cnt}</div>`;
+  return `<div class="stage"><div class="writewrap">${sample}${pad}</div></div>${btns}${hint}`}
+// pointer capture on the writing pad
+let wdraw=null;
+const wPt=(e,svg)=>{const r=svg.getBoundingClientRect();return [(e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100,performance.now(),e.pressure||0]};
+document.addEventListener('pointerdown',e=>{const svg=e.target.closest&&e.target.closest('#wpad'),p=run&&run.p;if(!svg||!p||p.type!=='write'||p.busy||run.won)return;e.preventDefault();
+  svg.setPointerCapture?.(e.pointerId);const el=document.createElementNS('http://www.w3.org/2000/svg','polyline');svg.querySelector('#wink').appendChild(el);
+  wdraw={svg,el,pts:[wPt(e,svg)],type:e.pointerType};if(!p.t0)p.t0=performance.now();if(p.demo&&p.cur==='trace'){p.demo=false;const c=svg.querySelector('animateMotion');if(c)c.parentNode.remove()}});
+document.addEventListener('pointermove',e=>{if(!wdraw)return;const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
+  (evs.length?evs:[e]).forEach(ev=>{const q=wPt(ev,wdraw.svg),l=wdraw.pts[wdraw.pts.length-1];if(d2(q,l)>.16)wdraw.pts.push(q)});wdraw.el.setAttribute('points',inkPoly(wdraw.pts))});
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>{if(!wdraw)return;const w=wdraw,p=run&&run.p;wdraw=null;if(!p||p.type!=='write')return;
+  p.ptype=w.type;if(w.pts.length<2&&p.cur==='trace'){w.el.remove();return}p.ink.push(w.pts);if(p.cur==='trace')traceStroke(p)}));
+function traceStroke(p){const m=p.model[p.si],raw=p.ink[p.ink.length-1],ink=resample(raw,2),cov=coverOf(m.pts,ink,14),dev=meanDev(ink,m.pts);
+  const i1=nearD(ink[Math.floor(ink.length*.25)],m.pts)[1],i2=nearD(ink[Math.floor(ink.length*.75)],m.pts)[1],dirOk=m.pts.length<6||i1<=i2;
+  // after four tries the stroke is accepted anyway, so a struggling child is never stuck
+  if((cov>=.7&&dev<=12)||p.fails>=4){p.strokeRes.push({cov,dev,dirOk,curve:m.curve});p.si++;p.fails=0;sfx('tap');
+    if(p.si>=p.model.length)return writeFinish(p,true);renderGame();return}
+  // not good enough: erase this stroke and try again
+  p.ink.pop();p.fails++;run.mistakes++;p.att++;p.demo=true;oops();renderGame();
+  say(dev>12?tr(['Stay on the grey line. Try again!','Μείνε πάνω στη γκρι γραμμή. Δοκίμασε ξανά!']):tr(['Go all the way to the end of the line!','Πήγαινε μέχρι το τέλος της γραμμής!']))}
+// a copy that matches the model clearly better when flipped left-right is mirror writing
+const isRev=(p,c,mi)=>!p.k.startsWith('s:')&&c&&mi&&mi.sc-c.sc>=.1&&mi.sc>=.6?1:0;
+// copying: scale the drawing onto the model's box, then compare both ways
+function copyScore(p,mirror){const all=p.model.flatMap(m=>m.pts),ink0=p.ink.flatMap(st=>resample(st,2));if(ink0.length<3)return null;
+  const bb=pts=>{const xs=pts.map(q=>q[0]),ys=pts.map(q=>q[1]);return [Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)]};
+  const [ax,ay,bx,by]=bb(all),[cx,cy,dx,dy]=bb(ink0),mw=bx-ax,mh=by-ay,iw=dx-cx,ih=dy-cy;
+  let sx=iw>4?mw/iw:null,sy=ih>4?mh/ih:null;if(mw<5)sx=sy;if(mh<5)sy=sx;if(sx===null)sx=sy||1;if(sy===null)sy=sx||1;
+  const ink=ink0.map(q=>{let x=(q[0]-(cx+dx)/2)*sx;if(mirror)x=-x;return [x+(ax+bx)/2,(q[1]-(cy+dy)/2)*sy+(ay+by)/2]});
+  const shape=p.k.startsWith('s:'),tol=shape?10:12,cov=coverOf(all,ink,tol),prec=coverOf(ink,all,tol),sc=cov+prec?2*cov*prec/(cov+prec):0;
+  const corners=(CORNERS[p.k]||[]).every(c=>nearD(c,ink)[0]<=12);
+  return {cov,prec,sc,dev:meanDev(ink,all),corners,size:ih,aspect:ih?iw/ih:0}}
+function writeFinish(p,ok){const k=p.k,mo=motionOf(p.ink),dur=p.t0?performance.now()-p.t0:0,res=p.strokeRes,ideal=p.model.reduce((s,m)=>s+m.len,0);
+  const prs=p.ink.flat().map(q=>q[3]).filter(x=>x>0&&x<1),pr=p.ptype==='pen'&&prs.length?prs.reduce((a,b)=>a+b,0)/prs.length:null;
+  let it={t:Date.now(),m:p.check?'check':p.cur,k,set:glyphSet(k),ok:ok?1:0,att:p.att,dur:Math.round(dur),ns:p.ink.length,ne:p.model.length,spd:r1(mo.spd),cv:r1(mo.cv*100)/100,pz:mo.pauses,wob:r1(mo.wob),lr:r1(ideal?mo.len/ideal:0),pt:p.ptype||'',pr:pr===null?null:r1(pr*100)/100,h:run.hints};
+  if(p.cur==='trace'){const cov=res.reduce((s,r)=>s+r.cov,0)/res.length,dev=res.reduce((s,r)=>s+r.dev,0)/res.length,cu=res.filter(r=>r.curve),li=res.filter(r=>!r.curve);
+    Object.assign(it,{cov:r1(cov*100),dev:r1(dev/80*100),dir:res.filter(r=>r.dirOk).length,sc:Math.round(Math.max(0,Math.min(100,cov*100-dev*2.5+20))),
+      dc:cu.length?r1(cu.reduce((s,r)=>s+r.dev,0)/cu.length/80*100):null,dl:li.length?r1(li.reduce((s,r)=>s+r.dev,0)/li.length/80*100):null})}
+  else{const c=copyScore(p,false),mi=copyScore(p,true);Object.assign(it,{cov:r1(c.cov*100),prc:r1(c.prec*100),sc:Math.round(c.sc*100*(CORNERS[k]&&!c.corners?.6:1)),dev:r1(c.dev/80*100),sz:r1(c.size),ar:r1(c.aspect*100)/100,
+      rev:p.revSeen||isRev(p,c,mi)?1:0,cor:CORNERS[k]?(c.corners?1:0):null})}
+  fmItem(it);p.res.push(it);save();p.busy=true;
+  if(ok){praise();if(!p.check)say(tr(['Well written!','Μπράβο, ωραία το έγραψες!']))}else sfx('tap');
+  setTimeout(()=>{if(run&&run.p===p){p.busy=false;p.i++;if(p.i>=p.list.length)return writeDone(p);writeCur(false);renderGame();say(run.cur.say)}},ok?1300:500)}
+function writeDone(p){
+  if(!p.check)return stemWin(stemStars(run.mistakes,1,4));
+  const f=fmStore(),age=S.birth?ageYears(S.birth,Date.now()):null;f.checks.push({t:run.checkAt,age,items:p.res.map(r=>({k:r.k,sc:r.sc,ok:r.k.startsWith('s:')?(r.sc>=65&&r.cor!==0?1:0):(r.sc>=60?1:0),dev:r.dev,dur:r.dur}))});
+  if(f.checks.length>40)f.checks.shift();save();run=null;sfx('win');crowd('big');ui.screen='fmreport';render();say(tr(['Thank you! The check is saved in the report.','Ευχαριστώ! Η αξιολόγηση αποθηκεύτηκε στην αναφορά.']))}
+function writeAct(b){const p=run.p,x=b.dataset.x;if(!p||run.won||p.busy)return;
+  if(x==='clear'){if(p.cur==='trace'){p.ink=p.ink.slice(0,p.si)}else p.ink=[];sfx('tap');renderGame();return}
+  if(x==='hint'){run.hints++;p.demo=true;renderGame();return say(p.cur==='trace'?tr(['Watch the yellow dot, then draw the same way from the green dot.','Κοίτα την κίτρινη μπαλίτσα και μετά κάνε το ίδιο από την πράσινη τελίτσα.']):tr(['Look at the model: start at the top and draw each line.','Κοίτα το δείγμα: ξεκίνα από πάνω και κάνε μία-μία τις γραμμές.']))}
+  if(x==='done'){if(!p.ink.length)return say(tr(['Draw it in the box first!','Πρώτα γράψ\' το μέσα στο κουτί!']));const c=copyScore(p,false);
+    if(p.check)return writeFinish(p,!!c&&c.sc>=.6);
+    const rev=isRev(p,c,copyScore(p,true));if(rev)p.revSeen=true;const pass=c&&c.sc>=.62&&(c.corners||!CORNERS[p.k])&&!rev;if(pass)return writeFinish(p,true);
+    if(p.att>=3){return writeFinish(p,false)}
+    p.att++;run.mistakes++;oops(b);p.ink=[];renderGame();say(rev?tr(['Nearly! Look which way it faces in the model, and try again.','Σχεδόν! Κοίτα στο δείγμα προς τα πού κοιτάει και δοκίμασε ξανά.']):tr(['Almost! Look at the model again and try once more.','Σχεδόν! Κοίτα ξανά το δείγμα και δοκίμασε άλλη μία φορά.']))}}
+
+/* ---------- fine-motor report for parents ---------- */
+function ageYears(birth,t){const [y,m]=birth.split('-').map(Number);const d=new Date(t);return r1((d.getFullYear()-y)+(d.getMonth()+1-m)/12)}
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+const dayKey=t=>{const d=new Date(t);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+function fmTap(b,e){if(!e.detail||!(ui.screen==='game'))return;const r=b.getBoundingClientRect();if(r.width<30)return;
+  const off=Math.min(1.5,Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2))/(Math.min(r.width,r.height)/2)),f=fmStore(),k=dayKey(Date.now()),a=f.taps[k]||[0,0,0];
+  a[0]++;a[1]=r1(a[1]+off);if(off>.8)a[2]++;f.taps[k]=a;const ks=Object.keys(f.taps).sort();if(ks.length>90)delete f.taps[ks[0]]}
+function lineChart(series,{h=150,yMax=100,yLab='',better='up'}={}){
+  const all=series.flatMap(s=>s.pts);if(all.length<1)return `<p class="note">${tr(['Not enough data yet.','Δεν υπάρχουν ακόμα αρκετά δεδομένα.'])}</p>`;
+  const W=560,H=h,L=34,B=22,xs=[...new Set(all.map(p=>p[0]))].sort(),xi=x=>L+(xs.length<2?(W-L-10)/2:(xs.indexOf(x)/(xs.length-1))*(W-L-10)),yi=y=>H-B-(Math.min(y,yMax)/yMax)*(H-B-22);
+  const grid=[0,.25,.5,.75,1].map(f=>`<line x1="${L}" x2="${W-6}" y1="${yi(yMax*f)}" y2="${yi(yMax*f)}" stroke="#e3dccb"/><text x="${L-5}" y="${yi(yMax*f)+4}" text-anchor="end" font-size="10" fill="#4b5a78">${Math.round(yMax*f)}</text>`).join('');
+  const lab=xs.length<=8?xs:xs.filter((_,i)=>i%Math.ceil(xs.length/8)===0);
+  const xl=lab.map(x=>`<text x="${xi(x)}" y="${H-6}" text-anchor="middle" font-size="10" fill="#4b5a78">${x.slice(5).replace('-','/')}</text>`).join('');
+  const lines=series.map(s=>`<polyline fill="none" stroke="${s.c}" stroke-width="2.5" points="${s.pts.map(p=>`${xi(p[0])},${yi(p[1])}`).join(' ')}"/>${s.pts.map(p=>`<circle cx="${xi(p[0])}" cy="${yi(p[1])}" r="3.5" fill="${s.c}"><title>${p[0]}: ${r1(p[1])}</title></circle>`).join('')}`).join('');
+  return `<svg class="rchart" viewBox="0 0 ${W} ${H}" role="img">${grid}${xl}${lines}<text x="${L}" y="11" font-size="10" font-weight="700" fill="#4b5a78">${yLab}</text></svg>${series.length>1?`<div class="legend">${series.map(s=>`<span><i style="background:${s.c}"></i>${s.n}</span>`).join('')}</div>`:''}`}
+function sampleSVG(k,s){const strokes=GLYPH[k]||[];return `<svg viewBox="0 0 100 100"><path d="M0 10H100M0 90H100" stroke="#cfe0f0" stroke-width="1"/>${strokes.map(d=>`<path d="${d}" fill="none" stroke="#e4e8ef" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}${s?s.s.map(st=>`<polyline points="${st.map(q=>q.join(',')).join(' ')}" fill="none" stroke="#1e6fd9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`).join(''):''}</svg>`}
+function fmObservations(items,f){const el=isEl(),out=[],tr2=(a,b)=>el?b:a;
+  const tr_=items.filter(i=>i.m==='trace'),cp=items.filter(i=>i.m!=='trace'&&i.set!=='shape');
+  const dc=avg(tr_.map(i=>i.dc).filter(x=>x!=null)),dl=avg(tr_.map(i=>i.dl).filter(x=>x!=null));
+  if(dc!=null&&dl!=null){if(dc>dl*1.3)out.push(tr2(`Curves are harder than straight lines (average deviation ${r1(dc)}% vs ${r1(dl)}%). This is very common at this age. Helpful play: drawing big circles in the air or in sand, play-dough snakes and rings, tracing round objects.`,`Οι καμπύλες δυσκολεύουν περισσότερο από τις ευθείες (μέση απόκλιση ${r1(dc)}% έναντι ${r1(dl)}%). Είναι πολύ συνηθισμένο σε αυτή την ηλικία. Βοηθούν: μεγάλοι κύκλοι στον αέρα ή στην άμμο, φιδάκια και κουλούρια από πλαστελίνη, ζωγραφική γύρω από στρογγυλά αντικείμενα.`));
+    else out.push(tr2(`Straight lines and curves are drawn with similar accuracy (${r1(dl)}% and ${r1(dc)}% deviation).`,`Ευθείες και καμπύλες γράφονται με παρόμοια ακρίβεια (απόκλιση ${r1(dl)}% και ${r1(dc)}%).`))}
+  const dirs=tr_.filter(i=>i.ne),dirRate=dirs.length?dirs.reduce((s,i)=>s+i.dir,0)/dirs.reduce((s,i)=>s+i.ne,0):null;
+  if(dirRate!=null)out.push(dirRate<.7?tr2(`Strokes often go the opposite way (correct direction ${Math.round(dirRate*100)}%). Writing from top to bottom and from left to right makes writing faster later; the green dot and arrow show where to start.`,`Οι γραμμές συχνά γίνονται με την αντίθετη φορά (σωστή φορά ${Math.round(dirRate*100)}%). Η γραφή από πάνω προς τα κάτω και από αριστερά προς τα δεξιά κάνει αργότερα το γράψιμο πιο γρήγορο· η πράσινη τελίτσα και το βελάκι δείχνουν από πού ξεκινάμε.`)
+    :tr2(`Stroke direction is mostly correct (${Math.round(dirRate*100)}%).`,`Η φορά των γραμμών είναι κυρίως σωστή (${Math.round(dirRate*100)}%).`));
+  const revs=[...new Set(cp.filter(i=>i.rev).map(i=>i.k))];if(revs.length)out.push(tr2(`Mirror writing was seen in: ${revs.join(', ')}. Reversals are normal up to about age 7 and usually fade with practice.`,`Εμφανίστηκε καθρεφτική γραφή σε: ${revs.join(', ')}. Οι αντιστροφές είναι φυσιολογικές μέχρι περίπου τα 7 χρόνια και συνήθως χάνονται με την εξάσκηση.`));
+  const cv=avg(items.map(i=>i.cv).filter(x=>x>0));if(cv!=null)out.push(cv>.9?tr2(`Movement is stop-and-go (speed variability ${r1(cv*100)}%). Smooth, continuous lines come with practice; slow is fine.`,`Η κίνηση είναι «σταμάτα-ξεκίνα» (μεταβλητότητα ταχύτητας ${r1(cv*100)}%). Οι ομαλές, συνεχόμενες γραμμές έρχονται με την εξάσκηση· η αργή γραφή είναι μια χαρά.`)
+    :tr2(`Movement is fairly smooth (speed variability ${r1(cv*100)}%).`,`Η κίνηση είναι αρκετά ομαλή (μεταβλητότητα ταχύτητας ${r1(cv*100)}%).`));
+  const taps=Object.values(f.taps||{}),tn=taps.reduce((s,a)=>s+a[0],0);if(tn>20){const off=taps.reduce((s,a)=>s+a[1],0)/tn,edge=taps.reduce((s,a)=>s+a[2],0)/tn;
+    out.push(tr2(`Tapping: on average ${Math.round(off*100)}% of the way from the centre of a button to its edge; ${Math.round(edge*100)}% of taps land near the edge.`,`Αγγίγματα: κατά μέσο όρο στο ${Math.round(off*100)}% της απόστασης από το κέντρο ενός κουμπιού ως την άκρη του· το ${Math.round(edge*100)}% των αγγιγμάτων πέφτει κοντά στην άκρη.`))}
+  return out}
+function fmReportHTML(){const f=fmStore(),el=isEl(),items=f.items,name=S.name||tr(HEROES[S.hero].name),now=Date.now(),age=S.birth?ageYears(S.birth,now):null;
+  const days=[...new Set(items.map(i=>dayKey(i.t)))].sort(),first=items[0],ok1=items.filter(i=>i.m!=='check');
+  const tile=(v,l,s)=>`<div class="kpi"><b>${v}</b><span>${l}</span>${s?`<small>${s}</small>`:''}</div>`,pct=x=>x==null?'–':Math.round(x)+'%';
+  const trace=items.filter(i=>i.m==='trace'),copy=items.filter(i=>i.m==='copy');
+  const firstTry=ok1.length?ok1.filter(i=>i.ok&&i.att===1).length/ok1.length*100:null,dirRate=trace.length?trace.reduce((s,i)=>s+i.dir,0)/trace.reduce((s,i)=>s+i.ne,0)*100:null;
+  const taps=Object.values(f.taps||{}),tn=taps.reduce((s,a)=>s+a[0],0);
+  const kpis=`<div class="kpis">${tile(items.length,tr(['writing tasks','γραφικές δοκιμές']),`${days.length} ${tr(['days','μέρες'])}`)}${tile(pct(avg(items.map(i=>i.sc))),tr(['average score','μέση βαθμολογία']),tr(['0–100, higher is better','0–100, όσο πιο ψηλά τόσο καλύτερα']))}
+    ${tile(trace.length?r1(avg(trace.map(i=>i.dev)))+'%':'–',tr(['tracing deviation','απόκλιση ίχνους']),tr(['% of letter height, lower is better','% του ύψους γράμματος, όσο πιο χαμηλά τόσο καλύτερα']))}${tile(pct(dirRate),tr(['correct stroke direction','σωστή φορά γραμμών']))}
+    ${tile(pct(firstTry),tr(['right on first try','σωστό με την 1η']))}${tile(tn?Math.round(taps.reduce((s,a)=>s+a[1],0)/tn*100)+'%':'–',tr(['tap offset','απόκλιση αγγίγματος']),tr(['from button centre, lower is better','από το κέντρο, όσο πιο χαμηλά τόσο καλύτερα']))}</div>`;
+  const byDay=(arr,fn)=>days.map(d=>{const v=arr.filter(i=>dayKey(i.t)===d).map(fn).filter(x=>x!=null);return v.length?[d,avg(v)]:null}).filter(Boolean);
+  const trend=lineChart([{n:tr(['score (trace)','βαθμός (ίχνος)']),c:'#1e6fd9',pts:byDay(trace,i=>i.sc)},{n:tr(['score (copy)','βαθμός (αντιγραφή)']),c:'#2e9e5b',pts:byDay(copy,i=>i.sc)}],{yLab:tr(['score','βαθμός'])});
+  const devT=lineChart([{n:tr(['straight lines','ευθείες']),c:'#c98a12',pts:byDay(trace,i=>i.dl)},{n:tr(['curves','καμπύλες']),c:'#c8643b',pts:byDay(trace,i=>i.dc)}],{yMax:20,yLab:tr(['deviation %','απόκλιση %'])});
+  const flu=lineChart([{n:tr(['speed variability %','μεταβλητότητα ταχύτητας %']),c:'#8e44ad',pts:byDay(items,i=>i.cv*100)}],{yMax:150,yLab:'%'});
+  const grid=(set,lab)=>`<h3>${lab}</h3><div class="ggrid">${[...set].map(k=>{const mine=items.filter(i=>i.k===k),b=Math.max(0,...mine.filter(i=>i.ok).map(i=>i.sc)),n=mine.length,s=f.smp[k];
+      const c=!n?'none':b>=80?'good':b>=60?'mid':'low';return `<div class="gcell ${c}" title="${k}">${sampleSVG(k,s&&s.l)}<b>${k}</b><small>${n?b+' · '+n+'×':'–'}</small></div>`}).join('')}</div>`;
+  const ages=[...new Set(f.checks.map(c=>c.t))];
+  const checks=f.checks.length?`<div style="overflow-x:auto"><table class="rtable"><thead><tr><th>${tr(['Item','Σχέδιο'])}</th><th>${tr(['typical age*','συνήθης ηλικία*'])}</th>${f.checks.map(c=>`<th>${dayKey(c.t).slice(5).replace('-','/')}${c.age?`<br><small>${c.age} ${tr(['y','ετ.'])}</small>`:''}</th>`).join('')}</tr></thead><tbody>
+    ${[...CHECK_LIST,'L1','L2','2'].map((k,ri)=>`<tr><td>${k.startsWith('s:')?tr(SHAPE_INFO[k][0]):ri===8?tr(['letter 1','γράμμα 1']):ri===9?tr(['letter 2','γράμμα 2']):tr(['number 2','αριθμός 2'])}</td><td>${k.startsWith('s:')?SHAPE_INFO[k][1]+' '+tr(['y','ετ.']):''}</td>
+      ${f.checks.map(c=>{const it=c.items[ri];return `<td>${it?`${it.ok?'✅':'⬜'} ${it.sc}`:''}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>
+    <p class="note">* ${tr(['Typical age at which most children copy the shape correctly, after the Beery–Buktenica Developmental Test of Visual-Motor Integration (VMI). For guidance only: this check is not the standardised test and is done with a finger on a screen, not a pencil on paper.','Ηλικία στην οποία τα περισσότερα παιδιά αντιγράφουν σωστά το σχήμα, σύμφωνα με το Beery–Buktenica Developmental Test of Visual-Motor Integration (VMI). Μόνο ενδεικτικά: η δοκιμή αυτή δεν είναι το σταθμισμένο τεστ και γίνεται με δάχτυλο σε οθόνη, όχι με μολύβι σε χαρτί.'])}</p>`
+    :`<p class="note">${tr(['No check done yet. It takes about 3 minutes: 8 shapes, 2 letters and 1 number.','Δεν έχει γίνει ακόμα αξιολόγηση. Διαρκεί περίπου 3 λεπτά: 8 σχήματα, 2 γράμματα και 1 αριθμός.'])}</p>`;
+  const obs=fmObservations(items,f);
+  const method=el?`<ul>
+    <li><b>Απόκλιση ίχνους:</b> μέση απόσταση κάθε σημείου που ζωγράφισε το παιδί από την ιδανική γραμμή, ως ποσοστό του ύψους του γράμματος (το γράμμα έχει ύψος 80 μονάδες σε κουτί 100×100). Η γραμμή που ζωγραφίζεται επαναδειγματοληπτείται ανά 2 μονάδες, ώστε η ταχύτητα να μην επηρεάζει το αποτέλεσμα.</li>
+    <li><b>Κάλυψη:</b> ποσοστό των σημείων της ιδανικής γραμμής που πέρασε το παιδί σε απόσταση έως 14 μονάδες (10 για τα σχήματα). Στην αντιγραφή μετριέται και η <b>ακρίβεια</b> (πόσο από το σχέδιο του παιδιού βρίσκεται κοντά στο δείγμα), αφού πρώτα το σχέδιο κλιμακωθεί στο μέγεθος του δείγματος. Ο <b>βαθμός αντιγραφής</b> είναι ο αρμονικός μέσος κάλυψης και ακρίβειας (F1). Στα σχήματα με γωνίες ελέγχεται επιπλέον ότι υπάρχει κάθε γωνία.</li>
+    <li><b>Φορά γραμμής:</b> συγκρίνεται η θέση του 25% και του 75% της γραμμής του παιδιού πάνω στην ιδανική γραμμή.</li>
+    <li><b>Μεταβλητότητα ταχύτητας:</b> συντελεστής μεταβλητότητας (τυπική απόκλιση / μέσος όρος) της στιγμιαίας ταχύτητας του δαχτύλου. Χαμηλότερη τιμή σημαίνει πιο ομαλή, αυτοματοποιημένη κίνηση. <b>Παύσεις:</b> διαστήματα πάνω από 250 ms χωρίς κίνηση μέσα σε μία γραμμή. <b>Διορθώσεις:</b> απότομες αλλαγές κατεύθυνσης (πάνω από 60°) ανά 100 μονάδες γραμμής.</li>
+    <li><b>Καθρεφτική γραφή:</b> η αντιγραφή συγκρίνεται και με το οριζόντιο κατοπτρικό της· αν ταιριάζει σαφώς καλύτερα, σημειώνεται αντιστροφή.</li>
+    <li><b>Απόκλιση αγγίγματος:</b> απόσταση κάθε αγγίγματος από το κέντρο του κουμπιού που πατήθηκε, ως ποσοστό της μισής του διάστασης.</li></ul>`
+    :`<ul><li><b>Tracing deviation:</b> mean distance of every drawn point from the ideal stroke, as a % of letter height (letters are 80 units tall in a 100×100 box). Drawn lines are resampled every 2 units so speed does not bias the result.</li>
+    <li><b>Coverage:</b> share of the ideal stroke that the child passed within 14 units (10 for shapes). Copying also measures <b>precision</b> (how much of the drawing lies near the model) after scaling the drawing to the model's size; the <b>copy score</b> is the harmonic mean of coverage and precision (F1). Shapes with corners must also show every corner.</li>
+    <li><b>Stroke direction:</b> compares where the 25% and 75% points of the drawn stroke fall along the ideal stroke.</li>
+    <li><b>Speed variability:</b> coefficient of variation (standard deviation / mean) of instantaneous finger speed; lower means smoother, more automatic movement. <b>Pauses:</b> gaps over 250 ms without movement within a stroke. <b>Corrections:</b> sharp turns (over 60°) per 100 units of line.</li>
+    <li><b>Mirror writing:</b> each copy is also compared with its horizontal mirror; a clearly better mirror match is flagged as a reversal.</li>
+    <li><b>Tap offset:</b> distance of each tap from the centre of the button pressed, as a % of half its size.</li></ul>`;
+  const mz=f.maze.slice(-12);
+  return `<div class="screen"><div class="gbar noprint"><button class="icon-btn" data-act="parentsback" aria-label="Back">${I.back}</button><div class="gtitle"><h2>${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</h2><div>${esc(name)}</div></div></div>
+  <div class="parents report">
+    <header class="rhead"><h2>${tr(['Fine-motor and handwriting report','Αναφορά λεπτής κινητικότητας και γραφοκινητικών δεξιοτήτων'])}</h2>
+      <p><b>${esc(name)}</b>${age?` · ${tr(['age','ηλικία'])} ${age} ${tr(['years','ετών'])}`:''} · ${tr(['report date','ημερομηνία'])} ${dayKey(now)}${first?` · ${tr(['data since','δεδομένα από'])} ${dayKey(first.t)}`:''}</p>
+      <div class="row noprint" style="justify-content:flex-start"><label for="birth"><b>${tr(['Birth month','Μήνας γέννησης'])}</b></label><input id="birth" type="month" class="name-in" style="width:auto" value="${S.birth||''}"><button class="btn small white" data-act="setbirth">${tr(['Save','Αποθήκευση'])}</button></div></header>
+    <div class="disclaimer">${tr(['This report describes how the child draws and writes inside the game. It is a measurement aid for parents and teachers, not a medical or psychological assessment and not a standardised test. Results depend on the device, screen size and finger use. If you are worried about your child\'s development, talk to a paediatrician or an occupational therapist.','Η αναφορά περιγράφει πώς ζωγραφίζει και γράφει το παιδί μέσα στο παιχνίδι. Είναι βοήθημα μέτρησης για γονείς και εκπαιδευτικούς, όχι ιατρική ή ψυχολογική αξιολόγηση ούτε σταθμισμένο τεστ. Τα αποτελέσματα εξαρτώνται από τη συσκευή, το μέγεθος της οθόνης και τη γραφή με το δάχτυλο. Αν σας απασχολεί η ανάπτυξη του παιδιού σας, συζητήστε το με παιδίατρο ή εργοθεραπευτή.'])}</div>
+    ${kpis}
+    <section><h3>${tr(['Observations','Παρατηρήσεις'])}</h3>${obs.length?`<ul>${obs.map(o=>`<li>${o}</li>`).join('')}</ul>`:`<p class="note">${tr(['Play the writing levels in the Temple of Letters to collect data.','Παίξτε τα επίπεδα γραφής στον Ναό των Γραμμάτων για να συγκεντρωθούν δεδομένα.'])}</p>`}</section>
+    <section><h3>${tr(['Progress over time','Πρόοδος στον χρόνο'])}</h3>${trend}</section>
+    <section><h3>${tr(['Straight lines and curves','Ευθείες και καμπύλες'])}</h3><p class="note">${tr(['Average tracing deviation per day, as % of letter height (lower is better).','Μέση απόκλιση ίχνους ανά ημέρα, ως % του ύψους του γράμματος (όσο πιο χαμηλά τόσο καλύτερα).'])}</p>${devT}</section>
+    <section><h3>${tr(['Fluency','Ροή κίνησης'])}</h3><p class="note">${tr(['Speed variability per day (lower is smoother).','Μεταβλητότητα ταχύτητας ανά ημέρα (όσο πιο χαμηλά τόσο πιο ομαλή η κίνηση).'])}</p>${flu}</section>
+    <section><h3>${tr(['Visual-motor check (shape copying)','Οπτικοκινητική αξιολόγηση (αντιγραφή σχημάτων)'])}</h3>${checks}<div class="row noprint" style="justify-content:flex-start"><button class="btn small blue" data-act="fmcheck">✏️ ${tr(['Start a check now','Έναρξη αξιολόγησης τώρα'])}</button></div></section>
+    <section><h3>${tr(['Letters and numbers','Γράμματα και αριθμοί'])}</h3><p class="note">${tr(['Each box shows the latest drawing over the model, the best score and how many times it was written. Green 80+, yellow 60–79, orange below 60.','Κάθε κουτί δείχνει το τελευταίο σχέδιο πάνω στο δείγμα, τον καλύτερο βαθμό και πόσες φορές γράφτηκε. Πράσινο 80+, κίτρινο 60–79, πορτοκαλί κάτω από 60.'])}</p>
+      ${grid(SET_EL,tr(['Greek capitals','Ελληνικά κεφαλαία']))}${grid(ABC,tr(['Latin capitals','Λατινικά κεφαλαία']))}${grid(SET_NUM,tr(['Numbers','Αριθμοί']))}</section>
+    ${mz.length?`<section><h3>${tr(['Maze control','Έλεγχος στους λαβύρινθους'])}</h3><table class="rtable"><thead><tr><th>${tr(['date','ημερομηνία'])}</th><th>${tr(['maze','λαβύρινθος'])}</th><th>${tr(['time','χρόνος'])}</th><th>${tr(['wall bumps','χτυπήματα σε τοίχο'])}</th></tr></thead><tbody>${mz.map(m=>`<tr><td>${dayKey(m.t)}</td><td>${m.n}×${m.n}</td><td>${Math.round(m.dur/1000)} s</td><td>${m.bumps}</td></tr>`).join('')}</tbody></table></section>`:''}
+    <section><h3>${tr(['Method','Μεθοδολογία'])}</h3>${method}</section>
+    <div class="row noprint" style="justify-content:flex-start"><button class="btn small blue" data-act="fmprint">🖨️ ${tr(['Print / save as PDF','Εκτύπωση / αποθήκευση PDF'])}</button><button class="btn small white" data-act="fmcsv">⬇️ ${tr(['Download data (CSV)','Λήψη δεδομένων (CSV)'])}</button></div>
+  </div></div>`}
+function fmCSV(){const cols=['t','m','k','set','ok','att','sc','cov','prc','dev','dl','dc','dir','ne','ns','dur','spd','cv','pz','wob','lr','sz','ar','rev','cor','pt','pr','h'];
+  const rows=fmStore().items.map(i=>cols.map(c=>c==='t'?new Date(i.t).toISOString():i[c]==null?'':i[c]).join(','));
+  const blob=new Blob(['﻿'+[cols.join(','),...rows].join('\n')],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`fine-motor-${dayKey(Date.now())}.csv`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+
 /* ---------- game flow ---------- */
 let run=null;
 // listening games: the songs and the ear-training note games
@@ -2488,7 +2772,7 @@ function startLevel(g,l){
   ui.modal=null;ui.screen='game';streak=0;
   run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
   run.wasDone=gameDone(S,g);
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else run.cur=GEN[g](l);
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else run.cur=GEN[g](l);
   render();speakPrompt();
 }
 // Instructions are spoken the first time; the same instruction again stays quiet (the 🔊 button always repeats it)
@@ -2505,7 +2789,8 @@ function renderGame(){
   const g=GAMES.find(x=>x.id===run.g),h=HEROES[S.hero];
   const prog=run.g==='memory'?run.found:run.q;
   let body;
-  if(run.g==='time')body=timeBody(run.p);
+  if(run.p&&run.p.type==='write')body=writeBody(run.p);
+  else if(run.g==='time')body=timeBody(run.p);
   else if(run.g==='social')body=run.p.rounds&&run.p.rounds[run.p.i]&&run.p.rounds[run.p.i].stage==='respect'?respectBody():socialBody(run.p);
   else if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
   else if(run.g==='music'&&run.p&&run.p.type==='notes')body=notesBody(run.p);
@@ -2518,7 +2803,7 @@ function renderGame(){
     body=`${c.stage?`<div class="stage">${c.stage}</div>`:''}<div class="options" style="${c.stage?'':'flex:1;align-items:center'}">${c.options.map((o,i)=>`<button class="opt ${cls}" data-act="ans" data-i="${i}">${o.html}</button>`).join('')}</div>`}
   app.innerHTML=`<div class="screen">
     <div class="gbar"><button class="icon-btn" data-act="map" aria-label="${t('backIsland')}">${I.home}</button>
-      <div class="gtitle"><h2>${tr(g.name)}</h2><div>${t('lv')} ${run.l+1} · ${tr(g.levels[run.l])}</div></div>
+      <div class="gtitle"><h2>${tr(g.name)}</h2><div>${run.title||`${t('lv')} ${run.l+1} · ${tr(g.levels[run.l])}`}</div></div>
       <div class="dots">${Array.from({length:run.total},(_,i)=>`<i class="${i<prog?'done':i===prog?'now':''}"></i>`).join('')}</div></div>
     <div class="prompt"><span class="pet" id="pet">${h.pet}</span><div class="bubble"><span>${run.g==='memory'?t('findPairs'):run.cur.text}</span><button class="icon-btn" data-act="repeat" aria-label="Repeat">${I.speaker}</button></div></div>
     ${body}</div>`;
@@ -2575,11 +2860,12 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm')sfx('tap');
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm'&&a!=='wr')sfx('tap');if(ui.screen==='game'&&b.matches('.opt,.btn'))fmTap(b,e);
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
+      else if(ui.screen==='game'&&run&&run.p&&run.p.type==='write')run.cur={text:esc(writeAsk()),say:writeAsk()};
       else if(ui.screen==='game'&&run&&run.g==='time')run.cur={text:tr(TIME_TEXT[run.p.kind]),say:tr(TIME_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='social')run.cur={text:tr(SOC_TEXT[run.p.kind]),say:tr(SOC_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='music'&&run.p&&run.p.type==='notes')run.cur={text:tr(NT_TEXT[run.p.kind].text),say:tr(NT_TEXT[run.p.kind].say)};
@@ -2622,6 +2908,13 @@ document.addEventListener('click',e=>{
     case 'st':if(run&&run.g==='art'){if(run.p.type==='art')artAct(b.dataset.x,b);else if(b.dataset.x==='hint')mixHint();else mixAct(b.dataset.x,b)}else stemAct(b);break;
     case 'nt':notesAct(b);break;
     case 'tm':timeAct(b);break;
+    case 'wr':writeAct(b);break;
+    case 'fmreport':ui.screen='fmreport';render();break;
+    case 'parentsback':ui.screen='parents';render();break;
+    case 'setbirth':{const v=($('#birth')||{}).value;if(/^\d{4}-\d{2}$/.test(v)){S.birth=v;save();render()}break}
+    case 'fmcheck':ui.modal=null;ui.screen='game';streak=0;run={g:'letters',l:3,q:0,total:1,mistakes:0,busy:false,nextRank:0,wasDone:true};setupWrite(0,true);render();speakPrompt();break;
+    case 'fmprint':window.print();break;
+    case 'fmcsv':fmCSV();break;
     case 'so':if(b.dataset.x==='hearr'){say(b.dataset.t,true);break}socialAct(b);break;
     case 'unlockall':S.unlocked=GAMES.filter(g=>g.gate).map(g=>g.id);save();toast(t('allOpen'));render();break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}

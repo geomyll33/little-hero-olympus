@@ -15,7 +15,7 @@ The map has three islands, from easiest to hardest: Island of Dawn, Island of th
 | Place | Skill |
 |---|---|
 | Olive Grove · Ελαιώνας | Counting to 5, to 10, adding |
-| Temple of Letters · Ναός των Γραμμάτων | ABC in English, Α Β Γ in Greek |
+| Temple of Letters · Ναός των Γραμμάτων | Letters by sound, first sounds, capital to small, and writing with a finger: trace and copy every letter (Greek or English) and the numbers 0–9, with stroke order, direction arrows and mirror-writing detection |
 | Mount Olympus · Όρος Όλυμπος | Biggest, smallest, small to big |
 | Agora Market · Αγορά | Colours and shapes |
 | Olympic Stadium · Ολυμπιακό Στάδιο | Odd one out |
@@ -41,3 +41,7 @@ Each place has 3 levels of 5 questions (the Riddle Cave has 8 puzzles, the Music
 Progress is saved in the browser on the device. Grown-ups can reset each place separately and pick the narrator voice in the Grown-ups' corner.
 
 The look is a blocky, toy-brick style drawn in code (no external images).
+
+## Fine-motor report
+
+The parents' corner has a **fine-motor report** built from the writing levels, the mazes and every tap in the games: tracing deviation (as % of letter height), coverage and copy score (F1 of coverage and precision), stroke direction, speed variability, pauses, corrections, mirror writing and tap offset, with day-by-day charts, a grid of every letter and number with the child's latest drawing, plain-language observations and a method section. A 3-minute **visual-motor check** (copying 8 shapes in the order of the Beery VMI, 2 letters and a number) can be repeated over time. The report prints or saves as PDF, and the raw data downloads as CSV. It is a measurement aid, not a clinical or standardised assessment.
