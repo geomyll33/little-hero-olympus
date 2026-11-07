@@ -520,6 +520,22 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .restpet{font-size:4rem;position:relative}.restpet span{position:absolute;right:-28px;top:-10px;font-size:2rem;animation:wpulse 2s ease-in-out infinite}
 .restav{width:120px;height:auto}
 .radar{max-width:520px;align-self:center}
+/* palaestra */
+.gng{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:min(100%,560px)}
+.gng-hole{aspect-ratio:1.1;background:rgba(255,250,240,.9);border-radius:22px;border:3px solid rgba(28,42,72,.12);box-shadow:0 6px 0 #cbbf9f;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;touch-action:manipulation;position:relative;overflow:hidden}
+.gng-basket{font-size:2.2rem}
+.gng-item{position:absolute;top:60%;font-size:3.2rem;opacity:0;transform:translateY(20px) scale(.6);transition:transform .12s,opacity .12s;pointer-events:none}
+.gng-item.up{opacity:1;transform:translateY(-38px) scale(1)}.gng-item.got{opacity:0;transform:translateY(-90px) scale(1.3)}
+.fbar{width:min(80vw,420px);height:14px;background:var(--marble-2);border-radius:8px;overflow:hidden}.fbar i{display:block;height:100%;background:var(--good);transition:width .3s}
+.fsearch{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}.fsearch .cue{width:84px;height:84px}
+.ffield{width:min(96vw,calc((100dvh - 330px)*1.7),760px);height:auto;background:#fffaf0;border-radius:18px;border:3px solid rgba(28,42,72,.12);touch-action:manipulation}
+.fitem{cursor:pointer}.fitem.found{animation:wpulse .5s 2;transform-box:fill-box;transform-origin:center}
+.frhythm{display:flex;flex-direction:column;align-items:center;gap:14px}
+.drum{width:min(60vw,260px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 40%,#fff6df,#e8c58e);border:10px solid #c8643b;box-shadow:0 10px 0 #8f4127;font-size:min(30vw,120px);display:grid;place-items:center;touch-action:none}
+.drum.beat{animation:dbeat .22s}.drum.hit span{display:inline-block;animation:dhit .15s}
+@keyframes dbeat{50%{box-shadow:0 10px 0 #8f4127,0 0 0 18px rgba(242,182,50,.55)}}@keyframes dhit{50%{transform:scale(.88)}}
+.rmsg{font-family:var(--display);font-weight:700;font-size:1.4rem;color:var(--aegean);min-height:1.6em}
+
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}

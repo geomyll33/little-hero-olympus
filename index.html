@@ -520,6 +520,22 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .restpet{font-size:4rem;position:relative}.restpet span{position:absolute;right:-28px;top:-10px;font-size:2rem;animation:wpulse 2s ease-in-out infinite}
 .restav{width:120px;height:auto}
 .radar{max-width:520px;align-self:center}
+/* palaestra */
+.gng{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:min(100%,560px)}
+.gng-hole{aspect-ratio:1.1;background:rgba(255,250,240,.9);border-radius:22px;border:3px solid rgba(28,42,72,.12);box-shadow:0 6px 0 #cbbf9f;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;touch-action:manipulation;position:relative;overflow:hidden}
+.gng-basket{font-size:2.2rem}
+.gng-item{position:absolute;top:60%;font-size:3.2rem;opacity:0;transform:translateY(20px) scale(.6);transition:transform .12s,opacity .12s;pointer-events:none}
+.gng-item.up{opacity:1;transform:translateY(-38px) scale(1)}.gng-item.got{opacity:0;transform:translateY(-90px) scale(1.3)}
+.fbar{width:min(80vw,420px);height:14px;background:var(--marble-2);border-radius:8px;overflow:hidden}.fbar i{display:block;height:100%;background:var(--good);transition:width .3s}
+.fsearch{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}.fsearch .cue{width:84px;height:84px}
+.ffield{width:min(96vw,calc((100dvh - 330px)*1.7),760px);height:auto;background:#fffaf0;border-radius:18px;border:3px solid rgba(28,42,72,.12);touch-action:manipulation}
+.fitem{cursor:pointer}.fitem.found{animation:wpulse .5s 2;transform-box:fill-box;transform-origin:center}
+.frhythm{display:flex;flex-direction:column;align-items:center;gap:14px}
+.drum{width:min(60vw,260px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 40%,#fff6df,#e8c58e);border:10px solid #c8643b;box-shadow:0 10px 0 #8f4127;font-size:min(30vw,120px);display:grid;place-items:center;touch-action:none}
+.drum.beat{animation:dbeat .22s}.drum.hit span{display:inline-block;animation:dhit .15s}
+@keyframes dbeat{50%{box-shadow:0 10px 0 #8f4127,0 0 0 18px rgba(242,182,50,.55)}}@keyframes dhit{50%{transform:scale(.88)}}
+.rmsg{font-family:var(--display);font-weight:700;font-size:1.4rem;color:var(--aegean);min-height:1.6em}
+
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -577,7 +593,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-11-07.1740';
+const BUILD='2026-11-07.1757';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -619,6 +635,7 @@ const GAMES=[
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},starts:[5],levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο'],['Note stairs','Η σκάλα των νοτών'],['High or low?','Ψηλά ή χαμηλά;'],['Listen and find','Άκου και βρες'],['Repeat the tune','Επανάλαβε τη μελωδία']]});
+GAMES.push({id:'focus',name:['Palaestra','Παλαίστρα'],skill:['Focus, self-control & rhythm','Προσοχή, αυτοέλεγχος & ρυθμός'],x:50,y:50,gate:{coins:20},starts:[2,4],levels:[['Olives, not stones','Ελιές, όχι πέτρες'],['Quick hands','Γρήγορα χέρια'],['Find the hidden one','Βρες το κρυμμένο'],['Hide and seek','Κρυφτό'],['Clap the beat','Χτύπα στον ρυθμό'],['Drum on your own','Τύμπανο μόνος σου']]});
 GAMES.push({id:'time',name:['Tower of the Winds','Ο Πύργος των Ανέμων'],skill:['Time','Ο χρόνος'],x:50,y:50,levels:[['My day','Η μέρα μου'],['Days of the week','Οι μέρες της εβδομάδας'],['Yesterday & tomorrow','Χτες και αύριο'],['The seasons','Οι εποχές'],['Last year & next year','Πέρσι και του χρόνου'],["O'clock",'Η ώρα'],['Half past','Και μισή'],['Set the clock','Βάλε την ώρα']]});
 GAMES.push({id:'social',name:['The Pnyx','Η Πνύκα'],skill:['Kindness & democracy','Κοινωνικότητα & Δημοκρατία'],x:50,y:50,levels:[['How do they feel?','Πώς νιώθει;'],['A good friend','Ο καλός φίλος'],['No to bullying','Όχι στον εκφοβισμό'],['Volunteers','Εθελοντές'],['Neighbourhood helpers','Οι βοηθοί της γειτονιάς'],['We vote!','Ψηφίζουμε!']]});
 GAMES.push({id:'art',name:['Art Gallery','Πινακοθήκη'],skill:['Painting','Ζωγραφική'],x:87,y:52,gate:{coins:20},levels:[['Mixing colours','Ανάμειξη χρωμάτων'],['Which two colours?','Ποια δύο χρώματα;'],['Mondrian','Μοντριάν'],['Kandinsky','Καντίνσκι'],['Dolphins of Knossos','Δελφίνια της Κνωσού'],['Sunflowers','Ηλιοτρόπια'],['The Great Wave','Το μεγάλο κύμα'],['The Starry Night','Έναστρη νύχτα']]});
@@ -638,6 +655,7 @@ const BADGES=[
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
   {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
+  {id:'focus',icon:'🎯',name:['Calm Champion','Ήρεμος πρωταθλητής'],desc:['Finish every level in the Palaestra','Τελείωσε όλα τα επίπεδα στην Παλαίστρα'],test:s=>gameDone(s,'focus')},
   {id:'time',icon:'⏳',name:['Keeper of Time','Φύλακας του χρόνου'],desc:['Finish every level in the Tower of the Winds','Τελείωσε όλα τα επίπεδα στον Πύργο των Ανέμων'],test:s=>gameDone(s,'time')},
   {id:'social',icon:'🤝',name:['Good Citizen','Καλός πολίτης'],desc:['Finish every level on the Pnyx','Τελείωσε όλα τα επίπεδα στην Πνύκα'],test:s=>gameDone(s,'social')},
   {id:'art',icon:'🎨',name:['Little Painter','Μικρός Ζωγράφος'],desc:['Paint every picture in the Gallery','Ζωγράφισε όλους τους πίνακες της Πινακοθήκης'],test:s=>gameDone(s,'art')},
@@ -678,6 +696,7 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['Learning the notes on a xylophone (the note stairs, high or low, listen and find, repeat the tune), and a running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Μαθαίνει τις νότες σε ξυλόφωνο (η σκάλα των νοτών, ψηλά ή χαμηλά, άκου και βρες, επανάλαβε τη μελωδία) και παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
+  focus:['Attention and self-control: tap olives but not stones (go/no-go), find a shape among many (visual search), and tap along with a drum, then keep the beat alone (rhythm and timing).','Προσοχή και αυτοέλεγχος: πάτα τις ελιές αλλά όχι τις πέτρες (go/no-go), βρες ένα σχήμα ανάμεσα σε πολλά (οπτική αναζήτηση) και χτύπα μαζί με το τύμπανο και μετά μόνος σου (ρυθμός και συγχρονισμός).'],
   time:['Time: the order of a day, the days of the week, yesterday/today/tomorrow (with the real day), the seasons, last year/this year/next year, reading the clock on the hour and half hour, and setting a clock.','Ο χρόνος: η σειρά της μέρας, οι μέρες της εβδομάδας, χτες/σήμερα/αύριο (με την πραγματική μέρα), οι εποχές, πέρσι/φέτος/του χρόνου, η ώρα (ακριβώς και μισή) και ρύθμιση ρολογιού.'],
   social:['Social and emotional learning: recognising feelings, being a good friend, what to do about bullying (tell a trusted grown-up, say stop, include others), volunteering by cleaning up, the people who help our neighbourhood, and democracy through a class vote on the Pnyx.','Κοινωνική και συναισθηματική μάθηση: αναγνώριση συναισθημάτων, ο καλός φίλος, τι κάνουμε με τον εκφοβισμό (το λέμε σε έναν μεγάλο, λέμε «σταμάτα», δεν αφήνουμε κανέναν απέξω), εθελοντισμός με καθαρισμό, οι άνθρωποι που βοηθούν τη γειτονιά μας και δημοκρατία με ψηφοφορία της τάξης στην Πνύκα.'],
   art:['First colour-mixing puzzles (red and yellow make orange…), then colouring famous paintings with the original shown beside them; stars depend on how alike the painting is: Mondrian, Kandinsky, the Minoan dolphins of Knossos, Van Gogh and Hokusai. The child can peek at the artist\'s colours and hears a short story about each painting. Finished paintings stay in the gallery.','Πρώτα γρίφοι ανάμειξης χρωμάτων (κόκκινο και κίτρινο κάνουν πορτοκαλί…), μετά χρωματισμός διάσημων πινάκων με το πρωτότυπο δίπλα· τα αστέρια εξαρτώνται από το πόσο μοιάζει ο πίνακας: Μοντριάν, Καντίνσκι, τα μινωικά δελφίνια της Κνωσού, βαν Γκογκ και Χοκουσάι. Το παιδί μπορεί να δει τα χρώματα του ζωγράφου και ακούει μια μικρή ιστορία για κάθε πίνακα. Οι πίνακες που τελειώνει μένουν στην πινακοθήκη.'],
@@ -1033,6 +1052,7 @@ const ART={
   compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
   memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
   puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  focus:svgArt(cube(14,62,72,16,24,'#e6dcc4')+cube(16,24,8,40,8,'#f1e9d8')+cube(36,24,8,40,8,'#f1e9d8')+cube(56,24,8,40,8,'#f1e9d8')+cube(76,24,8,40,8,'#f1e9d8')+cube(12,16,78,8,26,'#c9a27a')+`<circle cx="50" cy="52" r="7" fill="#e53935"/><circle cx="50" cy="52" r="3.5" fill="#fffaf0"/>`),
   time:svgArt(cube(30,30,40,60,10,'#f1e9d8')+`<path d="M30 30L50 8L70 30Z" fill="#c9a27a"/><path d="M76 24L50 6" stroke="#c9a27a" stroke-width="2"/><circle cx="50" cy="52" r="13" fill="#fffaf0" stroke="#c98b2b" stroke-width="3"/><path d="M50 52V43M50 52L57 55" stroke="#1c2a48" stroke-width="2.5" stroke-linecap="round"/><path d="M36 76h28" stroke="#c9a27a" stroke-width="2"/>`),
   social:svgArt(cube(4,76,92,14,10,'#d8ccb0')+cube(18,62,64,14,10,'#e6dcc4')+cube(32,48,36,14,10,'#f1e9d8')+cube(40,26,20,22,8,'#2f6fd6')+`<rect x="44" y="22" width="12" height="4" fill="#1c2a48"/><rect x="45" y="30" width="10" height="7" fill="#fff"/>`+`<text x="14" y="40" font-size="16">✋</text><text x="72" y="38" font-size="16">✋</text>`),
   art:svgArt(cube(8,30,84,58,10,'#f1e9d8')+`<rect x="16" y="40" width="30" height="22" fill="#1d3f8f"/><circle cx="38" cy="46" r="4" fill="#f2d24a"/><rect x="52" y="40" width="30" height="22" fill="#d62d20"/><rect x="52" y="40" width="10" height="8" fill="#f6d32d"/><rect x="62" y="40" width="3" height="22" fill="#111"/><rect x="40" y="70" width="16" height="18" fill="#6d4c2f"/>`+cube(20,12,60,10,10,'#e9563d')),
@@ -1044,7 +1064,7 @@ const ART={
 const REGIONS=[
   {name:['Island of Dawn','Νησί της Αυγής'],games:['count','shapes','memory','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
   {name:['Island of the Muses','Νησί των Μουσών'],games:['pattern','odd','compare','time','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
-  {name:["Athena's Island",'Νησί της Αθηνάς'],games:['stem','space','puzzle','social'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
+  {name:["Athena's Island",'Νησί της Αθηνάς'],games:['stem','space','puzzle','focus','social'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
 const MAPSLOTS={land:{4:[[15,60],[38,30],[62,60],[85,32]],6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{4:[[30,15],[70,38],[30,62],[68,85]],6:[[28,13],[72,28],[28,43],[72,58],[28,73],[70,87]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
 const regionOf=id=>REGIONS.findIndex(r=>r.games.includes(id));
 const isPortrait=()=>innerHeight>innerWidth*1.1;
@@ -1106,6 +1126,7 @@ const SCENES={
   memory:()=>sky('#1a7fc4','#0b3c6e')+rep(14,i=>`<circle cx="${(i*173)%1200}" cy="${(i*97)%700}" r="${6+i%4*4}" fill="none" stroke="#bfe6ff" stroke-width="3" opacity=".45"/>`)+`<path d="M0 720Q300 690 600 720T1200 710V800H0Z" fill="#e9d39b"/>`+rep(8,i=>`<path d="M${80+i*150} 730q-30-90 10-160q-30 80 20 160z" fill="#3fa36b"/>`),
   music:()=>sky('#ff9548','#ffd7a8')+`<circle cx="900" cy="250" r="90" fill="#ffe9a8"/><rect y="440" width="1200" height="360" fill="#d7b48e"/>`+rep(9,i=>`<path d="M${i*140} 800V560a60 60 0 0 1 120 0V800z" fill="#b98d63"/>`),
   ceremony:()=>sky('#7ccaff','#e4f5ff')+`<path d="M0 430Q600 330 1200 430V800H0Z" fill="#b9c98a"/>`+rep(5,r=>rep(30,c=>`<rect x="${c*42}" y="${440+r*26}" width="36" height="20" fill="${['#e53935','#1e6fd9','#fbc02d','#43a047','#fff'][(c+r)%5]}" opacity=".55"/>`))+`<rect y="570" width="1200" height="230" fill="#d9643b"/>`+rep(5,k=>`<rect y="${590+k*40}" width="1200" height="5" fill="#fff" opacity=".8"/>`)+cube(1040,250,60,180,14,'#f1e9d8')+cube(1020,230,100,24,14,'#c98b2b')+`<path d="M1070 230q-40-60 0-120q40 60 0 120z" fill="#ff8c1a"/><path d="M1070 230q-18-34 0-70q18 36 0 70z" fill="#ffe14a"/>`,
+  focus:()=>sky('#9fd8ff','#f2fbff')+`<rect y="600" width="1200" height="200" fill="#d9cfb4"/>`+rep(7,i=>cube(80+i*160,300,34,300,24,'#f1e9d8'))+cube(60,270,1060,34,40,'#c9a27a')+`<rect y="620" width="1200" height="14" fill="#c9b98f"/>`,
   time:()=>sky('#8fd3ff','#eaf7ff')+`<rect y="600" width="1200" height="200" fill="#e6dcc4"/>`+cube(860,200,180,400,30,'#f1e9d8')+`<path d="M860 200L950 120L1040 200Z" fill="#c9a27a"/><circle cx="950" cy="330" r="60" fill="#fffaf0" stroke="#c98b2b" stroke-width="10"/><path d="M950 330V290M950 330L978 345" stroke="#1c2a48" stroke-width="10" stroke-linecap="round"/>`+rep(4,i=>cube(80+i*170,560,60,40,10,'#d8ccb0')+`<path d="M${110+i*170} 560l40 -16" stroke="#6d7a8c" stroke-width="6"/>`),
   social:()=>sky('#9fd8ff','#eaf7ff')+`<path d="M0 520Q300 430 700 470T1200 450V800H0Z" fill="#b9c98a"/><path d="M760 300h300v20H760zM770 320h20v80h-20zM820 320h20v80h-20zM870 320h20v80h-20zM920 320h20v80h-20zM970 320h20v80h-20zM1020 320h20v80h-20zM750 400h320v20H750z" fill="#f6ead2"/><path d="M740 420Q900 380 1100 430L1200 470H700Z" fill="#c9a27a"/><rect y="620" width="1200" height="180" fill="#d8ccb0"/>`+rep(6,i=>cube(80+i*190,560,120,60,14,'#e6dcc4')),
   art:()=>`<rect width="1200" height="800" fill="#f3ead8"/><rect y="640" width="1200" height="160" fill="#a0703f"/>`+rep(12,i=>`<rect x="${i*100}" y="640" width="4" height="160" fill="#8a5a2b"/>`)+`<rect y="620" width="1200" height="20" fill="#c9a77a"/>`+rep(4,i=>`<rect x="${60+i*300}" y="120" width="200" height="150" fill="#c98b2b"/><rect x="${72+i*300}" y="132" width="176" height="126" fill="${['#1d3f8f','#ecd36b','#d62d20','#1f4f8a'][i]}"/>`),
@@ -2856,8 +2877,10 @@ setInterval(()=>{if(document.visibilityState!=='visible'||!S.started||ui.screen=
 function restHTML(){const h=HEROES[S.hero];return `<div class="screen rest"><div class="restcard"><div class="restpet">${h.pet}<span>💤</span></div>${avatar(S.hero,S.skin,S.equip,'restav')}
   <h2>${tr(['Your hero is tired!','Ο ήρωας κουράστηκε!'])}</h2><p class="sub">${tr([`${heroName()}, time to rest your eyes and play outside. See you tomorrow! 🌙`,`${vocEl(heroName())}, ώρα να ξεκουράσουμε τα ματάκια και να παίξουμε έξω. Τα λέμε αύριο! 🌙`])}</p>
   <button class="btn small white" data-act="pgate" data-then="extend">🔒 ${tr(['Grown-ups: 10 more minutes','Γονείς: άλλα 10 λεπτά'])}</button></div></div>`}
-const DP_NAMES={lit:['Letters','Γραμματισμός'],num:['Numbers','Αριθμητική'],vis:['Visual perception','Οπτική αντίληψη'],mem:['Memory','Μνήμη'],plan:['Planning','Σχεδιασμός'],aud:['Listening (pitch)','Ακουστική διάκριση'],emo:['Emotions','Συναισθήματα'],fm:['Fine motor','Λεπτή κινητικότητα']};
-const DP_TIPS={lit:['Play "I spy something that starts with…", read picture books together and point to the letters.','Παίξτε «Βλέπω κάτι που αρχίζει από…», διαβάστε μαζί βιβλία με εικόνες και δείξτε τα γράμματα.'],
+const DP_NAMES={att:['Self-control','Αυτοέλεγχος'],rhy:['Rhythm','Ρυθμός'],lit:['Letters','Γραμματισμός'],num:['Numbers','Αριθμητική'],vis:['Visual perception','Οπτική αντίληψη'],mem:['Memory','Μνήμη'],plan:['Planning','Σχεδιασμός'],aud:['Listening (pitch)','Ακουστική διάκριση'],emo:['Emotions','Συναισθήματα'],fm:['Fine motor','Λεπτή κινητικότητα']};
+const DP_TIPS={att:['Games with a stop signal: "Red light, green light", "Simon says", freeze dance.','Παιχνίδια με σήμα «στοπ»: «Αγάλματα», «Ο Σίμων λέει», χορός που σταματά όταν σταματά η μουσική.'],
+  rhy:['Clap, march and drum to songs together; bounce a ball to a steady count.','Παλαμάκια, παρέλαση και τύμπανο με τραγούδια· αναπηδήσεις μπάλας σε σταθερό μέτρημα.'],
+  lit:['Play "I spy something that starts with…", read picture books together and point to the letters.','Παίξτε «Βλέπω κάτι που αρχίζει από…», διαβάστε μαζί βιβλία με εικόνες και δείξτε τα γράμματα.'],
   num:['Count everyday things together: stairs, spoons, cars; set the table counting plates.','Μετράτε μαζί καθημερινά πράγματα: σκαλιά, κουτάλια, αυτοκίνητα· στρώστε το τραπέζι μετρώντας τα πιάτα.'],
   vis:['Simple jigsaw puzzles, "spot the difference" pictures and sorting toys by colour and shape.','Απλά παζλ, εικόνες «βρες τις διαφορές» και ταξινόμηση παιχνιδιών κατά χρώμα και σχήμα.'],
   mem:['Memory card games, "I went to the market and bought…", repeating short rhythms by clapping.','Παιχνίδια μνήμης με κάρτες, «Πήγα στη λαϊκή και αγόρασα…», επανάληψη μικρών ρυθμών με παλαμάκια.'],
@@ -2870,7 +2893,9 @@ function dpScores(from,to){const d=dpStore(),days=Object.keys(d.days).filter(k=>
   const pc=key=>{const r=sum(key);return r?{v:r.v*100,n:r.n}:null};
   const memMiss=sum('mem.miss'),span=mx('span'),mem=memMiss||span?{v:avg([memMiss?(1-memMiss.v)*100:null,span?Math.min(100,span/6*100):null].filter(x=>x!=null)),n:(memMiss?memMiss.n:0)+(span?1:0)}:null;
   const fmi=fmStore().items.filter(i=>dayKey(i.t)>=from&&dayKey(i.t)<=to&&i.sc!=null);
-  return {lit:pc('acc.lit'),num:pc('acc.num'),vis:pc('acc.vis'),mem,plan:pc('plan.eff'),aud:pc('aud'),emo:pc('emo'),fm:fmi.length?{v:avg(fmi.map(i=>i.sc)),n:fmi.length}:null,
+  const g1=sum('gng.com'),g2=sum('gng.om'),rh=sum('rhy.hit');
+  return {att:g1&&g2?{v:100*(1-(g1.v+g2.v)/2),n:g1.n*24}:null,rhy:rh?{v:rh.v*100,n:rh.n*12}:null,gcom:g1,gom:g2,grt:sum('gng.rt'),gcv:sum('gng.cv'),vsfrt:sum('vsf.rt'),vsfsl:sum('vsf.sl'),vscrt:sum('vsc.rt'),vscsl:sum('vsc.sl'),rhit:rh,rasy:sum('rhy.asy'),rsd:sum('rhy.sd'),rcv:sum('rhy.cv'),rdr:sum('rhy.drift'),
+    lit:pc('acc.lit'),num:pc('acc.num'),vis:pc('acc.vis'),mem,plan:pc('plan.eff'),aud:pc('aud'),emo:pc('emo'),fm:fmi.length?{v:avg(fmi.map(i=>i.sc)),n:fmi.length}:null,
     rt:sum('rt'),imp:sum('imp'),viol:sum('plan.viol'),hint:sum('hint'),done:sum('done'),span,min:days.reduce((s,k)=>s+(d.days[k].min||0),0),days:days.length}}
 const shiftDay=(n)=>dayKey(Date.now()-n*864e5);
 function radarSVG(cur,prev){const keys=Object.keys(DP_NAMES),N=keys.length,R=110,cx=170,cy=140,pt=(i,v)=>{const a=-Math.PI/2+i*2*Math.PI/N;return [cx+Math.cos(a)*R*v/100,cy+Math.sin(a)*R*v/100]};
@@ -2901,8 +2926,8 @@ function dpReportHTML(){const d=dpStore(),now=Date.now(),cur=dpScores(shiftDay(1
   const mins=[...Array(14)].map((_,i)=>{const k=shiftDay(13-i);return [k,(d.days[k]&&d.days[k].min)||0]}),mx=Math.max(S.limit||0,...mins.map(m=>m[1]),10);
   const bars=`<svg class="rchart" viewBox="0 0 560 150">${mins.map(([k,v],i)=>`<rect x="${20+i*38}" y="${120-v/mx*100}" width="26" height="${v/mx*100}" rx="4" fill="#1e6fd9"><title>${k}: ${v} min</title></rect><text x="${33+i*38}" y="138" text-anchor="middle" font-size="9" fill="#4b5a78">${k.slice(8)}</text><text x="${33+i*38}" y="${114-v/mx*100}" text-anchor="middle" font-size="9" fill="#4b5a78">${v?Math.round(v):''}</text>`).join('')}${S.limit?`<line x1="14" x2="556" y1="${120-S.limit/mx*100}" y2="${120-S.limit/mx*100}" stroke="#d9534f" stroke-dasharray="5 4"/>`:''}</svg>`;
   const hrs=Object.entries(d.hours).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([h,m])=>`${h}:00–${+h+1}:00`).join(', ');
-  const method=tr([`<ul><li>Domain scores are the share of first answers that were right, over the last 14 days (letters: Temple of Letters quizzes; numbers: Olive Grove and Fishing Harbour; visual perception: Agora, Mount Olympus, Odd One Out and patterns; listening: high/low and find-the-note; emotions: "How do they feel?").</li><li>Memory: in the memory game, how often a pair whose second card had already been seen was found (not missed), together with the longest tune repeated (6 notes = 100%).</li><li>Planning: shortest possible moves ÷ moves used in mazes, the Tower, the river crossing and the robot; rule mistakes are moves the rules forbid.</li><li>Response time is measured from when the question appears until the first tap, so it includes listening to the question. Very fast wrong answers (under 1.5 s) can show guessing before thinking.</li><li>Fine motor is the average writing score (see the fine-motor report).</li><li>A domain needs at least 3 answers to appear in the summary. All values describe this child over time; they are not compared with other children.</li></ul>`,
-    `<ul><li>Οι βαθμοί ανά τομέα είναι το ποσοστό των πρώτων απαντήσεων που ήταν σωστές τις τελευταίες 14 μέρες (γραμματισμός: κουίζ του Ναού των Γραμμάτων· αριθμητική: Ελαιώνας και Λιμάνι· οπτική αντίληψη: Αγορά, Όλυμπος, «το διαφορετικό» και μοτίβα· ακουστική διάκριση: «ψηλά ή χαμηλά» και «βρες τη νότα»· συναισθήματα: «Πώς νιώθει;»).</li><li>Μνήμη: στο παιχνίδι μνήμης, πόσο συχνά βρέθηκε ένα ζευγάρι του οποίου η δεύτερη κάρτα είχε ήδη φανεί, μαζί με τη μεγαλύτερη μελωδία που επανέλαβε (6 νότες = 100%).</li><li>Σχεδιασμός: ελάχιστες δυνατές κινήσεις ÷ κινήσεις που έγιναν, σε λαβύρινθους, Πύργο, πέρασμα του ποταμού και ρομπότ· λάθη κανόνων είναι κινήσεις που απαγορεύουν οι κανόνες.</li><li>Ο χρόνος απάντησης μετριέται από τη στιγμή που εμφανίζεται η ερώτηση ως το πρώτο άγγιγμα, άρα περιλαμβάνει και το άκουσμα της ερώτησης. Οι πολύ γρήγορες λάθος απαντήσεις (κάτω από 1,5 δευτ.) μπορεί να δείχνουν μάντεμα πριν τη σκέψη.</li><li>Η λεπτή κινητικότητα είναι ο μέσος βαθμός γραφής (δείτε την αναφορά λεπτής κινητικότητας).</li><li>Ένας τομέας χρειάζεται τουλάχιστον 3 απαντήσεις για να μπει στη σύνοψη. Όλες οι τιμές περιγράφουν το ίδιο το παιδί στον χρόνο· δεν συγκρίνονται με άλλα παιδιά.</li></ul>`]);
+  const method=tr([`<ul><li>Domain scores are the share of first answers that were right, over the last 14 days (letters: Temple of Letters quizzes; numbers: Olive Grove and Fishing Harbour; visual perception: Agora, Mount Olympus, Odd One Out and patterns; listening: high/low and find-the-note; emotions: "How do they feel?").</li><li>Memory: in the memory game, how often a pair whose second card had already been seen was found (not missed), together with the longest tune repeated (6 notes = 100%).</li><li>Planning: shortest possible moves ÷ moves used in mazes, the Tower, the river crossing and the robot; rule mistakes are moves the rules forbid.</li><li>Response time is measured from when the question appears until the first tap, so it includes listening to the question. Very fast wrong answers (under 1.5 s) can show guessing before thinking.</li><li>Fine motor is the average writing score (see the fine-motor report).</li><li>Self-control (Palaestra) uses a go/no-go task: olives appear three times as often as stones, so tapping becomes a habit and holding back on a stone takes self-control; the score combines stones tapped and olives missed. Visual search time is measured against the number of shapes on screen: in the easy version the target pops out, in the hard one it shares a colour or a shape with the others, so the extra time per shape grows. Rhythm measures how close each tap falls to the drum beat and, in the second level, how steady the beat stays when the drum goes quiet.</li><li>A domain needs at least 3 answers to appear in the summary. All values describe this child over time; they are not compared with other children.</li></ul>`,
+    `<ul><li>Οι βαθμοί ανά τομέα είναι το ποσοστό των πρώτων απαντήσεων που ήταν σωστές τις τελευταίες 14 μέρες (γραμματισμός: κουίζ του Ναού των Γραμμάτων· αριθμητική: Ελαιώνας και Λιμάνι· οπτική αντίληψη: Αγορά, Όλυμπος, «το διαφορετικό» και μοτίβα· ακουστική διάκριση: «ψηλά ή χαμηλά» και «βρες τη νότα»· συναισθήματα: «Πώς νιώθει;»).</li><li>Μνήμη: στο παιχνίδι μνήμης, πόσο συχνά βρέθηκε ένα ζευγάρι του οποίου η δεύτερη κάρτα είχε ήδη φανεί, μαζί με τη μεγαλύτερη μελωδία που επανέλαβε (6 νότες = 100%).</li><li>Σχεδιασμός: ελάχιστες δυνατές κινήσεις ÷ κινήσεις που έγιναν, σε λαβύρινθους, Πύργο, πέρασμα του ποταμού και ρομπότ· λάθη κανόνων είναι κινήσεις που απαγορεύουν οι κανόνες.</li><li>Ο χρόνος απάντησης μετριέται από τη στιγμή που εμφανίζεται η ερώτηση ως το πρώτο άγγιγμα, άρα περιλαμβάνει και το άκουσμα της ερώτησης. Οι πολύ γρήγορες λάθος απαντήσεις (κάτω από 1,5 δευτ.) μπορεί να δείχνουν μάντεμα πριν τη σκέψη.</li><li>Η λεπτή κινητικότητα είναι ο μέσος βαθμός γραφής (δείτε την αναφορά λεπτής κινητικότητας).</li><li>Ο αυτοέλεγχος (Παλαίστρα) μετριέται με δοκιμασία go/no-go: οι ελιές εμφανίζονται τρεις φορές συχνότερα από τις πέτρες, οπότε το πάτημα γίνεται συνήθεια και το «φρενάρισμα» στην πέτρα θέλει αυτοέλεγχο· ο βαθμός συνδυάζει πέτρες που πατήθηκαν και ελιές που χάθηκαν. Ο χρόνος οπτικής αναζήτησης μετριέται σε σχέση με το πλήθος των σχημάτων: στην εύκολη εκδοχή ο στόχος «ξεχωρίζει», ενώ στη δύσκολη μοιράζεται χρώμα ή σχήμα με τα άλλα, οπότε ο χρόνος ανά επιπλέον σχήμα μεγαλώνει. Ο ρυθμός μετρά πόσο κοντά στον χτύπο του τυμπάνου πέφτει κάθε χτύπημα και, στο δεύτερο επίπεδο, πόσο σταθερός μένει ο ρυθμός όταν το τύμπανο σωπαίνει.</li><li>Ένας τομέας χρειάζεται τουλάχιστον 3 απαντήσεις για να μπει στη σύνοψη. Όλες οι τιμές περιγράφουν το ίδιο το παιδί στον χρόνο· δεν συγκρίνονται με άλλα παιδιά.</li></ul>`]);
   return `<div class="screen"><div class="gbar noprint"><button class="icon-btn" data-act="parentsback" aria-label="Back">${I.back}</button><div class="gtitle"><h2>${tr(['Development profile','Αναπτυξιακό προφίλ'])}</h2><div>${esc(name)}</div></div></div>
   <div class="parents report">
     <header class="rhead"><h2>${tr(['Development profile from play','Αναπτυξιακό προφίλ μέσα από το παιχνίδι'])}</h2><p><b>${esc(name)}</b>${age?` · ${tr(['age','ηλικία'])} ${age} ${tr(['years','ετών'])}`:''} · ${dayKey(now)}</p></header>
@@ -2910,18 +2935,101 @@ function dpReportHTML(){const d=dpStore(),now=Date.now(),cur=dpScores(shiftDay(1
     <section><h3>${tr(['Weekly summary','Εβδομαδιαία σύνοψη'])}</h3>${sumTxt}</section>
     <section><h3>${tr(['Profile','Προφίλ'])}</h3>${radarSVG(cur,prev)}</section>
     <section><h3>${tr(['Measures','Μετρήσεις'])}</h3><div style="overflow-x:auto">${table}</div></section>
+    <section><h3>${tr(['Attention, self-control and rhythm','Προσοχή, αυτοέλεγχος και ρυθμός'])}</h3><div style="overflow-x:auto"><table class="rtable"><thead><tr><th>${tr(['Measure','Μέτρηση'])}</th><th>${tr(['last 14 days','τελευταίες 14 μέρες'])}</th><th>${tr(['14 days before','14 μέρες πριν'])}</th></tr></thead><tbody>
+      ${[[['Stones tapped (self-control mistakes)','Πέτρες που πατήθηκαν (λάθη αυτοελέγχου)'],'gcom',x=>Math.round(x*100)+'%'],[['Olives missed','Ελιές που χάθηκαν'],'gom',x=>Math.round(x*100)+'%'],[['Reaction time to olives','Χρόνος αντίδρασης στις ελιές'],'grt',x=>Math.round(x)+' ms'],[['Reaction time variability','Μεταβλητότητα χρόνου αντίδρασης'],'gcv',x=>Math.round(x*100)+'%'],
+        [['Visual search, easy: time','Οπτική αναζήτηση, εύκολη: χρόνος'],'vsfrt',x=>r1(x/1000)+' s'],[['Visual search, easy: extra time per shape','Οπτική αναζήτηση, εύκολη: χρόνος ανά επιπλέον σχήμα'],'vsfsl',x=>Math.round(x)+' ms'],[['Visual search, hard: time','Οπτική αναζήτηση, δύσκολη: χρόνος'],'vscrt',x=>r1(x/1000)+' s'],[['Visual search, hard: extra time per shape','Οπτική αναζήτηση, δύσκολη: χρόνος ανά επιπλέον σχήμα'],'vscsl',x=>Math.round(x)+' ms'],
+        [['Beats hit on time (±150 ms)','Χτυπήματα στον χρόνο (±150 ms)'],'rhit',x=>Math.round(x*100)+'%'],[['Average distance from the beat','Μέση απόσταση από τον χτύπο'],'rasy',x=>Math.round(x)+' ms'],[['Spread of timing','Διακύμανση συγχρονισμού'],'rsd',x=>Math.round(x)+' ms'],[['Keeping the beat alone: steadiness','Ρυθμός μόνος: σταθερότητα'],'rcv',x=>Math.round(x*100)+'%'],[['Keeping the beat alone: speeding up (+) or slowing (−)','Ρυθμός μόνος: επιτάχυνση (+) ή επιβράδυνση (−)'],'rdr',x=>(x>0?'+':'')+Math.round(x*100)+'%']]
+        .map(([lab,k,fm])=>row(tr(lab),cur[k]&&cur[k].v,prev[k]&&prev[k].v,fm)).join('')}</tbody></table></div></section>
     <section><h3>${tr(['Letters mixed up','Γράμματα που μπερδεύει'])}</h3>${conf.length?`<p>${conf.map(([k,n])=>`<b>${esc(k.replace('→',' → '))}</b> (${n}×)`).join(' · ')}</p><p class="note">${tr(['"Ρ → Β" means: asked for Ρ, chose Β.','«Ρ → Β» σημαίνει: ζητήθηκε το Ρ, επέλεξε το Β.'])}</p>`:`<p class="note">${tr(['No mix-ups recorded.','Δεν έχουν καταγραφεί μπερδέματα.'])}</p>`}</section>
     <section><h3>${tr(['Recognising feelings','Αναγνώριση συναισθημάτων'])}</h3><table class="rtable"><tbody>${EMO}</tbody></table></section>
     <section><h3>${tr(['Screen time','Χρόνος οθόνης'])}</h3><p class="note">${tr(['Minutes per day, last 14 days','Λεπτά ανά ημέρα, τελευταίες 14 μέρες'])}${S.limit?` · ${tr(['dashed line: daily limit','διακεκομμένη: ημερήσιο όριο'])} ${S.limit}′`:''}${hrs?` · ${tr(['plays most at','παίζει συνήθως'])} ${hrs}`:''}</p>${bars}</section>
     <section><h3>${tr(['Method','Μεθοδολογία'])}</h3>${method}</section>
     <div class="row noprint" style="justify-content:flex-start"><button class="btn small blue" data-act="fmreport">✍️ ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button><button class="btn small white" data-act="fmprint">🖨️ ${tr(['Print / PDF','Εκτύπωση / PDF'])}</button><button class="btn small white" data-act="dphtml">📄 ${tr(['Download (HTML)','Λήψη (HTML)'])}</button><button class="btn small white" data-act="dpcsv">⬇️ CSV</button></div>
   </div></div>`}
-function dpCSV(){const d=dpStore(),keys=['acc.lit','acc.num','acc.vis','mem.miss','span','plan.eff','plan.viol','aud','emo','rt','imp','hint','done','min'];
+function dpCSV(){const d=dpStore(),keys=['acc.lit','acc.num','acc.vis','mem.miss','span','plan.eff','plan.viol','aud','emo','rt','imp','gng.com','gng.om','gng.rt','gng.cv','vsf.rt','vsf.sl','vsc.rt','vsc.sl','rhy.hit','rhy.asy','rhy.sd','rhy.cv','rhy.drift','hint','done','min'];
   const rows=Object.keys(d.days).sort().map(k=>[k,...keys.map(c=>{const a=d.days[k][c];return a==null?'':Array.isArray(a)?r1(a[0]/a[1]*100)/100:a})].join(','));
   offerFile(`development-${dayKey(Date.now())}.csv`,'﻿'+['day,'+keys.join(','),...rows].join('\n'),'text/csv')}
 function reportFile(html,fname){const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n'),box=document.createElement('div');box.innerHTML=html;const rep=box.querySelector('.report');rep.querySelectorAll('.noprint').forEach(x=>x.remove());
   offerFile(fname,`<!doctype html><html lang="${S.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(rep.querySelector('h2').textContent)}</title><style>${css}
 body{overflow:auto;background:#fff;height:auto}.parents.report{overflow:visible;margin:0 auto;padding:24px;background:#fff}</style></head><body>${rep.outerHTML}</body></html>`,'text/html')}
+
+/* ---------- The Palaestra: self-control (go/no-go), visual search and keeping a beat ---------- */
+const FOCUS_KINDS=['gng','gng','search','search','rhythm','rhythm'];
+const FOCUS_TEXT={gng:['Olives, not stones!','Ελιές, όχι πέτρες!'],search:['Find the hidden one!','Βρες το κρυμμένο!'],rhythm:['Clap the beat!','Χτύπα στον ρυθμό!']};
+const FOCUS_INTRO={gng:['Olives will pop up in the baskets. Tap every olive as fast as you can, but never tap a stone! Press Start when you are ready.','Θα πεταχτούν ελιές στα καλάθια. Πάτα κάθε ελιά όσο πιο γρήγορα μπορείς, αλλά ποτέ μην πατήσεις πέτρα! Πάτα «Ξεκίνα» όταν είσαι έτοιμος.'],
+  search:['Look at the shape in the box at the top, then find the same one in the field and tap it, quickly!','Κοίτα το σχήμα στο κουτάκι πάνω και βρες το ίδιο στο χωράφι. Πάτα το γρήγορα!'],
+  rhythm:['Listen to the drum. Then tap the big drum together with it: boom, boom, boom! Press Start when you are ready.','Άκου το τύμπανο. Μετά χτύπα κι εσύ το μεγάλο τύμπανο μαζί του: μπουμ, μπουμ, μπουμ! Πάτα «Ξεκίνα» όταν είσαι έτοιμος.']};
+const FOCUS_INTRO2={rhythm:['When the drum goes quiet, keep tapping the same beat on your own!','Όταν το τύμπανο σωπάσει, συνέχισε μόνος σου τον ίδιο ρυθμό!']};
+function setupFocus(l){const kind=FOCUS_KINDS[l],hard=l%2===1;run.hints=0;run.won=false;run.total=1;
+  const p=run.p={type:'focus',kind,hard,phase:'ready',busy:false};
+  if(kind==='gng'){const n=hard?30:24,nNo=Math.round(n*.25),seq=shuffle([...Array(n-nNo).fill(1),...Array(nNo).fill(0)]);
+    // no stone in the first three, so the habit of tapping forms first
+    for(let i=0;i<3;i++)if(!seq[i]){const j=seq.findIndex((v,k)=>k>=3&&v);[seq[i],seq[j]]=[seq[j],seq[i]]}
+    let last=-1;p.trials=seq.map(go=>{let s;do s=rand(0,5);while(s===last);last=s;return {go,slot:s,rt:null,tap:false}});p.show=hard?750:1100;p.i=-1}
+  if(kind==='search'){const sizes=shuffle([6,10,14,18,6,10,14,18]);p.trials=sizes.map(n=>focusSearchTrial(n,hard));p.i=0}
+  if(kind==='rhythm'){p.ioi=hard?520:650;p.sync=12;p.cont=hard?8:0;p.taps=[];p.beats=[]}
+  run.cur={text:tr(FOCUS_TEXT[kind]),say:tr(FOCUS_INTRO[kind])+(hard&&FOCUS_INTRO2[kind]?' '+tr(FOCUS_INTRO2[kind]):'')}}
+function focusSearchTrial(n,hard){const [sa,sb]=shuffle(SHAPES.filter(s=>s!=='heart')).slice(0,2),[ca,cb]=shuffle(COLORS.slice(0,4)).slice(0,2);
+  const cells=shuffle([...Array(40).keys()]).slice(0,n),items=cells.map((c,i)=>({x:10+(c%8)*20+rand(-4,4),y:12+Math.floor(c/8)*19+rand(-3,3),s:i===0?sa:hard?(i%2?sa:sb):sb,c:i===0?ca[1]:hard?(i%2?cb[1]:ca[1]):cb[1],t:i===0}));
+  return {n,items:shuffle(items),target:[sa,ca[1]],rt:null,errs:0}}
+const fShape=(s,c,x,y,k,sc=.18)=>`<g transform="translate(${x-50*sc} ${y-50*sc}) scale(${sc})" ${k!=null?`class="fitem" data-k="${k}"`:''}>${shapePath(s,c)}<rect width="100" height="100" fill="transparent"/></g>`;
+function focusBody(p){const start=`<button class="btn blue fstart" data-act="fc" data-x="start">▶ ${tr(['Start','Ξεκίνα'])}</button>`;
+  if(p.kind==='gng'){const done=p.trials.filter(t=>t.done).length;
+    return `<div class="stage"><div class="gng">${[...Array(6)].map((_,s)=>`<button class="gng-hole" data-slot="${s}"><span class="gng-item" id="gng${s}"></span><span class="gng-basket">🧺</span></button>`).join('')}</div></div>
+      <div class="row">${p.phase==='ready'?start:`<div class="fbar"><i style="width:${done/p.trials.length*100}%"></i></div>`}</div>`}
+  if(p.kind==='search'){const tr_=p.trials[p.i];
+    return `<div class="stage"><div class="fsearch"><div class="cue">${`<svg viewBox="0 0 100 100">${shapePath(tr_.target[0],tr_.target[1])}</svg>`}</div>
+      ${p.phase==='ready'?start:`<svg id="ffield" class="ffield" viewBox="0 0 170 100">${tr_.items.map((it,k)=>fShape(it.s,it.c,it.x,it.y,k)).join('')}</svg>`}</div></div>
+      <div class="row"><div class="tcount" style="position:static">${p.i+1} / ${p.trials.length}</div></div>`}
+  return `<div class="stage"><div class="frhythm"><button id="drum" class="drum ${p.phase==='ready'?'':'live'}"><span>🥁</span></button><div class="rmsg" id="rmsg">${p.msg||''}</div></div></div>
+    <div class="row">${p.phase==='ready'?start:''}</div>`}
+// go/no-go: one item at a time, timed with performance.now()
+function gngNext(p){if(run.p!==p)return;p.i++;if(p.i>=p.trials.length)return gngEnd(p);const t=p.trials[p.i],el=$('#gng'+t.slot);
+  if(el){el.textContent=t.go?'🫒':'🪨';el.className='gng-item up '+(t.go?'go':'no')}t.on=performance.now();
+  p.timer=setTimeout(()=>{if(run.p!==p)return;t.done=true;if(el)el.className='gng-item';const bar=$('.fbar i');if(bar)bar.style.width=(p.i+1)/p.trials.length*100+'%';
+    p.timer=setTimeout(()=>gngNext(p),rand(p.hard?350:450,p.hard?650:850))},p.show)}
+document.addEventListener('pointerdown',e=>{const h=e.target.closest&&e.target.closest('.gng-hole'),p=run&&run.p;if(!h||!p||p.type!=='focus'||p.kind!=='gng'||p.phase!=='run')return;
+  const t=p.trials[p.i];if(!t||t.done||t.tap||+h.dataset.slot!==t.slot)return;t.tap=true;t.rt=performance.now()-t.on;const el=$('#gng'+t.slot);
+  if(t.go){sfx('coin');if(el)el.className='gng-item got go'}else{run.mistakes++;sfx('bad');h.classList.remove('shake');void h.offsetWidth;h.classList.add('shake');if(el)el.className='gng-item no'}});
+function gngEnd(p){p.phase='end';const go=p.trials.filter(t=>t.go),no=p.trials.filter(t=>!t.go),hits=go.filter(t=>t.tap),com=no.filter(t=>t.tap).length,om=go.length-hits.length,rts=hits.map(t=>t.rt);
+  const m=avg(rts)||0,sd=rts.length?Math.sqrt(rts.reduce((a,b)=>a+(b-m)**2,0)/rts.length):0;
+  dpAdd('gng.com',com/no.length);dpAdd('gng.om',om/go.length);if(rts.length){dpAdd('gng.rt',Math.round(m));dpAdd('gng.cv',m?sd/m:0)}
+  run.mistakes=com+Math.floor(om/2);save();
+  say(tr([`You caught ${hits.length} olives${com?` and touched ${com} stone${com>1?'s':''}`:' and never touched a stone'}!`,`Μάζεψες ${numEl(hits.length,'f')} ελιές${com?` και άγγιξες ${com===1?'μία πέτρα':numEl(com,'f')+' πέτρες'}`:' και δεν άγγιξες καμία πέτρα'}!`]));
+  stemWin(stemStars(run.mistakes,1,4))}
+// visual search: reaction time against the number of shapes on screen
+function searchPick(k){const p=run.p,t=p.trials[p.i];if(p.busy||t.rt!=null||p.phase!=='run')return;const it=t.items[k];
+  if(!it.t){t.errs++;run.mistakes++;return oops(document.querySelector(`.fitem[data-k="${k}"]`))}
+  t.rt=performance.now()-t.on;p.busy=true;sfx('coin');const g=document.querySelector(`.fitem[data-k="${k}"]`);if(g)g.classList.add('found');
+  setTimeout(()=>{if(run.p!==p)return;p.busy=false;p.i++;if(p.i>=p.trials.length)return searchEnd(p);renderGame();p.trials[p.i].on=performance.now()},650)}
+function searchEnd(p){const ok=p.trials.filter(t=>!t.errs),xs=ok.map(t=>t.n),ys=ok.map(t=>t.rt),mx=avg(xs),my=avg(ys);
+  const slope=ok.length>2?xs.reduce((s,x,i)=>s+(x-mx)*(ys[i]-my),0)/(xs.reduce((s,x)=>s+(x-mx)**2,0)||1):null,key=p.hard?'vsc':'vsf';
+  dpAdd(key+'.rt',Math.round(avg(p.trials.map(t=>t.rt)))||0);if(slope!=null)dpAdd(key+'.sl',Math.round(slope));p.trials.forEach(t=>dpAdd('acc.vis',t.errs?0:1));save();
+  say(tr(['Sharp eyes!','Μάτια αετού!']));stemWin(stemStars(run.mistakes,0,2))}
+// rhythm: beats scheduled on the audio clock, taps compared with them
+function drumHit(t,vol){if(!ac||!S.sound)return;tone(120,t,.28,sfxG,'sine',vol,55);tone(240,t,.06,sfxG,'triangle',vol*.35)}
+function rhythmStart(p){p.phase='run';p.taps=[];p.beats=[];p.msg=tr(['Listen…','Άκου…']);renderGame();initAudio();
+  const lead=4,total=lead+p.sync,now=performance.now(),t0=ac?ac.currentTime+.6:0;
+  for(let i=0;i<total+p.cont;i++){const at=now+600+i*p.ioi;p.beats.push(at);const silent=i>=total;
+    if(!silent&&ac)drumHit(t0+i*p.ioi/1000,i<lead?.55:.4);
+    setTimeout(()=>{if(run.p!==p)return;const d=$('#drum');if(i===lead){p.msg=tr(['Now tap with me!','Τώρα χτύπα μαζί μου!']);const m=$('#rmsg');if(m)m.textContent=p.msg}
+      if(i===total&&p.cont){p.msg=tr(['Keep going on your own!','Συνέχισε μόνος σου!']);const m=$('#rmsg');if(m)m.textContent=p.msg}
+      if(d&&!silent){d.classList.remove('beat');void d.offsetWidth;d.classList.add('beat')}},at-now)}
+  p.timer=setTimeout(()=>rhythmEnd(p),600+(total+p.cont)*p.ioi+p.ioi)}
+document.addEventListener('pointerdown',e=>{const d=e.target.closest&&e.target.closest('#drum'),p=run&&run.p;if(!d||!p||p.type!=='focus'||p.kind!=='rhythm'||p.phase!=='run')return;e.preventDefault();
+  p.taps.push(performance.now());drumHit(ac?ac.currentTime:0,.25);d.classList.remove('hit');void d.offsetWidth;d.classList.add('hit')});
+function rhythmEnd(p){if(run.p!==p)return;p.phase='end';const lead=4,sb=p.beats.slice(lead,lead+p.sync),win=Math.max(150,p.ioi*.25);
+  const asy=[];let hit=0;sb.forEach(b=>{const near=p.taps.reduce((m,t)=>Math.abs(t-b)<Math.abs(m-b)?t:m,Infinity);if(Math.abs(near-b)<=p.ioi/2)asy.push(near-b);if(Math.abs(near-b)<=win)hit++});
+  const ma=avg(asy)||0,sd=asy.length?Math.sqrt(asy.reduce((a,b)=>a+(b-ma)**2,0)/asy.length):0,hr=hit/sb.length;
+  dpAdd('rhy.hit',hr);if(asy.length){dpAdd('rhy.asy',Math.round(avg(asy.map(Math.abs))));dpAdd('rhy.sd',Math.round(sd))}
+  if(p.cont){const lastSync=sb[sb.length-1],ct=p.taps.filter(t=>t>lastSync+p.ioi/2),iti=ct.slice(1).map((t,i)=>t-ct[i]);if(iti.length>2){const mi=avg(iti),s2=Math.sqrt(iti.reduce((a,b)=>a+(b-mi)**2,0)/iti.length);dpAdd('rhy.cv',s2/mi);dpAdd('rhy.drift',(mi-p.ioi)/p.ioi)}}
+  save();const st=hr>=.6?3:hr>=.35?2:1;say(hr>=.6?tr(['You kept the beat like a real drummer!','Κράτησες τον ρυθμό σαν αληθινός τυμπανιστής!']):tr(['Good drumming! Listen and tap together next time.','Ωραίο τύμπανο! Την επόμενη φορά άκου και χτύπα μαζί.']));stemWin(st)}
+function focusAct(b){const p=run.p,x=b.dataset.x;if(!p||run.won)return;
+  if(x==='start'&&p.phase==='ready'){if('speechSynthesis' in window)speechSynthesis.cancel();
+    if(p.kind==='gng'){p.phase='run';renderGame();setTimeout(()=>gngNext(p),900)}
+    if(p.kind==='search'){p.phase='run';renderGame();p.trials[p.i].on=performance.now()}
+    if(p.kind==='rhythm')rhythmStart(p)}}
+document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('.fitem'),p=run&&run.p;if(g&&p&&p.type==='focus'&&p.kind==='search')searchPick(+g.dataset.k)});
 
 /* ---------- game flow ---------- */
 let run=null;
@@ -2930,9 +3038,9 @@ const needsSound=(g,l)=>g==='music'&&(l<5||['highlow','ear','simon'].includes(NO
 function startLevel(g,l){
   if(overLimit()){run=null;ui.modal=null;ui.screen='rest';render();return}
   ui.modal=null;ui.screen='game';streak=0;
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time','focus'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
   run.wasDone=gameDone(S,g);
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else if(g==='count'&&l===3)setupDots();else{run.cur=GEN[g](l);run.cur.t0=performance.now()}
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='focus')setupFocus(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else if(g==='count'&&l===3)setupDots();else{run.cur=GEN[g](l);run.cur.t0=performance.now()}
   render();speakPrompt();
 }
 // Instructions are spoken the first time; the same instruction again stays quiet (the 🔊 button always repeats it)
@@ -2951,6 +3059,7 @@ function renderGame(){
   let body;
   if(run.p&&run.p.type==='write')body=writeBody(run.p);
   else if(run.p&&run.p.type==='dots')body=dotsBody(run.p);
+  else if(run.g==='focus')body=focusBody(run.p);
   else if(run.g==='time')body=timeBody(run.p);
   else if(run.g==='social')body=run.p.rounds&&run.p.rounds[run.p.i]&&run.p.rounds[run.p.i].stage==='respect'?respectBody():socialBody(run.p);
   else if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
@@ -3029,6 +3138,7 @@ document.addEventListener('click',e=>{
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
       else if(ui.screen==='game'&&run&&run.p&&run.p.type==='write')run.cur={text:esc(writeAsk()),say:writeAsk()};
+      else if(ui.screen==='game'&&run&&run.g==='focus')run.cur={text:tr(FOCUS_TEXT[run.p.kind]),say:tr(FOCUS_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='time')run.cur={text:tr(TIME_TEXT[run.p.kind]),say:tr(TIME_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='social')run.cur={text:tr(SOC_TEXT[run.p.kind]),say:tr(SOC_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='music'&&run.p&&run.p.type==='notes')run.cur={text:tr(NT_TEXT[run.p.kind].text),say:tr(NT_TEXT[run.p.kind].say)};
@@ -3073,6 +3183,7 @@ document.addEventListener('click',e=>{
     case 'tm':timeAct(b);break;
     case 'wr':writeAct(b);break;
     case 'dt':dotsAct(b);break;
+    case 'fc':focusAct(b);break;
     case 'dpreport':ui.screen='dpreport';render();break;
     case 'dphtml':reportFile(dpReportHTML(),`development-report-${dayKey(Date.now())}.html`);break;
     case 'dpcsv':dpCSV();break;
