@@ -2187,11 +2187,22 @@ function fmReportHTML(){const f=fmStore(),el=isEl(),items=f.items,name=S.name||t
       ${grid(SET_EL,tr(['Greek capitals','Ελληνικά κεφαλαία']))}${grid(ABC,tr(['Latin capitals','Λατινικά κεφαλαία']))}${grid(SET_NUM,tr(['Numbers','Αριθμοί']))}</section>
     ${mz.length?`<section><h3>${tr(['Maze control','Έλεγχος στους λαβύρινθους'])}</h3><table class="rtable"><thead><tr><th>${tr(['date','ημερομηνία'])}</th><th>${tr(['maze','λαβύρινθος'])}</th><th>${tr(['time','χρόνος'])}</th><th>${tr(['wall bumps','χτυπήματα σε τοίχο'])}</th></tr></thead><tbody>${mz.map(m=>`<tr><td>${dayKey(m.t)}</td><td>${m.n}×${m.n}</td><td>${Math.round(m.dur/1000)} s</td><td>${m.bumps}</td></tr>`).join('')}</tbody></table></section>`:''}
     <section><h3>${tr(['Method','Μεθοδολογία'])}</h3>${method}</section>
-    <div class="row noprint" style="justify-content:flex-start"><button class="btn small blue" data-act="fmprint">🖨️ ${tr(['Print / save as PDF','Εκτύπωση / αποθήκευση PDF'])}</button><button class="btn small white" data-act="fmcsv">⬇️ ${tr(['Download data (CSV)','Λήψη δεδομένων (CSV)'])}</button></div>
+    <div class="row noprint" style="justify-content:flex-start"><button class="btn small blue" data-act="fmprint">🖨️ ${tr(['Print / save as PDF','Εκτύπωση / αποθήκευση PDF'])}</button><button class="btn small white" data-act="fmhtml">📄 ${tr(['Download report (HTML)','Λήψη αναφοράς (HTML)'])}</button><button class="btn small white" data-act="fmcsv">⬇️ ${tr(['Download data (CSV)','Λήψη δεδομένων (CSV)'])}</button></div>
   </div></div>`}
+// inside claude.ai files are offered through the viewer's downloads permission; elsewhere a normal browser download
+async function offerFile(filename,data,type){
+  try{const dl=window.claude&&window.claude.use?await claude.use('downloads'):null;
+    if(dl){try{await dl.save({filename,data})}catch(e){if(e&&e.code!=='declined')alert(tr(['The file could not be saved here.','Το αρχείο δεν μπόρεσε να αποθηκευτεί εδώ.']))}return}}catch(e){}
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
 function fmCSV(){const cols=['t','m','k','set','ok','att','sc','cov','prc','dev','dl','dc','dir','ne','ns','dur','spd','cv','pz','wob','lr','sz','ar','rev','cor','pt','pr','h'];
   const rows=fmStore().items.map(i=>cols.map(c=>c==='t'?new Date(i.t).toISOString():i[c]==null?'':i[c]).join(','));
-  const blob=new Blob(['﻿'+[cols.join(','),...rows].join('\n')],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`fine-motor-${dayKey(Date.now())}.csv`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+  offerFile(`fine-motor-${dayKey(Date.now())}.csv`,'\ufeff'+[cols.join(','),...rows].join('\n'),'text/csv')}
+// the whole report as one HTML file that opens and prints anywhere
+function fmHTMLFile(){const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n'),box=document.createElement('div');box.innerHTML=fmReportHTML();const rep=box.querySelector('.report');
+  rep.querySelectorAll('.noprint').forEach(x=>x.remove());
+  const html=`<!doctype html><html lang="${S.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])} – ${esc(S.name||'')}</title><style>${css}
+body{overflow:auto;background:#fff;height:auto}.parents.report{overflow:visible;margin:0 auto;padding:24px;background:#fff}</style></head><body>${rep.outerHTML}</body></html>`;
+  offerFile(`fine-motor-report-${dayKey(Date.now())}.html`,html,'text/html')}
 
 /* ---------- game flow ---------- */
 let run=null;
@@ -2344,6 +2355,7 @@ document.addEventListener('click',e=>{
     case 'fmcheck':ui.modal=null;ui.screen='game';streak=0;run={g:'letters',l:3,q:0,total:1,mistakes:0,busy:false,nextRank:0,wasDone:true};setupWrite(0,true);render();speakPrompt();break;
     case 'fmprint':window.print();break;
     case 'fmcsv':fmCSV();break;
+    case 'fmhtml':fmHTMLFile();break;
     case 'so':if(b.dataset.x==='hearr'){say(b.dataset.t,true);break}socialAct(b);break;
     case 'unlockall':S.unlocked=GAMES.filter(g=>g.gate).map(g=>g.id);save();toast(t('allOpen'));render();break;
     case 'olive':{if(b.classList.contains('counted'))break;const n=document.querySelectorAll('.olive.counted').length+1;b.classList.add('counted');b.querySelector('text').textContent=n;sfx('tap');say(String(n));break}
