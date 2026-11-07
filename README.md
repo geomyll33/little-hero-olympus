@@ -45,3 +45,9 @@ The look is a blocky, toy-brick style drawn in code (no external images).
 ## Fine-motor report
 
 The parents' corner has a **fine-motor report** built from the writing levels, the mazes and every tap in the games: tracing deviation (as % of letter height), coverage and copy score (F1 of coverage and precision), stroke direction, speed variability, pauses, corrections, mirror writing and tap offset, with day-by-day charts, a grid of every letter and number with the child's latest drawing, plain-language observations and a method section. A 3-minute **visual-motor check** (copying 8 shapes in the order of the Beery VMI, 2 letters and a number) can be repeated over time. The report prints or saves as PDF, and the raw data downloads as CSV. It is a measurement aid, not a clinical or standardised assessment.
+
+## Development profile and screen time
+
+The parents' corner also has a **development profile** built from normal play, with no extra tasks for the child: first-answer accuracy for letters, numbers, visual perception, pitch listening and emotions; memory (known pairs found in the memory game, longest tune repeated); planning (moves used vs the shortest solution, rule mistakes) in mazes, the Tower, the river crossing and the robot; response time and very fast wrong answers; hints, levels finished or left halfway; letters that get mixed up; and minutes played per day. A radar chart compares the last 14 days with the 14 before, and a weekly summary suggests activities for home. A **daily play limit** (15–60 minutes) ends play gently with a resting hero; grown-ups can add 10 minutes behind the parents' gate.
+
+New activities: **Join the dots** in the Olive Grove (numbers in order, steady straight lines) and **Write your name** in the Temple of Letters.

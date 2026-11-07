@@ -512,6 +512,14 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .rtable td,.rtable th{white-space:nowrap}
 @media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body{height:auto;overflow:visible;background:#fff}#scene,#fx,.noprint{display:none!important}#app{height:auto;display:block;padding:0}
   .screen{display:block}.parents{overflow:visible;max-width:none;background:#fff;padding:0}.report section{break-inside:avoid}.gcell{break-inside:avoid}}
+/* connect the dots, rest screen, profile */
+.dfill{opacity:0;animation:dfade .8s ease forwards}@keyframes dfade{to{opacity:.85}}
+.wname{font-family:var(--display);letter-spacing:.12em}.wname u{color:var(--sea);text-decoration-thickness:3px}.wname b{color:var(--good)}
+.rest{align-items:center;justify-content:center}
+.restcard{background:rgba(255,250,240,.96);border-radius:28px;padding:28px;max-width:520px;width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;box-shadow:0 8px 0 #cbbf9f}
+.restpet{font-size:4rem;position:relative}.restpet span{position:absolute;right:-28px;top:-10px;font-size:2rem;animation:wpulse 2s ease-in-out infinite}
+.restav{width:120px;height:auto}
+.radar{max-width:520px;align-self:center}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}

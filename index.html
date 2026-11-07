@@ -512,6 +512,14 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .rtable td,.rtable th{white-space:nowrap}
 @media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body{height:auto;overflow:visible;background:#fff}#scene,#fx,.noprint{display:none!important}#app{height:auto;display:block;padding:0}
   .screen{display:block}.parents{overflow:visible;max-width:none;background:#fff;padding:0}.report section{break-inside:avoid}.gcell{break-inside:avoid}}
+/* connect the dots, rest screen, profile */
+.dfill{opacity:0;animation:dfade .8s ease forwards}@keyframes dfade{to{opacity:.85}}
+.wname{font-family:var(--display);letter-spacing:.12em}.wname u{color:var(--sea);text-decoration-thickness:3px}.wname b{color:var(--good)}
+.rest{align-items:center;justify-content:center}
+.restcard{background:rgba(255,250,240,.96);border-radius:28px;padding:28px;max-width:520px;width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;box-shadow:0 8px 0 #cbbf9f}
+.restpet{font-size:4rem;position:relative}.restpet span{position:absolute;right:-28px;top:-10px;font-size:2rem;animation:wpulse 2s ease-in-out infinite}
+.restav{width:120px;height:auto}
+.radar{max-width:520px;align-self:center}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -569,7 +577,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-11-07.1710';
+const BUILD='2026-11-07.1740';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -600,8 +608,8 @@ const ITEMS=[
 ];
 const SLOTS=[['head',['Hats','Καπέλα']],['cape',['Capes','Κάπες']],['hand',['Hands','Χέρια']],['feet',['Feet','Πόδια']]];
 const GAMES=[
-  {id:'count',name:['Olive Grove','Ελαιώνας'],skill:['Counting','Αρίθμηση'],x:18,y:45,levels:[['Count to 5','Μέχρι το 5'],['Count to 10','Μέχρι το 10'],['Add olives','Πρόσθεση']]},
-  {id:'letters',name:['Temple of Letters','Ναός των Γραμμάτων'],skill:['Letters & numbers','Γράμματα και αριθμοί'],x:35,y:21,starts:[3,5],levels:[['Listen & find','Άκου και βρες'],['First sounds','Πρώτος ήχος'],['Big & small','Κεφαλαία & μικρά'],['Trace letters','Γράψε πάνω στα γράμματα'],['Copy letters','Αντίγραψε γράμματα'],['Trace numbers','Γράψε πάνω στους αριθμούς'],['Copy numbers','Αντίγραψε αριθμούς']]},
+  {id:'count',name:['Olive Grove','Ελαιώνας'],skill:['Counting','Αρίθμηση'],x:18,y:45,starts:[3],levels:[['Count to 5','Μέχρι το 5'],['Count to 10','Μέχρι το 10'],['Add olives','Πρόσθεση'],['Join the dots','Ένωσε τις τελείες']]},
+  {id:'letters',name:['Temple of Letters','Ναός των Γραμμάτων'],skill:['Letters & numbers','Γράμματα και αριθμοί'],x:35,y:21,starts:[3,5,7],levels:[['Listen & find','Άκου και βρες'],['First sounds','Πρώτος ήχος'],['Big & small','Κεφαλαία & μικρά'],['Trace letters','Γράψε πάνω στα γράμματα'],['Copy letters','Αντίγραψε γράμματα'],['Trace numbers','Γράψε πάνω στους αριθμούς'],['Copy numbers','Αντίγραψε αριθμούς'],['Write your name','Γράψε το όνομά σου']]},
   {id:'sizes',name:['Mount Olympus','Όρος Όλυμπος'],skill:['Big & Small','Μεγάλο & Μικρό'],x:52,y:15,gate:{coins:10},levels:[['Biggest','Το μεγαλύτερο'],['Smallest','Το μικρότερο'],['Small to big','Από μικρό σε μεγάλο']]},
   {id:'shapes',name:['Agora Market','Αγορά'],skill:['Colors & Shapes','Χρώματα & Σχήματα'],x:63,y:45,levels:[['Colors','Χρώματα'],['Shapes','Σχήματα'],['Color + shape','Χρώμα + σχήμα']]},
   {id:'odd',name:['Olympic Stadium','Ολυμπιακό Στάδιο'],skill:['Odd One Out','Το διαφορετικό'],x:41,y:46,gate:{coins:15},levels:[['Easy','Εύκολο'],['Tricky','Δύσκολο'],['Super tricky','Πολύ δύσκολο']]},
@@ -661,7 +669,7 @@ const CATS=[
 const SIZE_THINGS=['🦉','🐢','🫒','⭐','🐬','🍎','🏛️','⛵','🐑','🌻'];
 const ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const TEACH={
-  count:['Counting objects 1–10 and simple addition up to 10. Tapping each olive counts it aloud.','Μέτρηση αντικειμένων 1–10 και απλή πρόσθεση έως το 10. Κάθε ελιά που πατιέται μετριέται φωναχτά.'],
+  count:['Counting objects 1–10, simple addition up to 10, and joining numbered dots in order to draw a picture (number order and steady straight lines).','Μέτρηση αντικειμένων 1–10, απλή πρόσθεση έως το 10 και ένωση αριθμημένων τελειών με τη σειρά για να βγει μια εικόνα (σειρά αριθμών και σταθερές ευθείες γραμμές).'],
   letters:['Letters and numbers: capital letters by sound, first sounds, capital to small, and writing with a finger: tracing and copying every letter (Greek or English) and the numbers 0–9, with fine-motor measurements for the parents\' report.','Γράμματα και αριθμοί: κεφαλαία από τον ήχο, πρώτος ήχος, κεφαλαία-μικρά, και γραφή με το δάχτυλο: ίχνος και αντιγραφή όλων των γραμμάτων (ελληνικά ή αγγλικά) και των αριθμών 0–9, με μετρήσεις λεπτής κινητικότητας για την αναφορά γονέων.'],
   sizes:['Comparing sizes: biggest, smallest, and ordering from small to big.','Σύγκριση μεγεθών: μεγαλύτερο, μικρότερο και σειρά από μικρό σε μεγάλο.'],
   shapes:['Naming six colours and five shapes, then combining both.','Έξι χρώματα και πέντε σχήματα, και μετά συνδυασμός τους.'],
@@ -1129,6 +1137,7 @@ function render(){
   setScene(ui.screen==='game'&&run?run.g:ui.screen==='ceremony'?'ceremony':'default');
   if(ac&&S.music&&!(ui.screen==='game'&&run&&run.g==='music'))startMusic();
   document.documentElement.lang=S.lang;
+  if(ui.screen==='map'&&overLimit())ui.screen='rest';
   const s=ui.screen;
   if(s==='welcome')app.innerHTML=welcomeHTML();
   if(s==='map')app.innerHTML=`<div class="screen">${topbar()}${mapHTML()}
@@ -1138,6 +1147,8 @@ function render(){
   if(s==='ceremony')app.innerHTML=ceremonyHTML();
   if(s==='parents')app.innerHTML=parentsHTML();
   if(s==='fmreport')app.innerHTML=fmReportHTML();
+  if(s==='dpreport')app.innerHTML=dpReportHTML();
+  if(s==='rest')app.innerHTML=restHTML();
   if(s==='game')renderGame();
   renderModal();
 }
@@ -1178,7 +1189,8 @@ function parentsHTML(){
   return `<div class="screen"><div class="gbar"><button class="icon-btn" data-act="map" aria-label="${t('backIsland')}">${I.back}</button><div class="gtitle"><h2>${t('grownT')}</h2><div>${t('grownSub')}</div></div>${langSwitch()}</div>
   <div class="parents">
     <p>${t('intro')}</p>
-    <div class="row" style="justify-content:flex-start"><button class="btn small blue" data-act="fmreport">📊 ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button></div>
+    <div class="row" style="justify-content:flex-start"><button class="btn small blue" data-act="dpreport">📈 ${tr(['Development profile','Αναπτυξιακό προφίλ'])}</button><button class="btn small blue" data-act="fmreport">✍️ ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button></div>
+    <div class="row" style="justify-content:flex-start"><b>⏱️ ${tr(['Daily play limit','Όριο παιχνιδιού ανά ημέρα'])}:</b>${[0,15,20,30,45,60].map(v=>`<button class="btn small ${(S.limit||0)===v?'blue':'white'}" data-act="setlimit" data-v="${v}">${v?v+'′':tr(['none','χωρίς'])}</button>`).join('')}<span class="note">${tr(['today','σήμερα'])}: ${Math.round((dpStore().days[dayKey(Date.now())]||{}).min||0)}′</span></div>
     <p style="color:var(--ink-soft);font-size:.9rem">${tr(['Version','Έκδοση'])}: ${BUILD}</p>
     <div style="overflow-x:auto"><table><thead><tr><th>${t('place')}</th><th>${t('teaches')}</th>${[1,2,3,4,5,6,7,8].map(i=>`<th>${i}</th>`).join('')}<th></th></tr></thead><tbody>
     ${GAMES.map(g=>`<tr><td><b>${tr(g.name)}</b></td><td>${tr(TEACH[g.id])}</td>${[0,1,2,3,4,5,6,7].map(i=>`<td>${i<g.levels.length?(S.stars[g.id][i]?'★'.repeat(S.stars[g.id][i]):'–'):''}</td>`).join('')}<td>${S.stars[g.id].some(x=>x)?(ui.confirmG===g.id?`<button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 5px 0 #a33;white-space:nowrap" data-act="resetg2" data-g="${g.id}">${t('resetYes')}</button>`:`<button class="btn small white" style="white-space:nowrap" data-act="resetg" data-g="${g.id}">↺ ${t('resetG')}</button>`):''}</td></tr>`).join('')}
@@ -1378,6 +1390,7 @@ function puzzleAct(b){
 }
 function puzzleWin(){
   const p=run.p;let st;run.won=true;
+  if(p.type==='maze')dpPuzzle(p.best/Math.max(p.best,p.moves),(p.bumps||0)+run.mistakes);else if(p.type==='hanoi')dpPuzzle(p.best/Math.max(p.best,p.moves),run.mistakes);else if(p.type==='river')dpPuzzle(7/Math.max(7,p.rows||7),run.mistakes);
   if(p.type==='maze')st=(p.moves<=p.best*1.3+2&&!run.mistakes)?3:p.moves<=p.best*2+4?2:1;
   else if(p.type==='hanoi')st=p.moves<=p.best&&!run.mistakes?3:p.moves<=p.best+4?2:1;
   else st=run.mistakes===0?3:run.mistakes<=2?2:1;
@@ -1493,7 +1506,7 @@ function riverItem(k){
   r.cargo=k;sfx('tap');say(tr(RIVER.find(x=>x[0]===k)[3]));renderGame();
 }
 function riverRow(){
-  const r=run.p;if(r.busy)return;r.busy=true;
+  const r=run.p;if(r.busy)return;r.busy=true;r.rows=(r.rows||0)+1;
   const prev={side:{...r.side},boat:r.boat,cargo:r.cargo};
   const el=$('.r-boat');sfx('flip');if(el)el.style.left=(r.boat?28:52)+'%';
   setTimeout(()=>{
@@ -1721,7 +1734,7 @@ function codeGo(){
   const place=c=>{rob.style.left=c%n*100/n+'%';rob.style.top=Math.floor(c/n)*100/n+'%'};
   const reset=msg=>{run.mistakes++;sfx('bad');say(msg);setTimeout(()=>{place(0);p.busy=false;document.querySelectorAll('.slot').forEach(s=>s.classList.remove('now'))},1300)};
   const step=()=>{document.querySelectorAll('.slot').forEach((s,i)=>s.classList.toggle('now',i===k));
-    if(k>=p.prog.length){if(pos===p.target)return stemWin(stemStars(run.mistakes+Math.max(0,p.prog.length-p.best),0,2));return reset(tr(['Talos did not reach the vase. Add more arrows!','Ο Τάλως δεν έφτασε στο αγγείο. Πρόσθεσε κι άλλα βελάκια!']))}
+    if(k>=p.prog.length){if(pos===p.target){dpPuzzle(p.best/Math.max(p.best,p.prog.length),run.mistakes);return stemWin(stemStars(run.mistakes+Math.max(0,p.prog.length-p.best),0,2))}return reset(tr(['Talos did not reach the vase. Add more arrows!','Ο Τάλως δεν έφτασε στο αγγείο. Πρόσθεσε κι άλλα βελάκια!']))}
     const [dx,dy]=DIRS[p.prog[k]],x=pos%n+dx,y=Math.floor(pos/n)+dy,nx=y*n+x;
     if(x<0||y<0||x>=n||y>=n||p.rocks.includes(nx)){sfx('bad');rob.classList.add('shake');setTimeout(()=>rob.classList.remove('shake'),450);return reset(tr(['Bump! Something is in the way. Try again!','Μπαμ! Κάτι είναι στον δρόμο. Ξαναπροσπάθησε!']))}
     pos=nx;place(pos);sfx('tap');k++;
@@ -2220,7 +2233,7 @@ function flashBar(i){const el=document.querySelector(`.bar[data-k="${i}"]`);if(!
 function playSeq(seq,gap=.6,flash=true){if(!ac)return wait(seq.length*gap*1000+200);const t0=ac.currentTime+.1;
   seq.forEach((n,i)=>{piano(n,t0+i*gap,.7);if(flash)setTimeout(()=>flashBar(n),100+i*gap*1000)});return wait(seq.length*gap*1000+300)}
 function ntRound(){
-  const p=run.p,r=p.rounds[p.round];p.next=0;p.busy=true;p.fade=[];p.glow=-1;renderGame();
+  const p=run.p,r=p.rounds[p.round];p.next=0;p.busy=true;p.fade=[];p.glow=-1;p.tried=false;renderGame();
   if(p.kind==='scale'){p.busy=false;return}
   if(p.kind==='highlow')return playSeq(r,.8,false).then(()=>{if(run.p===p){p.busy=false}});
   if(p.kind==='ear'){p.fade=[0,1,2,3,4,5,6,7].filter(i=>!r.opts.includes(i));renderGame();return playSeq(r.opts,.6).then(()=>wait(500)).then(()=>playSeq([r.t],.6,false)).then(()=>{if(run.p===p)p.busy=false})}
@@ -2245,10 +2258,10 @@ function notesAct(b){
     if(p.kind==='simon'){p.busy=true;p.next=0;return playSeq(r,.9).then(()=>{p.busy=false})}}
   if(x==='bar'){const k=+b.dataset.k;if(p.fade.includes(k))return;piano(k,ac?ac.currentTime:0,.7);flashBar(k);if(p.busy)return;const r=p.rounds[p.round];
     if(p.kind==='scale'){if(k!==r[p.next]){run.mistakes++;sfx('bad');return}p.next++;p.glow=-1;if(p.next>=r.length)ntDone(p,tr(p.round?['Down the stairs! Do, Ti, La, Sol, Fa, Mi, Re, Do!','Κατέβηκες τη σκάλα! Ντο, Σι, Λα, Σολ, Φα, Μι, Ρε, Ντο!']:['You climbed the stairs! Now let us go down.','Ανέβηκες τη σκάλα! Τώρα ας κατέβουμε.']));return}
-    if(p.kind==='ear'){if(k===r.t)return ntDone(p,tr([`Yes! That was ${NOTE_NAME[0][k]}!`,`Ναι! Ήταν το ${NOTE_NAME[1][k]}!`]));run.mistakes++;sfx('bad');return}
+    if(p.kind==='ear'){if(!p.tried){p.tried=true;dpAdd('aud',k===r.t?1:0)}if(k===r.t)return ntDone(p,tr([`Yes! That was ${NOTE_NAME[0][k]}!`,`Ναι! Ήταν το ${NOTE_NAME[1][k]}!`]));run.mistakes++;sfx('bad');return}
     if(p.kind==='simon'){if(k!==r[p.next]){run.mistakes++;sfx('bad');p.busy=true;say(tr(['Oops! Listen again.','Ωπ! Άκου ξανά.'])).then(()=>playSeq(r,.75)).then(()=>{if(run.p===p){p.busy=false;p.next=0}});return}
-      p.next++;if(p.next>=r.length)ntDone(p,tr(['You played the tune!','Έπαιξες τη μελωδία!']));return}}
-  if(x==='hl'&&!p.busy){const [a,c]=p.rounds[p.round],ans=c>a?'up':'down';
+      p.next++;if(p.next>=r.length){dpMax('span',r.length);ntDone(p,tr(['You played the tune!','Έπαιξες τη μελωδία!']))}return}}
+  if(x==='hl'&&!p.busy){const [a,c]=p.rounds[p.round],ans=c>a?'up':'down';if(!p.tried){p.tried=true;dpAdd('aud',b.dataset.v===ans?1:0)}
     if(b.dataset.v!==ans){run.mistakes++;return oops(b)}
     playSeq([a,c],.5,true);ntDone(p,tr(ans==='up'?['Yes, higher!','Ναι, πιο ψηλά!']:['Yes, lower!','Ναι, πιο χαμηλά!']))}
 }
@@ -2333,6 +2346,7 @@ function socialAct(b){
     if(p.kind==='clean'){const r=p.rounds[p.i];p.glow=r.items.findIndex(it=>it.junk&&!it.gone);renderGame();return say(tr(['Pick up the glowing one!','Μάζεψε αυτό που λάμπει!']))}
     if(p.kind==='vote'){const r=p.rounds[p.i];return say(r.stage==='winner'?tr(['Count the animals for each choice. The bigger number wins!','Μέτρα τα ζωάκια για κάθε επιλογή. Κερδίζει ο μεγαλύτερος αριθμός!']):tr(['Choose what you like most!','Διάλεξε αυτό που σου αρέσει πιο πολύ!']))}}
   if(x==='pick'&&p.qs&&!p.busy){const q=p.qs[p.i],k=+b.dataset.v;p.picked=true;
+    if(p.kind==='feel'&&!q.tried){q.tried=true;const ok=k===q.a?1:0,d=dpStore(),e=d.emo[q.a]=d.emo[q.a]||[0,0];e[0]+=ok;e[1]++;dpAdd('emo',ok)}
     const ok=p.kind==='feel'?k===q.a:p.kind==='help'?q.opts[k]===q.h[2]:q.opts[k][2];
     if(!ok){run.mistakes++;oops(b);if(p.kind==='kind'||p.kind==='bully')say(tr(['How would you feel if someone did that to you? Let\'s choose something kinder.','Πώς θα ένιωθες αν σου το έκαναν αυτό; Ας διαλέξουμε κάτι πιο καλό.']));return}
     p.busy=true;b.classList.add('right');praise();
@@ -2594,13 +2608,15 @@ function fmItem(it){const f=fmStore();f.items.push(it);if(f.items.length>700)f.i
 // letters to practise: the first ones in alphabet order that are not yet written well
 function pickGlyphs(set,mode,n){const f=fmStore(),chars=[...set];const todo=chars.filter(c=>(f.best[mode+':'+c]||0)<80);
   return (todo.length>=n?todo.slice(0,n):[...todo,...shuffle(chars.filter(c=>!todo.includes(c)))].slice(0,n))}
-const WRITE_LV=[['trace','letters'],['copy','letters'],['trace','num'],['copy','num']];
+const WRITE_LV=[['trace','letters'],['copy','letters'],['trace','num'],['copy','num'],['trace','name']];
+// the child's own name in capitals, without accents, letters only
+const nameGlyphs=()=>[...(S.name||tr(HEROES[S.hero].name)).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()].filter(c=>GLYPH[c]&&!SET_NUM.includes(c)).slice(0,10);
 const CHECK_LIST=['s:vline','s:hline','s:circle','s:cross','s:square','s:x','s:triangle','s:diamond'];
 function setupWrite(l,check){const [mode,what]=check?['check','']:WRITE_LV[l];
   const set=what==='num'?SET_NUM:isEl()?SET_EL:ABC;
-  const list=check?[...CHECK_LIST,...(isEl()?['Α','Σ']:['A','S']),'2']:pickGlyphs(set,mode,5);
+  const list=check?[...CHECK_LIST,...(isEl()?['Α','Σ']:['A','S']),'2']:what==='name'?nameGlyphs():pickGlyphs(set,mode,5);
   run.hints=0;run.won=false;run.total=list.length;run.q=0;
-  run.p={type:'write',mode,check:!!check,list,i:0,ink:[],si:0,att:1,demo:true,busy:false,res:[]};
+  run.p={type:'write',mode,check:!!check,name:what==='name',list,i:0,ink:[],si:0,att:1,demo:true,busy:false,res:[]};
   if(check){run.title=tr(['Fine-motor check','Αξιολόγηση λεπτής κινητικότητας']);run.checkAt=Date.now()}
   writeCur(true)}
 function writeIntro(){const p=run.p;if(p.check)return tr(['Copy each drawing as well as you can. There is no wrong answer, just do your best!','Αντίγραψε κάθε σχέδιο όσο καλύτερα μπορείς. Δεν υπάρχει λάθος, απλώς κάνε ό,τι καλύτερο μπορείς!']);
@@ -2609,7 +2625,7 @@ function writeIntro(){const p=run.p;if(p.check)return tr(['Copy each drawing as 
 function writeAsk(){const p=run.p,k=p.list[p.i],nm=glyphName(k),m=p.check?(k.startsWith('s:')||p.i>=CHECK_LIST.length?'copy':'trace'):p.mode;
   return k.startsWith('s:')?tr([`Copy the ${nm}.`,`Αντίγραψε: ${nm}.`]):m==='trace'?tr([`Write ${nm}.`,`Γράψε το ${nm}.`]):tr([`Copy ${nm}.`,`Αντίγραψε το ${nm}.`])}
 function writeCur(first){const p=run.p;p.k=p.list[p.i];p.model=gModel(p.k);p.ink=[];p.si=0;p.att=1;p.t0=null;p.fails=0;p.cur=p.check?(p.i<CHECK_LIST.length?'copy':'trace'):p.mode;p.demo=true;
-  p.strokeRes=[];p.revSeen=false;run.q=p.i;run.cur={text:esc(writeAsk()),say:first?writeIntro()+' '+writeAsk():writeAsk()}}
+  p.strokeRes=[];p.revSeen=false;run.q=p.i;run.cur={text:p.name?`${tr(['Your name','Το όνομά σου'])}: <span class="wname">${p.list.map((c,i)=>i===p.i?`<u>${c}</u>`:i<p.i?`<b>${c}</b>`:c).join('')}</span>`:esc(writeAsk()),say:first?(p.name?tr(['Let us write your name, letter by letter!','Ας γράψουμε το όνομά σου, γράμμα-γράμμα!'])+' ':writeIntro()+' ')+writeAsk():writeAsk()}}
 const inkPoly=st=>st.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ');
 function writeBody(p){
   const hint=p.check?'':`<button class="icon-btn hintfab" data-act="wr" data-x="hint" aria-label="Help">💡</button>`,cnt=`<div class="tcount" style="position:static">${p.i+1} / ${p.list.length}</div>`;
@@ -2664,6 +2680,7 @@ function writeFinish(p,ok){const k=p.k,mo=motionOf(p.ink),dur=p.t0?performance.n
   if(ok){praise();if(!p.check)say(tr(['Well written!','Μπράβο, ωραία το έγραψες!']))}else sfx('tap');
   setTimeout(()=>{if(run&&run.p===p){p.busy=false;p.i++;if(p.i>=p.list.length)return writeDone(p);writeCur(false);renderGame();say(run.cur.say)}},ok?1300:500)}
 function writeDone(p){
+  if(p.name){const f=fmStore();f.names=f.names||[];f.names.push({t:Date.now(),n:p.list.join(''),sc:Math.round(avg(p.res.map(r=>r.sc))||0)});if(f.names.length>60)f.names.shift();save();say(tr([`You wrote your name, ${heroName()}!`,`Έγραψες το όνομά σου, ${vocEl(heroName())}!`]))}
   if(!p.check)return stemWin(stemStars(run.mistakes,1,4));
   const f=fmStore(),age=S.birth?ageYears(S.birth,Date.now()):null;f.checks.push({t:run.checkAt,age,items:p.res.map(r=>({k:r.k,sc:r.sc,ok:r.k.startsWith('s:')?(r.sc>=65&&r.cor!==0?1:0):(r.sc>=60?1:0),dev:r.dev,dur:r.dur}))});
   if(f.checks.length>40)f.checks.shift();save();run=null;sfx('win');crowd('big');ui.screen='fmreport';render();say(tr(['Thank you! The check is saved in the report.','Ευχαριστώ! Η αξιολόγηση αποθηκεύτηκε στην αναφορά.']))}
@@ -2775,15 +2792,147 @@ function fmHTMLFile(){const css=[...document.querySelectorAll('style')].map(x=>x
 body{overflow:auto;background:#fff;height:auto}.parents.report{overflow:visible;margin:0 auto;padding:24px;background:#fff}</style></head><body>${rep.outerHTML}</body></html>`;
   offerFile(`fine-motor-report-${dayKey(Date.now())}.html`,html,'text/html')}
 
+/* ---------- Connect the dots (Olive Grove): numbers in order and steady straight lines ---------- */
+const starPts=()=>[...Array(10)].map((_,i)=>{const a=-Math.PI/2+i*Math.PI/5,r=i%2?17:40;return [r1(50+Math.cos(a)*r),r1(54+Math.sin(a)*r)]});
+const DOT_PICS=[
+  {id:'house',e:'🏠',n:['a little house','ένα σπιτάκι'],c:'#f2b57a',pts:[[25,88],[25,50],[50,22],[75,50],[75,88]]},
+  {id:'boat',e:'⛵',n:['a sailing boat','ένα καραβάκι'],c:'#9fd3ff',pts:[[50,10],[80,56],[88,62],[72,84],[28,84],[12,62],[50,62]]},
+  {id:'heart',e:'❤️',n:['a heart','μια καρδιά'],c:'#ff9aa8',pts:[[50,30],[64,16],[84,20],[90,40],[50,86],[10,40],[16,20],[36,16]]},
+  {id:'fish',e:'🐟',n:['a fish','ένα ψαράκι'],c:'#ffd36b',pts:[[10,50],[30,30],[58,28],[76,44],[92,28],[92,72],[76,56],[58,72],[30,70]]},
+  {id:'star',e:'⭐',n:['a star','ένα αστέρι'],c:'#ffe14a',pts:starPts()}];
+function setupDots(){run.hints=0;run.won=false;const pics=[pick(DOT_PICS.slice(0,2)),pick(DOT_PICS.slice(2,4)),DOT_PICS[4]];run.total=pics.length;run.q=0;
+  run.p={type:'dots',pics,i:0,busy:false};dotsCur(true)}
+function dotsCur(first){const p=run.p;p.pic=p.pics[p.i];p.next=0;p.ink=[];p.seg=[];p.devs=[];p.errs=0;p.t0=null;p.lastBad=-1;p.strokes=[];run.q=p.i;
+  const ask=tr([`Join the dots from 1 to ${p.pic.pts.length}, then back to 1!`,`Ένωσε τις τελείες από το 1 ως το ${p.pic.pts.length} και μετά πάλι στο 1!`]);
+  run.cur={text:ask,say:first?tr(['Put your finger on number 1 and draw a line to each number in order, without lifting your finger if you can.','Βάλε το δάχτυλο στο 1 και τράβηξε γραμμή σε κάθε αριθμό με τη σειρά, χωρίς να σηκώσεις το δάχτυλο αν μπορείς.'])+' '+ask:ask}}
+function dotsBody(p){const pts=p.pic.pts,n=pts.length,done=p.next>n;
+  const lines=pts.map((q,i)=>i<p.next-1||(i===n-1&&done)?`<line x1="${q[0]}" y1="${q[1]}" x2="${pts[(i+1)%n][0]}" y2="${pts[(i+1)%n][1]}" stroke="#1e6fd9" stroke-width="2.6" stroke-linecap="round"/>`:'').join('');
+  const fill=done?`<polygon points="${pts.map(q=>q.join(',')).join(' ')}" fill="${p.pic.c}" class="dfill"/>`:'';
+  const mx=avg(pts.map(q=>q[0])),my=avg(pts.map(q=>q[1]));
+  const dots=pts.map((q,i)=>{const on=i<p.next,nx=i===p.next%n&&!done,dx=q[0]-mx,dy=q[1]-my,dl=Math.hypot(dx,dy)||1;return `<g transform="translate(${q[0]} ${q[1]})"><circle r="${nx?4.2:3}" fill="${on?'#2e9e5b':nx?'#f2b632':'#1c2a48'}" class="${nx?'wstart':''}"/><text x="${r1(dx/dl*8)}" y="${r1(dy/dl*8+2.3)}" text-anchor="middle" font-size="6.5" font-weight="700" fill="#1c2a48" font-family="Ubuntu,sans-serif">${i+1}</text></g>`}).join('');
+  return `<div class="stage"><div class="writewrap"><svg id="dpad" class="wpad" viewBox="0 0 100 100">${fill}${lines}<g id="dink" fill="none" stroke="#9cc4f0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></g>${dots}${done?`<text x="50" y="58" text-anchor="middle" font-size="26">${p.pic.e}</text>`:''}</svg></div></div>
+    <div class="row"><div class="tcount" style="position:static">${p.i+1} / ${p.pics.length}</div></div><button class="icon-btn hintfab" data-act="dt" data-x="hint" aria-label="Help">💡</button>`}
+let ddraw=null;
+document.addEventListener('pointerdown',e=>{const svg=e.target.closest&&e.target.closest('#dpad'),p=run&&run.p;if(!svg||!p||p.type!=='dots'||p.busy||run.won)return;e.preventDefault();svg.setPointerCapture?.(e.pointerId);
+  const el=document.createElementNS('http://www.w3.org/2000/svg','polyline');svg.querySelector('#dink').appendChild(el);ddraw={svg,el,pts:[]};if(!p.t0)p.t0=performance.now();dotsMove(e)});
+document.addEventListener('pointermove',e=>{if(ddraw)(e.getCoalescedEvents?e.getCoalescedEvents():[e]).forEach(dotsMove)});
+['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>{if(ddraw){const p=run&&run.p;if(p&&p.type==='dots'&&ddraw.pts.length>1)p.strokes.push(ddraw.pts);ddraw=null}}));
+function dotsMove(e){const p=run.p;if(!ddraw||!p||p.type!=='dots'||p.busy)return;const q=wPt(e,ddraw.svg),pts=p.pic.pts,n=pts.length;ddraw.pts.push(q);ddraw.el.setAttribute('points',inkPoly(ddraw.pts));
+  if(p.next>0)p.seg.push(q);
+  const tgt=pts[p.next%n];
+  if(Math.sqrt(d2(q,tgt))<=7){
+    // how straight was the line from the previous dot to this one
+    if(p.next>0){const a=pts[p.next-1],b=tgt,L=Math.sqrt(d2(a,b))||1,dev=p.seg.length?p.seg.reduce((s,c)=>s+Math.abs((b[0]-a[0])*(a[1]-c[1])-(a[0]-c[0])*(b[1]-a[1]))/L,0)/p.seg.length:0;p.devs.push(dev)}
+    const num=p.next%n+1;p.next++;p.seg=[];p.lastBad=-1;sfx('tap');say(isEl()?numEl(num,'n'):String(num));
+    if(p.next>n)return dotsWin(p);ddraw.el.remove();renderGame();const svg=$('#dpad');if(svg){svg.setPointerCapture?.(e.pointerId);const el=document.createElementNS('http://www.w3.org/2000/svg','polyline');svg.querySelector('#dink').appendChild(el);ddraw={svg,el,pts:[q]}}else ddraw=null;return}
+  // touching a later dot first is an order mistake
+  const j=pts.findIndex((d,i)=>i!==p.next%n&&i>=p.next&&Math.sqrt(d2(q,d))<=5);
+  if(j>=0&&j!==p.lastBad&&p.next>0){p.lastBad=j;p.errs++;run.mistakes++;oops();say(tr([`Find number ${p.next+1}!`,`Βρες το ${numEl(p.next+1,'n')}!`]))}}
+function dotsWin(p){p.busy=true;ddraw=null;renderGame();const mo=motionOf(p.strokes.length?p.strokes:[[]]),dur=p.t0?performance.now()-p.t0:0,dev=avg(p.devs)||0;
+  const it={t:Date.now(),m:'dots',k:'d:'+p.pic.id,set:'dots',ok:1,att:1,sc:Math.round(Math.max(0,Math.min(100,100-dev*4-p.errs*10))),dev:r1(dev/80*100),dur:Math.round(dur),ne:p.pic.pts.length,ns:p.strokes.length,errs:p.errs,spd:r1(mo.spd),cv:r1(mo.cv*100)/100,pz:mo.pauses,wob:r1(mo.wob),h:run.hints};
+  const f=fmStore();f.items.push(it);if(f.items.length>700)f.items.splice(0,f.items.length-700);save();
+  praise();say(tr([`You drew ${p.pic.n[0]}!`,`Ζωγράφισες ${p.pic.n[1]}!`]));
+  setTimeout(()=>{if(run&&run.p===p){p.busy=false;p.i++;if(p.i>=p.pics.length)return stemWin(stemStars(run.mistakes,1,3));dotsCur(false);renderGame();say(run.cur.say)}},2200)}
+function dotsAct(b){const p=run.p;if(!p||run.won||p.busy)return;if(b.dataset.x==='hint'){run.hints++;say(tr([`Look for the yellow dot: number ${p.next%p.pic.pts.length+1}.`,`Ψάξε την κίτρινη τελίτσα: τον αριθμό ${numEl(p.next%p.pic.pts.length+1,'n')}.`]))}}
+
+/* ---------- developmental profile: what the games observe ---------- */
+const DP_DOM={letters:'lit',count:'num',compare:'num',shapes:'vis',odd:'vis',sizes:'vis',pattern:'vis'};
+function dpStore(){S.dp=S.dp||{};const d=S.dp;d.days=d.days||{};d.conf=d.conf||{};d.emo=d.emo||{};d.hours=d.hours||{};return d}
+function dpDay(){const d=dpStore(),k=dayKey(Date.now());if(!d.days[k]){d.days[k]={};const ks=Object.keys(d.days).sort();if(ks.length>120)delete d.days[ks[0]]}return d.days[k]}
+function dpAdd(key,v){const day=dpDay(),a=day[key]=day[key]||[0,0];a[0]=Math.round((a[0]+v)*100)/100;a[1]++}
+function dpMax(key,v){const day=dpDay();day[key]=Math.max(day[key]||0,v)}
+// first answer to each quiz question: accuracy, response time and very fast wrong answers
+function dpAnswer(c,o,btn){if(c.tried||c.order)return;c.tried=true;const dom=DP_DOM[run.g];if(!dom)return;const rt=performance.now()-(c.t0||performance.now());
+  dpAdd('acc.'+dom,o.ok?1:0);dpAdd('imp',!o.ok&&rt<1500?1:0);if(o.ok&&rt<60000)dpAdd('rt',Math.round(rt));
+  if(!o.ok&&run.g==='letters'){const want=c.options.find(x=>x.ok),tmp=document.createElement('div');tmp.innerHTML=want?want.html:'';const k=tmp.textContent.trim()+'→'+btn.textContent.trim(),d=dpStore();d.conf[k]=(d.conf[k]||0)+1}}
+function dpPuzzle(eff,viol){dpAdd('plan.eff',Math.max(0,Math.min(1,eff)));dpAdd('plan.viol',viol)}
+// screen time, counted every 30 s while the game is on screen
+const overLimit=()=>{if(!S.limit)return false;const day=dpStore().days[dayKey(Date.now())],min=day&&day.min||0,ex=S.extra&&S.extra.day===dayKey(Date.now())?S.extra.min:0;return min>=S.limit+ex};
+setInterval(()=>{if(document.visibilityState!=='visible'||!S.started||ui.screen==='welcome'||ui.screen==='rest')return;const day=dpDay(),d=dpStore(),h=new Date().getHours();
+  day.min=Math.round(((day.min||0)+.5)*10)/10;d.hours[h]=Math.round(((d.hours[h]||0)+.5)*10)/10;save();
+  if(S.limit){const ex=S.extra&&S.extra.day===dayKey(Date.now())?S.extra.min:0,left=S.limit+ex-day.min;
+    if(left<=2&&left>1.5)say(tr([`${heroName()}, two more minutes and then we rest!`,`${vocEl(heroName())}, άλλα δύο λεπτά και μετά ξεκουραζόμαστε!`]));
+    if(left<=0&&ui.screen!=='game'&&ui.screen!=='parents'&&ui.screen!=='fmreport'&&ui.screen!=='dpreport'&&!ui.modal){ui.screen='rest';render()}}},30000);
+function restHTML(){const h=HEROES[S.hero];return `<div class="screen rest"><div class="restcard"><div class="restpet">${h.pet}<span>💤</span></div>${avatar(S.hero,S.skin,S.equip,'restav')}
+  <h2>${tr(['Your hero is tired!','Ο ήρωας κουράστηκε!'])}</h2><p class="sub">${tr([`${heroName()}, time to rest your eyes and play outside. See you tomorrow! 🌙`,`${vocEl(heroName())}, ώρα να ξεκουράσουμε τα ματάκια και να παίξουμε έξω. Τα λέμε αύριο! 🌙`])}</p>
+  <button class="btn small white" data-act="pgate" data-then="extend">🔒 ${tr(['Grown-ups: 10 more minutes','Γονείς: άλλα 10 λεπτά'])}</button></div></div>`}
+const DP_NAMES={lit:['Letters','Γραμματισμός'],num:['Numbers','Αριθμητική'],vis:['Visual perception','Οπτική αντίληψη'],mem:['Memory','Μνήμη'],plan:['Planning','Σχεδιασμός'],aud:['Listening (pitch)','Ακουστική διάκριση'],emo:['Emotions','Συναισθήματα'],fm:['Fine motor','Λεπτή κινητικότητα']};
+const DP_TIPS={lit:['Play "I spy something that starts with…", read picture books together and point to the letters.','Παίξτε «Βλέπω κάτι που αρχίζει από…», διαβάστε μαζί βιβλία με εικόνες και δείξτε τα γράμματα.'],
+  num:['Count everyday things together: stairs, spoons, cars; set the table counting plates.','Μετράτε μαζί καθημερινά πράγματα: σκαλιά, κουτάλια, αυτοκίνητα· στρώστε το τραπέζι μετρώντας τα πιάτα.'],
+  vis:['Simple jigsaw puzzles, "spot the difference" pictures and sorting toys by colour and shape.','Απλά παζλ, εικόνες «βρες τις διαφορές» και ταξινόμηση παιχνιδιών κατά χρώμα και σχήμα.'],
+  mem:['Memory card games, "I went to the market and bought…", repeating short rhythms by clapping.','Παιχνίδια μνήμης με κάρτες, «Πήγα στη λαϊκή και αγόρασα…», επανάληψη μικρών ρυθμών με παλαμάκια.'],
+  plan:['Building blocks with a plan, simple board games, helping with recipes step by step.','Κατασκευές με τουβλάκια με σχέδιο, απλά επιτραπέζια, βοήθεια σε συνταγές βήμα-βήμα.'],
+  aud:['Sing together, play high and low sounds on a toy xylophone or with your voice.','Τραγουδήστε μαζί, παίξτε ψηλούς και χαμηλούς ήχους σε ξυλόφωνο ή με τη φωνή.'],
+  emo:['Name feelings in stories and in daily life: "How do you think he feels?"','Ονομάστε τα συναισθήματα στις ιστορίες και στην καθημερινότητα: «Πώς λες να νιώθει;»'],
+  fm:['Play-dough, pegs, threading beads, drawing and colouring with crayons, cutting with child scissors.','Πλαστελίνη, μανταλάκια, πέρασμα χαντρών, ζωγραφική με κηρομπογιές, κόψιμο με παιδικό ψαλίδι.']};
+function dpScores(from,to){const d=dpStore(),days=Object.keys(d.days).filter(k=>k>=from&&k<=to),sum=(key)=>{let s=0,n=0;days.forEach(k=>{const a=d.days[k][key];if(a){s+=a[0];n+=a[1]}});return n?{v:s/n,n}:null};
+  const mx=key=>{const v=days.map(k=>d.days[k][key]||0);return v.length?Math.max(...v):0};
+  const pc=key=>{const r=sum(key);return r?{v:r.v*100,n:r.n}:null};
+  const memMiss=sum('mem.miss'),span=mx('span'),mem=memMiss||span?{v:avg([memMiss?(1-memMiss.v)*100:null,span?Math.min(100,span/6*100):null].filter(x=>x!=null)),n:(memMiss?memMiss.n:0)+(span?1:0)}:null;
+  const fmi=fmStore().items.filter(i=>dayKey(i.t)>=from&&dayKey(i.t)<=to&&i.sc!=null);
+  return {lit:pc('acc.lit'),num:pc('acc.num'),vis:pc('acc.vis'),mem,plan:pc('plan.eff'),aud:pc('aud'),emo:pc('emo'),fm:fmi.length?{v:avg(fmi.map(i=>i.sc)),n:fmi.length}:null,
+    rt:sum('rt'),imp:sum('imp'),viol:sum('plan.viol'),hint:sum('hint'),done:sum('done'),span,min:days.reduce((s,k)=>s+(d.days[k].min||0),0),days:days.length}}
+const shiftDay=(n)=>dayKey(Date.now()-n*864e5);
+function radarSVG(cur,prev){const keys=Object.keys(DP_NAMES),N=keys.length,R=110,cx=170,cy=140,pt=(i,v)=>{const a=-Math.PI/2+i*2*Math.PI/N;return [cx+Math.cos(a)*R*v/100,cy+Math.sin(a)*R*v/100]};
+  const ring=[25,50,75,100].map(v=>`<polygon points="${keys.map((_,i)=>pt(i,v).join(',')).join(' ')}" fill="none" stroke="#e3dccb"/>`).join('');
+  const poly=(sc,c,dash)=>`<polygon points="${keys.map((k,i)=>pt(i,sc[k]?sc[k].v:0).map(r1).join(',')).join(' ')}" fill="${dash?'none':c+'33'}" stroke="${c}" stroke-width="2.5" ${dash?'stroke-dasharray="5 4"':''}/>`;
+  const labels=keys.map((k,i)=>{const [x,y]=pt(i,128);return `<text x="${r1(x)}" y="${r1(y+4)}" text-anchor="${x<cx-10?'end':x>cx+10?'start':'middle'}" font-size="11" font-weight="700" fill="#1c2a48">${tr(DP_NAMES[k])}</text><text x="${r1(x)}" y="${r1(y+17)}" text-anchor="${x<cx-10?'end':x>cx+10?'start':'middle'}" font-size="10" fill="#4b5a78">${cur[k]?Math.round(cur[k].v)+'%':tr(['no data','χωρίς δεδομένα'])}</text>`}).join('');
+  return `<svg class="rchart radar" viewBox="-80 -28 500 345" role="img">${ring}${keys.map((_,i)=>`<line x1="${cx}" y1="${cy}" x2="${pt(i,100)[0]}" y2="${pt(i,100)[1]}" stroke="#e3dccb"/>`).join('')}${poly(prev,'#9aa7bb',true)}${poly(cur,'#1e6fd9')}${labels}</svg>
+    <div class="legend"><span><i style="background:#1e6fd9"></i>${tr(['last 14 days','τελευταίες 14 μέρες'])}</span><span><i style="background:#9aa7bb"></i>${tr(['the 14 days before','οι 14 μέρες πριν'])}</span></div>`}
+function dpReportHTML(){const d=dpStore(),now=Date.now(),cur=dpScores(shiftDay(13),shiftDay(0)),prev=dpScores(shiftDay(27),shiftDay(14)),name=S.name||tr(HEROES[S.hero].name),age=S.birth?ageYears(S.birth,now):null;
+  const keys=Object.keys(DP_NAMES),have=keys.filter(k=>cur[k]&&cur[k].n>=3).sort((a,b)=>cur[b].v-cur[a].v);
+  const arrow=k=>!cur[k]||!prev[k]?'':cur[k].v-prev[k].v>5?' ↗':prev[k].v-cur[k].v>5?' ↘':' →';
+  const sumTxt=have.length>=2?`<p><b>${tr(['Going well','Πάει καλά'])}:</b> ${have.slice(0,2).map(k=>`${tr(DP_NAMES[k])} (${Math.round(cur[k].v)}%)`).join(', ')}.</p>
+    <p><b>${tr(['To practise at home','Για εξάσκηση στο σπίτι'])}:</b></p><ul>${have.slice(-2).reverse().map(k=>`<li><b>${tr(DP_NAMES[k])} (${Math.round(cur[k].v)}%):</b> ${tr(DP_TIPS[k])}</li>`).join('')}</ul>`
+    :`<p class="note">${tr(['Play a few more days to get a summary.','Παίξτε μερικές μέρες ακόμα για να βγει σύνοψη.'])}</p>`;
+  const row=(lab,a,b,fmt,better)=>`<tr><td>${lab}</td><td>${a==null?'–':fmt(a)}</td><td>${b==null?'–':fmt(b)}</td></tr>`;
+  const pctf=x=>Math.round(x)+'%',secf=x=>r1(x/1000)+' s';
+  const table=`<table class="rtable"><thead><tr><th>${tr(['Measure','Μέτρηση'])}</th><th>${tr(['last 14 days','τελευταίες 14 μέρες'])}</th><th>${tr(['14 days before','14 μέρες πριν'])}</th></tr></thead><tbody>
+    ${keys.map(k=>row(tr(DP_NAMES[k])+arrow(k),cur[k]&&cur[k].v,prev[k]&&prev[k].v,pctf)).join('')}
+    ${row(tr(['Response time (right answers)','Χρόνος απάντησης (σωστές)']),cur.rt&&cur.rt.v,prev.rt&&prev.rt.v,secf)}
+    ${row(tr(['Very fast wrong answers','Πολύ γρήγορες λάθος απαντήσεις']),cur.imp&&cur.imp.v*100,prev.imp&&prev.imp.v*100,pctf)}
+    ${row(tr(['Longest tune remembered (notes)','Μεγαλύτερη μελωδία που θυμήθηκε (νότες)']),cur.span||null,prev.span||null,x=>x)}
+    ${row(tr(['Rule mistakes per puzzle','Λάθη κανόνων ανά γρίφο']),cur.viol&&cur.viol.v,prev.viol&&prev.viol.v,x=>r1(x))}
+    ${row(tr(['Hints per level','Βοήθειες ανά επίπεδο']),cur.hint&&cur.hint.v,prev.hint&&prev.hint.v,x=>r1(x))}
+    ${row(tr(['Levels finished (not left halfway)','Επίπεδα που ολοκληρώθηκαν (όχι στη μέση)']),cur.done&&cur.done.v*100,prev.done&&prev.done.v*100,pctf)}
+    ${row(tr(['Minutes played per day','Λεπτά παιχνιδιού ανά ημέρα']),cur.days?cur.min/cur.days:null,prev.days?prev.min/prev.days:null,x=>Math.round(x))}</tbody></table>`;
+  const conf=Object.entries(d.conf).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const EMO=FEELINGS.map((f,i)=>{const a=d.emo[i];return `<tr><td>${f[0]} ${tr(f[1])}</td><td>${a?Math.round(a[0]/a[1]*100)+'% ('+a[1]+')':'–'}</td></tr>`}).join('');
+  const mins=[...Array(14)].map((_,i)=>{const k=shiftDay(13-i);return [k,(d.days[k]&&d.days[k].min)||0]}),mx=Math.max(S.limit||0,...mins.map(m=>m[1]),10);
+  const bars=`<svg class="rchart" viewBox="0 0 560 150">${mins.map(([k,v],i)=>`<rect x="${20+i*38}" y="${120-v/mx*100}" width="26" height="${v/mx*100}" rx="4" fill="#1e6fd9"><title>${k}: ${v} min</title></rect><text x="${33+i*38}" y="138" text-anchor="middle" font-size="9" fill="#4b5a78">${k.slice(8)}</text><text x="${33+i*38}" y="${114-v/mx*100}" text-anchor="middle" font-size="9" fill="#4b5a78">${v?Math.round(v):''}</text>`).join('')}${S.limit?`<line x1="14" x2="556" y1="${120-S.limit/mx*100}" y2="${120-S.limit/mx*100}" stroke="#d9534f" stroke-dasharray="5 4"/>`:''}</svg>`;
+  const hrs=Object.entries(d.hours).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([h,m])=>`${h}:00–${+h+1}:00`).join(', ');
+  const method=tr([`<ul><li>Domain scores are the share of first answers that were right, over the last 14 days (letters: Temple of Letters quizzes; numbers: Olive Grove and Fishing Harbour; visual perception: Agora, Mount Olympus, Odd One Out and patterns; listening: high/low and find-the-note; emotions: "How do they feel?").</li><li>Memory: in the memory game, how often a pair whose second card had already been seen was found (not missed), together with the longest tune repeated (6 notes = 100%).</li><li>Planning: shortest possible moves ÷ moves used in mazes, the Tower, the river crossing and the robot; rule mistakes are moves the rules forbid.</li><li>Response time is measured from when the question appears until the first tap, so it includes listening to the question. Very fast wrong answers (under 1.5 s) can show guessing before thinking.</li><li>Fine motor is the average writing score (see the fine-motor report).</li><li>A domain needs at least 3 answers to appear in the summary. All values describe this child over time; they are not compared with other children.</li></ul>`,
+    `<ul><li>Οι βαθμοί ανά τομέα είναι το ποσοστό των πρώτων απαντήσεων που ήταν σωστές τις τελευταίες 14 μέρες (γραμματισμός: κουίζ του Ναού των Γραμμάτων· αριθμητική: Ελαιώνας και Λιμάνι· οπτική αντίληψη: Αγορά, Όλυμπος, «το διαφορετικό» και μοτίβα· ακουστική διάκριση: «ψηλά ή χαμηλά» και «βρες τη νότα»· συναισθήματα: «Πώς νιώθει;»).</li><li>Μνήμη: στο παιχνίδι μνήμης, πόσο συχνά βρέθηκε ένα ζευγάρι του οποίου η δεύτερη κάρτα είχε ήδη φανεί, μαζί με τη μεγαλύτερη μελωδία που επανέλαβε (6 νότες = 100%).</li><li>Σχεδιασμός: ελάχιστες δυνατές κινήσεις ÷ κινήσεις που έγιναν, σε λαβύρινθους, Πύργο, πέρασμα του ποταμού και ρομπότ· λάθη κανόνων είναι κινήσεις που απαγορεύουν οι κανόνες.</li><li>Ο χρόνος απάντησης μετριέται από τη στιγμή που εμφανίζεται η ερώτηση ως το πρώτο άγγιγμα, άρα περιλαμβάνει και το άκουσμα της ερώτησης. Οι πολύ γρήγορες λάθος απαντήσεις (κάτω από 1,5 δευτ.) μπορεί να δείχνουν μάντεμα πριν τη σκέψη.</li><li>Η λεπτή κινητικότητα είναι ο μέσος βαθμός γραφής (δείτε την αναφορά λεπτής κινητικότητας).</li><li>Ένας τομέας χρειάζεται τουλάχιστον 3 απαντήσεις για να μπει στη σύνοψη. Όλες οι τιμές περιγράφουν το ίδιο το παιδί στον χρόνο· δεν συγκρίνονται με άλλα παιδιά.</li></ul>`]);
+  return `<div class="screen"><div class="gbar noprint"><button class="icon-btn" data-act="parentsback" aria-label="Back">${I.back}</button><div class="gtitle"><h2>${tr(['Development profile','Αναπτυξιακό προφίλ'])}</h2><div>${esc(name)}</div></div></div>
+  <div class="parents report">
+    <header class="rhead"><h2>${tr(['Development profile from play','Αναπτυξιακό προφίλ μέσα από το παιχνίδι'])}</h2><p><b>${esc(name)}</b>${age?` · ${tr(['age','ηλικία'])} ${age} ${tr(['years','ετών'])}`:''} · ${dayKey(now)}</p></header>
+    <div class="disclaimer">${tr(['These are observations from the games, not a diagnostic test. They show how this child plays over time and help you choose what to practise. If something worries you, talk to your paediatrician.','Αυτές είναι παρατηρήσεις από τα παιχνίδια, όχι διαγνωστικό τεστ. Δείχνουν πώς παίζει το παιδί στον χρόνο και σας βοηθούν να διαλέξετε τι να εξασκήσετε. Αν κάτι σας προβληματίζει, συζητήστε το με τον παιδίατρο.'])}</div>
+    <section><h3>${tr(['Weekly summary','Εβδομαδιαία σύνοψη'])}</h3>${sumTxt}</section>
+    <section><h3>${tr(['Profile','Προφίλ'])}</h3>${radarSVG(cur,prev)}</section>
+    <section><h3>${tr(['Measures','Μετρήσεις'])}</h3><div style="overflow-x:auto">${table}</div></section>
+    <section><h3>${tr(['Letters mixed up','Γράμματα που μπερδεύει'])}</h3>${conf.length?`<p>${conf.map(([k,n])=>`<b>${esc(k.replace('→',' → '))}</b> (${n}×)`).join(' · ')}</p><p class="note">${tr(['"Ρ → Β" means: asked for Ρ, chose Β.','«Ρ → Β» σημαίνει: ζητήθηκε το Ρ, επέλεξε το Β.'])}</p>`:`<p class="note">${tr(['No mix-ups recorded.','Δεν έχουν καταγραφεί μπερδέματα.'])}</p>`}</section>
+    <section><h3>${tr(['Recognising feelings','Αναγνώριση συναισθημάτων'])}</h3><table class="rtable"><tbody>${EMO}</tbody></table></section>
+    <section><h3>${tr(['Screen time','Χρόνος οθόνης'])}</h3><p class="note">${tr(['Minutes per day, last 14 days','Λεπτά ανά ημέρα, τελευταίες 14 μέρες'])}${S.limit?` · ${tr(['dashed line: daily limit','διακεκομμένη: ημερήσιο όριο'])} ${S.limit}′`:''}${hrs?` · ${tr(['plays most at','παίζει συνήθως'])} ${hrs}`:''}</p>${bars}</section>
+    <section><h3>${tr(['Method','Μεθοδολογία'])}</h3>${method}</section>
+    <div class="row noprint" style="justify-content:flex-start"><button class="btn small blue" data-act="fmreport">✍️ ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button><button class="btn small white" data-act="fmprint">🖨️ ${tr(['Print / PDF','Εκτύπωση / PDF'])}</button><button class="btn small white" data-act="dphtml">📄 ${tr(['Download (HTML)','Λήψη (HTML)'])}</button><button class="btn small white" data-act="dpcsv">⬇️ CSV</button></div>
+  </div></div>`}
+function dpCSV(){const d=dpStore(),keys=['acc.lit','acc.num','acc.vis','mem.miss','span','plan.eff','plan.viol','aud','emo','rt','imp','hint','done','min'];
+  const rows=Object.keys(d.days).sort().map(k=>[k,...keys.map(c=>{const a=d.days[k][c];return a==null?'':Array.isArray(a)?r1(a[0]/a[1]*100)/100:a})].join(','));
+  offerFile(`development-${dayKey(Date.now())}.csv`,'﻿'+['day,'+keys.join(','),...rows].join('\n'),'text/csv')}
+function reportFile(html,fname){const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n'),box=document.createElement('div');box.innerHTML=html;const rep=box.querySelector('.report');rep.querySelectorAll('.noprint').forEach(x=>x.remove());
+  offerFile(fname,`<!doctype html><html lang="${S.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(rep.querySelector('h2').textContent)}</title><style>${css}
+body{overflow:auto;background:#fff;height:auto}.parents.report{overflow:visible;margin:0 auto;padding:24px;background:#fff}</style></head><body>${rep.outerHTML}</body></html>`,'text/html')}
+
 /* ---------- game flow ---------- */
 let run=null;
 // listening games: the songs and the ear-training note games
 const needsSound=(g,l)=>g==='music'&&(l<5||['highlow','ear','simon'].includes(NOTE_ACTS[l-5]));
 function startLevel(g,l){
+  if(overLimit()){run=null;ui.modal=null;ui.screen='rest';render();return}
   ui.modal=null;ui.screen='game';streak=0;
   run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
   run.wasDone=gameDone(S,g);
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else run.cur=GEN[g](l);
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else if(g==='count'&&l===3)setupDots();else{run.cur=GEN[g](l);run.cur.t0=performance.now()}
   render();speakPrompt();
 }
 // Instructions are spoken the first time; the same instruction again stays quiet (the 🔊 button always repeats it)
@@ -2801,6 +2950,7 @@ function renderGame(){
   const prog=run.g==='memory'?run.found:run.q;
   let body;
   if(run.p&&run.p.type==='write')body=writeBody(run.p);
+  else if(run.p&&run.p.type==='dots')body=dotsBody(run.p);
   else if(run.g==='time')body=timeBody(run.p);
   else if(run.g==='social')body=run.p.rounds&&run.p.rounds[run.p.i]&&run.p.rounds[run.p.i].stage==='respect'?respectBody():socialBody(run.p);
   else if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
@@ -2825,10 +2975,11 @@ function renderGame(){
 function success(btn,after){
   run.busy=true;const r=btn.getBoundingClientRect();const pr=praise(r.left+r.width/2,r.top+r.height/2);
   $('#pet')?.classList.add('happy');const r0=run;
-  Promise.all([after?say(after):pr,wait(1300)]).then(()=>{if(run!==r0)return;run.q++;run.busy=false;if(run.q>=run.total)return finishLevel();run.cur=GEN[run.g](run.l);run.nextRank=0;renderGame();speakPrompt()});
+  Promise.all([after?say(after):pr,wait(1300)]).then(()=>{if(run!==r0)return;run.q++;run.busy=false;if(run.q>=run.total)return finishLevel();run.cur=GEN[run.g](run.l);run.cur.t0=performance.now();run.nextRank=0;renderGame();speakPrompt()});
 }
 function answer(btn,i){
   if(run.busy)return;const c=run.cur,o=c.options[i];if(btn.classList.contains('wrong')||btn.classList.contains('right'))return;
+  dpAnswer(c,o,btn);
   if(c.order){
     if(o.rank===run.nextRank){btn.classList.add('right');btn.insertAdjacentHTML('beforeend',`<em class="rank">${o.rank+1}</em>`);run.nextRank++;
       if(run.nextRank>=c.options.length)return success(btn);
@@ -2843,12 +2994,13 @@ function flip(i){
   const c=run.cards[i];if(run.busy||c.up||c.done)return;
   c.up=true;run.open.push(c);sfx('flip');say(tr(c.n));
   document.querySelector(`.card[data-i="${i}"]`).classList.add('up');
-  if(run.open.length===2){const [a,b]=run.open;run.busy=true;
+  if(run.open.length===2){const [a,b]=run.open;run.busy=true;run.seen=run.seen||new Set();const mate=run.cards.find(x=>x.e===a.e&&x!==a);if(mate&&run.seen.has(mate.i))dpAdd('mem.miss',a.e===b.e?0:1);run.seen.add(a.i);run.seen.add(b.i);
     setTimeout(()=>{if(a.e===b.e){a.done=b.done=true;run.found++;const el=document.querySelector(`.card[data-i="${b.i}"]`).getBoundingClientRect();praise(el.left+el.width/2,el.top+el.height/2)}
       else{a.up=b.up=false;run.mistakes++;streak=0;sfx('bad')}
       run.open=[];run.busy=false;renderGame();if(run.found>=run.total)setTimeout(finishLevel,700)},a.e===b.e?500:1100)}
 }
 function finishLevel(fixed){
+  if(!run.finished){run.finished=true;dpAdd('done',1);dpAdd('hint',run.hints||0)}
   const m=run.mistakes,stars=fixed||(run.g==='memory'?(m<=run.total?3:m<=run.total*2?2:1):(m===0?3:m<=2?2:1));
   const first=S.stars[run.g][run.l]===0,coins=2+stars*2+(first?3:0);
   S.stars[run.g][run.l]=Math.max(S.stars[run.g][run.l],stars);S.coins+=coins;
@@ -2871,7 +3023,7 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm'&&a!=='wr')sfx('tap');if(ui.screen==='game'&&b.matches('.opt,.btn'))fmTap(b,e);
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm'&&a!=='wr'&&a!=='dt')sfx('tap');if(ui.screen==='game'&&b.matches('.opt,.btn'))fmTap(b,e);
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
@@ -2888,7 +3040,7 @@ document.addEventListener('click',e=>{
     case 'hero':S.hero=b.dataset.h;sayL(SAY.hero(HEROES[S.hero]));save();render();break;
     case 'skin':S.skin=+b.dataset.i;save();render();break;
     case 'start':{const n=$('#kidname');S.name=(n&&n.value.trim())||'';S.started=true;save();ui.screen='map';render();sayL(SAY.welcome(heroName()));break}
-    case 'map':if(run){const nx=nextGame();if(nx)ui.region=regionOf(nx)}run=null;ui.screen='map';ui.modal=null;ui.confirmReset=false;ui.confirmG=null;render();break;
+    case 'map':if(run&&ui.screen==='game'&&!run.finished&&!run.won)dpAdd('done',0);if(run){const nx=nextGame();if(nx)ui.region=regionOf(nx)}run=null;ui.screen='map';ui.modal=null;ui.confirmReset=false;ui.confirmG=null;render();break;
     case 'room':ui.screen='room';render();break;
     case 'region':{const r=+b.dataset.r;ui.region=r;scrollToIsland(r);document.querySelectorAll('.regdots button').forEach((x,i)=>x.classList.toggle('on',i===r));break}
     case 'badges':ui.screen='badges';render();break;
@@ -2920,6 +3072,11 @@ document.addEventListener('click',e=>{
     case 'nt':notesAct(b);break;
     case 'tm':timeAct(b);break;
     case 'wr':writeAct(b);break;
+    case 'dt':dotsAct(b);break;
+    case 'dpreport':ui.screen='dpreport';render();break;
+    case 'dphtml':reportFile(dpReportHTML(),`development-report-${dayKey(Date.now())}.html`);break;
+    case 'dpcsv':dpCSV();break;
+    case 'setlimit':S.limit=+b.dataset.v;save();render();break;
     case 'fmreport':ui.screen='fmreport';render();break;
     case 'parentsback':ui.screen='parents';render();break;
     case 'setbirth':{const v=($('#birth')||{}).value;if(/^\d{4}-\d{2}$/.test(v)){S.birth=v;save();render()}break}
@@ -2934,8 +3091,8 @@ document.addEventListener('click',e=>{
     case 'wear':{const it=ITEMS.find(x=>x.id===b.dataset.id);S.equip[it.slot]=it.id;save();render();say(tr(it.name));break}
     case 'unwear':{const it=ITEMS.find(x=>x.id===b.dataset.id);S.equip[it.slot]=null;save();render();break}
     case 'rename':{const n=$('#pname');S.name=n.value.trim();save();toast(t('nameSaved'));break}
-    case 'pgate':{const a=rand(4,9),c=rand(4,9),n=a*c,o=new Set([n]);while(o.size<4)o.add(n+pick([-10,-6,-4,-2,2,3,4,6,8,10]));ui.modal={type:'pgate',a,c,opts:shuffle([...o])};renderModal();break}
-    case 'pans':{const ok=+b.dataset.v===ui.modal.a*ui.modal.c;ui.modal=null;if(ok){ui.screen='parents';render()}else renderModal();break}
+    case 'pgate':{const a=rand(4,9),c=rand(4,9),n=a*c,o=new Set([n]);while(o.size<4)o.add(n+pick([-10,-6,-4,-2,2,3,4,6,8,10]));ui.modal={type:'pgate',a,c,opts:shuffle([...o]),then:b.dataset.then||''};renderModal();break}
+    case 'pans':{const m=ui.modal,ok=+b.dataset.v===m.a*m.c;ui.modal=null;if(ok&&m.then==='extend'){const k=dayKey(Date.now());S.extra={day:k,min:(S.extra&&S.extra.day===k?S.extra.min:0)+10};save();ui.screen='map';render()}else if(ok){ui.screen='parents';render()}else renderModal();break}
     case 'voicepanel':ui.modal={type:'voice'};renderModal();if('speechSynthesis' in window&&!langVoices(S.lang).length)[400,1200,3000].forEach(ms=>setTimeout(()=>{if(ui.modal&&ui.modal.type==='voice'&&langVoices(S.lang).length){delete voices[S.lang];renderModal()}},ms));break;
     case 'vpick':{S.voice=Object.assign({},S.voice,{[S.lang]:b.dataset.v});delete voices[S.lang];save();renderModal();say(tr(['Hello! I am your storyteller. Shall we play?','Γεια σου! Είμαι η αφηγήτριά σου. Πάμε να παίξουμε;']));break}
     case 'vchar':{const c=VCHARS[+b.dataset.v];S.vrate=c.r;S.vpitch=c.p;save();renderModal();say(tr(c.l));break}
