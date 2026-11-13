@@ -536,6 +536,13 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 @keyframes dbeat{50%{box-shadow:0 10px 0 #8f4127,0 0 0 18px rgba(242,182,50,.55)}}@keyframes dhit{50%{transform:scale(.88)}}
 .rmsg{font-family:var(--display);font-weight:700;font-size:1.4rem;color:var(--aegean);min-height:1.6em}
 
+/* panathenaic way */
+.rdscene{height:clamp(110px,22dvh,190px);display:flex;justify-content:center}.rdscene svg{height:100%;width:auto}
+.rdopt{height:70px;display:block}.rdopt svg{height:100%;width:auto}
+.socopt.thumb .emo{font-size:3rem}
+.crossw{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+.crossv{width:min(100%,calc((100dvh - 300px)*1.67),760px);height:auto;border-radius:18px;border:3px solid rgba(28,42,72,.15);touch-action:manipulation}
+.lookrow{display:flex;gap:8px;min-height:44px}.lk{font-size:1.6rem;background:#fff;border-radius:10px;padding:2px 8px;border:3px solid var(--good)}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -593,7 +600,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-11-07.1757';
+const BUILD='2026-11-13.1235';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -635,6 +642,7 @@ const GAMES=[
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},starts:[5],levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο'],['Note stairs','Η σκάλα των νοτών'],['High or low?','Ψηλά ή χαμηλά;'],['Listen and find','Άκου και βρες'],['Repeat the tune','Επανάλαβε τη μελωδία']]});
+GAMES.push({id:'road',name:['Panathenaic Way','Παναθηναϊκή Οδός'],skill:['Road safety','Κυκλοφοριακή αγωγή'],x:50,y:50,levels:[['Traffic lights','Τα φανάρια'],['Where is it safe?','Πού είναι ασφαλές;'],['Cross the road','Περνάμε απέναντι'],['Road signs','Οι πινακίδες'],['Right or wrong?','Σωστό ή λάθος;']]});
 GAMES.push({id:'focus',name:['Palaestra','Παλαίστρα'],skill:['Focus, self-control & rhythm','Προσοχή, αυτοέλεγχος & ρυθμός'],x:50,y:50,gate:{coins:20},starts:[2,4],levels:[['Olives, not stones','Ελιές, όχι πέτρες'],['Quick hands','Γρήγορα χέρια'],['Find the hidden one','Βρες το κρυμμένο'],['Hide and seek','Κρυφτό'],['Clap the beat','Χτύπα στον ρυθμό'],['Drum on your own','Τύμπανο μόνος σου']]});
 GAMES.push({id:'time',name:['Tower of the Winds','Ο Πύργος των Ανέμων'],skill:['Time','Ο χρόνος'],x:50,y:50,levels:[['My day','Η μέρα μου'],['Days of the week','Οι μέρες της εβδομάδας'],['Yesterday & tomorrow','Χτες και αύριο'],['The seasons','Οι εποχές'],['Last year & next year','Πέρσι και του χρόνου'],["O'clock",'Η ώρα'],['Half past','Και μισή'],['Set the clock','Βάλε την ώρα']]});
 GAMES.push({id:'social',name:['The Pnyx','Η Πνύκα'],skill:['Kindness & democracy','Κοινωνικότητα & Δημοκρατία'],x:50,y:50,levels:[['How do they feel?','Πώς νιώθει;'],['A good friend','Ο καλός φίλος'],['No to bullying','Όχι στον εκφοβισμό'],['Volunteers','Εθελοντές'],['Neighbourhood helpers','Οι βοηθοί της γειτονιάς'],['We vote!','Ψηφίζουμε!']]});
@@ -655,6 +663,7 @@ const BADGES=[
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
   {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
+  {id:'road',icon:'🚦',name:['Road Safety Friend','Φίλος της ασφάλειας'],desc:['Finish every level on the Panathenaic Way','Τελείωσε όλα τα επίπεδα στην Παναθηναϊκή Οδό'],test:s=>gameDone(s,'road')},
   {id:'focus',icon:'🎯',name:['Calm Champion','Ήρεμος πρωταθλητής'],desc:['Finish every level in the Palaestra','Τελείωσε όλα τα επίπεδα στην Παλαίστρα'],test:s=>gameDone(s,'focus')},
   {id:'time',icon:'⏳',name:['Keeper of Time','Φύλακας του χρόνου'],desc:['Finish every level in the Tower of the Winds','Τελείωσε όλα τα επίπεδα στον Πύργο των Ανέμων'],test:s=>gameDone(s,'time')},
   {id:'social',icon:'🤝',name:['Good Citizen','Καλός πολίτης'],desc:['Finish every level on the Pnyx','Τελείωσε όλα τα επίπεδα στην Πνύκα'],test:s=>gameDone(s,'social')},
@@ -696,6 +705,7 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['Learning the notes on a xylophone (the note stairs, high or low, listen and find, repeat the tune), and a running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Μαθαίνει τις νότες σε ξυλόφωνο (η σκάλα των νοτών, ψηλά ή χαμηλά, άκου και βρες, επανάλαβε τη μελωδία) και παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
+  road:['Road safety: pedestrian and car traffic lights, safe places to walk, cross and play, crossing at a zebra crossing after looking left-right-left with moving cars, common road signs, and safe habits (child seat, helmet, holding hands, reflective clothes).','Κυκλοφοριακή αγωγή: φανάρια πεζών και αυτοκινήτων, ασφαλή σημεία για περπάτημα, διάσχιση και παιχνίδι, διάσχιση από διάβαση πεζών αφού κοιτάξουμε αριστερά-δεξιά-αριστερά με αυτοκίνητα που κινούνται, βασικές πινακίδες και ασφαλείς συνήθειες (παιδικό κάθισμα, κράνος, χέρι με τον μεγάλο, ανακλαστικά).'],
   focus:['Attention and self-control: tap olives but not stones (go/no-go), find a shape among many (visual search), and tap along with a drum, then keep the beat alone (rhythm and timing).','Προσοχή και αυτοέλεγχος: πάτα τις ελιές αλλά όχι τις πέτρες (go/no-go), βρες ένα σχήμα ανάμεσα σε πολλά (οπτική αναζήτηση) και χτύπα μαζί με το τύμπανο και μετά μόνος σου (ρυθμός και συγχρονισμός).'],
   time:['Time: the order of a day, the days of the week, yesterday/today/tomorrow (with the real day), the seasons, last year/this year/next year, reading the clock on the hour and half hour, and setting a clock.','Ο χρόνος: η σειρά της μέρας, οι μέρες της εβδομάδας, χτες/σήμερα/αύριο (με την πραγματική μέρα), οι εποχές, πέρσι/φέτος/του χρόνου, η ώρα (ακριβώς και μισή) και ρύθμιση ρολογιού.'],
   social:['Social and emotional learning: recognising feelings, being a good friend, what to do about bullying (tell a trusted grown-up, say stop, include others), volunteering by cleaning up, the people who help our neighbourhood, and democracy through a class vote on the Pnyx.','Κοινωνική και συναισθηματική μάθηση: αναγνώριση συναισθημάτων, ο καλός φίλος, τι κάνουμε με τον εκφοβισμό (το λέμε σε έναν μεγάλο, λέμε «σταμάτα», δεν αφήνουμε κανέναν απέξω), εθελοντισμός με καθαρισμό, οι άνθρωποι που βοηθούν τη γειτονιά μας και δημοκρατία με ψηφοφορία της τάξης στην Πνύκα.'],
@@ -1052,6 +1062,7 @@ const ART={
   compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
   memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
   puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  road:svgArt(cube(6,62,88,8,30,'#6d7a8c')+[0,1,2,3,4].map(i=>`<rect x="${22+i*9}" y="63" width="5" height="6" fill="#fff"/>`).join('')+cube(74,22,5,40,5,'#4b5a78')+cube(69,8,14,26,8,'#1c2a48')+`<circle cx="76" cy="14" r="3" fill="#e53935"/><circle cx="76" cy="21" r="3" fill="#fbc02d"/><circle cx="76" cy="28" r="3" fill="#43d06b"/>`+cube(14,36,30,24,12,'#f1e9d8')),
   focus:svgArt(cube(14,62,72,16,24,'#e6dcc4')+cube(16,24,8,40,8,'#f1e9d8')+cube(36,24,8,40,8,'#f1e9d8')+cube(56,24,8,40,8,'#f1e9d8')+cube(76,24,8,40,8,'#f1e9d8')+cube(12,16,78,8,26,'#c9a27a')+`<circle cx="50" cy="52" r="7" fill="#e53935"/><circle cx="50" cy="52" r="3.5" fill="#fffaf0"/>`),
   time:svgArt(cube(30,30,40,60,10,'#f1e9d8')+`<path d="M30 30L50 8L70 30Z" fill="#c9a27a"/><path d="M76 24L50 6" stroke="#c9a27a" stroke-width="2"/><circle cx="50" cy="52" r="13" fill="#fffaf0" stroke="#c98b2b" stroke-width="3"/><path d="M50 52V43M50 52L57 55" stroke="#1c2a48" stroke-width="2.5" stroke-linecap="round"/><path d="M36 76h28" stroke="#c9a27a" stroke-width="2"/>`),
   social:svgArt(cube(4,76,92,14,10,'#d8ccb0')+cube(18,62,64,14,10,'#e6dcc4')+cube(32,48,36,14,10,'#f1e9d8')+cube(40,26,20,22,8,'#2f6fd6')+`<rect x="44" y="22" width="12" height="4" fill="#1c2a48"/><rect x="45" y="30" width="10" height="7" fill="#fff"/>`+`<text x="14" y="40" font-size="16">✋</text><text x="72" y="38" font-size="16">✋</text>`),
@@ -1062,7 +1073,7 @@ const ART={
 };
 // The world is three islands, from easiest to hardest; each place is numbered along a path
 const REGIONS=[
-  {name:['Island of Dawn','Νησί της Αυγής'],games:['count','shapes','memory','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
+  {name:['Island of Dawn','Νησί της Αυγής'],games:['count','shapes','memory','road','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
   {name:['Island of the Muses','Νησί των Μουσών'],games:['pattern','odd','compare','time','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
   {name:["Athena's Island",'Νησί της Αθηνάς'],games:['stem','space','puzzle','focus','social'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
 const MAPSLOTS={land:{4:[[15,60],[38,30],[62,60],[85,32]],6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{4:[[30,15],[70,38],[30,62],[68,85]],6:[[28,13],[72,28],[28,43],[72,58],[28,73],[70,87]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
@@ -1126,6 +1137,7 @@ const SCENES={
   memory:()=>sky('#1a7fc4','#0b3c6e')+rep(14,i=>`<circle cx="${(i*173)%1200}" cy="${(i*97)%700}" r="${6+i%4*4}" fill="none" stroke="#bfe6ff" stroke-width="3" opacity=".45"/>`)+`<path d="M0 720Q300 690 600 720T1200 710V800H0Z" fill="#e9d39b"/>`+rep(8,i=>`<path d="M${80+i*150} 730q-30-90 10-160q-30 80 20 160z" fill="#3fa36b"/>`),
   music:()=>sky('#ff9548','#ffd7a8')+`<circle cx="900" cy="250" r="90" fill="#ffe9a8"/><rect y="440" width="1200" height="360" fill="#d7b48e"/>`+rep(9,i=>`<path d="M${i*140} 800V560a60 60 0 0 1 120 0V800z" fill="#b98d63"/>`),
   ceremony:()=>sky('#7ccaff','#e4f5ff')+`<path d="M0 430Q600 330 1200 430V800H0Z" fill="#b9c98a"/>`+rep(5,r=>rep(30,c=>`<rect x="${c*42}" y="${440+r*26}" width="36" height="20" fill="${['#e53935','#1e6fd9','#fbc02d','#43a047','#fff'][(c+r)%5]}" opacity=".55"/>`))+`<rect y="570" width="1200" height="230" fill="#d9643b"/>`+rep(5,k=>`<rect y="${590+k*40}" width="1200" height="5" fill="#fff" opacity=".8"/>`)+cube(1040,250,60,180,14,'#f1e9d8')+cube(1020,230,100,24,14,'#c98b2b')+`<path d="M1070 230q-40-60 0-120q40 60 0 120z" fill="#ff8c1a"/><path d="M1070 230q-18-34 0-70q18 36 0 70z" fill="#ffe14a"/>`,
+  road:()=>sky('#8fd3ff','#eaf7ff')+rep(5,i=>cube(40+i*230,340,170,260,30,['#f1e9d8','#fffaf0','#f2d9b0'][i%3]))+`<rect y="600" width="1200" height="30" fill="#d9d2bf"/><rect y="630" width="1200" height="140" fill="#5f6b7c"/><path d="M0 700H1200" stroke="#fff" stroke-width="6" stroke-dasharray="60 40"/>`+rep(7,i=>`<rect x="${520+i*24}" y="634" width="14" height="132" fill="#fff"/>`)+`<rect y="770" width="1200" height="30" fill="#d9d2bf"/>`+cube(1000,420,16,180,10,'#4b5a78')+cube(985,360,46,110,16,'#1c2a48')+`<circle cx="1008" cy="385" r="12" fill="#e53935"/><circle cx="1008" cy="415" r="12" fill="#3a3f4b"/><circle cx="1008" cy="445" r="12" fill="#3a3f4b"/>`,
   focus:()=>sky('#9fd8ff','#f2fbff')+`<rect y="600" width="1200" height="200" fill="#d9cfb4"/>`+rep(7,i=>cube(80+i*160,300,34,300,24,'#f1e9d8'))+cube(60,270,1060,34,40,'#c9a27a')+`<rect y="620" width="1200" height="14" fill="#c9b98f"/>`,
   time:()=>sky('#8fd3ff','#eaf7ff')+`<rect y="600" width="1200" height="200" fill="#e6dcc4"/>`+cube(860,200,180,400,30,'#f1e9d8')+`<path d="M860 200L950 120L1040 200Z" fill="#c9a27a"/><circle cx="950" cy="330" r="60" fill="#fffaf0" stroke="#c98b2b" stroke-width="10"/><path d="M950 330V290M950 330L978 345" stroke="#1c2a48" stroke-width="10" stroke-linecap="round"/>`+rep(4,i=>cube(80+i*170,560,60,40,10,'#d8ccb0')+`<path d="M${110+i*170} 560l40 -16" stroke="#6d7a8c" stroke-width="6"/>`),
   social:()=>sky('#9fd8ff','#eaf7ff')+`<path d="M0 520Q300 430 700 470T1200 450V800H0Z" fill="#b9c98a"/><path d="M760 300h300v20H760zM770 320h20v80h-20zM820 320h20v80h-20zM870 320h20v80h-20zM920 320h20v80h-20zM970 320h20v80h-20zM1020 320h20v80h-20zM750 400h320v20H750z" fill="#f6ead2"/><path d="M740 420Q900 380 1100 430L1200 470H700Z" fill="#c9a27a"/><rect y="620" width="1200" height="180" fill="#d8ccb0"/>`+rep(6,i=>cube(80+i*190,560,120,60,14,'#e6dcc4')),
@@ -2877,8 +2889,9 @@ setInterval(()=>{if(document.visibilityState!=='visible'||!S.started||ui.screen=
 function restHTML(){const h=HEROES[S.hero];return `<div class="screen rest"><div class="restcard"><div class="restpet">${h.pet}<span>💤</span></div>${avatar(S.hero,S.skin,S.equip,'restav')}
   <h2>${tr(['Your hero is tired!','Ο ήρωας κουράστηκε!'])}</h2><p class="sub">${tr([`${heroName()}, time to rest your eyes and play outside. See you tomorrow! 🌙`,`${vocEl(heroName())}, ώρα να ξεκουράσουμε τα ματάκια και να παίξουμε έξω. Τα λέμε αύριο! 🌙`])}</p>
   <button class="btn small white" data-act="pgate" data-then="extend">🔒 ${tr(['Grown-ups: 10 more minutes','Γονείς: άλλα 10 λεπτά'])}</button></div></div>`}
-const DP_NAMES={att:['Self-control','Αυτοέλεγχος'],rhy:['Rhythm','Ρυθμός'],lit:['Letters','Γραμματισμός'],num:['Numbers','Αριθμητική'],vis:['Visual perception','Οπτική αντίληψη'],mem:['Memory','Μνήμη'],plan:['Planning','Σχεδιασμός'],aud:['Listening (pitch)','Ακουστική διάκριση'],emo:['Emotions','Συναισθήματα'],fm:['Fine motor','Λεπτή κινητικότητα']};
-const DP_TIPS={att:['Games with a stop signal: "Red light, green light", "Simon says", freeze dance.','Παιχνίδια με σήμα «στοπ»: «Αγάλματα», «Ο Σίμων λέει», χορός που σταματά όταν σταματά η μουσική.'],
+const DP_NAMES={road:['Road safety','Οδική ασφάλεια'],att:['Self-control','Αυτοέλεγχος'],rhy:['Rhythm','Ρυθμός'],lit:['Letters','Γραμματισμός'],num:['Numbers','Αριθμητική'],vis:['Visual perception','Οπτική αντίληψη'],mem:['Memory','Μνήμη'],plan:['Planning','Σχεδιασμός'],aud:['Listening (pitch)','Ακουστική διάκριση'],emo:['Emotions','Συναισθήματα'],fm:['Fine motor','Λεπτή κινητικότητα']};
+const DP_TIPS={road:['On every walk, stop at the kerb together, look left-right-left aloud, and let your child tell you when it is safe to cross.','Σε κάθε βόλτα, σταματήστε μαζί στο κράσπεδο, κοιτάξτε φωναχτά αριστερά-δεξιά-αριστερά και αφήστε το παιδί να σας πει πότε είναι ασφαλές να περάσετε.'],
+  att:['Games with a stop signal: "Red light, green light", "Simon says", freeze dance.','Παιχνίδια με σήμα «στοπ»: «Αγάλματα», «Ο Σίμων λέει», χορός που σταματά όταν σταματά η μουσική.'],
   rhy:['Clap, march and drum to songs together; bounce a ball to a steady count.','Παλαμάκια, παρέλαση και τύμπανο με τραγούδια· αναπηδήσεις μπάλας σε σταθερό μέτρημα.'],
   lit:['Play "I spy something that starts with…", read picture books together and point to the letters.','Παίξτε «Βλέπω κάτι που αρχίζει από…», διαβάστε μαζί βιβλία με εικόνες και δείξτε τα γράμματα.'],
   num:['Count everyday things together: stairs, spoons, cars; set the table counting plates.','Μετράτε μαζί καθημερινά πράγματα: σκαλιά, κουτάλια, αυτοκίνητα· στρώστε το τραπέζι μετρώντας τα πιάτα.'],
@@ -2894,7 +2907,7 @@ function dpScores(from,to){const d=dpStore(),days=Object.keys(d.days).filter(k=>
   const memMiss=sum('mem.miss'),span=mx('span'),mem=memMiss||span?{v:avg([memMiss?(1-memMiss.v)*100:null,span?Math.min(100,span/6*100):null].filter(x=>x!=null)),n:(memMiss?memMiss.n:0)+(span?1:0)}:null;
   const fmi=fmStore().items.filter(i=>dayKey(i.t)>=from&&dayKey(i.t)<=to&&i.sc!=null);
   const g1=sum('gng.com'),g2=sum('gng.om'),rh=sum('rhy.hit');
-  return {att:g1&&g2?{v:100*(1-(g1.v+g2.v)/2),n:g1.n*24}:null,rhy:rh?{v:rh.v*100,n:rh.n*12}:null,gcom:g1,gom:g2,grt:sum('gng.rt'),gcv:sum('gng.cv'),vsfrt:sum('vsf.rt'),vsfsl:sum('vsf.sl'),vscrt:sum('vsc.rt'),vscsl:sum('vsc.sl'),rhit:rh,rasy:sum('rhy.asy'),rsd:sum('rhy.sd'),rcv:sum('rhy.cv'),rdr:sum('rhy.drift'),
+  return {road:pc('road'),rdun:sum('road.unsafe'),att:g1&&g2?{v:100*(1-(g1.v+g2.v)/2),n:g1.n*24}:null,rhy:rh?{v:rh.v*100,n:rh.n*12}:null,gcom:g1,gom:g2,grt:sum('gng.rt'),gcv:sum('gng.cv'),vsfrt:sum('vsf.rt'),vsfsl:sum('vsf.sl'),vscrt:sum('vsc.rt'),vscsl:sum('vsc.sl'),rhit:rh,rasy:sum('rhy.asy'),rsd:sum('rhy.sd'),rcv:sum('rhy.cv'),rdr:sum('rhy.drift'),
     lit:pc('acc.lit'),num:pc('acc.num'),vis:pc('acc.vis'),mem,plan:pc('plan.eff'),aud:pc('aud'),emo:pc('emo'),fm:fmi.length?{v:avg(fmi.map(i=>i.sc)),n:fmi.length}:null,
     rt:sum('rt'),imp:sum('imp'),viol:sum('plan.viol'),hint:sum('hint'),done:sum('done'),span,min:days.reduce((s,k)=>s+(d.days[k].min||0),0),days:days.length}}
 const shiftDay=(n)=>dayKey(Date.now()-n*864e5);
@@ -2936,7 +2949,7 @@ function dpReportHTML(){const d=dpStore(),now=Date.now(),cur=dpScores(shiftDay(1
     <section><h3>${tr(['Profile','Προφίλ'])}</h3>${radarSVG(cur,prev)}</section>
     <section><h3>${tr(['Measures','Μετρήσεις'])}</h3><div style="overflow-x:auto">${table}</div></section>
     <section><h3>${tr(['Attention, self-control and rhythm','Προσοχή, αυτοέλεγχος και ρυθμός'])}</h3><div style="overflow-x:auto"><table class="rtable"><thead><tr><th>${tr(['Measure','Μέτρηση'])}</th><th>${tr(['last 14 days','τελευταίες 14 μέρες'])}</th><th>${tr(['14 days before','14 μέρες πριν'])}</th></tr></thead><tbody>
-      ${[[['Stones tapped (self-control mistakes)','Πέτρες που πατήθηκαν (λάθη αυτοελέγχου)'],'gcom',x=>Math.round(x*100)+'%'],[['Olives missed','Ελιές που χάθηκαν'],'gom',x=>Math.round(x*100)+'%'],[['Reaction time to olives','Χρόνος αντίδρασης στις ελιές'],'grt',x=>Math.round(x)+' ms'],[['Reaction time variability','Μεταβλητότητα χρόνου αντίδρασης'],'gcv',x=>Math.round(x*100)+'%'],
+      ${[[['Trying to cross while a car was coming (per game)','Προσπάθειες να περάσει ενώ ερχόταν αυτοκίνητο (ανά παιχνίδι)'],'rdun',x=>r1(x)],[['Stones tapped (self-control mistakes)','Πέτρες που πατήθηκαν (λάθη αυτοελέγχου)'],'gcom',x=>Math.round(x*100)+'%'],[['Olives missed','Ελιές που χάθηκαν'],'gom',x=>Math.round(x*100)+'%'],[['Reaction time to olives','Χρόνος αντίδρασης στις ελιές'],'grt',x=>Math.round(x)+' ms'],[['Reaction time variability','Μεταβλητότητα χρόνου αντίδρασης'],'gcv',x=>Math.round(x*100)+'%'],
         [['Visual search, easy: time','Οπτική αναζήτηση, εύκολη: χρόνος'],'vsfrt',x=>r1(x/1000)+' s'],[['Visual search, easy: extra time per shape','Οπτική αναζήτηση, εύκολη: χρόνος ανά επιπλέον σχήμα'],'vsfsl',x=>Math.round(x)+' ms'],[['Visual search, hard: time','Οπτική αναζήτηση, δύσκολη: χρόνος'],'vscrt',x=>r1(x/1000)+' s'],[['Visual search, hard: extra time per shape','Οπτική αναζήτηση, δύσκολη: χρόνος ανά επιπλέον σχήμα'],'vscsl',x=>Math.round(x)+' ms'],
         [['Beats hit on time (±150 ms)','Χτυπήματα στον χρόνο (±150 ms)'],'rhit',x=>Math.round(x*100)+'%'],[['Average distance from the beat','Μέση απόσταση από τον χτύπο'],'rasy',x=>Math.round(x)+' ms'],[['Spread of timing','Διακύμανση συγχρονισμού'],'rsd',x=>Math.round(x)+' ms'],[['Keeping the beat alone: steadiness','Ρυθμός μόνος: σταθερότητα'],'rcv',x=>Math.round(x*100)+'%'],[['Keeping the beat alone: speeding up (+) or slowing (−)','Ρυθμός μόνος: επιτάχυνση (+) ή επιβράδυνση (−)'],'rdr',x=>(x>0?'+':'')+Math.round(x*100)+'%']]
         .map(([lab,k,fm])=>row(tr(lab),cur[k]&&cur[k].v,prev[k]&&prev[k].v,fm)).join('')}</tbody></table></div></section>
@@ -2946,7 +2959,7 @@ function dpReportHTML(){const d=dpStore(),now=Date.now(),cur=dpScores(shiftDay(1
     <section><h3>${tr(['Method','Μεθοδολογία'])}</h3>${method}</section>
     <div class="row noprint" style="justify-content:flex-start"><button class="btn small blue" data-act="fmreport">✍️ ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button><button class="btn small white" data-act="fmprint">🖨️ ${tr(['Print / PDF','Εκτύπωση / PDF'])}</button><button class="btn small white" data-act="dphtml">📄 ${tr(['Download (HTML)','Λήψη (HTML)'])}</button><button class="btn small white" data-act="dpcsv">⬇️ CSV</button></div>
   </div></div>`}
-function dpCSV(){const d=dpStore(),keys=['acc.lit','acc.num','acc.vis','mem.miss','span','plan.eff','plan.viol','aud','emo','rt','imp','gng.com','gng.om','gng.rt','gng.cv','vsf.rt','vsf.sl','vsc.rt','vsc.sl','rhy.hit','rhy.asy','rhy.sd','rhy.cv','rhy.drift','hint','done','min'];
+function dpCSV(){const d=dpStore(),keys=['acc.lit','acc.num','acc.vis','mem.miss','span','plan.eff','plan.viol','aud','emo','rt','imp','gng.com','gng.om','gng.rt','gng.cv','vsf.rt','vsf.sl','vsc.rt','vsc.sl','rhy.hit','rhy.asy','rhy.sd','rhy.cv','rhy.drift','road','road.unsafe','hint','done','min'];
   const rows=Object.keys(d.days).sort().map(k=>[k,...keys.map(c=>{const a=d.days[k][c];return a==null?'':Array.isArray(a)?r1(a[0]/a[1]*100)/100:a})].join(','));
   offerFile(`development-${dayKey(Date.now())}.csv`,'﻿'+['day,'+keys.join(','),...rows].join('\n'),'text/csv')}
 function reportFile(html,fname){const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n'),box=document.createElement('div');box.innerHTML=html;const rep=box.querySelector('.report');rep.querySelectorAll('.noprint').forEach(x=>x.remove());
@@ -3031,6 +3044,100 @@ function focusAct(b){const p=run.p,x=b.dataset.x;if(!p||run.won)return;
     if(p.kind==='rhythm')rhythmStart(p)}}
 document.addEventListener('click',e=>{const g=e.target.closest&&e.target.closest('.fitem'),p=run&&run.p;if(g&&p&&p.type==='focus'&&p.kind==='search')searchPick(+g.dataset.k)});
 
+/* ---------- The Panathenaic Way: road safety ---------- */
+const pedLight=red=>`<svg viewBox="0 0 60 110" class="rdsvg"><rect x="20" y="70" width="20" height="40" fill="#4b5a78"/><rect x="4" y="4" width="52" height="72" rx="8" fill="#1c2a48"/>
+  <circle cx="30" cy="22" r="14" fill="${red?'#e53935':'#3b2323'}"/><circle cx="30" cy="57" r="14" fill="${red?'#1d3324':'#43d06b'}"/>
+  ${red?'<g fill="#fff"><circle cx="30" cy="12" r="3.6"/><rect x="25.5" y="16.5" width="9" height="11" rx="2"/><rect x="22.5" y="17" width="3" height="9" rx="1.5"/><rect x="34.5" y="17" width="3" height="9" rx="1.5"/><rect x="26" y="26" width="3.6" height="9" rx="1.5"/><rect x="30.4" y="26" width="3.6" height="9" rx="1.5"/></g>'
+    :'<g fill="#fff"><circle cx="32" cy="46" r="3.6"/><path d="M28.5 51l6 .5-1 9.5-5-.5z"/><path d="M29 59.5l-5 9 3 1.5 5-8.5z"/><path d="M32 60l3.5 9 3-1.2-3.4-8.6z"/><path d="M29.5 52l-5 5 2 2 4.5-4z"/><path d="M34 52.5l4 4.5-2 1.8-3.5-4z"/></g>'}</svg>`;
+const carLight=c=>`<svg viewBox="0 0 50 130" class="rdsvg"><rect x="18" y="96" width="14" height="34" fill="#4b5a78"/><rect x="4" y="4" width="42" height="96" rx="8" fill="#1c2a48"/>${['#e53935','#fbc02d','#43d06b'].map((col,i)=>`<circle cx="25" cy="${22+i*30}" r="11" fill="${i===c?col:'#3a3f4b'}"/>`).join('')}</svg>`;
+const zebra=`<svg viewBox="0 0 120 70" class="rdsvg"><rect width="120" height="70" fill="#6d7a8c"/><rect y="0" width="120" height="8" fill="#d9d2bf"/><rect y="62" width="120" height="8" fill="#d9d2bf"/>${[0,1,2,3,4].map(i=>`<rect x="40" y="${12+i*10}" width="40" height="6" fill="#fff"/>`).join('')}</svg>`;
+const SIGNS={stop:`<svg viewBox="0 0 100 100" class="rdsvg"><polygon points="30,4 70,4 96,30 96,70 70,96 30,96 4,70 4,30" fill="#e53935" stroke="#fff" stroke-width="4"/><text x="50" y="61" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="27" fill="#fff">STOP</text></svg>`,
+  cross:`<svg viewBox="0 0 100 100" class="rdsvg"><rect x="4" y="4" width="92" height="92" rx="8" fill="#1e6fd9"/><polygon points="50,14 88,84 12,84" fill="#fff"/><text x="50" y="76" text-anchor="middle" font-size="34">🚶</text></svg>`,
+  kids:`<svg viewBox="0 0 100 100" class="rdsvg"><polygon points="50,6 96,90 4,90" fill="#fff" stroke="#e53935" stroke-width="9" stroke-linejoin="round"/><text x="50" y="78" text-anchor="middle" font-size="34">🚸</text></svg>`,
+  noentry:`<svg viewBox="0 0 100 100" class="rdsvg"><circle cx="50" cy="50" r="46" fill="#e53935"/><rect x="18" y="41" width="64" height="18" rx="3" fill="#fff"/></svg>`,
+  bike:`<svg viewBox="0 0 100 100" class="rdsvg"><circle cx="50" cy="50" r="46" fill="#1e6fd9"/><text x="50" y="64" text-anchor="middle" font-size="40">🚲</text></svg>`,
+  lights:`<svg viewBox="0 0 100 100" class="rdsvg"><polygon points="50,6 96,90 4,90" fill="#fff" stroke="#e53935" stroke-width="9" stroke-linejoin="round"/>${['#e53935','#fbc02d','#43d06b'].map((c,i)=>`<circle cx="50" cy="${44+i*13}" r="5.5" fill="${c}"/>`).join('')}</svg>`};
+const ROAD_KINDS=['light','where','cross','signs','safe'];
+const ROAD_TEXT={light:['Traffic lights','Τα φανάρια'],where:['Where is it safe?','Πού είναι ασφαλές;'],cross:['Look left, right, left!','Αριστερά, δεξιά, αριστερά!'],signs:['Road signs','Οι πινακίδες'],safe:['Right or wrong?','Σωστό ή λάθος;']};
+const ROAD_INTRO={light:['On the Panathenaic Way, the great road of ancient Athens, people walked to the Acropolis. Today roads have traffic lights. Let us learn what they say!','Στην Παναθηναϊκή Οδό, τον μεγάλο δρόμο της αρχαίας Αθήνας, οι άνθρωποι περπατούσαν ως την Ακρόπολη. Σήμερα οι δρόμοι έχουν φανάρια. Ας μάθουμε τι μας λένε!'],
+  where:['Some places are safe for walking and crossing, and some are dangerous. Choose the safe one!','Κάποια σημεία είναι ασφαλή για περπάτημα και για να περάσουμε απέναντι, και κάποια είναι επικίνδυνα. Διάλεξε το ασφαλές!'],
+  cross:['Help your hero cross at the zebra crossing. First look left, then right, then left again. Cross only when no car is coming!','Βοήθησε τον ήρωα να περάσει από τη διάβαση πεζών. Πρώτα κοίτα αριστερά, μετά δεξιά και πάλι αριστερά. Πέρνα μόνο όταν δεν έρχεται αυτοκίνητο!'],
+  signs:['Road signs talk to us with pictures. What does each one say?','Οι πινακίδες μάς μιλάνε με εικόνες. Τι λέει η καθεμιά;'],
+  safe:['Is it right or wrong? Tap the thumb up or the thumb down.','Είναι σωστό ή λάθος; Πάτα το χεράκι πάνω ή το χεράκι κάτω.']};
+const ROAD_Q={
+  light:[{scene:pedLight(true),q:['The little man is red. What do we do?','Το ανθρωπάκι είναι κόκκινο. Τι κάνουμε;'],opts:[['✋',['We stop and wait','Σταματάμε και περιμένουμε'],1],['🚶',['We cross','Περνάμε απέναντι'],0],['🏃',['We run across fast','Τρέχουμε γρήγορα απέναντι'],0]],why:['Red means stop. We wait on the pavement.','Κόκκινο σημαίνει στοπ. Περιμένουμε στο πεζοδρόμιο.']},
+    {scene:pedLight(false),q:['The little man is green. What do we do?','Το ανθρωπάκι είναι πράσινο. Τι κάνουμε;'],opts:[['👀',['We look both ways, then cross','Κοιτάμε δεξιά κι αριστερά και περνάμε'],1],['🏃',['We run without looking','Τρέχουμε χωρίς να κοιτάξουμε'],0],['⚽',['We play in the middle of the road','Παίζουμε στη μέση του δρόμου'],0]],why:['Green means go, but we always look first and walk, never run.','Πράσινο σημαίνει περνάμε, αλλά πάντα κοιτάμε πρώτα και περπατάμε, δεν τρέχουμε.']},
+    {scene:carLight(0),q:['The cars\' light is red. What do the cars do?','Το φανάρι των αυτοκινήτων είναι κόκκινο. Τι κάνουν τα αυτοκίνητα;'],opts:[['🛑',['They stop','Σταματούν'],1],['💨',['They drive fast','Τρέχουν γρήγορα'],0],['↩️',['They turn round','Κάνουν αναστροφή'],0]],why:['A red light tells cars to stop.','Το κόκκινο φανάρι λέει στα αυτοκίνητα να σταματήσουν.']},
+    {scene:carLight(1),q:['The cars\' light is yellow. What does it mean?','Το φανάρι των αυτοκινήτων είναι κίτρινο. Τι σημαίνει;'],opts:[['⏳',['Get ready to stop','Ετοιμάσου να σταματήσεις'],1],['🚀',['Go faster','Πήγαινε πιο γρήγορα'],0],['🎉',['Party time','Ώρα για πάρτι'],0]],why:['Yellow means the light will soon be red: get ready to stop.','Το κίτρινο σημαίνει ότι σε λίγο θα γίνει κόκκινο: ετοιμαζόμαστε να σταματήσουμε.']},
+    {scene:carLight(2),q:['The cars\' light is green. Can we cross the road now?','Το φανάρι των αυτοκινήτων είναι πράσινο. Μπορούμε τώρα να περάσουμε απέναντι;'],opts:[['🙅',['No, the cars are going','Όχι, τα αυτοκίνητα προχωρούν'],1],['👍',['Yes, let\'s go','Ναι, πάμε'],0]],why:['When the cars have green, we wait. We cross when our little man is green.','Όταν τα αυτοκίνητα έχουν πράσινο, εμείς περιμένουμε. Περνάμε όταν το δικό μας ανθρωπάκι είναι πράσινο.']}],
+  where:[{scene:'🛣️',q:['Where do we cross the road?','Από πού περνάμε απέναντι;'],opts:[[zebra,['At the zebra crossing','Από τη διάβαση πεζών'],1],['🚗🚙',['Between parked cars','Ανάμεσα σε παρκαρισμένα αυτοκίνητα'],0],['↪️',['At a bend in the road','Σε μια στροφή του δρόμου'],0]],why:['At the zebra crossing, drivers can see us and stop.','Στη διάβαση πεζών οι οδηγοί μάς βλέπουν και σταματούν.']},
+    {scene:'🚶',q:['Where do we walk?','Πού περπατάμε;'],opts:[['🧱🚶',['On the pavement','Στο πεζοδρόμιο'],1],['🛣️',['In the middle of the road','Στη μέση του δρόμου'],0],['🤸',['On the edge of the kerb','Πάνω στην άκρη του κράσπεδου'],0]],why:['The pavement is the place for people. The road is for cars.','Το πεζοδρόμιο είναι για τους ανθρώπους. Ο δρόμος είναι για τα αυτοκίνητα.']},
+    {scene:'⚽',q:['Where do we play ball?','Πού παίζουμε μπάλα;'],opts:[['🛝🌳',['At the playground or park','Στην παιδική χαρά ή στο πάρκο'],1],['🛣️',['In the street','Στον δρόμο'],0],['🅿️🚗',['In the car park','Στο πάρκινγκ'],0]],why:['We play where there are no cars. A ball can roll into the road!','Παίζουμε εκεί που δεν έχει αυτοκίνητα. Η μπάλα μπορεί να κυλήσει στον δρόμο!']},
+    {scene:'🚗',q:['Which door do we get out of the car from?','Από ποια πόρτα κατεβαίνουμε από το αυτοκίνητο;'],opts:[['🚪🧱',['The door on the pavement side','Από την πόρτα προς το πεζοδρόμιο'],1],['🚪🛣️',['The door on the road side','Από την πόρτα προς τον δρόμο'],0]],why:['We get out on the pavement side, far from passing cars.','Κατεβαίνουμε από τη μεριά του πεζοδρομίου, μακριά από τα αυτοκίνητα που περνούν.']},
+    {scene:'🚙',q:['Where do children sit in the car?','Πού κάθονται τα παιδιά στο αυτοκίνητο;'],opts:[['💺🔒',['In the back, in a child seat with the belt on','Πίσω, στο παιδικό κάθισμα με ζώνη'],1],['🧑‍✈️',['In the front, next to the driver','Μπροστά, δίπλα στον οδηγό'],0],['🧍',['Standing up','Όρθια'],0]],why:['In the back, in a child seat with the belt fastened: that is the safest place.','Πίσω, στο παιδικό κάθισμα με τη ζώνη δεμένη: αυτή είναι η πιο ασφαλής θέση.']}],
+  signs:[{scene:SIGNS.stop,q:['What does this sign say?','Τι λέει αυτή η πινακίδα;'],opts:[['🛑',['Stop!','Σταμάτα!'],1],['🚲',['Bicycles here','Ποδήλατα εδώ'],0],['🚸',['Children','Παιδιά'],0]],why:['STOP: cars must stop completely.','STOP: τα αυτοκίνητα πρέπει να σταματήσουν τελείως.']},
+    {scene:SIGNS.cross,q:['What does this sign show?','Τι δείχνει αυτή η πινακίδα;'],opts:[['🚶',['A zebra crossing','Διάβαση πεζών'],1],['🛑',['Stop','Στοπ'],0],['⛔',['No entry','Απαγορεύεται η είσοδος'],0]],why:['A blue sign with a walking person shows a zebra crossing.','Η μπλε πινακίδα με το ανθρωπάκι που περπατάει δείχνει διάβαση πεζών.']},
+    {scene:SIGNS.kids,q:['What does this sign warn drivers about?','Για τι προειδοποιεί αυτή η πινακίδα τους οδηγούς;'],opts:[['🚸',['Children may cross, often near a school','Παιδιά, συνήθως κοντά σε σχολείο'],1],['🚲',['Bicycles','Ποδήλατα'],0],['🚦',['Traffic lights','Φανάρια'],0]],why:['Drivers slow down because children may be crossing.','Οι οδηγοί κόβουν ταχύτητα γιατί μπορεί να περνούν παιδιά.']},
+    {scene:SIGNS.noentry,q:['What does this sign say?','Τι λέει αυτή η πινακίδα;'],opts:[['⛔',['No entry for cars','Απαγορεύεται η είσοδος'],1],['🅿️',['Parking','Πάρκινγκ'],0],['🚶',['Zebra crossing','Διάβαση πεζών'],0]],why:['A red circle with a white line means cars must not go in.','Ο κόκκινος κύκλος με τη λευκή γραμμή σημαίνει ότι τα αυτοκίνητα δεν μπαίνουν.']},
+    {scene:SIGNS.bike,q:['Who is this path for?','Για ποιους είναι αυτός ο δρόμος;'],opts:[['🚲',['Bicycles','Για ποδήλατα'],1],['🚌',['Buses','Για λεωφορεία'],0],['🐴',['Horses','Για άλογα'],0]],why:['A blue circle with a bicycle is a cycle path.','Ο μπλε κύκλος με το ποδήλατο είναι ποδηλατόδρομος.']},
+    {scene:SIGNS.lights,q:['What is ahead on the road?','Τι υπάρχει πιο κάτω στον δρόμο;'],opts:[['🚦',['Traffic lights','Φανάρια'],1],['🎈',['A party','Ένα πάρτι'],0],['🛑',['Stop','Στοπ'],0]],why:['This sign warns that there are traffic lights ahead.','Αυτή η πινακίδα προειδοποιεί ότι πιο κάτω έχει φανάρια.']}],
+  safe:[['🚗💺',['I sit in my child seat with the belt fastened.','Κάθομαι στο παιδικό κάθισμα με τη ζώνη δεμένη.'],1],['🚲⛑️',['I wear a helmet on my bike.','Φοράω κράνος στο ποδήλατο.'],1],['⚽🛣️',['I play ball in the street.','Παίζω μπάλα στον δρόμο.'],0],
+    ['🧒🤝🧑',['I hold a grown-up\'s hand near the road.','Κρατάω το χέρι του μεγάλου κοντά στον δρόμο.'],1],['🏃🚗',['I run out between parked cars.','Πετάγομαι ανάμεσα σε παρκαρισμένα αυτοκίνητα.'],0],['🌙🦺',['At night I wear something shiny so drivers can see me.','Το βράδυ φοράω κάτι που γυαλίζει για να με βλέπουν οι οδηγοί.'],1],
+    ['🚗✋',['I put my hand out of the car window.','Βγάζω το χέρι μου από το παράθυρο του αυτοκινήτου.'],0],['🚌⏳',['I wait for the bus to stop completely before getting off.','Περιμένω να σταματήσει τελείως το λεωφορείο πριν κατέβω.'],1],['📱🛣️',['I cross the road while playing on a tablet.','Περνάω τον δρόμο παίζοντας με το τάμπλετ.'],0]]};
+function setupRoad(l){const k=ROAD_KINDS[l];run.hints=0;run.won=false;run.total=1;const p=run.p={type:'road',kind:k,i:0,busy:false,fade:null};
+  if(k==='safe')p.qs=shuffle(ROAD_Q.safe).slice(0,6).map(([e,t,ok])=>({scene:e,q:t,opts:[['👍',['Right','Σωστό'],ok],['👎',['Wrong','Λάθος'],ok?0:1]],why:ok?['Yes, that keeps us safe!','Ναι, έτσι είμαστε ασφαλείς!']:['That is dangerous. We never do it!','Αυτό είναι επικίνδυνο. Δεν το κάνουμε ποτέ!']}));
+  else if(k==='cross'){p.rounds=4;p.looked=[];p.cars=[];p.walk=0;p.state='wait';p.t=0;p.unsafe=0;p.nextCar=.4;setTimeout(()=>requestAnimationFrame(t=>crossLoop(p,t)),60)}
+  else p.qs=(k==='signs'?shuffle(ROAD_Q.signs).slice(0,5):k==='light'?ROAD_Q.light.slice():shuffle(ROAD_Q.where)).map(q=>({...q,opts:k==='safe'?q.opts:shuffle(q.opts)}));
+  run.cur={text:tr(ROAD_TEXT[k]),say:tr(ROAD_INTRO[k])}}
+const roadQ=p=>p.qs?tr(p.qs[p.i].q):'';
+function roadBody(p){const hint=`<button class="icon-btn hintfab" data-act="rd" data-x="hint" aria-label="Help">💡</button>`;
+  if(p.kind==='cross')return crossBody(p)+hint;
+  const q=p.qs[p.i],isSvg=s=>s.startsWith('<svg');
+  return `<div class="stage"><div class="panel scroll socscene"><div class="${isSvg(q.scene)?'rdscene':'pic'}">${q.scene}</div><div class="socq">${esc(tr(q.q))}</div></div></div>
+    <div class="options">${q.opts.map(([e,txt],k)=>`<button class="opt socopt story ${p.kind==='safe'?'thumb':''} ${p.fade===k?'fade':''}" data-act="rd" data-x="pick" data-v="${k}"><span class="${isSvg(e)?'rdopt':'emo'}">${e}</span><small>${tr(txt)}</small><i class="hear" data-act="rd" data-x="hear" data-t="${esc(tr(txt))}">🔊</i></button>`).join('')}</div>
+    <div class="row"><div class="tcount" style="position:static">${p.i+1} / ${p.qs.length}</div></div>${hint}`}
+function roadAct(b){const p=run.p,x=b.dataset.x;if(x==='hear')return say(b.dataset.t,true);if(!p||run.won)return;
+  if(p.kind==='cross')return crossAct(p,x,b);
+  if(x==='hint'){run.hints++;const q=p.qs[p.i],good=q.opts.findIndex(o=>o[2]);p.fade=[...q.opts.keys()].find(k=>k!==good&&k!==p.fade);renderGame();return say(tr(['Think: which one keeps you safe?','Σκέψου: ποιο σε κρατάει ασφαλή;']))}
+  if(x==='pick'&&!p.busy){const q=p.qs[p.i],o=q.opts[+b.dataset.v];if(!q.tried){q.tried=true;dpAdd('road',o[2]?1:0)}
+    if(!o[2]){run.mistakes++;oops(b);return say(tr(['Not that one. Try again!','Όχι αυτό. Δοκίμασε ξανά!']))}
+    p.busy=true;b.classList.add('right');praise();Promise.all([wait(500).then(()=>say(tr(q.why))),wait(1800)]).then(()=>{if(run.p!==p)return;p.i++;p.busy=false;p.fade=null;if(p.i>=p.qs.length)return stemWin(stemStars(run.mistakes,0,2));renderGame();sayOnce(roadQ(p))})}}
+// zebra crossing: cars drive on the right, so the near lane comes from the left
+const ZX=100;
+// a little car drawn facing right (the same on every device)
+const CAR=c=>`<rect x="-12" y="-4" width="24" height="8" rx="2.5" fill="${c}"/><path d="M-6 -4l3 -6h9l4 6z" fill="${c}"/><path d="M-3.5 -4.5l2 -4h3.2v4zM1.5 -4.5v-4h3.4l2.6 4z" fill="#cfe8ff"/><circle cx="-6.5" cy="4" r="3" fill="#1c2a48"/><circle cx="6.5" cy="4" r="3" fill="#1c2a48"/><rect x="10.5" y="-2.5" width="2" height="2.5" fill="#ffe14a"/>`;
+function crossBody(p){const look=['L','R','L'],seq=p.looked.map((d,i)=>`<span class="lk ${d===look[i]?'ok':'bad'}">${d==='L'?'⬅️':'➡️'}</span>`).join('');
+  return `<div class="stage"><div class="crossw"><svg id="crossv" viewBox="0 0 200 120" class="crossv">
+    <rect width="200" height="120" fill="#7cc35a"/><rect y="22" width="200" height="12" fill="#d9d2bf"/><rect y="34" width="200" height="56" fill="#5f6b7c"/><rect y="90" width="200" height="12" fill="#d9d2bf"/>
+    <path d="M0 62H200" stroke="#fff" stroke-width="1.4" stroke-dasharray="8 6"/>${[0,1,2,3,4,5].map(i=>`<rect x="${ZX-12}" y="${36+i*9}" width="24" height="5" fill="#fff"/>`).join('')}
+    <g id="cars"></g><g id="ped" transform="translate(${ZX} ${96-p.walk*72})"><text text-anchor="middle" y="4" font-size="16">🧒</text></g>
+    <text x="8" y="16" font-size="12">🏠</text><text x="182" y="116" font-size="12">🌳</text></svg>
+    <div class="lookrow">${seq}</div></div></div>
+    <div class="row"><button class="btn white" data-act="rd" data-x="look" data-v="L">⬅️ ${tr(['Look left','Κοίτα αριστερά'])}</button><button class="btn white" data-act="rd" data-x="look" data-v="R">${tr(['Look right','Κοίτα δεξιά'])} ➡️</button>
+      <button class="btn blue" data-act="rd" data-x="go">🚶 ${tr(['Cross!','Πέρνα!'])}</button><div class="tcount" style="position:static">${Math.min(p.done||0,p.rounds)+1} / ${p.rounds}</div></div>`}
+function crossLoop(p,ts){if(run.p!==p||run.won)return;const dt=Math.min(50,ts-(p.ts||ts))/1000;p.ts=ts;p.t+=dt;
+  // a new car every so often, in either lane; cars stop for someone on the crossing
+  if(p.t>p.nextCar&&p.state!=='walk'){const near=Math.random()<.55;p.cars.push({x:near?-20:220,lane:near?76:48,v:(near?1:-1)*rand(38,58),c:pick(['#e53935','#1e6fd9','#fbc02d','#43a047','#fb8c00','#8e44ad'])});p.nextCar=p.t+rand(15,35)/10}
+  p.cars.forEach(c=>{const ahead=c.v>0?ZX-14-c.x:c.x-(ZX+14);const stop=p.state==='walk'&&ahead>0&&ahead<26;if(!stop)c.x+=c.v*dt});p.cars=p.cars.filter(c=>c.x>-40&&c.x<240);
+  if(p.state==='walk'){p.walk=Math.min(1,p.walk+dt/1.6);if(p.walk>=1)return crossDone(p)}
+  const g=$('#cars');if(g)g.innerHTML=p.cars.map(c=>`<g transform="translate(${r1(c.x)} ${c.lane}) scale(${c.v<0?-1:1} 1)">${CAR(c.c)}</g>`).join('');
+  const ped=$('#ped');if(ped)ped.setAttribute('transform',`translate(${ZX} ${96-p.walk*72})`);
+  requestAnimationFrame(t=>crossLoop(p,t))}
+// is a car close to the crossing and coming towards it?
+const carNear=p=>p.cars.some(c=>{const ahead=c.v>0?ZX-c.x:c.x-ZX;return ahead>-12&&ahead<70});
+function crossAct(p,x,b){if(p.state==='walk')return;
+  if(x==='hint'){run.hints++;return say(carNear(p)?tr(['A car is coming. Wait!','Έρχεται αυτοκίνητο. Περίμενε!']):p.looked.length<3?tr(['First look left, then right, then left again.','Πρώτα κοίτα αριστερά, μετά δεξιά και πάλι αριστερά.']):tr(['The road is clear. You can cross!','Ο δρόμος είναι άδειος. Μπορείς να περάσεις!']))}
+  if(x==='look'){if(p.looked.length>=3)p.looked=[];p.looked.push(b.dataset.v);sfx('tap');const ok=['L','R','L'].slice(0,p.looked.length).join()===p.looked.join();
+    if(!ok){p.looked=[];renderGame();oops(b);return say(tr(['We start by looking left!','Ξεκινάμε κοιτάζοντας αριστερά!']))}
+    renderGame();return say(tr(p.looked.length===3?['Now, is a car coming?','Τώρα, έρχεται αυτοκίνητο;']:b.dataset.v==='L'?['Left','Αριστερά']:['Right','Δεξιά']))}
+  if(x==='go'){const first=!p.triedRound;p.triedRound=true;
+    if(p.looked.length<3){run.mistakes++;oops(b);if(first)dpAdd('road',0);return say(tr(['First we look: left, right, left!','Πρώτα κοιτάμε: αριστερά, δεξιά, αριστερά!']))}
+    if(carNear(p)){run.mistakes++;p.unsafe++;oops(b);tone(440,ac?ac.currentTime:0,.25,sfxG,'square',.15);tone(350,ac?ac.currentTime+.28:0,.3,sfxG,'square',.15);if(first)dpAdd('road',0);return say(tr(['Beep beep! A car is coming. Wait until it passes!','Μπιπ μπιπ! Έρχεται αυτοκίνητο. Περίμενε να περάσει!']))}
+    if(first)dpAdd('road',1);p.state='walk';sfx('tap')}}
+function crossDone(p){p.done=(p.done||0)+1;p.state='wait';p.walk=0;p.looked=[];p.triedRound=false;praise();
+  if(p.done>=p.rounds){dpAdd('road.unsafe',p.unsafe);return stemWin(stemStars(run.mistakes,0,2))}
+  say(tr(['Safe on the other side! Let us cross once more.','Πέρασες με ασφάλεια! Ας περάσουμε άλλη μια φορά.']));renderGame();requestAnimationFrame(t=>crossLoop(p,t))}
+
 /* ---------- game flow ---------- */
 let run=null;
 // listening games: the songs and the ear-training note games
@@ -3038,9 +3145,9 @@ const needsSound=(g,l)=>g==='music'&&(l<5||['highlow','ear','simon'].includes(NO
 function startLevel(g,l){
   if(overLimit()){run=null;ui.modal=null;ui.screen='rest';render();return}
   ui.modal=null;ui.screen='game';streak=0;
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time','focus'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time','focus','road'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
   run.wasDone=gameDone(S,g);
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='focus')setupFocus(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else if(g==='count'&&l===3)setupDots();else{run.cur=GEN[g](l);run.cur.t0=performance.now()}
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='focus')setupFocus(l);else if(g==='road')setupRoad(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else if(g==='count'&&l===3)setupDots();else{run.cur=GEN[g](l);run.cur.t0=performance.now()}
   render();speakPrompt();
 }
 // Instructions are spoken the first time; the same instruction again stays quiet (the 🔊 button always repeats it)
@@ -3050,6 +3157,7 @@ function nudgeRepeat(){setTimeout(()=>{const b=document.querySelector('.bubble [
 function speakPrompt(force){if(!run)return;const later=f=>force?f():setTimeout(f,250),sp=force?(x=>{heard.add(x);return say(x,true)}):sayOnce;
   if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(tr(p.rounds[p.i].q))}));return}
   if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p,force)}));return}
+  if(run.g==='road'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(roadQ(p))}));return}
   if(run.g==='time'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(timeQ(p))}));return}
   const s=run.g==='memory'?tr(SAY.memory):run.cur.say;later(()=>sp(s))}
 function setupMemory(){const pairs=shuffle(SEA).slice(0,run.total);run.cards=shuffle([...pairs,...pairs]).map((p,i)=>({i,e:p[0],n:p[1],up:false,done:false}));run.open=[];run.found=0}
@@ -3060,6 +3168,7 @@ function renderGame(){
   if(run.p&&run.p.type==='write')body=writeBody(run.p);
   else if(run.p&&run.p.type==='dots')body=dotsBody(run.p);
   else if(run.g==='focus')body=focusBody(run.p);
+  else if(run.g==='road')body=roadBody(run.p);
   else if(run.g==='time')body=timeBody(run.p);
   else if(run.g==='social')body=run.p.rounds&&run.p.rounds[run.p.i]&&run.p.rounds[run.p.i].stage==='respect'?respectBody():socialBody(run.p);
   else if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
@@ -3132,12 +3241,13 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm'&&a!=='wr'&&a!=='dt')sfx('tap');if(ui.screen==='game'&&b.matches('.opt,.btn'))fmTap(b,e);
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm'&&a!=='wr'&&a!=='dt'&&a!=='rd')sfx('tap');if(ui.screen==='game'&&b.matches('.opt,.btn'))fmTap(b,e);
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
       else if(ui.screen==='game'&&run&&run.p&&run.p.type==='write')run.cur={text:esc(writeAsk()),say:writeAsk()};
+      else if(ui.screen==='game'&&run&&run.g==='road')run.cur={text:tr(ROAD_TEXT[run.p.kind]),say:tr(ROAD_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='focus')run.cur={text:tr(FOCUS_TEXT[run.p.kind]),say:tr(FOCUS_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='time')run.cur={text:tr(TIME_TEXT[run.p.kind]),say:tr(TIME_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='social')run.cur={text:tr(SOC_TEXT[run.p.kind]),say:tr(SOC_INTRO[run.p.kind])};
@@ -3184,6 +3294,7 @@ document.addEventListener('click',e=>{
     case 'wr':writeAct(b);break;
     case 'dt':dotsAct(b);break;
     case 'fc':focusAct(b);break;
+    case 'rd':roadAct(b);break;
     case 'dpreport':ui.screen='dpreport';render();break;
     case 'dphtml':reportFile(dpReportHTML(),`development-report-${dayKey(Date.now())}.html`);break;
     case 'dpcsv':dpCSV();break;
