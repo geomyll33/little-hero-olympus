@@ -543,6 +543,15 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .crossw{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
 .crossv{width:min(100%,calc((100dvh - 300px)*1.67),760px);height:auto;border-radius:18px;border:3px solid rgba(28,42,72,.15);touch-action:manipulation}
 .lookrow{display:flex;gap:8px;min-height:44px}.lk{font-size:1.6rem;background:#fff;border-radius:10px;padding:2px 8px;border:3px solid var(--good)}
+/* oracle of delphi */
+.dayplan{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}
+.slots{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;width:min(100%,760px)}
+.slot2{background:#fff;border-radius:14px;border:3px dashed #cbbf9f;display:flex;flex-direction:column;align-items:center;padding:6px 2px;min-height:96px;gap:2px}
+.slot2 small{font-weight:800;color:var(--ink-soft);font-size:.75rem}.slot2 span{font-size:2rem}.slot2 em{font-style:normal;font-weight:700;font-size:.7rem;text-align:center;line-height:1.1}
+.slot2.scr{background:#eef5ff}.slot2.badslot{border:3px solid var(--bad);background:#ffecea}.slot2.sleep{background:#e9e6ff;border-style:solid}
+.palette{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.palette .opt{min-width:96px;position:relative;padding:8px 6px}
+@media (max-width:600px){.slots{grid-template-columns:repeat(4,minmax(0,1fr))}.palette .opt{min-width:84px}}
+.sguide{background:#eef5ff;border-radius:14px;padding:10px 14px}.sguide summary{font-weight:700;cursor:pointer}.sguide ul{margin:8px 0;padding-left:20px;line-height:1.5}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -600,7 +609,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-11-13.1235';
+const BUILD='2026-11-15.1703';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -642,6 +651,7 @@ const GAMES=[
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},starts:[5],levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο'],['Note stairs','Η σκάλα των νοτών'],['High or low?','Ψηλά ή χαμηλά;'],['Listen and find','Άκου και βρες'],['Repeat the tune','Επανάλαβε τη μελωδία']]});
+GAMES.push({id:'delphi',name:['Oracle of Delphi','Μαντείο των Δελφών'],skill:['Healthy screen use','Σωστή χρήση οθονών'],x:50,y:50,levels:[['How much screen?','Πόση οθόνη;'],['Is it for children?','Είναι για παιδιά;'],['If something feels wrong','Αν κάτι δεν είναι σωστό'],['YouTube & social media','YouTube & κοινωνικά δίκτυα'],['A balanced afternoon','Ισορροπημένο απόγευμα']]});
 GAMES.push({id:'road',name:['Panathenaic Way','Παναθηναϊκή Οδός'],skill:['Road safety','Κυκλοφοριακή αγωγή'],x:50,y:50,levels:[['Traffic lights','Τα φανάρια'],['Where is it safe?','Πού είναι ασφαλές;'],['Cross the road','Περνάμε απέναντι'],['Road signs','Οι πινακίδες'],['Right or wrong?','Σωστό ή λάθος;']]});
 GAMES.push({id:'focus',name:['Palaestra','Παλαίστρα'],skill:['Focus, self-control & rhythm','Προσοχή, αυτοέλεγχος & ρυθμός'],x:50,y:50,gate:{coins:20},starts:[2,4],levels:[['Olives, not stones','Ελιές, όχι πέτρες'],['Quick hands','Γρήγορα χέρια'],['Find the hidden one','Βρες το κρυμμένο'],['Hide and seek','Κρυφτό'],['Clap the beat','Χτύπα στον ρυθμό'],['Drum on your own','Τύμπανο μόνος σου']]});
 GAMES.push({id:'time',name:['Tower of the Winds','Ο Πύργος των Ανέμων'],skill:['Time','Ο χρόνος'],x:50,y:50,levels:[['My day','Η μέρα μου'],['Days of the week','Οι μέρες της εβδομάδας'],['Yesterday & tomorrow','Χτες και αύριο'],['The seasons','Οι εποχές'],['Last year & next year','Πέρσι και του χρόνου'],["O'clock",'Η ώρα'],['Half past','Και μισή'],['Set the clock','Βάλε την ώρα']]});
@@ -663,6 +673,7 @@ const BADGES=[
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
   {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
+  {id:'delphi',icon:'🏛️',name:['Nothing in Excess','Μηδέν άγαν'],desc:['Finish every level at the Oracle of Delphi','Τελείωσε όλα τα επίπεδα στο Μαντείο των Δελφών'],test:s=>gameDone(s,'delphi')},
   {id:'road',icon:'🚦',name:['Road Safety Friend','Φίλος της ασφάλειας'],desc:['Finish every level on the Panathenaic Way','Τελείωσε όλα τα επίπεδα στην Παναθηναϊκή Οδό'],test:s=>gameDone(s,'road')},
   {id:'focus',icon:'🎯',name:['Calm Champion','Ήρεμος πρωταθλητής'],desc:['Finish every level in the Palaestra','Τελείωσε όλα τα επίπεδα στην Παλαίστρα'],test:s=>gameDone(s,'focus')},
   {id:'time',icon:'⏳',name:['Keeper of Time','Φύλακας του χρόνου'],desc:['Finish every level in the Tower of the Winds','Τελείωσε όλα τα επίπεδα στον Πύργο των Ανέμων'],test:s=>gameDone(s,'time')},
@@ -705,6 +716,7 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['Learning the notes on a xylophone (the note stairs, high or low, listen and find, repeat the tune), and a running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Μαθαίνει τις νότες σε ξυλόφωνο (η σκάλα των νοτών, ψηλά ή χαμηλά, άκου και βρες, επανάλαβε τη μελωδία) και παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
+  delphi:['Healthy screen use ("Nothing in excess"): how much screen time is enough, no screens at meals or before sleep, which videos are for children and which are not, what to do if something is scary or a stranger writes, adverts and purchases, why YouTube and social media are for 13 and over, and planning a balanced afternoon.','Σωστή χρήση οθονών («Μηδέν άγαν»): πόση ώρα οθόνης φτάνει, όχι οθόνες στο φαγητό και πριν τον ύπνο, ποια βίντεο είναι για παιδιά και ποια όχι, τι κάνουμε αν κάτι μας τρομάξει ή μας γράψει άγνωστος, διαφημίσεις και αγορές, γιατί το YouTube και τα κοινωνικά δίκτυα είναι από 13 ετών, και σχεδιασμός ενός ισορροπημένου απογεύματος.'],
   road:['Road safety: pedestrian and car traffic lights, safe places to walk, cross and play, crossing at a zebra crossing after looking left-right-left with moving cars, common road signs, and safe habits (child seat, helmet, holding hands, reflective clothes).','Κυκλοφοριακή αγωγή: φανάρια πεζών και αυτοκινήτων, ασφαλή σημεία για περπάτημα, διάσχιση και παιχνίδι, διάσχιση από διάβαση πεζών αφού κοιτάξουμε αριστερά-δεξιά-αριστερά με αυτοκίνητα που κινούνται, βασικές πινακίδες και ασφαλείς συνήθειες (παιδικό κάθισμα, κράνος, χέρι με τον μεγάλο, ανακλαστικά).'],
   focus:['Attention and self-control: tap olives but not stones (go/no-go), find a shape among many (visual search), and tap along with a drum, then keep the beat alone (rhythm and timing).','Προσοχή και αυτοέλεγχος: πάτα τις ελιές αλλά όχι τις πέτρες (go/no-go), βρες ένα σχήμα ανάμεσα σε πολλά (οπτική αναζήτηση) και χτύπα μαζί με το τύμπανο και μετά μόνος σου (ρυθμός και συγχρονισμός).'],
   time:['Time: the order of a day, the days of the week, yesterday/today/tomorrow (with the real day), the seasons, last year/this year/next year, reading the clock on the hour and half hour, and setting a clock.','Ο χρόνος: η σειρά της μέρας, οι μέρες της εβδομάδας, χτες/σήμερα/αύριο (με την πραγματική μέρα), οι εποχές, πέρσι/φέτος/του χρόνου, η ώρα (ακριβώς και μισή) και ρύθμιση ρολογιού.'],
@@ -1062,6 +1074,7 @@ const ART={
   compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
   memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
   puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  delphi:svgArt(cube(14,66,72,10,30,'#e6dcc4')+[0,1,2,3,4].map(i=>cube(18+i*14,30,6,36,6,'#fffaf0')).join('')+`<ellipse cx="50" cy="28" rx="38" ry="9" fill="#c9a27a"/><path d="M14 28Q50 4 86 28Z" fill="#b5651d"/><text x="50" y="62" text-anchor="middle" font-size="13">📱</text>`),
   road:svgArt(cube(6,62,88,8,30,'#6d7a8c')+[0,1,2,3,4].map(i=>`<rect x="${22+i*9}" y="63" width="5" height="6" fill="#fff"/>`).join('')+cube(74,22,5,40,5,'#4b5a78')+cube(69,8,14,26,8,'#1c2a48')+`<circle cx="76" cy="14" r="3" fill="#e53935"/><circle cx="76" cy="21" r="3" fill="#fbc02d"/><circle cx="76" cy="28" r="3" fill="#43d06b"/>`+cube(14,36,30,24,12,'#f1e9d8')),
   focus:svgArt(cube(14,62,72,16,24,'#e6dcc4')+cube(16,24,8,40,8,'#f1e9d8')+cube(36,24,8,40,8,'#f1e9d8')+cube(56,24,8,40,8,'#f1e9d8')+cube(76,24,8,40,8,'#f1e9d8')+cube(12,16,78,8,26,'#c9a27a')+`<circle cx="50" cy="52" r="7" fill="#e53935"/><circle cx="50" cy="52" r="3.5" fill="#fffaf0"/>`),
   time:svgArt(cube(30,30,40,60,10,'#f1e9d8')+`<path d="M30 30L50 8L70 30Z" fill="#c9a27a"/><path d="M76 24L50 6" stroke="#c9a27a" stroke-width="2"/><circle cx="50" cy="52" r="13" fill="#fffaf0" stroke="#c98b2b" stroke-width="3"/><path d="M50 52V43M50 52L57 55" stroke="#1c2a48" stroke-width="2.5" stroke-linecap="round"/><path d="M36 76h28" stroke="#c9a27a" stroke-width="2"/>`),
@@ -1075,7 +1088,7 @@ const ART={
 const REGIONS=[
   {name:['Island of Dawn','Νησί της Αυγής'],games:['count','shapes','memory','road','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
   {name:['Island of the Muses','Νησί των Μουσών'],games:['pattern','odd','compare','time','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
-  {name:["Athena's Island",'Νησί της Αθηνάς'],games:['stem','space','puzzle','focus','social'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
+  {name:["Athena's Island",'Νησί της Αθηνάς'],games:['stem','space','puzzle','focus','delphi','social'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
 const MAPSLOTS={land:{4:[[15,60],[38,30],[62,60],[85,32]],6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{4:[[30,15],[70,38],[30,62],[68,85]],6:[[28,13],[72,28],[28,43],[72,58],[28,73],[70,87]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
 const regionOf=id=>REGIONS.findIndex(r=>r.games.includes(id));
 const isPortrait=()=>innerHeight>innerWidth*1.1;
@@ -1137,6 +1150,7 @@ const SCENES={
   memory:()=>sky('#1a7fc4','#0b3c6e')+rep(14,i=>`<circle cx="${(i*173)%1200}" cy="${(i*97)%700}" r="${6+i%4*4}" fill="none" stroke="#bfe6ff" stroke-width="3" opacity=".45"/>`)+`<path d="M0 720Q300 690 600 720T1200 710V800H0Z" fill="#e9d39b"/>`+rep(8,i=>`<path d="M${80+i*150} 730q-30-90 10-160q-30 80 20 160z" fill="#3fa36b"/>`),
   music:()=>sky('#ff9548','#ffd7a8')+`<circle cx="900" cy="250" r="90" fill="#ffe9a8"/><rect y="440" width="1200" height="360" fill="#d7b48e"/>`+rep(9,i=>`<path d="M${i*140} 800V560a60 60 0 0 1 120 0V800z" fill="#b98d63"/>`),
   ceremony:()=>sky('#7ccaff','#e4f5ff')+`<path d="M0 430Q600 330 1200 430V800H0Z" fill="#b9c98a"/>`+rep(5,r=>rep(30,c=>`<rect x="${c*42}" y="${440+r*26}" width="36" height="20" fill="${['#e53935','#1e6fd9','#fbc02d','#43a047','#fff'][(c+r)%5]}" opacity=".55"/>`))+`<rect y="570" width="1200" height="230" fill="#d9643b"/>`+rep(5,k=>`<rect y="${590+k*40}" width="1200" height="5" fill="#fff" opacity=".8"/>`)+cube(1040,250,60,180,14,'#f1e9d8')+cube(1020,230,100,24,14,'#c98b2b')+`<path d="M1070 230q-40-60 0-120q40 60 0 120z" fill="#ff8c1a"/><path d="M1070 230q-18-34 0-70q18 36 0 70z" fill="#ffe14a"/>`,
+  delphi:()=>sky('#9fd3ff','#f3fbff')+`<path d="M0 600L180 330L330 470L520 260L720 480L900 300L1200 560V800H0Z" fill="#9db48a"/><path d="M0 640L260 520L520 600L800 500L1200 620V800H0Z" fill="#7fa06d"/>`+cube(420,520,360,40,40,'#e6dcc4')+rep(6,i=>cube(440+i*58,380,26,140,18,'#fffaf0'))+cube(410,350,380,30,44,'#c9a27a'),
   road:()=>sky('#8fd3ff','#eaf7ff')+rep(5,i=>cube(40+i*230,340,170,260,30,['#f1e9d8','#fffaf0','#f2d9b0'][i%3]))+`<rect y="600" width="1200" height="30" fill="#d9d2bf"/><rect y="630" width="1200" height="140" fill="#5f6b7c"/><path d="M0 700H1200" stroke="#fff" stroke-width="6" stroke-dasharray="60 40"/>`+rep(7,i=>`<rect x="${520+i*24}" y="634" width="14" height="132" fill="#fff"/>`)+`<rect y="770" width="1200" height="30" fill="#d9d2bf"/>`+cube(1000,420,16,180,10,'#4b5a78')+cube(985,360,46,110,16,'#1c2a48')+`<circle cx="1008" cy="385" r="12" fill="#e53935"/><circle cx="1008" cy="415" r="12" fill="#3a3f4b"/><circle cx="1008" cy="445" r="12" fill="#3a3f4b"/>`,
   focus:()=>sky('#9fd8ff','#f2fbff')+`<rect y="600" width="1200" height="200" fill="#d9cfb4"/>`+rep(7,i=>cube(80+i*160,300,34,300,24,'#f1e9d8'))+cube(60,270,1060,34,40,'#c9a27a')+`<rect y="620" width="1200" height="14" fill="#c9b98f"/>`,
   time:()=>sky('#8fd3ff','#eaf7ff')+`<rect y="600" width="1200" height="200" fill="#e6dcc4"/>`+cube(860,200,180,400,30,'#f1e9d8')+`<path d="M860 200L950 120L1040 200Z" fill="#c9a27a"/><circle cx="950" cy="330" r="60" fill="#fffaf0" stroke="#c98b2b" stroke-width="10"/><path d="M950 330V290M950 330L978 345" stroke="#1c2a48" stroke-width="10" stroke-linecap="round"/>`+rep(4,i=>cube(80+i*170,560,60,40,10,'#d8ccb0')+`<path d="M${110+i*170} 560l40 -16" stroke="#6d7a8c" stroke-width="6"/>`),
@@ -1224,6 +1238,7 @@ function parentsHTML(){
     <p>${t('intro')}</p>
     <div class="row" style="justify-content:flex-start"><button class="btn small blue" data-act="dpreport">📈 ${tr(['Development profile','Αναπτυξιακό προφίλ'])}</button><button class="btn small blue" data-act="fmreport">✍️ ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button></div>
     <div class="row" style="justify-content:flex-start"><b>⏱️ ${tr(['Daily play limit','Όριο παιχνιδιού ανά ημέρα'])}:</b>${[0,15,20,30,45,60].map(v=>`<button class="btn small ${(S.limit||0)===v?'blue':'white'}" data-act="setlimit" data-v="${v}">${v?v+'′':tr(['none','χωρίς'])}</button>`).join('')}<span class="note">${tr(['today','σήμερα'])}: ${Math.round((dpStore().days[dayKey(Date.now())]||{}).min||0)}′</span></div>
+    ${screenGuideHTML()}
     <p style="color:var(--ink-soft);font-size:.9rem">${tr(['Version','Έκδοση'])}: ${BUILD}</p>
     <div style="overflow-x:auto"><table><thead><tr><th>${t('place')}</th><th>${t('teaches')}</th>${[1,2,3,4,5,6,7,8].map(i=>`<th>${i}</th>`).join('')}<th></th></tr></thead><tbody>
     ${GAMES.map(g=>`<tr><td><b>${tr(g.name)}</b></td><td>${tr(TEACH[g.id])}</td>${[0,1,2,3,4,5,6,7].map(i=>`<td>${i<g.levels.length?(S.stars[g.id][i]?'★'.repeat(S.stars[g.id][i]):'–'):''}</td>`).join('')}<td>${S.stars[g.id].some(x=>x)?(ui.confirmG===g.id?`<button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 5px 0 #a33;white-space:nowrap" data-act="resetg2" data-g="${g.id}">${t('resetYes')}</button>`:`<button class="btn small white" style="white-space:nowrap" data-act="resetg" data-g="${g.id}">↺ ${t('resetG')}</button>`):''}</td></tr>`).join('')}
@@ -1751,7 +1766,7 @@ function setupStem(l){
   if(c.type!=='pick'&&c.type!=='shadow'){const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}
   if(run.p.type==='cycle')run.p.deck=shuffle(run.p.order[0].items.map((e,i)=>({...e,i})));
 }
-function stemWin(st){if(run.hints)st=Math.min(st,2);run.won=true;sfx('win');burst(innerWidth/2,innerHeight/2,70);setTimeout(()=>finishLevel(st),1100)}
+function stemWin(st){if(run.hints)st=Math.min(st,2);run.won=true;sfx('win');burst(innerWidth/2,innerHeight/2,70);const r=run;setTimeout(()=>{if(run===r)finishLevel(st)},1100)}
 const stemStars=(m,a,b)=>m<=a?3:m<=b?2:1;
 
 // coding: Talos follows absolute arrows on a grid
@@ -2889,8 +2904,9 @@ setInterval(()=>{if(document.visibilityState!=='visible'||!S.started||ui.screen=
 function restHTML(){const h=HEROES[S.hero];return `<div class="screen rest"><div class="restcard"><div class="restpet">${h.pet}<span>💤</span></div>${avatar(S.hero,S.skin,S.equip,'restav')}
   <h2>${tr(['Your hero is tired!','Ο ήρωας κουράστηκε!'])}</h2><p class="sub">${tr([`${heroName()}, time to rest your eyes and play outside. See you tomorrow! 🌙`,`${vocEl(heroName())}, ώρα να ξεκουράσουμε τα ματάκια και να παίξουμε έξω. Τα λέμε αύριο! 🌙`])}</p>
   <button class="btn small white" data-act="pgate" data-then="extend">🔒 ${tr(['Grown-ups: 10 more minutes','Γονείς: άλλα 10 λεπτά'])}</button></div></div>`}
-const DP_NAMES={road:['Road safety','Οδική ασφάλεια'],att:['Self-control','Αυτοέλεγχος'],rhy:['Rhythm','Ρυθμός'],lit:['Letters','Γραμματισμός'],num:['Numbers','Αριθμητική'],vis:['Visual perception','Οπτική αντίληψη'],mem:['Memory','Μνήμη'],plan:['Planning','Σχεδιασμός'],aud:['Listening (pitch)','Ακουστική διάκριση'],emo:['Emotions','Συναισθήματα'],fm:['Fine motor','Λεπτή κινητικότητα']};
-const DP_TIPS={road:['On every walk, stop at the kerb together, look left-right-left aloud, and let your child tell you when it is safe to cross.','Σε κάθε βόλτα, σταματήστε μαζί στο κράσπεδο, κοιτάξτε φωναχτά αριστερά-δεξιά-αριστερά και αφήστε το παιδί να σας πει πότε είναι ασφαλές να περάσετε.'],
+const DP_NAMES={dig:['Screen habits','Ψηφιακή υγεία'],road:['Road safety','Οδική ασφάλεια'],att:['Self-control','Αυτοέλεγχος'],rhy:['Rhythm','Ρυθμός'],lit:['Letters','Γραμματισμός'],num:['Numbers','Αριθμητική'],vis:['Visual perception','Οπτική αντίληψη'],mem:['Memory','Μνήμη'],plan:['Planning','Σχεδιασμός'],aud:['Listening (pitch)','Ακουστική διάκριση'],emo:['Emotions','Συναισθήματα'],fm:['Fine motor','Λεπτή κινητικότητα']};
+const DP_TIPS={dig:['Agree on screen rules together (when, how long, what), use a timer, and watch together; give a 5-minute warning before switching off.','Συμφωνήστε μαζί τους κανόνες για τις οθόνες (πότε, πόση ώρα, τι), βάλτε χρονόμετρο και βλέπετε μαζί· δώστε προειδοποίηση 5 λεπτών πριν το κλείσιμο.'],
+  road:['On every walk, stop at the kerb together, look left-right-left aloud, and let your child tell you when it is safe to cross.','Σε κάθε βόλτα, σταματήστε μαζί στο κράσπεδο, κοιτάξτε φωναχτά αριστερά-δεξιά-αριστερά και αφήστε το παιδί να σας πει πότε είναι ασφαλές να περάσετε.'],
   att:['Games with a stop signal: "Red light, green light", "Simon says", freeze dance.','Παιχνίδια με σήμα «στοπ»: «Αγάλματα», «Ο Σίμων λέει», χορός που σταματά όταν σταματά η μουσική.'],
   rhy:['Clap, march and drum to songs together; bounce a ball to a steady count.','Παλαμάκια, παρέλαση και τύμπανο με τραγούδια· αναπηδήσεις μπάλας σε σταθερό μέτρημα.'],
   lit:['Play "I spy something that starts with…", read picture books together and point to the letters.','Παίξτε «Βλέπω κάτι που αρχίζει από…», διαβάστε μαζί βιβλία με εικόνες και δείξτε τα γράμματα.'],
@@ -2907,7 +2923,7 @@ function dpScores(from,to){const d=dpStore(),days=Object.keys(d.days).filter(k=>
   const memMiss=sum('mem.miss'),span=mx('span'),mem=memMiss||span?{v:avg([memMiss?(1-memMiss.v)*100:null,span?Math.min(100,span/6*100):null].filter(x=>x!=null)),n:(memMiss?memMiss.n:0)+(span?1:0)}:null;
   const fmi=fmStore().items.filter(i=>dayKey(i.t)>=from&&dayKey(i.t)<=to&&i.sc!=null);
   const g1=sum('gng.com'),g2=sum('gng.om'),rh=sum('rhy.hit');
-  return {road:pc('road'),rdun:sum('road.unsafe'),att:g1&&g2?{v:100*(1-(g1.v+g2.v)/2),n:g1.n*24}:null,rhy:rh?{v:rh.v*100,n:rh.n*12}:null,gcom:g1,gom:g2,grt:sum('gng.rt'),gcv:sum('gng.cv'),vsfrt:sum('vsf.rt'),vsfsl:sum('vsf.sl'),vscrt:sum('vsc.rt'),vscsl:sum('vsc.sl'),rhit:rh,rasy:sum('rhy.asy'),rsd:sum('rhy.sd'),rcv:sum('rhy.cv'),rdr:sum('rhy.drift'),
+  return {dig:pc('dig'),road:pc('road'),rdun:sum('road.unsafe'),att:g1&&g2?{v:100*(1-(g1.v+g2.v)/2),n:g1.n*24}:null,rhy:rh?{v:rh.v*100,n:rh.n*12}:null,gcom:g1,gom:g2,grt:sum('gng.rt'),gcv:sum('gng.cv'),vsfrt:sum('vsf.rt'),vsfsl:sum('vsf.sl'),vscrt:sum('vsc.rt'),vscsl:sum('vsc.sl'),rhit:rh,rasy:sum('rhy.asy'),rsd:sum('rhy.sd'),rcv:sum('rhy.cv'),rdr:sum('rhy.drift'),
     lit:pc('acc.lit'),num:pc('acc.num'),vis:pc('acc.vis'),mem,plan:pc('plan.eff'),aud:pc('aud'),emo:pc('emo'),fm:fmi.length?{v:avg(fmi.map(i=>i.sc)),n:fmi.length}:null,
     rt:sum('rt'),imp:sum('imp'),viol:sum('plan.viol'),hint:sum('hint'),done:sum('done'),span,min:days.reduce((s,k)=>s+(d.days[k].min||0),0),days:days.length}}
 const shiftDay=(n)=>dayKey(Date.now()-n*864e5);
@@ -2959,7 +2975,7 @@ function dpReportHTML(){const d=dpStore(),now=Date.now(),cur=dpScores(shiftDay(1
     <section><h3>${tr(['Method','Μεθοδολογία'])}</h3>${method}</section>
     <div class="row noprint" style="justify-content:flex-start"><button class="btn small blue" data-act="fmreport">✍️ ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button><button class="btn small white" data-act="fmprint">🖨️ ${tr(['Print / PDF','Εκτύπωση / PDF'])}</button><button class="btn small white" data-act="dphtml">📄 ${tr(['Download (HTML)','Λήψη (HTML)'])}</button><button class="btn small white" data-act="dpcsv">⬇️ CSV</button></div>
   </div></div>`}
-function dpCSV(){const d=dpStore(),keys=['acc.lit','acc.num','acc.vis','mem.miss','span','plan.eff','plan.viol','aud','emo','rt','imp','gng.com','gng.om','gng.rt','gng.cv','vsf.rt','vsf.sl','vsc.rt','vsc.sl','rhy.hit','rhy.asy','rhy.sd','rhy.cv','rhy.drift','road','road.unsafe','hint','done','min'];
+function dpCSV(){const d=dpStore(),keys=['acc.lit','acc.num','acc.vis','mem.miss','span','plan.eff','plan.viol','aud','emo','rt','imp','gng.com','gng.om','gng.rt','gng.cv','vsf.rt','vsf.sl','vsc.rt','vsc.sl','rhy.hit','rhy.asy','rhy.sd','rhy.cv','rhy.drift','road','road.unsafe','dig','hint','done','min'];
   const rows=Object.keys(d.days).sort().map(k=>[k,...keys.map(c=>{const a=d.days[k][c];return a==null?'':Array.isArray(a)?r1(a[0]/a[1]*100)/100:a})].join(','));
   offerFile(`development-${dayKey(Date.now())}.csv`,'﻿'+['day,'+keys.join(','),...rows].join('\n'),'text/csv')}
 function reportFile(html,fname){const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n'),box=document.createElement('div');box.innerHTML=html;const rep=box.querySelector('.report');rep.querySelectorAll('.noprint').forEach(x=>x.remove());
@@ -3138,6 +3154,80 @@ function crossDone(p){p.done=(p.done||0)+1;p.state='wait';p.walk=0;p.looked=[];p
   if(p.done>=p.rounds){dpAdd('road.unsafe',p.unsafe);return stemWin(stemStars(run.mistakes,0,2))}
   say(tr(['Safe on the other side! Let us cross once more.','Πέρασες με ασφάλεια! Ας περάσουμε άλλη μια φορά.']));renderGame();requestAnimationFrame(t=>crossLoop(p,t))}
 
+/* ---------- The Oracle of Delphi: healthy screen use ("Nothing in excess") ---------- */
+const DL_KINDS=['time','watch','help','social','plan'];
+const DL_TEXT={time:['How much screen?','Πόση οθόνη;'],watch:['Is it for children?','Είναι για παιδιά;'],help:['If something feels wrong','Αν κάτι δεν είναι σωστό'],social:['YouTube and social media','YouTube και κοινωνικά δίκτυα'],plan:['Plan a balanced afternoon','Φτιάξε ένα ισορροπημένο απόγευμα']};
+const DL_INTRO={time:['At the Oracle of Delphi the ancient Greeks wrote: Nothing in excess. Too much of anything is not good, and that is true for screens too!','Στο Μαντείο των Δελφών οι αρχαίοι Έλληνες έγραψαν: Μηδέν άγαν, δηλαδή τίποτα υπερβολικό. Το πολύ από κάτι δεν κάνει καλό, και αυτό ισχύει και για τις οθόνες!'],
+  watch:['Some videos are made for children, and some are not. Is this one for children? Tap the thumb up or the thumb down.','Κάποια βίντεο είναι φτιαγμένα για παιδιά και κάποια όχι. Αυτό είναι για παιδιά; Πάτα το χεράκι πάνω ή το χεράκι κάτω.'],
+  help:['Sometimes on a screen we see something scary, or a stranger talks to us. What do we do?','Καμιά φορά στην οθόνη βλέπουμε κάτι που μας τρομάζει ή μας μιλάει ένας άγνωστος. Τι κάνουμε;'],
+  social:['YouTube, TikTok and Instagram are made for grown-ups and big children, from 13 years old. Little children watch videos together with a grown-up.','Το YouTube, το TikTok και το Instagram είναι φτιαγμένα για μεγάλους και για παιδιά από 13 χρονών. Τα μικρά παιδιά βλέπουν βίντεο μαζί με έναν μεγάλο.'],
+  plan:['Fill the afternoon until bedtime. Tap an activity, then it goes in the next empty box. A little screen is fine, but not too much, and not just before sleep. Then tap Check!','Γέμισε το απόγευμα ως την ώρα του ύπνου. Πάτα μια δραστηριότητα και μπαίνει στο επόμενο άδειο κουτί. Λίγη οθόνη είναι εντάξει, αλλά όχι πολλή, και όχι λίγο πριν τον ύπνο. Μετά πάτα «Έλεγχος»!']};
+const DL_Q={
+  time:[{scene:'📱⏰',q:['How much screen time is good for a 5-year-old in a day?','Πόση ώρα στην οθόνη είναι καλή για ένα παιδί 5 χρονών τη μέρα;'],opts:[['⏱️',['A little: up to one hour, with a grown-up','Λίγη: έως μία ώρα, μαζί με έναν μεγάλο'],1],['🌞🌙',['All day long','Όλη μέρα'],0],['🤷',['As much as I want','Όση θέλω'],0]],why:['Up to one hour a day is enough. The rest of the day is for playing, moving and talking.','Έως μία ώρα τη μέρα φτάνει. Η υπόλοιπη μέρα είναι για παιχνίδι, κίνηση και κουβέντα.']},
+    {scene:'📺⌛',q:['You have watched for a long time. What now?','Έχεις δει αρκετή ώρα. Τι κάνουμε τώρα;'],opts:[['🛝',['I switch off and go and play','Κλείνω και πάω να παίξω'],1],['➕',['Just one more video, and another','Άλλο ένα βίντεο, κι άλλο ένα'],0],['😠',['I get cross and cry','Θυμώνω και κλαίω'],0]],why:['Switching off is hard, and you did it! Now your eyes and your body can rest and play.','Είναι δύσκολο να κλείσεις την οθόνη, και τα κατάφερες! Τώρα τα μάτια και το σώμα σου ξεκουράζονται και παίζουν.']},
+    {scene:'🛏️🌙',q:['It is almost bedtime. What do we do?','Πλησιάζει η ώρα του ύπνου. Τι κάνουμε;'],opts:[['📖',['Screens off, we read a story','Κλείνουμε τις οθόνες και διαβάζουμε παραμύθι'],1],['📱',['We watch videos in bed','Βλέπουμε βίντεο στο κρεβάτι'],0]],why:['The light of screens keeps us awake. A story helps us sleep well.','Το φως της οθόνης μάς κρατάει ξύπνιους. Ένα παραμύθι μάς βοηθάει να κοιμηθούμε καλά.']},
+    {scene:'🍽️',q:['We are eating dinner together. Where is the tablet?','Τρώμε όλοι μαζί. Πού είναι το τάμπλετ;'],opts:[['🗣️',['Put away: we talk to each other','Μακριά: μιλάμε μεταξύ μας'],1],['📱',['On the table, playing a video','Στο τραπέζι, με ένα βίντεο'],0]],why:['Meals are for family: we talk, laugh and taste the food.','Το φαγητό είναι για την οικογένεια: μιλάμε, γελάμε και απολαμβάνουμε το φαγητό.']},
+    {scene:'👀',q:['How do we look after our eyes?','Πώς προσέχουμε τα ματάκια μας;'],opts:[['🌳',['Short breaks, look far away, play outside','Μικρά διαλείμματα, κοιτάμε μακριά, παίζουμε έξω'],1],['🔎',['Screen very close to the face','Την οθόνη πολύ κοντά στο πρόσωπο'],0],['🌑',['Watching in the dark','Βλέπουμε στο σκοτάδι'],0]],why:['Eyes love breaks, daylight and looking far away.','Τα μάτια αγαπούν τα διαλείμματα, το φως της μέρας και να κοιτάζουν μακριά.']}],
+  watch:[['🐼🎬',['A video about baby pandas','Ένα βίντεο με μωρά πάντα'],1],['🎵🧒',['Children\'s songs to sing along','Παιδικά τραγούδια για να τραγουδάμε μαζί'],1],['🎨✋',['How to draw a cat','Πώς ζωγραφίζουμε μια γάτα'],1],['👹😱',['Scary monsters that make you afraid','Τρομακτικά τέρατα που σε φοβίζουν'],0],
+    ['🥊😡',['People fighting and hurting each other','Άνθρωποι που μαλώνουν και χτυπιούνται'],0],['🧨🤸',['Kids doing dangerous stunts and challenges','Παιδιά που κάνουν επικίνδυνα κόλπα και «προκλήσεις»'],0],['🔞',['Videos made only for grown-ups','Βίντεο μόνο για μεγάλους'],0],['🚀🔭',['A cartoon about the planets','Ένα κινούμενο σχέδιο για τους πλανήτες'],1]],
+  help:[{scene:'📱😨',q:['You see something on the screen that scares you. What do you do?','Βλέπεις κάτι στην οθόνη που σε τρομάζει. Τι κάνεις;'],opts:[['🙋',['I turn it off and tell a grown-up','Το κλείνω και το λέω σε έναν μεγάλο'],1],['🤐',['I keep watching and tell nobody','Συνεχίζω να βλέπω και δεν λέω τίποτα'],0]],why:['You are never in trouble for telling. Grown-ups are there to help.','Δεν μαλώνεις ποτέ επειδή το είπες. Οι μεγάλοι είναι εκεί για να βοηθήσουν.']},
+    {scene:'💬❓',q:['Someone you do not know writes: "Where do you live?"','Κάποιος που δεν ξέρεις σου γράφει: «Πού μένεις;»'],opts:[['🛑',['I do not answer and I tell my parents','Δεν απαντάω και το λέω στους γονείς μου'],1],['🏠',['I tell him my address','Του λέω τη διεύθυνσή μου'],0],['📸',['I send him a photo','Του στέλνω φωτογραφία'],0]],why:['We never tell strangers our name, address or school, and we never send photos.','Δεν λέμε ποτέ σε αγνώστους το όνομα, τη διεύθυνση ή το σχολείο μας, και δεν στέλνουμε φωτογραφίες.']},
+    {scene:'🎁✨',q:['A big button says: "You won a prize! Tap here!"','Ένα μεγάλο κουμπί λέει: «Κέρδισες δώρο! Πάτα εδώ!»'],opts:[['🙅',['I do not tap it, I ask a grown-up','Δεν το πατάω, ρωτάω έναν μεγάλο'],1],['👆',['I tap it quickly','Το πατάω γρήγορα'],0]],why:['Many of these buttons are tricks or adverts. A grown-up can check.','Πολλά τέτοια κουμπιά είναι κόλπα ή διαφημίσεις. Ένας μεγάλος μπορεί να το ελέγξει.']},
+    {scene:'🛒💳',q:['In a game, you want to buy something. What do you do?','Σε ένα παιχνίδι θέλεις να αγοράσεις κάτι. Τι κάνεις;'],opts:[['🙋',['I ask my parents first','Ρωτάω πρώτα τους γονείς μου'],1],['💳',['I buy it on my own','Το αγοράζω μόνος μου'],0]],why:['Buying costs real money, so grown-ups decide.','Οι αγορές κοστίζουν αληθινά χρήματα, γι\' αυτό αποφασίζουν οι μεγάλοι.']},
+    {scene:'🤳🧨',q:['A video shows children doing a dangerous trick. What do you do?','Ένα βίντεο δείχνει παιδιά να κάνουν ένα επικίνδυνο κόλπο. Τι κάνεις;'],opts:[['🚫',['I never copy it and I tell a grown-up','Δεν το κάνω ποτέ και το λέω σε έναν μεγάλο'],1],['🤸',['I try it at home','Το δοκιμάζω στο σπίτι'],0]],why:['Some videos show things that can really hurt. We never copy them.','Κάποια βίντεο δείχνουν πράγματα που μπορεί να μας χτυπήσουν στ\' αλήθεια. Δεν τα μιμούμαστε ποτέ.']}],
+  social:[{scene:'📲',q:['Can a 5-year-old have their own TikTok or Instagram?','Μπορεί ένα παιδί 5 χρονών να έχει δικό του TikTok ή Instagram;'],opts:[['🔞',['No, they are for 13 and over','Όχι, είναι από 13 χρονών και πάνω'],1],['👍',['Yes, of course','Ναι, φυσικά'],0]],why:['Social media are made for bigger children and grown-ups, from 13.','Τα κοινωνικά δίκτυα είναι φτιαγμένα για μεγαλύτερα παιδιά και μεγάλους, από 13 χρονών.']},
+    {scene:'▶️',q:['Who chooses the videos you watch?','Ποιος διαλέγει τα βίντεο που βλέπεις;'],opts:[['👨‍👩‍👧',['I choose together with mum or dad','Τα διαλέγω μαζί με τη μαμά ή τον μπαμπά'],1],['🤖',['The screen chooses: one after another','Τα διαλέγει η οθόνη: το ένα μετά το άλλο'],0]],why:['With a grown-up we choose good videos, for example in YouTube Kids.','Με έναν μεγάλο διαλέγουμε καλά βίντεο, για παράδειγμα στο YouTube Kids.']},
+    {scene:'⏭️',q:['Your video ended and another one starts by itself. What do you do?','Το βίντεο τελείωσε και αρχίζει μόνο του άλλο. Τι κάνεις;'],opts:[['⏹️',['I stop: one is enough','Σταματάω: ένα φτάνει'],1],['🔁',['I keep watching whatever comes','Συνεχίζω να βλέπω ό,τι έρθει'],0]],why:['Videos that start by themselves make us watch much longer than we wanted.','Τα βίντεο που αρχίζουν μόνα τους μάς κάνουν να βλέπουμε πολύ περισσότερο απ\' όσο θέλαμε.']},
+    {scene:'📷🌐',q:['Can I put a photo of myself on the internet?','Μπορώ να ανεβάσω μια φωτογραφία μου στο ίντερνετ;'],opts:[['🙋',['Not on my own: I ask my parents first','Όχι μόνος μου: ρωτάω πρώτα τους γονείς'],1],['📤',['Yes, for everyone to see','Ναι, για να τη δουν όλοι'],0]],why:['Photos on the internet can be seen by many strangers, so parents decide.','Τις φωτογραφίες στο ίντερνετ μπορεί να τις δουν πολλοί άγνωστοι, γι\' αυτό αποφασίζουν οι γονείς.']},
+    {scene:'👍❤️',q:['Is a video good because it has lots of likes?','Ένα βίντεο είναι καλό επειδή έχει πολλά «μου αρέσει»;'],opts:[['🤔',['Not always: we ask a grown-up','Όχι πάντα: ρωτάμε έναν μεγάλο'],1],['✅',['Yes, always','Ναι, πάντα'],0]],why:['Many likes do not mean it is true, kind or right for children.','Τα πολλά «μου αρέσει» δεν σημαίνουν ότι κάτι είναι αληθινό, καλό ή κατάλληλο για παιδιά.']}]};
+const DAY_ACTS=[['out','🛝',['Play outside','Παιχνίδι έξω']],['book','📚',['Book','Βιβλίο']],['blocks','🧱',['Building','Τουβλάκια']],['draw','🎨',['Drawing','Ζωγραφική']],['screen','📺',['Screen','Οθόνη']],['family','🍽️',['Family dinner','Φαγητό με την οικογένεια']]];
+function setupDelphi(l){const k=DL_KINDS[l];run.hints=0;run.won=false;run.total=1;const p=run.p={type:'delphi',kind:k,i:0,busy:false,fade:null};
+  if(k==='watch')p.qs=shuffle(DL_Q.watch).slice(0,6).map(([e,t,ok])=>({scene:e,q:t,opts:[['👍',['Yes, for children','Ναι, για παιδιά'],ok],['👎',['No, not for children','Όχι, δεν είναι για παιδιά'],ok?0:1]],why:ok?['Yes, that is a good video for children, with a grown-up nearby.','Ναι, αυτό είναι καλό βίντεο για παιδιά, με έναν μεγάλο κοντά.']:['Not for children. If it appears, we turn it off and tell a grown-up.','Δεν είναι για παιδιά. Αν εμφανιστεί, το κλείνουμε και το λέμε σε έναν μεγάλο.']}));
+  else if(k==='plan'){p.round=0;p.slots=Array(6).fill(null)}
+  else p.qs=(k==='time'?DL_Q.time.slice():shuffle(DL_Q[k])).map(q=>({...q,opts:shuffle(q.opts)}));
+  run.cur={text:tr(DL_TEXT[k]),say:tr(DL_INTRO[k])}}
+const delphiQ=p=>p.qs?tr(p.qs[p.i].q):'';
+function delphiBody(p){const hint=`<button class="icon-btn hintfab" data-act="dl" data-x="hint" aria-label="Help">💡</button>`;
+  if(p.kind==='plan'){const hours=['3:30','4:00','4:30','5:00','5:30','6:00'];
+    return `<div class="stage"><div class="dayplan">${p.round?`<div class="socq">${tr(['Someone filled the afternoon with too much screen! Tap a box to empty it, then choose something else.','Κάποιος γέμισε το απόγευμα με πολλή οθόνη! Πάτα ένα κουτί για να αδειάσει και διάλεξε κάτι άλλο.'])}</div>`:''}
+      <div class="slots">${p.slots.map((a,k)=>{const d=a&&DAY_ACTS.find(x=>x[0]===a);return `<button class="slot2 ${a==='screen'?'scr':''} ${p.bad&&p.bad.includes(k)?'badslot':''}" data-act="dl" data-x="slot" data-k="${k}"><small>${hours[k]}</small><span>${d?d[1]:'＋'}</span><em>${d?tr(d[2]):''}</em></button>`}).join('')}<div class="slot2 sleep"><small>6:30</small><span>😴</span><em>${tr(['Sleep','Ύπνος'])}</em></div></div>
+      <div class="palette">${DAY_ACTS.map(([id,e,n])=>`<button class="opt socopt" data-act="dl" data-x="act" data-v="${id}"><span class="emo">${e}</span><small class="pname">${tr(n)}</small><i class="hear" data-act="dl" data-x="hear" data-t="${esc(tr(n))}">🔊</i></button>`).join('')}</div></div></div>
+      <div class="row"><button class="btn" data-act="dl" data-x="check">✔ ${tr(['Check','Έλεγχος'])}</button><div class="tcount" style="position:static">${p.round+1} / 2</div></div>${hint}`}
+  const q=p.qs[p.i];
+  return `<div class="stage"><div class="panel scroll socscene"><div class="pic">${q.scene}</div><div class="socq">${esc(tr(q.q))}</div></div></div>
+    <div class="options">${q.opts.map(([e,txt],k)=>`<button class="opt socopt story ${p.kind==='watch'?'thumb':''} ${p.fade===k?'fade':''}" data-act="dl" data-x="pick" data-v="${k}"><span class="emo">${e}</span><small>${tr(txt)}</small><i class="hear" data-act="dl" data-x="hear" data-t="${esc(tr(txt))}">🔊</i></button>`).join('')}</div>
+    <div class="row"><div class="tcount" style="position:static">${p.i+1} / ${p.qs.length}</div></div>${hint}`}
+// what is wrong with the planned afternoon, if anything
+function planProblems(sl){const out=[];const scr=sl.filter(a=>a==='screen').length;
+  if(sl.some(a=>!a))out.push(['Fill every box first!','Γέμισε πρώτα όλα τα κουτιά!']);
+  else{if(scr>2)out.push(['That is too much screen. Two boxes (one hour) is the most.','Αυτό είναι πολλή οθόνη. Το πολύ δύο κουτιά, δηλαδή μία ώρα.']);
+    if(sl[5]==='screen')out.push(['No screen just before sleep: the light keeps us awake.','Όχι οθόνη λίγο πριν τον ύπνο: το φως μάς κρατάει ξύπνιους.']);
+    if(!sl.includes('out'))out.push(['Add some playing outside: our bodies need to move!','Βάλε και λίγο παιχνίδι έξω: το σώμα μας θέλει κίνηση!']);
+    if(!sl.includes('family'))out.push(['Add dinner with the family.','Βάλε και το φαγητό με την οικογένεια.'])}
+  return out}
+function delphiAct(b){const p=run.p,x=b.dataset.x;if(x==='hear')return say(b.dataset.t,true);if(!p||run.won||p.busy)return;
+  if(p.kind==='plan'){
+    if(x==='act'){const k=p.slots.indexOf(null);if(k<0)return say(tr(['All boxes are full. Tap a box to empty it.','Όλα τα κουτιά είναι γεμάτα. Πάτα ένα κουτί για να αδειάσει.']));p.slots[k]=b.dataset.v;p.bad=null;sfx('tap');renderGame();return}
+    if(x==='slot'){const k=+b.dataset.k;if(p.slots[k]){p.slots[k]=null;p.bad=null;sfx('flip');renderGame()}return}
+    if(x==='hint'){run.hints++;const pr=planProblems(p.slots);return say(tr(pr.length?pr[0]:['It looks balanced. Tap Check!','Φαίνεται ισορροπημένο. Πάτα «Έλεγχος»!']))}
+    if(x==='check'){const pr=planProblems(p.slots);const first=!p.tried;p.tried=true;if(first)dpAdd('dig',pr.length?0:1);
+      if(pr.length){run.mistakes++;p.bad=p.slots.map((a,k)=>a==='screen'&&(k===5||p.slots.filter(z=>z==='screen').length>2)?k:-1).filter(k=>k>=0);oops(b);renderGame();return say(tr(pr[0]))}
+      p.busy=true;praise();Promise.all([wait(500).then(()=>say(tr(['A balanced afternoon: play, books, family and a little screen. Nothing in excess!','Ένα ισορροπημένο απόγευμα: παιχνίδι, βιβλία, οικογένεια και λίγη οθόνη. Μηδέν άγαν!']))),wait(2500)]).then(()=>{if(run.p!==p)return;p.busy=false;p.tried=false;
+        if(p.round>=1)return stemWin(stemStars(run.mistakes,0,2));p.round=1;p.slots=['draw','screen','screen','screen','family','screen'];renderGame();say(tr(['Uh oh! Someone filled this afternoon with too much screen. Can you fix it?','Ωχ! Κάποιος γέμισε αυτό το απόγευμα με πολλή οθόνη. Μπορείς να το διορθώσεις;']))})}
+    return}
+  if(x==='hint'){run.hints++;const q=p.qs[p.i],good=q.opts.findIndex(o=>o[2]);p.fade=[...q.opts.keys()].find(k=>k!==good&&k!==p.fade);renderGame();return say(tr(['Think: what would a grown-up who loves you say?','Σκέψου: τι θα έλεγε ένας μεγάλος που σε αγαπάει;']))}
+  if(x==='pick'){const q=p.qs[p.i],o=q.opts[+b.dataset.v];if(!q.tried){q.tried=true;dpAdd('dig',o[2]?1:0)}
+    if(!o[2]){run.mistakes++;oops(b);return say(tr(['Not that one. Try again!','Όχι αυτό. Δοκίμασε ξανά!']))}
+    p.busy=true;b.classList.add('right');praise();Promise.all([wait(500).then(()=>say(tr(q.why))),wait(1800)]).then(()=>{if(run.p!==p)return;p.i++;p.busy=false;p.fade=null;if(p.i>=p.qs.length)return stemWin(stemStars(run.mistakes,0,2));renderGame();sayOnce(delphiQ(p))})}}
+const SCREEN_GUIDE=[['Under 2 years: avoid screens except video calls with family.','Κάτω από 2 ετών: καθόλου οθόνες, εκτός από βιντεοκλήσεις με την οικογένεια.'],
+  ['2 to 5 years: at most 1 hour a day of good-quality content, ideally watched together with a grown-up who talks about it.','2 έως 5 ετών: το πολύ 1 ώρα την ημέρα, με καλό περιεχόμενο, ιδανικά μαζί με έναν μεγάλο που το συζητά με το παιδί.'],
+  ['No screens during meals and for the hour before sleep; keep devices out of the bedroom.','Όχι οθόνες στο φαγητό και την τελευταία ώρα πριν τον ύπνο· οι συσκευές μένουν έξω από το υπνοδωμάτιο.'],
+  ['Turn off autoplay; for videos use YouTube Kids with a parent profile, approved content only, and a timer.','Κλείστε την αυτόματη αναπαραγωγή· για βίντεο προτιμήστε το YouTube Kids με γονικό προφίλ, μόνο εγκεκριμένο περιεχόμενο και χρονόμετρο.'],
+  ['YouTube, TikTok, Instagram and other social media require users to be at least 13; young children should not have their own accounts.','Το YouTube, το TikTok, το Instagram και τα άλλα κοινωνικά δίκτυα απαιτούν ηλικία τουλάχιστον 13 ετών· τα μικρά παιδιά δεν πρέπει να έχουν δικό τους λογαριασμό.'],
+  ['Watch out for: scary or violent videos, content for adults, dangerous "challenges", adverts and in-app purchases, and strangers in comments or chats.','Προσοχή σε: τρομακτικά ή βίαια βίντεο, περιεχόμενο για ενήλικες, επικίνδυνες «προκλήσεις», διαφημίσεις και αγορές μέσα σε εφαρμογές, και αγνώστους σε σχόλια ή συνομιλίες.'],
+  ['Teach one rule: if something on a screen feels scary or strange, turn it off and tell a grown-up, and they will never be in trouble for telling.','Μάθετε στο παιδί έναν κανόνα: αν κάτι στην οθόνη το τρομάζει ή του φαίνεται παράξενο, την κλείνει και το λέει σε έναν μεγάλο, και δεν θα μαλώσει ποτέ επειδή το είπε.']];
+const screenGuideHTML=()=>`<details class="sguide"><summary>📱 ${tr(['Screen-time guidance for parents','Οδηγίες για τις οθόνες (για γονείς)'])}</summary><ul>${SCREEN_GUIDE.map(g=>`<li>${tr(g)}</li>`).join('')}</ul><p class="note">${tr(['Based on recommendations of the World Health Organization (2019) and the American Academy of Pediatrics.','Με βάση τις συστάσεις του Παγκόσμιου Οργανισμού Υγείας (2019) και της Αμερικανικής Ακαδημίας Παιδιατρικής.'])}</p></details>`;
+
 /* ---------- game flow ---------- */
 let run=null;
 // listening games: the songs and the ear-training note games
@@ -3145,9 +3235,9 @@ const needsSound=(g,l)=>g==='music'&&(l<5||['highlow','ear','simon'].includes(NO
 function startLevel(g,l){
   if(overLimit()){run=null;ui.modal=null;ui.screen='rest';render();return}
   ui.modal=null;ui.screen='game';streak=0;
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time','focus','road'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time','focus','road','delphi'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
   run.wasDone=gameDone(S,g);
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='focus')setupFocus(l);else if(g==='road')setupRoad(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else if(g==='count'&&l===3)setupDots();else{run.cur=GEN[g](l);run.cur.t0=performance.now()}
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='focus')setupFocus(l);else if(g==='road')setupRoad(l);else if(g==='delphi')setupDelphi(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else if(g==='count'&&l===3)setupDots();else{run.cur=GEN[g](l);run.cur.t0=performance.now()}
   render();speakPrompt();
 }
 // Instructions are spoken the first time; the same instruction again stays quiet (the 🔊 button always repeats it)
@@ -3157,6 +3247,7 @@ function nudgeRepeat(){setTimeout(()=>{const b=document.querySelector('.bubble [
 function speakPrompt(force){if(!run)return;const later=f=>force?f():setTimeout(f,250),sp=force?(x=>{heard.add(x);return say(x,true)}):sayOnce;
   if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(tr(p.rounds[p.i].q))}));return}
   if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p,force)}));return}
+  if(run.g==='delphi'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(delphiQ(p))}));return}
   if(run.g==='road'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(roadQ(p))}));return}
   if(run.g==='time'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(timeQ(p))}));return}
   const s=run.g==='memory'?tr(SAY.memory):run.cur.say;later(()=>sp(s))}
@@ -3169,6 +3260,7 @@ function renderGame(){
   else if(run.p&&run.p.type==='dots')body=dotsBody(run.p);
   else if(run.g==='focus')body=focusBody(run.p);
   else if(run.g==='road')body=roadBody(run.p);
+  else if(run.g==='delphi')body=delphiBody(run.p);
   else if(run.g==='time')body=timeBody(run.p);
   else if(run.g==='social')body=run.p.rounds&&run.p.rounds[run.p.i]&&run.p.rounds[run.p.i].stage==='respect'?respectBody():socialBody(run.p);
   else if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
@@ -3215,7 +3307,7 @@ function flip(i){
   if(run.open.length===2){const [a,b]=run.open;run.busy=true;run.seen=run.seen||new Set();const mate=run.cards.find(x=>x.e===a.e&&x!==a);if(mate&&run.seen.has(mate.i))dpAdd('mem.miss',a.e===b.e?0:1);run.seen.add(a.i);run.seen.add(b.i);
     setTimeout(()=>{if(a.e===b.e){a.done=b.done=true;run.found++;const el=document.querySelector(`.card[data-i="${b.i}"]`).getBoundingClientRect();praise(el.left+el.width/2,el.top+el.height/2)}
       else{a.up=b.up=false;run.mistakes++;streak=0;sfx('bad')}
-      run.open=[];run.busy=false;renderGame();if(run.found>=run.total)setTimeout(finishLevel,700)},a.e===b.e?500:1100)}
+      run.open=[];run.busy=false;renderGame();if(run.found>=run.total){const r0=run;setTimeout(()=>{if(run===r0)finishLevel()},700)}},a.e===b.e?500:1100)}
 }
 function finishLevel(fixed){
   if(!run.finished){run.finished=true;dpAdd('done',1);dpAdd('hint',run.hints||0)}
@@ -3241,12 +3333,13 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm'&&a!=='wr'&&a!=='dt'&&a!=='rd')sfx('tap');if(ui.screen==='game'&&b.matches('.opt,.btn'))fmTap(b,e);
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm'&&a!=='wr'&&a!=='dt'&&a!=='rd'&&a!=='dl')sfx('tap');if(ui.screen==='game'&&b.matches('.opt,.btn'))fmTap(b,e);
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
       else if(ui.screen==='game'&&run&&run.p&&run.p.type==='write')run.cur={text:esc(writeAsk()),say:writeAsk()};
+      else if(ui.screen==='game'&&run&&run.g==='delphi')run.cur={text:tr(DL_TEXT[run.p.kind]),say:tr(DL_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='road')run.cur={text:tr(ROAD_TEXT[run.p.kind]),say:tr(ROAD_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='focus')run.cur={text:tr(FOCUS_TEXT[run.p.kind]),say:tr(FOCUS_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='time')run.cur={text:tr(TIME_TEXT[run.p.kind]),say:tr(TIME_INTRO[run.p.kind])};
@@ -3295,6 +3388,7 @@ document.addEventListener('click',e=>{
     case 'dt':dotsAct(b);break;
     case 'fc':focusAct(b);break;
     case 'rd':roadAct(b);break;
+    case 'dl':delphiAct(b);break;
     case 'dpreport':ui.screen='dpreport';render();break;
     case 'dphtml':reportFile(dpReportHTML(),`development-report-${dayKey(Date.now())}.html`);break;
     case 'dpcsv':dpCSV();break;

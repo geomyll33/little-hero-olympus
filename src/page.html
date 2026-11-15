@@ -543,6 +543,15 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 .crossw{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
 .crossv{width:min(100%,calc((100dvh - 300px)*1.67),760px);height:auto;border-radius:18px;border:3px solid rgba(28,42,72,.15);touch-action:manipulation}
 .lookrow{display:flex;gap:8px;min-height:44px}.lk{font-size:1.6rem;background:#fff;border-radius:10px;padding:2px 8px;border:3px solid var(--good)}
+/* oracle of delphi */
+.dayplan{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}
+.slots{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;width:min(100%,760px)}
+.slot2{background:#fff;border-radius:14px;border:3px dashed #cbbf9f;display:flex;flex-direction:column;align-items:center;padding:6px 2px;min-height:96px;gap:2px}
+.slot2 small{font-weight:800;color:var(--ink-soft);font-size:.75rem}.slot2 span{font-size:2rem}.slot2 em{font-style:normal;font-weight:700;font-size:.7rem;text-align:center;line-height:1.1}
+.slot2.scr{background:#eef5ff}.slot2.badslot{border:3px solid var(--bad);background:#ffecea}.slot2.sleep{background:#e9e6ff;border-style:solid}
+.palette{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.palette .opt{min-width:96px;position:relative;padding:8px 6px}
+@media (max-width:600px){.slots{grid-template-columns:repeat(4,minmax(0,1fr))}.palette .opt{min-width:84px}}
+.sguide{background:#eef5ff;border-radius:14px;padding:10px 14px}.sguide summary{font-weight:700;cursor:pointer}.sguide ul{margin:8px 0;padding-left:20px;line-height:1.5}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
