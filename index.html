@@ -556,6 +556,10 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 @media (max-width:600px){.slots{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.slot2{min-height:62px;padding:3px 1px}.slot2 span{font-size:1.4rem}.slot2 em{font-size:.62rem}
   .palette{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.palette .opt{padding:5px 2px}.palette .hear{font-size:.75rem;padding:0 3px;top:2px;right:2px}.dayplan .socq{font-size:.95rem}}
 .sguide{background:#eef5ff;border-radius:14px;padding:10px 14px}.sguide summary{font-weight:700;cursor:pointer}.sguide ul{margin:8px 0;padding-left:20px;line-height:1.5}
+/* demeter's garden */
+.lunchbox{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:min(100%,520px);background:#ffe0a8;border:5px solid #c98b2b;border-radius:22px;padding:10px}
+.palette.food{grid-template-columns:repeat(7,minmax(0,1fr))}
+@media (max-width:600px){.palette.food{grid-template-columns:repeat(4,minmax(0,1fr))}.lunchbox .slot2{min-height:56px}}
 /* locked places */
 .loc .tag small svg{width:1em;height:1em;vertical-align:-.15em}
 .loc.locked .art{filter:grayscale(.85) brightness(.9)}
@@ -613,7 +617,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center}
 <div id="app"></div>
 
 <script>
-const BUILD='2026-11-15.1713';
+const BUILD='2026-11-15.1728';
 /* ---------- language ---------- */
 // Bilingual text is written as [english, greek]; tr() picks the active one.
 const isEl=()=>S.lang==='el';
@@ -655,6 +659,7 @@ const GAMES=[
   {id:'puzzle',name:['Riddle Cave','Σπηλιά των Γρίφων'],skill:['Puzzles','Γρίφοι'],x:91,y:15,gate:{badges:3},levels:[['Labyrinth','Λαβύρινθος'],['Tower of 2 discs','Πύργος με 2 δίσκους'],['Wolf, sheep & grass','Λύκος, πρόβατο, χόρτο'],['Labyrinth & key','Λαβύρινθος με κλειδί'],['Tower of 3 discs','Πύργος με 3 δίσκους'],['The Minotaur wakes up','Ο Μινώταυρος ξύπνησε'],['Tower of 4 discs','Πύργος με 4 δίσκους'],['The giant labyrinth','Ο γιγάντιος λαβύρινθος']]}
 ];
 GAMES.splice(GAMES.length-1,0,{id:'music',name:['Music Odeon','Μουσικό Ωδείο'],skill:['Music','Μουσική'],x:55,y:72,gate:{coins:25},starts:[5],levels:[['Twinkle Twinkle','Το αστεράκι'],['Ode to Joy','Ωδή στη Χαρά'],['Lullaby','Νανούρισμα'],['Morning Mood','Πρωινή Διάθεση'],['Minuet','Μενουέτο'],['Note stairs','Η σκάλα των νοτών'],['High or low?','Ψηλά ή χαμηλά;'],['Listen and find','Άκου και βρες'],['Repeat the tune','Επανάλαβε τη μελωδία']]});
+GAMES.push({id:'food',name:["Demeter's Garden",'Κήπος της Δήμητρας'],skill:['Healthy eating','Σωστή διατροφή'],x:50,y:50,levels:[['Food groups','Ομάδες τροφών'],['Every day or sometimes?','Κάθε μέρα ή καμιά φορά;'],['Good habits','Καλές συνήθειες'],['Eat the rainbow','Το ουράνιο τόξο'],['School snack box','Κολατσιό για το σχολείο']]});
 GAMES.push({id:'delphi',name:['Oracle of Delphi','Μαντείο των Δελφών'],skill:['Healthy screen use','Σωστή χρήση οθονών'],x:50,y:50,levels:[['How much screen?','Πόση οθόνη;'],['Is it for children?','Είναι για παιδιά;'],['If something feels wrong','Αν κάτι δεν είναι σωστό'],['YouTube & social media','YouTube & κοινωνικά δίκτυα'],['A balanced afternoon','Ισορροπημένο απόγευμα']]});
 GAMES.push({id:'road',name:['Panathenaic Way','Παναθηναϊκή Οδός'],skill:['Road safety','Κυκλοφοριακή αγωγή'],x:50,y:50,levels:[['Traffic lights','Τα φανάρια'],['Where is it safe?','Πού είναι ασφαλές;'],['Cross the road','Περνάμε απέναντι'],['Road signs','Οι πινακίδες'],['Right or wrong?','Σωστό ή λάθος;']]});
 GAMES.push({id:'focus',name:['Palaestra','Παλαίστρα'],skill:['Focus, self-control & rhythm','Προσοχή, αυτοέλεγχος & ρυθμός'],x:50,y:50,gate:{coins:20},starts:[2,4],levels:[['Olives, not stones','Ελιές, όχι πέτρες'],['Quick hands','Γρήγορα χέρια'],['Find the hidden one','Βρες το κρυμμένο'],['Hide and seek','Κρυφτό'],['Clap the beat','Χτύπα στον ρυθμό'],['Drum on your own','Τύμπανο μόνος σου']]});
@@ -677,6 +682,7 @@ const BADGES=[
   {id:'compare',icon:'⚓',name:['Harbour Master','Λιμενάρχης'],desc:['Finish all of the Harbour','Τελείωσε όλο το Λιμάνι'],test:s=>gameDone(s,'compare')},
   {id:'memory',icon:'🐬',name:['Friend of the Sea','Φίλος της θάλασσας'],desc:['Finish all of the Aegean Sea','Τελείωσε όλο το Αιγαίο'],test:s=>gameDone(s,'memory')},
   {id:'music',icon:'🎼',name:['Little Maestro','Μικρός Μαέστρος'],desc:['Play every song in the Odeon','Παίξε όλα τα κομμάτια του Ωδείου'],test:s=>gameDone(s,'music')},
+  {id:'food',icon:'🥗',name:['Little Chef','Μικρός μάγειρας'],desc:["Finish every level in Demeter's Garden",'Τελείωσε όλα τα επίπεδα στον Κήπο της Δήμητρας'],test:s=>gameDone(s,'food')},
   {id:'delphi',icon:'🏛️',name:['Nothing in Excess','Μηδέν άγαν'],desc:['Finish every level at the Oracle of Delphi','Τελείωσε όλα τα επίπεδα στο Μαντείο των Δελφών'],test:s=>gameDone(s,'delphi')},
   {id:'road',icon:'🚦',name:['Road Safety Friend','Φίλος της ασφάλειας'],desc:['Finish every level on the Panathenaic Way','Τελείωσε όλα τα επίπεδα στην Παναθηναϊκή Οδό'],test:s=>gameDone(s,'road')},
   {id:'focus',icon:'🎯',name:['Calm Champion','Ήρεμος πρωταθλητής'],desc:['Finish every level in the Palaestra','Τελείωσε όλα τα επίπεδα στην Παλαίστρα'],test:s=>gameDone(s,'focus')},
@@ -720,6 +726,7 @@ const TEACH={
   compare:['More and fewer by counting fish, then comparing written numbers.','Περισσότερα και λιγότερα μετρώντας ψάρια, μετά σύγκριση αριθμών.'],
   memory:['Visual memory and concentration with Aegean sea creatures.','Οπτική μνήμη και συγκέντρωση με ζώα του Αιγαίου.'],
   music:['Learning the notes on a xylophone (the note stairs, high or low, listen and find, repeat the tune), and a running game: catch coloured notes in order to play famous melodies by Mozart, Beethoven, Brahms, Grieg and Bach. Teaches listening, note names (Do Re Mi) and memory for tunes.','Μαθαίνει τις νότες σε ξυλόφωνο (η σκάλα των νοτών, ψηλά ή χαμηλά, άκου και βρες, επανάλαβε τη μελωδία) και παιχνίδι τρεξίματος: ο ήρωας μαζεύει χρωματιστές νότες με τη σειρά και παίζει γνωστές μελωδίες του Μότσαρτ, του Μπετόβεν, του Μπραμς, του Γκριγκ και του Μπαχ. Μαθαίνει ακρόαση, ονόματα νοτών (Ντο Ρε Μι) και μνήμη μελωδιών.'],
+  food:['Healthy eating, the Mediterranean way: the food groups, everyday foods and treats for sometimes, water as the main drink, washing hands, breakfast, brushing teeth after sweets, olive oil, listening to fullness, eating the colours of the rainbow, and packing a balanced school snack.','Σωστή διατροφή, με τον μεσογειακό τρόπο: οι ομάδες τροφών, τροφές για κάθε μέρα και λιχουδιές για καμιά φορά, το νερό ως βασικό ρόφημα, πλύσιμο χεριών, πρωινό, βούρτσισμα μετά το γλυκό, ελαιόλαδο, «χόρτασα», τα χρώματα του ουράνιου τόξου και ένα ισορροπημένο κολατσιό για το σχολείο.'],
   delphi:['Healthy screen use ("Nothing in excess"): how much screen time is enough, no screens at meals or before sleep, which videos are for children and which are not, what to do if something is scary or a stranger writes, adverts and purchases, why YouTube and social media are for 13 and over, and planning a balanced afternoon.','Σωστή χρήση οθονών («Μηδέν άγαν»): πόση ώρα οθόνης φτάνει, όχι οθόνες στο φαγητό και πριν τον ύπνο, ποια βίντεο είναι για παιδιά και ποια όχι, τι κάνουμε αν κάτι μας τρομάξει ή μας γράψει άγνωστος, διαφημίσεις και αγορές, γιατί το YouTube και τα κοινωνικά δίκτυα είναι από 13 ετών, και σχεδιασμός ενός ισορροπημένου απογεύματος.'],
   road:['Road safety: pedestrian and car traffic lights, safe places to walk, cross and play, crossing at a zebra crossing after looking left-right-left with moving cars, common road signs, and safe habits (child seat, helmet, holding hands, reflective clothes).','Κυκλοφοριακή αγωγή: φανάρια πεζών και αυτοκινήτων, ασφαλή σημεία για περπάτημα, διάσχιση και παιχνίδι, διάσχιση από διάβαση πεζών αφού κοιτάξουμε αριστερά-δεξιά-αριστερά με αυτοκίνητα που κινούνται, βασικές πινακίδες και ασφαλείς συνήθειες (παιδικό κάθισμα, κράνος, χέρι με τον μεγάλο, ανακλαστικά).'],
   focus:['Attention and self-control: tap olives but not stones (go/no-go), find a shape among many (visual search), and tap along with a drum, then keep the beat alone (rhythm and timing).','Προσοχή και αυτοέλεγχος: πάτα τις ελιές αλλά όχι τις πέτρες (go/no-go), βρες ένα σχήμα ανάμεσα σε πολλά (οπτική αναζήτηση) και χτύπα μαζί με το τύμπανο και μετά μόνος σου (ρυθμός και συγχρονισμός).'],
@@ -1078,6 +1085,7 @@ const ART={
   compare:svgArt(cube(16,82,64,10,8,'#8f9db2')+[0,1,2,3].map(i=>cube(32,66-i*14,30,14,8,i%2?'#2f6fd6':'#ffffff')).join('')+cube(30,12,34,12,8,'#ffe14a')+cube(28,4,38,8,8,'#c8643b')),
   memory:svgArt(cube(16,66,64,16,10,'#c8643b')+`<rect x="46" y="14" width="4" height="52" fill="#7a5a2a"/>`+cube(52,18,26,40,4,'#ffffff')+`<rect x="56" y="28" width="18" height="5" fill="#2f6fd6"/><rect x="56" y="40" width="18" height="5" fill="#2f6fd6"/>`+`<rect x="4" y="88" width="16" height="5" fill="#fff"/><rect x="40" y="90" width="16" height="5" fill="#fff"/><rect x="76" y="88" width="16" height="5" fill="#fff"/>`),
   puzzle:svgArt(cube(6,40,84,50,12,'#7d8899')+cube(16,22,60,18,12,'#8f9db2')+`<rect x="34" y="58" width="28" height="32" fill="#1c2a48"/><text x="48" y="84" text-anchor="middle" font-family="Ubuntu,sans-serif" font-weight="700" font-size="22" fill="#f2b632" stroke="none">?</text>`),
+  food:svgArt(cube(18,58,64,16,26,'#c98b2b')+`<path d="M18 58Q50 30 82 58" fill="none" stroke="#8a5a1a" stroke-width="4"/><text x="30" y="60" font-size="16">🥕</text><text x="46" y="56" font-size="16">🍎</text><text x="60" y="60" font-size="16">🥦</text>`+[0,1,2].map(i=>`<path d="M${8+i*6} 80V60" stroke="#d9b84a" stroke-width="2"/><ellipse cx="${8+i*6}" cy="58" rx="2" ry="5" fill="#e8c45a"/>`).join('')),
   delphi:svgArt(cube(14,66,72,10,30,'#e6dcc4')+[0,1,2,3,4].map(i=>cube(18+i*14,30,6,36,6,'#fffaf0')).join('')+`<ellipse cx="50" cy="28" rx="38" ry="9" fill="#c9a27a"/><path d="M14 28Q50 4 86 28Z" fill="#b5651d"/><text x="50" y="62" text-anchor="middle" font-size="13">📱</text>`),
   road:svgArt(cube(6,62,88,8,30,'#6d7a8c')+[0,1,2,3,4].map(i=>`<rect x="${22+i*9}" y="63" width="5" height="6" fill="#fff"/>`).join('')+cube(74,22,5,40,5,'#4b5a78')+cube(69,8,14,26,8,'#1c2a48')+`<circle cx="76" cy="14" r="3" fill="#e53935"/><circle cx="76" cy="21" r="3" fill="#fbc02d"/><circle cx="76" cy="28" r="3" fill="#43d06b"/>`+cube(14,36,30,24,12,'#f1e9d8')),
   focus:svgArt(cube(14,62,72,16,24,'#e6dcc4')+cube(16,24,8,40,8,'#f1e9d8')+cube(36,24,8,40,8,'#f1e9d8')+cube(56,24,8,40,8,'#f1e9d8')+cube(76,24,8,40,8,'#f1e9d8')+cube(12,16,78,8,26,'#c9a27a')+`<circle cx="50" cy="52" r="7" fill="#e53935"/><circle cx="50" cy="52" r="3.5" fill="#fffaf0"/>`),
@@ -1090,9 +1098,10 @@ const ART={
 };
 // The world is three islands, from easiest to hardest; each place is numbered along a path
 const REGIONS=[
-  {name:['Island of Dawn','Νησί της Αυγής'],games:['count','shapes','memory','road','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
+  {name:['Island of Dawn','Νησί της Αυγής'],games:['count','shapes','memory','sizes','letters'],grass:['#7cc35a','#74bb52'],sand:'#f0d79c'},
   {name:['Island of the Muses','Νησί των Μουσών'],games:['pattern','odd','compare','time','music','art'],grass:['#a5c95a','#9bc152'],sand:'#f3d9a0'},
-  {name:["Athena's Island",'Νησί της Αθηνάς'],games:['stem','space','puzzle','focus','delphi','social'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'}];
+  {name:["Athena's Island",'Νησί της Αθηνάς'],games:['stem','space','puzzle','focus','social'],grass:['#6fae8f','#67a687'],sand:'#d9d2bf'},
+  {name:["Demeter's Island",'Νησί της Δήμητρας'],games:['food','road','delphi'],grass:['#c2b55a','#b9ac52'],sand:'#f3dfae'}];
 const MAPSLOTS={land:{4:[[15,60],[38,30],[62,60],[85,32]],6:[[12,62],[28,30],[44,62],[60,30],[76,62],[90,32]],5:[[15,62],[33,30],[51,62],[69,30],[86,60]],3:[[20,58],[50,32],[80,58]]},port:{4:[[30,15],[70,38],[30,62],[68,85]],6:[[28,13],[72,28],[28,43],[72,58],[28,73],[70,87]],5:[[28,13],[72,30],[28,48],[72,66],[32,85]],3:[[30,20],[70,48],[32,78]]}};
 const regionOf=id=>REGIONS.findIndex(r=>r.games.includes(id));
 const isPortrait=()=>innerHeight>innerWidth*1.1;
@@ -1154,6 +1163,7 @@ const SCENES={
   memory:()=>sky('#1a7fc4','#0b3c6e')+rep(14,i=>`<circle cx="${(i*173)%1200}" cy="${(i*97)%700}" r="${6+i%4*4}" fill="none" stroke="#bfe6ff" stroke-width="3" opacity=".45"/>`)+`<path d="M0 720Q300 690 600 720T1200 710V800H0Z" fill="#e9d39b"/>`+rep(8,i=>`<path d="M${80+i*150} 730q-30-90 10-160q-30 80 20 160z" fill="#3fa36b"/>`),
   music:()=>sky('#ff9548','#ffd7a8')+`<circle cx="900" cy="250" r="90" fill="#ffe9a8"/><rect y="440" width="1200" height="360" fill="#d7b48e"/>`+rep(9,i=>`<path d="M${i*140} 800V560a60 60 0 0 1 120 0V800z" fill="#b98d63"/>`),
   ceremony:()=>sky('#7ccaff','#e4f5ff')+`<path d="M0 430Q600 330 1200 430V800H0Z" fill="#b9c98a"/>`+rep(5,r=>rep(30,c=>`<rect x="${c*42}" y="${440+r*26}" width="36" height="20" fill="${['#e53935','#1e6fd9','#fbc02d','#43a047','#fff'][(c+r)%5]}" opacity=".55"/>`))+`<rect y="570" width="1200" height="230" fill="#d9643b"/>`+rep(5,k=>`<rect y="${590+k*40}" width="1200" height="5" fill="#fff" opacity=".8"/>`)+cube(1040,250,60,180,14,'#f1e9d8')+cube(1020,230,100,24,14,'#c98b2b')+`<path d="M1070 230q-40-60 0-120q40 60 0 120z" fill="#ff8c1a"/><path d="M1070 230q-18-34 0-70q18 36 0 70z" fill="#ffe14a"/>`,
+  food:()=>sky('#9fd8ff','#fff7e0')+`<rect y="560" width="1200" height="240" fill="#a9c76a"/>`+rep(40,i=>`<path d="M${15+i*30} 640V575" stroke="#c9a43a" stroke-width="5"/><ellipse cx="${15+i*30}" cy="570" rx="7" ry="16" fill="#e5c25a"/>`)+rep(6,i=>cube(80+i*190,650,120,40,30,'#8a5a2a')+`<text x="${110+i*190}" y="660" font-size="44">${['🥕','🍅','🥦','🍓','🫑','🥬'][i]}</text>`),
   delphi:()=>sky('#9fd3ff','#f3fbff')+`<path d="M0 600L180 330L330 470L520 260L720 480L900 300L1200 560V800H0Z" fill="#9db48a"/><path d="M0 640L260 520L520 600L800 500L1200 620V800H0Z" fill="#7fa06d"/>`+cube(420,520,360,40,40,'#e6dcc4')+rep(6,i=>cube(440+i*58,380,26,140,18,'#fffaf0'))+cube(410,350,380,30,44,'#c9a27a'),
   road:()=>sky('#8fd3ff','#eaf7ff')+rep(5,i=>cube(40+i*230,340,170,260,30,['#f1e9d8','#fffaf0','#f2d9b0'][i%3]))+`<rect y="600" width="1200" height="30" fill="#d9d2bf"/><rect y="630" width="1200" height="140" fill="#5f6b7c"/><path d="M0 700H1200" stroke="#fff" stroke-width="6" stroke-dasharray="60 40"/>`+rep(7,i=>`<rect x="${520+i*24}" y="634" width="14" height="132" fill="#fff"/>`)+`<rect y="770" width="1200" height="30" fill="#d9d2bf"/>`+cube(1000,420,16,180,10,'#4b5a78')+cube(985,360,46,110,16,'#1c2a48')+`<circle cx="1008" cy="385" r="12" fill="#e53935"/><circle cx="1008" cy="415" r="12" fill="#3a3f4b"/><circle cx="1008" cy="445" r="12" fill="#3a3f4b"/>`,
   focus:()=>sky('#9fd8ff','#f2fbff')+`<rect y="600" width="1200" height="200" fill="#d9cfb4"/>`+rep(7,i=>cube(80+i*160,300,34,300,24,'#f1e9d8'))+cube(60,270,1060,34,40,'#c9a27a')+`<rect y="620" width="1200" height="14" fill="#c9b98f"/>`,
@@ -1242,7 +1252,7 @@ function parentsHTML(){
     <p>${t('intro')}</p>
     <div class="row" style="justify-content:flex-start"><button class="btn small blue" data-act="dpreport">📈 ${tr(['Development profile','Αναπτυξιακό προφίλ'])}</button><button class="btn small blue" data-act="fmreport">✍️ ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button></div>
     <div class="row" style="justify-content:flex-start"><b>⏱️ ${tr(['Daily play limit','Όριο παιχνιδιού ανά ημέρα'])}:</b>${[0,15,20,30,45,60].map(v=>`<button class="btn small ${(S.limit||0)===v?'blue':'white'}" data-act="setlimit" data-v="${v}">${v?v+'′':tr(['none','χωρίς'])}</button>`).join('')}<span class="note">${tr(['today','σήμερα'])}: ${Math.round((dpStore().days[dayKey(Date.now())]||{}).min||0)}′</span></div>
-    ${screenGuideHTML()}
+    ${screenGuideHTML()}${foodGuideHTML()}
     <p style="color:var(--ink-soft);font-size:.9rem">${tr(['Version','Έκδοση'])}: ${BUILD}</p>
     <div style="overflow-x:auto"><table><thead><tr><th>${t('place')}</th><th>${t('teaches')}</th>${[1,2,3,4,5,6,7,8].map(i=>`<th>${i}</th>`).join('')}<th></th></tr></thead><tbody>
     ${GAMES.map(g=>`<tr><td><b>${tr(g.name)}</b></td><td>${tr(TEACH[g.id])}</td>${[0,1,2,3,4,5,6,7].map(i=>`<td>${i<g.levels.length?(S.stars[g.id][i]?'★'.repeat(S.stars[g.id][i]):'–'):''}</td>`).join('')}<td>${S.stars[g.id].some(x=>x)?(ui.confirmG===g.id?`<button class="btn small" style="background:var(--bad);color:#fff;box-shadow:0 5px 0 #a33;white-space:nowrap" data-act="resetg2" data-g="${g.id}">${t('resetYes')}</button>`:`<button class="btn small white" style="white-space:nowrap" data-act="resetg" data-g="${g.id}">↺ ${t('resetG')}</button>`):''}</td></tr>`).join('')}
@@ -2908,8 +2918,9 @@ setInterval(()=>{if(document.visibilityState!=='visible'||!S.started||ui.screen=
 function restHTML(){const h=HEROES[S.hero];return `<div class="screen rest"><div class="restcard"><div class="restpet">${h.pet}<span>💤</span></div>${avatar(S.hero,S.skin,S.equip,'restav')}
   <h2>${tr(['Your hero is tired!','Ο ήρωας κουράστηκε!'])}</h2><p class="sub">${tr([`${heroName()}, time to rest your eyes and play outside. See you tomorrow! 🌙`,`${vocEl(heroName())}, ώρα να ξεκουράσουμε τα ματάκια και να παίξουμε έξω. Τα λέμε αύριο! 🌙`])}</p>
   <button class="btn small white" data-act="pgate" data-then="extend">🔒 ${tr(['Grown-ups: 10 more minutes','Γονείς: άλλα 10 λεπτά'])}</button></div></div>`}
-const DP_NAMES={dig:['Screen habits','Ψηφιακή υγεία'],road:['Road safety','Οδική ασφάλεια'],att:['Self-control','Αυτοέλεγχος'],rhy:['Rhythm','Ρυθμός'],lit:['Letters','Γραμματισμός'],num:['Numbers','Αριθμητική'],vis:['Visual perception','Οπτική αντίληψη'],mem:['Memory','Μνήμη'],plan:['Planning','Σχεδιασμός'],aud:['Listening (pitch)','Ακουστική διάκριση'],emo:['Emotions','Συναισθήματα'],fm:['Fine motor','Λεπτή κινητικότητα']};
-const DP_TIPS={dig:['Agree on screen rules together (when, how long, what), use a timer, and watch together; give a 5-minute warning before switching off.','Συμφωνήστε μαζί τους κανόνες για τις οθόνες (πότε, πόση ώρα, τι), βάλτε χρονόμετρο και βλέπετε μαζί· δώστε προειδοποίηση 5 λεπτών πριν το κλείσιμο.'],
+const DP_NAMES={food:['Healthy eating','Διατροφή'],dig:['Screen habits','Ψηφιακή υγεία'],road:['Road safety','Οδική ασφάλεια'],att:['Self-control','Αυτοέλεγχος'],rhy:['Rhythm','Ρυθμός'],lit:['Letters','Γραμματισμός'],num:['Numbers','Αριθμητική'],vis:['Visual perception','Οπτική αντίληψη'],mem:['Memory','Μνήμη'],plan:['Planning','Σχεδιασμός'],aud:['Listening (pitch)','Ακουστική διάκριση'],emo:['Emotions','Συναισθήματα'],fm:['Fine motor','Λεπτή κινητικότητα']};
+const DP_TIPS={food:['Cook and shop together: let your child wash vegetables, choose a fruit and name its colour; keep water on the table.','Μαγειρέψτε και ψωνίστε μαζί: αφήστε το παιδί να πλύνει λαχανικά, να διαλέξει ένα φρούτο και να πει το χρώμα του· έχετε πάντα νερό στο τραπέζι.'],
+  dig:['Agree on screen rules together (when, how long, what), use a timer, and watch together; give a 5-minute warning before switching off.','Συμφωνήστε μαζί τους κανόνες για τις οθόνες (πότε, πόση ώρα, τι), βάλτε χρονόμετρο και βλέπετε μαζί· δώστε προειδοποίηση 5 λεπτών πριν το κλείσιμο.'],
   road:['On every walk, stop at the kerb together, look left-right-left aloud, and let your child tell you when it is safe to cross.','Σε κάθε βόλτα, σταματήστε μαζί στο κράσπεδο, κοιτάξτε φωναχτά αριστερά-δεξιά-αριστερά και αφήστε το παιδί να σας πει πότε είναι ασφαλές να περάσετε.'],
   att:['Games with a stop signal: "Red light, green light", "Simon says", freeze dance.','Παιχνίδια με σήμα «στοπ»: «Αγάλματα», «Ο Σίμων λέει», χορός που σταματά όταν σταματά η μουσική.'],
   rhy:['Clap, march and drum to songs together; bounce a ball to a steady count.','Παλαμάκια, παρέλαση και τύμπανο με τραγούδια· αναπηδήσεις μπάλας σε σταθερό μέτρημα.'],
@@ -2927,15 +2938,16 @@ function dpScores(from,to){const d=dpStore(),days=Object.keys(d.days).filter(k=>
   const memMiss=sum('mem.miss'),span=mx('span'),mem=memMiss||span?{v:avg([memMiss?(1-memMiss.v)*100:null,span?Math.min(100,span/6*100):null].filter(x=>x!=null)),n:(memMiss?memMiss.n:0)+(span?1:0)}:null;
   const fmi=fmStore().items.filter(i=>dayKey(i.t)>=from&&dayKey(i.t)<=to&&i.sc!=null);
   const g1=sum('gng.com'),g2=sum('gng.om'),rh=sum('rhy.hit');
-  return {dig:pc('dig'),road:pc('road'),rdun:sum('road.unsafe'),att:g1&&g2?{v:100*(1-(g1.v+g2.v)/2),n:g1.n*24}:null,rhy:rh?{v:rh.v*100,n:rh.n*12}:null,gcom:g1,gom:g2,grt:sum('gng.rt'),gcv:sum('gng.cv'),vsfrt:sum('vsf.rt'),vsfsl:sum('vsf.sl'),vscrt:sum('vsc.rt'),vscsl:sum('vsc.sl'),rhit:rh,rasy:sum('rhy.asy'),rsd:sum('rhy.sd'),rcv:sum('rhy.cv'),rdr:sum('rhy.drift'),
+  return {food:pc('food'),dig:pc('dig'),road:pc('road'),rdun:sum('road.unsafe'),att:g1&&g2?{v:100*(1-(g1.v+g2.v)/2),n:g1.n*24}:null,rhy:rh?{v:rh.v*100,n:rh.n*12}:null,gcom:g1,gom:g2,grt:sum('gng.rt'),gcv:sum('gng.cv'),vsfrt:sum('vsf.rt'),vsfsl:sum('vsf.sl'),vscrt:sum('vsc.rt'),vscsl:sum('vsc.sl'),rhit:rh,rasy:sum('rhy.asy'),rsd:sum('rhy.sd'),rcv:sum('rhy.cv'),rdr:sum('rhy.drift'),
     lit:pc('acc.lit'),num:pc('acc.num'),vis:pc('acc.vis'),mem,plan:pc('plan.eff'),aud:pc('aud'),emo:pc('emo'),fm:fmi.length?{v:avg(fmi.map(i=>i.sc)),n:fmi.length}:null,
     rt:sum('rt'),imp:sum('imp'),viol:sum('plan.viol'),hint:sum('hint'),done:sum('done'),span,min:days.reduce((s,k)=>s+(d.days[k].min||0),0),days:days.length}}
 const shiftDay=(n)=>dayKey(Date.now()-n*864e5);
-function radarSVG(cur,prev){const keys=Object.keys(DP_NAMES),N=keys.length,R=110,cx=170,cy=140,pt=(i,v)=>{const a=-Math.PI/2+i*2*Math.PI/N;return [cx+Math.cos(a)*R*v/100,cy+Math.sin(a)*R*v/100]};
+function radarSVG(cur,prev){const keys=Object.keys(DP_NAMES).filter(k=>cur[k]||prev[k]),N=keys.length,R=105,cx=170,cy=150,pt=(i,v)=>{const a=-Math.PI/2+i*2*Math.PI/N;return [cx+Math.cos(a)*R*v/100,cy+Math.sin(a)*R*v/100]};
   const ring=[25,50,75,100].map(v=>`<polygon points="${keys.map((_,i)=>pt(i,v).join(',')).join(' ')}" fill="none" stroke="#e3dccb"/>`).join('');
   const poly=(sc,c,dash)=>`<polygon points="${keys.map((k,i)=>pt(i,sc[k]?sc[k].v:0).map(r1).join(',')).join(' ')}" fill="${dash?'none':c+'33'}" stroke="${c}" stroke-width="2.5" ${dash?'stroke-dasharray="5 4"':''}/>`;
-  const labels=keys.map((k,i)=>{const [x,y]=pt(i,128);return `<text x="${r1(x)}" y="${r1(y+4)}" text-anchor="${x<cx-10?'end':x>cx+10?'start':'middle'}" font-size="11" font-weight="700" fill="#1c2a48">${tr(DP_NAMES[k])}</text><text x="${r1(x)}" y="${r1(y+17)}" text-anchor="${x<cx-10?'end':x>cx+10?'start':'middle'}" font-size="10" fill="#4b5a78">${cur[k]?Math.round(cur[k].v)+'%':tr(['no data','χωρίς δεδομένα'])}</text>`}).join('');
-  return `<svg class="rchart radar" viewBox="-80 -28 500 345" role="img">${ring}${keys.map((_,i)=>`<line x1="${cx}" y1="${cy}" x2="${pt(i,100)[0]}" y2="${pt(i,100)[1]}" stroke="#e3dccb"/>`).join('')}${poly(prev,'#9aa7bb',true)}${poly(cur,'#1e6fd9')}${labels}</svg>
+  if(N<3)return `<p class="note">${tr(['The chart appears once at least three areas have been played.','Το διάγραμμα εμφανίζεται όταν παιχτούν τουλάχιστον τρεις τομείς.'])}</p>`;
+  const labels=keys.map((k,i)=>{const [x,y]=pt(i,140);return `<text x="${r1(x)}" y="${r1(y+4)}" text-anchor="${x<cx-10?'end':x>cx+10?'start':'middle'}" font-size="10.5" font-weight="700" fill="#1c2a48">${tr(DP_NAMES[k])}</text><text x="${r1(x)}" y="${r1(y+17)}" text-anchor="${x<cx-10?'end':x>cx+10?'start':'middle'}" font-size="10" fill="#4b5a78">${cur[k]?Math.round(cur[k].v)+'%':tr(['no data','χωρίς δεδομένα'])}</text>`}).join('');
+  return `<svg class="rchart radar" viewBox="-95 -30 530 365" role="img">${ring}${keys.map((_,i)=>`<line x1="${cx}" y1="${cy}" x2="${pt(i,100)[0]}" y2="${pt(i,100)[1]}" stroke="#e3dccb"/>`).join('')}${poly(prev,'#9aa7bb',true)}${poly(cur,'#1e6fd9')}${labels}</svg>
     <div class="legend"><span><i style="background:#1e6fd9"></i>${tr(['last 14 days','τελευταίες 14 μέρες'])}</span><span><i style="background:#9aa7bb"></i>${tr(['the 14 days before','οι 14 μέρες πριν'])}</span></div>`}
 function dpReportHTML(){const d=dpStore(),now=Date.now(),cur=dpScores(shiftDay(13),shiftDay(0)),prev=dpScores(shiftDay(27),shiftDay(14)),name=S.name||tr(HEROES[S.hero].name),age=S.birth?ageYears(S.birth,now):null;
   const keys=Object.keys(DP_NAMES),have=keys.filter(k=>cur[k]&&cur[k].n>=3).sort((a,b)=>cur[b].v-cur[a].v);
@@ -2979,7 +2991,7 @@ function dpReportHTML(){const d=dpStore(),now=Date.now(),cur=dpScores(shiftDay(1
     <section><h3>${tr(['Method','Μεθοδολογία'])}</h3>${method}</section>
     <div class="row noprint" style="justify-content:flex-start"><button class="btn small blue" data-act="fmreport">✍️ ${tr(['Fine-motor report','Αναφορά λεπτής κινητικότητας'])}</button><button class="btn small white" data-act="fmprint">🖨️ ${tr(['Print / PDF','Εκτύπωση / PDF'])}</button><button class="btn small white" data-act="dphtml">📄 ${tr(['Download (HTML)','Λήψη (HTML)'])}</button><button class="btn small white" data-act="dpcsv">⬇️ CSV</button></div>
   </div></div>`}
-function dpCSV(){const d=dpStore(),keys=['acc.lit','acc.num','acc.vis','mem.miss','span','plan.eff','plan.viol','aud','emo','rt','imp','gng.com','gng.om','gng.rt','gng.cv','vsf.rt','vsf.sl','vsc.rt','vsc.sl','rhy.hit','rhy.asy','rhy.sd','rhy.cv','rhy.drift','road','road.unsafe','dig','hint','done','min'];
+function dpCSV(){const d=dpStore(),keys=['acc.lit','acc.num','acc.vis','mem.miss','span','plan.eff','plan.viol','aud','emo','rt','imp','gng.com','gng.om','gng.rt','gng.cv','vsf.rt','vsf.sl','vsc.rt','vsc.sl','rhy.hit','rhy.asy','rhy.sd','rhy.cv','rhy.drift','road','road.unsafe','dig','food','hint','done','min'];
   const rows=Object.keys(d.days).sort().map(k=>[k,...keys.map(c=>{const a=d.days[k][c];return a==null?'':Array.isArray(a)?r1(a[0]/a[1]*100)/100:a})].join(','));
   offerFile(`development-${dayKey(Date.now())}.csv`,'﻿'+['day,'+keys.join(','),...rows].join('\n'),'text/csv')}
 function reportFile(html,fname){const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n'),box=document.createElement('div');box.innerHTML=html;const rep=box.querySelector('.report');rep.querySelectorAll('.noprint').forEach(x=>x.remove());
@@ -3232,6 +3244,97 @@ const SCREEN_GUIDE=[['Under 2 years: avoid screens except video calls with famil
   ['Teach one rule: if something on a screen feels scary or strange, turn it off and tell a grown-up, and they will never be in trouble for telling.','Μάθετε στο παιδί έναν κανόνα: αν κάτι στην οθόνη το τρομάζει ή του φαίνεται παράξενο, την κλείνει και το λέει σε έναν μεγάλο, και δεν θα μαλώσει ποτέ επειδή το είπε.']];
 const screenGuideHTML=()=>`<details class="sguide"><summary>📱 ${tr(['Screen-time guidance for parents','Οδηγίες για τις οθόνες (για γονείς)'])}</summary><ul>${SCREEN_GUIDE.map(g=>`<li>${tr(g)}</li>`).join('')}</ul><p class="note">${tr(['Based on recommendations of the World Health Organization (2019) and the American Academy of Pediatrics.','Με βάση τις συστάσεις του Παγκόσμιου Οργανισμού Υγείας (2019) και της Αμερικανικής Ακαδημίας Παιδιατρικής.'])}</p></details>`;
 
+/* ---------- Demeter's Garden: healthy eating, the Mediterranean way ---------- */
+const FD_KINDS=['groups','often','habits','rainbow','box'];
+const FD_TEXT={groups:['Food groups','Ομάδες τροφών'],often:['Every day or sometimes?','Κάθε μέρα ή καμιά φορά;'],habits:['Good eating habits','Καλές συνήθειες στο φαγητό'],rainbow:['Eat the rainbow','Τρώμε το ουράνιο τόξο'],box:['Pack a school snack','Φτιάξε κολατσιό για το σχολείο']};
+const FD_INTRO={groups:['Demeter was the goddess of the harvest: of wheat, fruit and vegetables. In her garden every food has its family. Where does this one go?','Η Δήμητρα ήταν η θεά της σοδειάς: του σταριού, των φρούτων και των λαχανικών. Στον κήπο της κάθε τροφή έχει την οικογένειά της. Πού πάει αυτή;'],
+  often:['Some foods help us grow strong every day. Others are treats, for sometimes. Put each food in the right basket!','Κάποιες τροφές μάς βοηθούν να μεγαλώνουμε δυνατοί κάθε μέρα. Άλλες είναι λιχουδιές για καμιά φορά. Βάλε κάθε τροφή στο σωστό καλάθι!'],
+  habits:['Eating well is not only what we eat, but also how. Let us see!','Το καλό φαγητό δεν είναι μόνο τι τρώμε, αλλά και πώς. Για να δούμε!'],
+  rainbow:['Fruit and vegetables come in every colour, and each colour gives us something good. Find the colour I ask for!','Τα φρούτα και τα λαχανικά έχουν όλα τα χρώματα, και κάθε χρώμα μάς δίνει κάτι καλό. Βρες το χρώμα που σου λέω!'],
+  box:['Fill the snack box for school: something for energy, fruit or vegetables, and a good drink. Tap a food to put it in, tap a box to take it out, then tap Check!','Γέμισε το κουτί για το κολατσιό του σχολείου: κάτι για ενέργεια, φρούτο ή λαχανικό και ένα καλό ρόφημα. Πάτα μια τροφή για να μπει, πάτα ένα κουτί για να βγει, και μετά «Έλεγχος»!']};
+const FD_GROUPS=[['veg','🥦',['Vegetables','Λαχανικά']],['fruit','🍎',['Fruit','Φρούτα']],['grain','🍞',['Bread & grains','Ψωμί & δημητριακά']],['prot','🐟',['Fish, eggs, beans, meat','Ψάρι, αυγά, όσπρια, κρέας']],['dairy','🥛',['Milk & cheese','Γάλα & τυρί']]];
+const FOODS=[['🥦',['broccoli','μπρόκολο'],'veg'],['🥕',['carrot','καρότο'],'veg'],['🍅',['tomato','ντομάτα'],'veg'],['🥒',['cucumber','αγγούρι'],'veg'],['🫑',['pepper','πιπεριά'],'veg'],['🥬',['lettuce','μαρούλι'],'veg'],
+  ['🍎',['apple','μήλο'],'fruit'],['🍌',['banana','μπανάνα'],'fruit'],['🍊',['orange','πορτοκάλι'],'fruit'],['🍇',['grapes','σταφύλια'],'fruit'],['🍉',['watermelon','καρπούζι'],'fruit'],['🍓',['strawberry','φράουλα'],'fruit'],
+  ['🍞',['bread','ψωμί'],'grain'],['🍝',['pasta','μακαρόνια'],'grain'],['🍚',['rice','ρύζι'],'grain'],['🥨',['sesame bread ring','κουλούρι'],'grain'],
+  ['🐟',['fish','ψάρι'],'prot'],['🥚',['egg','αυγό'],'prot'],['🫘',['beans and lentils','φασόλια και φακές'],'prot'],['🍗',['chicken','κοτόπουλο'],'prot'],
+  ['🥛',['milk','γάλα'],'dairy'],['🧀',['cheese (feta)','τυρί (φέτα)'],'dairy']];
+const OFTEN=[['🍎',['apple','μήλο'],1],['🥕',['carrot','καρότο'],1],['💧',['water','νερό'],1],['🥛',['milk','γάλα'],1],['🍞',['bread','ψωμί'],1],['🫘',['lentils','φακές'],1],['🐟',['fish','ψάρι'],1],['🫒',['olives and olive oil','ελιές και ελαιόλαδο'],1],['🍌',['banana','μπανάνα'],1],['🥦',['broccoli','μπρόκολο'],1],
+  ['🍬',['sweets','καραμέλες'],0],['🍟',['chips','τηγανητές πατάτες'],0],['🥤',['fizzy drink','αναψυκτικό'],0],['🍰',['cake','τούρτα'],0],['🍩',['doughnut','ντόνατ'],0],['🍫',['chocolate','σοκολάτα'],0],['🍭',['lollipop','γλειφιτζούρι'],0]];
+const FD_HABITS=[{scene:'🏃💦',q:['You are thirsty after playing. What do you drink?','Διψάς μετά το παιχνίδι. Τι πίνεις;'],opts:[['💧',['Water','Νερό'],1],['🥤',['A fizzy drink','Αναψυκτικό'],0],['🧃',['Lots of juice','Πολύ χυμό'],0]],why:['Water is the best drink for thirst. Fizzy drinks have lots of sugar.','Το νερό είναι το καλύτερο για τη δίψα. Τα αναψυκτικά έχουν πολλή ζάχαρη.']},
+  {scene:'🍽️',q:['What do we do before we eat?','Τι κάνουμε πριν φάμε;'],opts:[['🧼',['We wash our hands','Πλένουμε τα χέρια'],1],['📱',['We pick up the tablet','Πιάνουμε το τάμπλετ'],0],['🏃',['We run around','Τρέχουμε γύρω-γύρω'],0]],why:['Washing hands washes away germs, so they do not go into our tummy.','Το πλύσιμο διώχνει τα μικρόβια, για να μην πάνε στην κοιλίτσα μας.']},
+  {scene:'🌅🎒',q:['It is morning, before school. What do we do?','Είναι πρωί, πριν το σχολείο. Τι κάνουμε;'],opts:[['🥣',['We eat breakfast','Τρώμε πρωινό'],1],['🙅',['We eat nothing','Δεν τρώμε τίποτα'],0],['🍭',['We eat a lollipop','Τρώμε γλειφιτζούρι'],0]],why:['Breakfast gives us energy to play and learn all morning.','Το πρωινό μάς δίνει ενέργεια για να παίζουμε και να μαθαίνουμε όλο το πρωί.']},
+  {scene:'🍬😁',q:['You ate something sweet. What do we do later?','Έφαγες κάτι γλυκό. Τι κάνουμε μετά;'],opts:[['🪥',['We brush our teeth','Βουρτσίζουμε τα δόντια'],1],['🍬',['We eat more sweets','Τρώμε κι άλλα γλυκά'],0]],why:['Sugar can hurt our teeth, so we brush them well.','Η ζάχαρη μπορεί να χαλάσει τα δόντια μας, γι\' αυτό τα βουρτσίζουμε καλά.']},
+  {scene:'🥗',q:['Which oil do we put on salad in Greece?','Ποιο λάδι βάζουμε στη σαλάτα στην Ελλάδα;'],opts:[['🫒',['Olive oil','Ελαιόλαδο'],1],['🧈',['Lots of butter','Πολύ βούτυρο'],0]],why:['Olive oil comes from the olive tree, Athena\'s gift, and it is very good for us.','Το ελαιόλαδο βγαίνει από την ελιά, το δώρο της Αθηνάς, και είναι πολύ καλό για εμάς.']},
+  {scene:'😋🍽️',q:['Your tummy is full. What do you say?','Η κοιλίτσα σου γέμισε. Τι λες;'],opts:[['🙋',['"I am full, thank you!"','«Χόρτασα, ευχαριστώ!»'],1],['😶',['I keep eating without stopping','Συνεχίζω να τρώω χωρίς σταματημό'],0]],why:['We listen to our tummy: when it is full, we say so.','Ακούμε την κοιλίτσα μας: όταν χορτάσει, το λέμε.']},
+  {scene:'🍽️👨‍👩‍👧',q:['Where do we eat our meal?','Πού τρώμε το φαγητό μας;'],opts:[['🪑',['At the table with the family','Στο τραπέζι με την οικογένεια'],1],['📺',['In front of the TV','Μπροστά στην τηλεόραση'],0]],why:['At the table we taste our food and talk together.','Στο τραπέζι απολαμβάνουμε το φαγητό και μιλάμε μεταξύ μας.']}];
+const RAINBOW=[['red',['red','κόκκινο'],['🍓','🍅','🍎','🍉']],['orange',['orange','πορτοκαλί'],['🥕','🍊']],['yellow',['yellow','κίτρινο'],['🍌','🍋','🌽']],['green',['green','πράσινο'],['🥦','🥒','🥝','🍏','🥬']],['purple',['purple','μωβ'],['🍇','🍆']]];
+const BOX_FOODS=[['sand','🥪',['Sandwich','Σάντουιτς'],'main'],['koul','🥨',['Sesame ring','Κουλούρι'],'main'],['chee','🧀',['Cheese','Τυρί'],'main'],['appl','🍎',['Apple','Μήλο'],'fv'],['bana','🍌',['Banana','Μπανάνα'],'fv'],['carr','🥕',['Carrot sticks','Καρότο'],'fv'],['grap','🍇',['Grapes','Σταφύλια'],'fv'],
+  ['wate','💧',['Water','Νερό'],'drink'],['milk','🥛',['Milk','Γάλα'],'drink'],['soda','🥤',['Fizzy drink','Αναψυκτικό'],'bad'],['choc','🍫',['Chocolate','Σοκολάτα'],'bad'],['donu','🍩',['Doughnut','Ντόνατ'],'bad'],['chip','🍟',['Crisps','Πατατάκια'],'bad']];
+function setupFood(l){const k=FD_KINDS[l];run.hints=0;run.won=false;run.total=1;const p=run.p={type:'food',kind:k,i:0,busy:false,fade:null};
+  if(k==='groups'){const pick1=g=>shuffle(FOODS.filter(f=>f[2]===g));p.qs=shuffle([...pick1('veg').slice(0,2),...pick1('fruit').slice(0,2),...pick1('grain').slice(0,1),...pick1('prot').slice(0,2),...pick1('dairy').slice(0,1)])}
+  if(k==='often')p.qs=shuffle([...shuffle(OFTEN.filter(f=>f[2])).slice(0,5),...shuffle(OFTEN.filter(f=>!f[2])).slice(0,5)]);
+  if(k==='habits')p.qs=shuffle(FD_HABITS).slice(0,6).map(q=>({...q,opts:shuffle(q.opts)}));
+  if(k==='rainbow')p.qs=shuffle(RAINBOW).map(([id,n,fs])=>{const good=pick(fs),others=shuffle(RAINBOW.filter(r=>r[0]!==id)).slice(0,2).map(r=>pick(r[2]));return {n,opts:shuffle([[good,1],...others.map(e=>[e,0])])}});
+  if(k==='box'){p.round=0;p.slots=Array(4).fill(null)}
+  run.cur={text:tr(FD_TEXT[k]),say:tr(FD_INTRO[k])}}
+function foodQ(p){if(!p.qs)return '';const q=p.qs[p.i];
+  if(p.kind==='groups')return tr([`Where does the ${q[1][0]} go?`,`Πού πάει: ${q[1][1]};`]);
+  if(p.kind==='often')return tr([`${q[1][0]}: every day or sometimes?`,`${q[1][1]}: κάθε μέρα ή καμιά φορά;`]);
+  if(p.kind==='rainbow')return tr([`Find something ${q.n[0]} to eat!`,`Βρες κάτι ${q.n[1]} που τρώγεται!`]);
+  return tr(q.q)}
+const hearF=t=>`<i class="hear" data-act="fd" data-x="hear" data-t="${esc(t)}">🔊</i>`;
+function foodBody(p){const hint=`<button class="icon-btn hintfab" data-act="fd" data-x="hint" aria-label="Help">💡</button>`,cnt=n=>`<div class="row"><div class="tcount" style="position:static">${n}</div></div>`;
+  if(p.kind==='box'){const lab=['🍽️','🍎','🥤','➕'];
+    return `<div class="stage"><div class="dayplan">${p.round?`<div class="socq">${tr(['Oh no! This snack box is full of treats. Tap a box to take it out, then choose something better.','Ωχ! Αυτό το κουτί έχει μόνο λιχουδιές. Πάτα ένα κουτί για να βγει και διάλεξε κάτι καλύτερο.'])}</div>`:''}
+      <div class="lunchbox">${p.slots.map((a,k)=>{const d=a&&BOX_FOODS.find(x=>x[0]===a);return `<button class="slot2 ${p.bad&&p.bad.includes(k)?'badslot':''}" data-act="fd" data-x="slot" data-k="${k}"><span>${d?d[1]:'＋'}</span><em>${d?tr(d[2]):''}</em></button>`}).join('')}</div>
+      <div class="palette food">${BOX_FOODS.map(([id,e,n])=>`<button class="opt socopt" data-act="fd" data-x="add" data-v="${id}"><span class="emo">${e}</span><small class="pname">${tr(n)}</small>${hearF(tr(n))}</button>`).join('')}</div></div></div>
+      <div class="row"><button class="btn" data-act="fd" data-x="check">✔ ${tr(['Check','Έλεγχος'])}</button><div class="tcount" style="position:static">${p.round+1} / 2</div></div>${hint}`}
+  const q=p.qs[p.i],qt=foodQ(p);
+  if(p.kind==='groups'||p.kind==='often'){const bins=p.kind==='groups'?FD_GROUPS.map(g=>[g[0],g[1],g[2]]):[['1','🌞',['Every day','Κάθε μέρα']],['0','🎉',['Sometimes','Καμιά φορά']]];
+    return `<div class="stage"><div class="panel scroll socscene"><div class="pic">${q[0]}</div><div class="socq">${esc(tr(q[1]))}</div></div></div>
+      <div class="options">${bins.map(([id,e,n],k)=>`<button class="opt socopt story ${p.fade===k?'fade':''}" data-act="fd" data-x="pick" data-v="${id}"><span class="emo">${e}</span><small>${tr(n)}</small>${hearF(tr(n))}</button>`).join('')}</div>${cnt(`${p.i+1} / ${p.qs.length}`)}${hint}`}
+  if(p.kind==='rainbow')return `<div class="stage"><div class="panel scroll socscene"><div class="pic">🌈</div><div class="socq">${esc(qt)}</div></div></div>
+      <div class="options">${q.opts.map(([e],k)=>`<button class="opt socopt ${p.fade===k?'fade':''}" data-act="fd" data-x="pick" data-v="${k}"><span class="emo">${e}</span></button>`).join('')}</div>${cnt(`${p.i+1} / ${p.qs.length}`)}${hint}`;
+  return `<div class="stage"><div class="panel scroll socscene"><div class="pic">${q.scene}</div><div class="socq">${esc(qt)}</div></div></div>
+    <div class="options">${q.opts.map(([e,txt],k)=>`<button class="opt socopt story ${p.fade===k?'fade':''}" data-act="fd" data-x="pick" data-v="${k}"><span class="emo">${e}</span><small>${tr(txt)}</small>${hearF(tr(txt))}</button>`).join('')}</div>${cnt(`${p.i+1} / ${p.qs.length}`)}${hint}`}
+function foodRight(p,v){const q=p.qs[p.i];return p.kind==='groups'?v===q[2]:p.kind==='often'?+v===q[2]:p.kind==='rainbow'?!!q.opts[+v][1]:!!q.opts[+v][2]}
+function foodWhy(p){const q=p.qs[p.i];
+  if(p.kind==='groups'){const g=FD_GROUPS.find(x=>x[0]===q[2]);return tr([`Yes! ${q[1][0]}: ${g[2][0].toLowerCase()}.`,`Ναι! ${q[1][1]}: ${g[2][1].toLowerCase()}.`])}
+  if(p.kind==='often')return q[2]?tr([`Yes! ${q[1][0]} helps us grow every day.`,`Ναι! ${q[1][1]}: μας βοηθάει να μεγαλώνουμε κάθε μέρα.`]):tr([`Yes! ${q[1][0]} is a treat: just sometimes, and a little.`,`Ναι! ${q[1][1]}: είναι λιχουδιά, μόνο καμιά φορά και λίγο.`]);
+  if(p.kind==='rainbow')return tr(['Yes! Every colour gives us something good.','Ναι! Κάθε χρώμα μάς δίνει κάτι καλό.']);
+  return tr(q.why)}
+function boxProblems(sl){const items=sl.filter(Boolean).map(id=>BOX_FOODS.find(f=>f[0]===id)),has=c=>items.some(f=>f[3]===c),out=[];
+  if(items.some(f=>f[0]==='soda'))out.push(['A fizzy drink has lots of sugar. Choose water or milk!','Το αναψυκτικό έχει πολλή ζάχαρη. Διάλεξε νερό ή γάλα!']);
+  if(items.some(f=>f[3]==='bad'&&f[0]!=='soda'))out.push(['Sweets and crisps are treats for sometimes, not for the school snack.','Τα γλυκά και τα πατατάκια είναι για καμιά φορά, όχι για το κολατσιό του σχολείου.']);
+  if(!has('main'))out.push(['Add something for energy: a sandwich, a sesame ring or cheese.','Βάλε κάτι για ενέργεια: σάντουιτς, κουλούρι ή τυρί.']);
+  if(!has('fv'))out.push(['Add a fruit or a vegetable!','Βάλε ένα φρούτο ή ένα λαχανικό!']);
+  if(!has('drink'))out.push(['Add a drink: water or milk.','Βάλε ένα ρόφημα: νερό ή γάλα.']);
+  return out}
+function foodAct(b){const p=run.p,x=b.dataset.x;if(x==='hear')return say(b.dataset.t,true);if(!p||run.won||p.busy)return;
+  if(p.kind==='box'){
+    if(x==='add'){const k=p.slots.indexOf(null);if(k<0)return say(tr(['The box is full. Tap a box to take something out.','Το κουτί γέμισε. Πάτα ένα κουτί για να βγάλεις κάτι.']));p.slots[k]=b.dataset.v;p.bad=null;sfx('tap');renderGame();return}
+    if(x==='slot'){const k=+b.dataset.k;if(p.slots[k]){p.slots[k]=null;p.bad=null;sfx('flip');renderGame()}return}
+    if(x==='hint'){run.hints++;const pr=boxProblems(p.slots);return say(tr(pr.length?pr[0]:['It looks great. Tap Check!','Φαίνεται τέλειο. Πάτα «Έλεγχος»!']))}
+    if(x==='check'){const pr=boxProblems(p.slots);if(!p.tried){p.tried=true;dpAdd('food',pr.length?0:1)}
+      if(pr.length){run.mistakes++;p.bad=p.slots.map((a,k)=>a&&BOX_FOODS.find(f=>f[0]===a)[3]==='bad'?k:-1).filter(k=>k>=0);oops(b);renderGame();return say(tr(pr[0]))}
+      p.busy=true;praise();Promise.all([wait(500).then(()=>say(tr(['A great snack: energy, fruit or vegetables and a good drink!','Τέλειο κολατσιό: ενέργεια, φρούτο ή λαχανικό και ένα καλό ρόφημα!']))),wait(2500)]).then(()=>{if(run.p!==p)return;p.busy=false;p.tried=false;
+        if(p.round>=1)return stemWin(stemStars(run.mistakes,0,2));p.round=1;p.slots=['choc','soda','donu','koul'];renderGame();say(tr(['Oh no! Someone packed only treats. Can you fix it?','Ωχ! Κάποιος έβαλε μόνο λιχουδιές. Μπορείς να το διορθώσεις;']))})}
+    return}
+  if(x==='hint'){run.hints++;const q=p.qs[p.i];
+    if(p.kind==='groups')return say(tr([`Think: is it a vegetable, a fruit, bread, fish or meat, or milk?`,'Σκέψου: είναι λαχανικό, φρούτο, ψωμί, ψάρι-όσπρια-κρέας ή γάλα;']));
+    if(p.kind==='often')return say(tr(['Does it have lots of sugar or fat? Then it is for sometimes.','Έχει πολλή ζάχαρη ή λίπος; Τότε είναι για καμιά φορά.']));
+    const good=q.opts.findIndex(o=>p.kind==='rainbow'?o[1]:o[2]);p.fade=[...q.opts.keys()].find(k=>k!==good&&k!==p.fade);renderGame();return say(tr(['Not that one!','Όχι αυτό!']))}
+  if(x==='pick'){const q=p.qs[p.i],ok=foodRight(p,b.dataset.v);if(!q.tried){q.tried=true;dpAdd('food',ok?1:0)}
+    if(!ok){run.mistakes++;oops(b);return say(tr(['Not quite. Try again!','Όχι ακριβώς. Δοκίμασε ξανά!']))}
+    p.busy=true;b.classList.add('right');praise();Promise.all([wait(500).then(()=>say(foodWhy(p))),wait(1800)]).then(()=>{if(run.p!==p)return;p.i++;p.busy=false;p.fade=null;if(p.i>=p.qs.length)return stemWin(stemStars(run.mistakes,0,2));renderGame();sayOnce(foodQ(p))})}}
+const FOOD_GUIDE=[['Water is the main drink. Avoid fizzy drinks; keep fruit juice small (about 120–180 ml a day at 4–6 years) and prefer whole fruit.','Το νερό είναι το βασικό ρόφημα. Αποφύγετε τα αναψυκτικά· ο χυμός λίγος (περίπου 120–180 ml την ημέρα στα 4–6 έτη) και προτιμήστε ολόκληρο το φρούτο.'],
+  ['Fruit and vegetables at every meal, in many colours.','Φρούτα και λαχανικά σε κάθε γεύμα, σε πολλά χρώματα.'],
+  ['Free sugars below 10% of daily energy, ideally below 5% (WHO): sweets, biscuits and sweetened drinks only now and then.','Ελεύθερα σάκχαρα κάτω από 10% της ημερήσιας ενέργειας, ιδανικά κάτω από 5% (ΠΟΥ): γλυκά, μπισκότα και ζαχαρούχα ροφήματα μόνο που και πού.'],
+  ['Mediterranean pattern: olive oil, pulses (lentils, beans, chickpeas) often, fish about twice a week, wholegrain bread, milk and yogurt every day.','Μεσογειακό πρότυπο: ελαιόλαδο, όσπρια (φακές, φασόλια, ρεβίθια) συχνά, ψάρι περίπου δύο φορές την εβδομάδα, ψωμί ολικής άλεσης, γάλα και γιαούρτι καθημερινά.'],
+  ['Breakfast every day; regular family meals at the table, without screens.','Πρωινό κάθε μέρα· τακτικά οικογενειακά γεύματα στο τραπέζι, χωρίς οθόνες.'],
+  ['Let the child decide how much to eat from what you offer; avoid using sweets as a reward.','Αφήστε το παιδί να αποφασίζει πόσο θα φάει από όσα του προσφέρετε· αποφύγετε τα γλυκά ως ανταμοιβή.']];
+const foodGuideHTML=()=>`<details class="sguide"><summary>🥗 ${tr(['Healthy eating guidance for parents','Οδηγίες για τη διατροφή (για γονείς)'])}</summary><ul>${FOOD_GUIDE.map(g=>`<li>${tr(g)}</li>`).join('')}</ul><p class="note">${tr(['Based on the World Health Organization (sugars, 2015), the American Academy of Pediatrics (fruit juice, 2017) and the Greek national dietary guidelines for children.','Με βάση τον Παγκόσμιο Οργανισμό Υγείας (σάκχαρα, 2015), την Αμερικανική Ακαδημία Παιδιατρικής (χυμοί φρούτων, 2017) και τους Εθνικούς Διατροφικούς Οδηγούς για παιδιά.'])}</p></details>`;
+
 /* ---------- game flow ---------- */
 let run=null;
 // listening games: the songs and the ear-training note games
@@ -3239,9 +3342,9 @@ const needsSound=(g,l)=>g==='music'&&(l<5||['highlow','ear','simon'].includes(NO
 function startLevel(g,l){
   if(overLimit()){run=null;ui.modal=null;ui.screen='rest';render();return}
   ui.modal=null;ui.screen='game';streak=0;
-  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time','focus','road','delphi'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
+  run={g,l,q:0,total:g==='memory'?[3,4,6][l]:['puzzle','music','stem','space','art','social','time','focus','road','delphi','food'].includes(g)?1:5,mistakes:0,busy:false,nextRank:0};
   run.wasDone=gameDone(S,g);
-  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='focus')setupFocus(l);else if(g==='road')setupRoad(l);else if(g==='delphi')setupDelphi(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else if(g==='count'&&l===3)setupDots();else{run.cur=GEN[g](l);run.cur.t0=performance.now()}
+  if(g==='memory')setupMemory();else if(g==='puzzle')setupPuzzle(l);else if(g==='music')setupMusic(l);else if(g==='stem'||g==='space')setupStem(l);else if(g==='art')setupArt(l);else if(g==='social')setupSocial(l);else if(g==='time')setupTime(l);else if(g==='focus')setupFocus(l);else if(g==='road')setupRoad(l);else if(g==='delphi')setupDelphi(l);else if(g==='food')setupFood(l);else if(g==='letters'&&l>=3)setupWrite(l-3);else if(g==='count'&&l===3)setupDots();else{run.cur=GEN[g](l);run.cur.t0=performance.now()}
   render();speakPrompt();
 }
 // Instructions are spoken the first time; the same instruction again stays quiet (the 🔊 button always repeats it)
@@ -3251,6 +3354,7 @@ function nudgeRepeat(){setTimeout(()=>{const b=document.querySelector('.bubble [
 function speakPrompt(force){if(!run)return;const later=f=>force?f():setTimeout(f,250),sp=force?(x=>{heard.add(x);return say(x,true)}):sayOnce;
   if(run.g==='social'&&run.p&&run.p.kind==='vote'){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(tr(p.rounds[p.i].q))}));return}
   if(run.g==='social'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)socRead(p,force)}));return}
+  if(run.g==='food'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(foodQ(p))}));return}
   if(run.g==='delphi'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(delphiQ(p))}));return}
   if(run.g==='road'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(roadQ(p))}));return}
   if(run.g==='time'&&run.p&&run.p.qs){const p=run.p;later(()=>sp(run.cur.say).then(()=>{if(run&&run.p===p)sp(timeQ(p))}));return}
@@ -3265,6 +3369,7 @@ function renderGame(){
   else if(run.g==='focus')body=focusBody(run.p);
   else if(run.g==='road')body=roadBody(run.p);
   else if(run.g==='delphi')body=delphiBody(run.p);
+  else if(run.g==='food')body=foodBody(run.p);
   else if(run.g==='time')body=timeBody(run.p);
   else if(run.g==='social')body=run.p.rounds&&run.p.rounds[run.p.i]&&run.p.rounds[run.p.i].stage==='respect'?respectBody():socialBody(run.p);
   else if(run.g==='art')body=run.p.type==='art'?artBody(run.p):mixBody(run.p)+`<button class="icon-btn hintfab" data-act="st" data-x="hint" aria-label="Help">💡</button>`;
@@ -3337,12 +3442,13 @@ let toastT;function toast(x){let el=$('.toast');if(!el){el=document.createElemen
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   initAudio();
-  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm'&&a!=='wr'&&a!=='dt'&&a!=='rd'&&a!=='dl')sfx('tap');if(ui.screen==='game'&&b.matches('.opt,.btn'))fmTap(b,e);
+  if(a!=='ans'&&a!=='card'&&a!=='olive'&&a!=='pz'&&a!=='mv'&&a!=='st'&&a!=='nt'&&a!=='so'&&a!=='tm'&&a!=='wr'&&a!=='dt'&&a!=='rd'&&a!=='dl'&&a!=='fd')sfx('tap');if(ui.screen==='game'&&b.matches('.opt,.btn'))fmTap(b,e);
   switch(a){
     case 'lang':{if(S.lang===b.dataset.v)break;S.lang=b.dataset.v;save();
       if(ui.screen==='game'&&run&&run.g==='puzzle'){const k=run.p.type==='maze'?(run.p.minoWalks?'mazeMino':run.p.keyAt>=0?'mazeKey':'maze'):run.p.type;run.cur={text:tr(PZ_TEXT[k].text),say:tr(PZ_TEXT[k].say)}}
       else if(ui.screen==='game'&&run&&(run.g==='stem'||run.g==='space')){const c=cfgOf(run.g,run.l);if(c.type==='pick')pickRound();else if(c.type==='shadow')shadowRound();else{const tx=STEM_TEXT[textKey(c)];run.cur={text:tr(tx.text),say:tr(tx.say)}}}
       else if(ui.screen==='game'&&run&&run.p&&run.p.type==='write')run.cur={text:esc(writeAsk()),say:writeAsk()};
+      else if(ui.screen==='game'&&run&&run.g==='food')run.cur={text:tr(FD_TEXT[run.p.kind]),say:tr(FD_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='delphi')run.cur={text:tr(DL_TEXT[run.p.kind]),say:tr(DL_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='road')run.cur={text:tr(ROAD_TEXT[run.p.kind]),say:tr(ROAD_INTRO[run.p.kind])};
       else if(ui.screen==='game'&&run&&run.g==='focus')run.cur={text:tr(FOCUS_TEXT[run.p.kind]),say:tr(FOCUS_INTRO[run.p.kind])};
@@ -3393,6 +3499,7 @@ document.addEventListener('click',e=>{
     case 'fc':focusAct(b);break;
     case 'rd':roadAct(b);break;
     case 'dl':delphiAct(b);break;
+    case 'fd':foodAct(b);break;
     case 'dpreport':ui.screen='dpreport';render();break;
     case 'dphtml':reportFile(dpReportHTML(),`development-report-${dayKey(Date.now())}.html`);break;
     case 'dpcsv':dpCSV();break;
